@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Profit - 10-Member Capital Cycle Simulator</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0B0F19; color: #E5E7EB; font-family: sans-serif; }
+        .olive-text { color: #A2A737; }
+        .gold-text { color: #C5A059; }
+        .card-bg { background-color: #111827; border: 1px solid #1F2937; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <!-- Header Grid -->
+    <div class="max-w-6xl mx-auto mb-8 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-800 pb-4">
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight text-white">TAKE PROFIT</h1>
+            <p class="text-sm olive-text font-medium mt-1">10-Member Capital Cycle Interface & Orchestration Layer</p>
+        </div>
+        <div class="mt-4 md:mt-0 text-right">
+            <span class="text-xs font-mono uppercase bg-gray-800 px-3 py-1 rounded border border-gray-700 gold-text">
+                Status: Operational Sandbox
+            </span>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Grid -->
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Left Column: Controls and Metrics -->
+        <div class="lg:col-span-1 space-y-6">
+            
+            <!-- Simulation Controls Card -->
+            <div class="card-bg p-5 rounded-lg shadow-xl">
+                <h2 class="text-lg font-bold text-white mb-4 border-b border-gray-800 pb-2">Simulation Engine</h2>
+                
+                <div class="mb-4">
+                    <label class="text-xs uppercase tracking-wider text-gray-400 block mb-1">Timeline Progress</label>
+                    <div class="text-3xl font-mono font-bold text-white"><span id="display-day">0</span> <span class="text-sm font-normal text-gray-500">/ 100 Days</span></div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 mb-4">
+                    <button onclick="advanceDay(1)" class="w-full bg-gray-800 hover:bg-gray-700 text-sm font-medium py-2.5 px-4 rounded border border-gray-700 transition">
+                        +1 Day
+                    </button>
+                    <button onclick="advanceDay(10)" class="w-full bg-gray-800 hover:bg-gray-700 text-sm font-medium py-2.5 px-4 rounded border border-gray-700 transition olive-text">
+                        +10 Days
+                    </button>
+                </div>
+                
+                <button onclick="resetSimulation()" class="w-full bg-red-950/40 hover:bg-red-900/40 text-red-400 text-xs py-2 rounded border border-red-900/50 transition">
+                    Reset Timeline Matrix
+                </button>
+            </div>
+
+            <!-- Central Platform Ledger Card -->
+            <div class="card-bg p-5 rounded-lg shadow-xl">
+                <h2 class="text-lg font-bold text-white mb-4 border-b border-gray-800 pb-2">TP Central Ledger</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <span class="text-xs uppercase text-gray-400 block">Total Pool Liquidity</span>
+                        <span class="text-2xl font-mono font-bold text-white" id="display-pool">$0.00</span>
+                    </div>
+                    <hr class="border-gray-800">
+                    <div>
+                        <span class="text-xs uppercase text-gray-400 block">Platform 1% Processing Pot</span>
+                        <span class="text-xl font-mono font-bold olive-text" id="display-fees">$0.00</span>
+                    </div>
+                    <div>
+                        <span class="text-xs uppercase text-gray-400 block">Platform 15% Withdrawal Cuts</span>
+                        <span class="text-xl font-mono font-bold gold-text" id="display-cuts">$0.00</span>
+                    </div>
+                    <hr class="border-gray-800">
+                    <div>
+                        <span class="text-xs uppercase text-gray-400 block">Master Cycle Rule</span>
+                        <span class="text-xs text-gray-400 mt-1 block" id="display-rule">
+                            Each member deposits $1.01 daily ($1 pool + $0.01 platform fee).
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column: 10-Member Serial Matrix Grid -->
+        <div class="lg:col-span-2 card-bg p-6 rounded-lg shadow-xl">
+            <div class="flex justify-between items-center mb-4 border-b border-gray-800 pb-2">
+                <h2 class="text-lg font-bold text-white">10-Member Cluster Serial Ledger</h2>
+                <span class="text-xs text-gray-400">Total Contribution/User: <b id="display-user-contrib" class="text-white">$0.00</b></span>
+            </div>
+            
+            <div class="space-y-3 overflow-y-auto max-h-[550px] pr-2" id="members-container">
+                <!-- JavaScript dynamically renders the 10 member structures here -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Hard Public Environment Disclaimer Footer -->
+    <div class="max-w-6xl mx-auto mt-8 card-bg p-4 rounded border border-amber-900/30 bg-amber-950/10 text-xs text-gray-400 leading-relaxed">
+        <b class="text-amber-500 uppercase block mb-1">TAKE PROFIT PUBLIC DISCLAIMER:</b>
+        Financial market trading involves significant asset risk. Take Profit operates strictly as a technology routing and peer-to-peer funding infrastructure layer. No outcomes, profits, or capital preservation metrics are guaranteed. Platform safety buffers and loss restitutions are allocated dynamically based on available system ledger balances. Managers are subject to strict internal validation trials and assignments, but traders assume all execution risks.
+    </div>
+
+    <!-- Core Simulation Engine Script -->
+    <script>
+        let currentDay = 0;
+        let poolLiquidity = 0;
+        let platformProcessingPot = 0;
+        let platformWithdrawalCuts = 0;
+        
+        // Initialize 10 member objects
+        let members = Array.from({ length: 10 }, (_, i) => ({
+            serial: i + 1,
+            isFunded: false,
+            principal: 0,
+            simulatedProfit: 0,
+            withdrawnProfit: 0
+        }));
+
+        function renderMatrix() {
+            document.getElementById('display-day').innerText = currentDay;
+            document.getElementById('display-pool').innerText = `$${poolLiquidity.toFixed(2)}`;
+            document.getElementById('display-fees').innerText = `$${platformProcessingPot.toFixed(2)}`;
+            document.getElementById('display-cuts').innerText = `$${platformWithdrawalCuts.toFixed(2)}`;
+            document.getElementById('display-user-contrib').innerText = `$${(currentDay * 1.01).toFixed(2)}`;
+
+            const container = document.getElementById('members-container');
+            container.innerHTML = '';
+
+            members.forEach(member => {
+                const dayOfFunding = member.serial * 10;
+                let statusBadge = '';
+                let cardBorder = 'border-gray-800';
+                
+                if (member.isFunded) {
+                    statusBadge = `<span class="bg-emerald-950/80 text-emerald-400 border border-emerald-800 text-[10px] px-2 py-0.5 rounded uppercase font-bold tracking-wider">Live Funded</span>`;
+                    cardBorder = 'border-emerald-900/40 bg-emerald-950/5';
+                } else {
+                    statusBadge = `<span class="bg-gray-800 text-gray-400 border border-gray-700 text-[10px] px-2 py-0.5 rounded uppercase font-bold tracking-wider">Queue Slot ${dayOfFunding}d</span>`;
+                }
+
+                let actionButton = '';
+                if (member.isFunded && member.simulatedProfit > 0) {
+                    actionButton = `
+                        <button onclick="extractProfit(${member.serial})" class="bg-gradient-to-r from-yellow-600 to-amber-600 hover:from-yellow-500 hover:to-amber-500 text-gray-950 text-xs font-bold px-3 py-1.5 rounded shadow transition">
+                            Withdraw Profit
+                        </button>`;
+                }
+
+                let principalStateText = currentDay >= 100 
+                    ? `<span class="text-emerald-400 font-bold">UNLOCKED</span>` 
+                    : `<span class="text-red-500 font-medium">LOCKED UNTIL DAY 100</span>`;
+
+                container.innerHTML += `
+                    <div class="p-4 rounded-lg bg-gray-900/60 border ${cardBorder} flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 transition-all duration-200">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono font-bold text-white text-base">#${String(member.serial).padStart(2, '0')}</span>
+                                ${statusBadge}
+                            </div>
+                            <div class="grid grid-cols-2 gap-x-4 gap-y-0.5 text-xs text-gray-400">
+                                <div>Principal Allocation: <b class="text-white">$${member.principal.toFixed(2)}</b></div>
+                                <div>Principal Lock: ${principalStateText}</div>
+                                <div>Floating Profit Pool: <b class="olive-text">+$${member.simulatedProfit.toFixed(2)}</b></div>
+                                <div>Realized Cashout: <b class="text-gray-300">$${member.withdrawnProfit.toFixed(2)}</b></div>
+                            </div>
+                        </div>
+                        <div>
+                            ${actionButton}
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Logic to visually lock down metrics if the full 100 days macro cycle concludes
+            if (currentDay >= 100) {
+                document.getElementById('display-rule').innerHTML = `<span class="text-emerald-400 font-bold">✓ Complete 100-Day Macro Cycle Concluded. All 10 members successfully funded. All principal barriers dropped.</span>`;
+            } else {
+                document.getElementById('display-rule').innerText = "Each member deposits $1.01 daily ($1 pool + $0.01 platform fee). Every 10 days, one $100 account goes live.";
+            }
+        }
+
+        function advanceDay(daysToJump) {
+            for (let i = 0; i < daysToJump; i++) {
+                if (currentDay >= 100) break;
+                
+                currentDay++;
+                
+                // 1. Process Group Contributions ($1.01 per user total)
+                poolLiquidity += 10; // $1.00 * 10 members goes into global cash pool
+                platformProcessingPot += 0.10; // $0.01 * 10 members goes to TP processing ledger
+
+                // 2. Evaluate if a 10-day block milestone triggers a live funding release
+                if (currentDay % 10 === 0) {
+                    let slotToFund = currentDay / 10;
+                    let targetMember = members.find(m => m.serial === slotToFund);
+                    if (targetMember) {
+                        targetMember.isFunded = true;
+                        targetMember.principal = 100.00;
+                    }
+                }
+
+                // 3. Simulate active manager floating trading profits for all accounts that are currently LIVE
+                members.forEach(member => {
+                    if (member.isFunded) {
+                        // Managers are verified professionals, generating randomized positive market steps
+                        if (Math.random() > 0.4) {
+                            member.simulatedProfit += Math.random() * 2.5; 
+                        }
+                    }
+                });
+            }
+            renderMatrix();
+        }
+
+        function extractProfit(serialId) {
+            let member = members.find(m => m.serial === serialId);
+            if (member && member.simulatedProfit > 0) {
+                let grossProfit = member.simulatedProfit;
+                let cut = grossProfit * 0.15; // Hard 15% Platform Withdrawal Fee
+                let netUserProfit = grossProfit - cut;
+
+                platformWithdrawalCuts += cut;
+                member.withdrawnProfit += netUserProfit;
+                member.simulatedProfit = 0; // Clear floating stack back to equilibrium
+                
+                renderMatrix();
+            }
+        }
+
+        function resetSimulation() {
+            currentDay = 0;
+            poolLiquidity = 0;
+            platformProcessingPot = 0;
+            platformWithdrawalCuts = 0;
+            members = Array.from({ length: 10 }, (_, i) => ({
+                serial: i + 1,
+                isFunded: false,
+                principal: 0,
+                simulatedProfit: 0,
+                withdrawnProfit: 0
+            }));
+            renderMatrix();
+        }
+
+        // Initialize display configuration on mount
+        renderMatrix();
+    </script>
+</body>
+</html>
