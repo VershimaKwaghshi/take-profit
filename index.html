@@ -3,254 +3,480 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Take Profit - 10-Member Capital Cycle Simulator</title>
-    <!-- Tailwind CSS CDN for styling -->
+    <title>Take Profit - Complete Platform Simulation Matrix</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #0B0F19; color: #E5E7EB; font-family: sans-serif; }
         .olive-text { color: #A2A737; }
         .gold-text { color: #C5A059; }
         .card-bg { background-color: #111827; border: 1px solid #1F2937; }
+        .terminal-glow { box-shadow: 0 0 15px rgba(162, 167, 55, 0.1); }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-3 md:p-6">
 
-    <!-- Header Grid -->
-    <div class="max-w-6xl mx-auto mb-8 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-800 pb-4">
-        <div>
-            <h1 class="text-3xl font-bold tracking-tight text-white">TAKE PROFIT</h1>
-            <p class="text-sm olive-text font-medium mt-1">10-Member Capital Cycle Interface & Orchestration Layer</p>
-        </div>
-        <div class="mt-4 md:mt-0 text-right">
-            <span class="text-xs font-mono uppercase bg-gray-800 px-3 py-1 rounded border border-gray-700 gold-text">
-                Status: Operational Sandbox
-            </span>
-        </div>
-    </div>
-
-    <!-- Main Dashboard Grid -->
-    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        <!-- Left Column: Controls and Metrics -->
-        <div class="lg:col-span-1 space-y-6">
-            
-            <!-- Simulation Controls Card -->
-            <div class="card-bg p-5 rounded-lg shadow-xl">
-                <h2 class="text-lg font-bold text-white mb-4 border-b border-gray-800 pb-2">Simulation Engine</h2>
-                
-                <div class="mb-4">
-                    <label class="text-xs uppercase tracking-wider text-gray-400 block mb-1">Timeline Progress</label>
-                    <div class="text-3xl font-mono font-bold text-white"><span id="display-day">0</span> <span class="text-sm font-normal text-gray-500">/ 100 Days</span></div>
+    <!-- GATEWAY LAYER: MANDATORY REFERRAL AND SIGN IN -->
+    <div id="referral-gate" class="fixed inset-0 bg-[#0B0F19] z-50 flex items-center justify-center p-4">
+        <div class="card-bg p-8 rounded-xl max-w-md w-full border border-gray-800 text-center space-y-6">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight text-white">TAKE PROFIT</h1>
+                <p class="text-xs olive-text uppercase tracking-widest font-semibold mt-1">Security Entry Terminal</p>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="text-left block text-xs uppercase tracking-wider text-gray-400 mb-1">Enter Verification / Referral Code</label>
+                    <input type="text" id="ref-code-input" placeholder="e.g., TP-PRO-99" class="w-full bg-gray-900 border border-gray-700 rounded px-4 py-3 font-mono text-center uppercase tracking-widest text-white focus:outline-none focus:border-amber-500">
+                    <p class="text-[11px] text-red-400 mt-1 hidden" id="gate-error">Access Embargo: A valid active referral code is strictly mandatory to register.</p>
                 </div>
-
-                <div class="grid grid-cols-2 gap-2 mb-4">
-                    <button onclick="advanceDay(1)" class="w-full bg-gray-800 hover:bg-gray-700 text-sm font-medium py-2.5 px-4 rounded border border-gray-700 transition">
-                        +1 Day
-                    </button>
-                    <button onclick="advanceDay(10)" class="w-full bg-gray-800 hover:bg-gray-700 text-sm font-medium py-2.5 px-4 rounded border border-gray-700 transition olive-text">
-                        +10 Days
-                    </button>
-                </div>
-                
-                <button onclick="resetSimulation()" class="w-full bg-red-950/40 hover:bg-red-900/40 text-red-400 text-xs py-2 rounded border border-red-900/50 transition">
-                    Reset Timeline Matrix
+                <button onclick="verifyReferralCode()" class="w-full bg-gradient-to-r from-yellow-600 to-amber-600 text-gray-950 font-bold py-3 rounded tracking-wide hover:brightness-110 transition">
+                    Initialize System Registration
                 </button>
             </div>
+        </div>
+    </div>
 
-            <!-- Central Platform Ledger Card -->
-            <div class="card-bg p-5 rounded-lg shadow-xl">
-                <h2 class="text-lg font-bold text-white mb-4 border-b border-gray-800 pb-2">TP Central Ledger</h2>
+    <!-- MAIN PLATFORM INTERFACE (HIDDEN UNTIL REFERRAL VERIFIED) -->
+    <div id="main-application" class="hidden max-w-7xl mx-auto space-y-6">
+        
+        <!-- Header Matrix -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-800 pb-4 gap-4">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight text-white">TAKE PROFIT</h1>
+                <p class="text-xs text-gray-400">Proprietary Software Infrastructure Layer &bull; Parent: <span class="text-white font-medium">PPG SOLUTIONS</span></p>
+            </div>
+            <div class="flex flex-wrap gap-3 items-center">
+                <!-- Subscription Toggle Button -->
+                <button id="sub-toggle-btn" onclick="toggleSubscription()" class="bg-emerald-950 text-emerald-400 border border-emerald-800 text-xs font-bold px-4 py-2 rounded transition">
+                    Subscription: ACTIVE ($4.99/mo)
+                </button>
+                <span class="text-xs font-mono uppercase bg-gray-800 px-3 py-2 rounded border border-gray-700 gold-text">
+                    Network Status: Secure API Stream
+                </span>
+            </div>
+        </div>
+
+        <!-- Master Interface Layout Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- LEFT COLUMN: SYSTEM CONTROLS, ACCOUNT MANAGEMENT & PAYMENTS (4 COLS) -->
+            <div class="lg:col-span-4 space-y-6">
                 
-                <div class="space-y-4">
-                    <div>
-                        <span class="text-xs uppercase text-gray-400 block">Total Pool Liquidity</span>
-                        <span class="text-2xl font-mono font-bold text-white" id="display-pool">$0.00</span>
+                <!-- Time Machine & Simulation Controls -->
+                <div class="card-bg p-5 rounded-lg shadow-xl border-t-2 border-amber-500/30">
+                    <h2 class="text-sm font-bold tracking-wider uppercase text-white mb-3">Simulation Controls</h2>
+                    <div class="flex items-center justify-between mb-4 bg-gray-900 p-3 rounded border border-gray-800">
+                        <div>
+                            <span class="text-[10px] uppercase text-gray-500 block">System Timeline</span>
+                            <span class="text-xl font-mono font-bold text-white"><span id="sim-day">0</span> / 100 Days</span>
+                        </div>
+                        <div class="flex gap-1">
+                            <button onclick="processDayTicks(1)" class="bg-gray-800 hover:bg-gray-700 text-xs px-2.5 py-1.5 rounded border border-gray-700">+1D</button>
+                            <button onclick="processDayTicks(10)" class="bg-gray-800 hover:bg-gray-700 text-xs px-2.5 py-1.5 rounded border border-gray-700 olive-text font-bold">+10D</button>
+                        </div>
                     </div>
-                    <hr class="border-gray-800">
-                    <div>
-                        <span class="text-xs uppercase text-gray-400 block">Platform 1% Processing Pot</span>
-                        <span class="text-xl font-mono font-bold olive-text" id="display-fees">$0.00</span>
-                    </div>
-                    <div>
-                        <span class="text-xs uppercase text-gray-400 block">Platform 15% Withdrawal Cuts</span>
-                        <span class="text-xl font-mono font-bold gold-text" id="display-cuts">$0.00</span>
-                    </div>
-                    <hr class="border-gray-800">
-                    <div>
-                        <span class="text-xs uppercase text-gray-400 block">Master Cycle Rule</span>
-                        <span class="text-xs text-gray-400 mt-1 block" id="display-rule">
-                            Each member deposits $1.01 daily ($1 pool + $0.01 platform fee).
-                        </span>
+                    <!-- System Event Injector -->
+                    <div class="space-y-2">
+                        <span class="text-[10px] uppercase text-gray-400 tracking-wider block">Risk Test Rig</span>
+                        <button onclick="triggerForcedDrawdown()" class="w-full bg-red-950/40 hover:bg-red-900/40 text-red-400 text-xs py-2 rounded border border-red-900/50 transition font-medium">
+                            ⚠️ Force 50% Drawdown Event (Test Safety Net)
+                        </button>
                     </div>
                 </div>
-            </div>
 
-        </div>
-
-        <!-- Right Column: 10-Member Serial Matrix Grid -->
-        <div class="lg:col-span-2 card-bg p-6 rounded-lg shadow-xl">
-            <div class="flex justify-between items-center mb-4 border-b border-gray-800 pb-2">
-                <h2 class="text-lg font-bold text-white">10-Member Cluster Serial Ledger</h2>
-                <span class="text-xs text-gray-400">Total Contribution/User: <b id="display-user-contrib" class="text-white">$0.00</b></span>
-            </div>
-            
-            <div class="space-y-3 overflow-y-auto max-h-[550px] pr-2" id="members-container">
-                <!-- JavaScript dynamically renders the 10 member structures here -->
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Hard Public Environment Disclaimer Footer -->
-    <div class="max-w-6xl mx-auto mt-8 card-bg p-4 rounded border border-amber-900/30 bg-amber-950/10 text-xs text-gray-400 leading-relaxed">
-        <b class="text-amber-500 uppercase block mb-1">TAKE PROFIT PUBLIC DISCLAIMER:</b>
-        Financial market trading involves significant asset risk. Take Profit operates strictly as a technology routing and peer-to-peer funding infrastructure layer. No outcomes, profits, or capital preservation metrics are guaranteed. Platform safety buffers and loss restitutions are allocated dynamically based on available system ledger balances. Managers are subject to strict internal validation trials and assignments, but traders assume all execution risks.
-    </div>
-
-    <!-- Core Simulation Engine Script -->
-    <script>
-        let currentDay = 0;
-        let poolLiquidity = 0;
-        let platformProcessingPot = 0;
-        let platformWithdrawalCuts = 0;
-        
-        // Initialize 10 member objects
-        let members = Array.from({ length: 10 }, (_, i) => ({
-            serial: i + 1,
-            isFunded: false,
-            principal: 0,
-            simulatedProfit: 0,
-            withdrawnProfit: 0
-        }));
-
-        function renderMatrix() {
-            document.getElementById('display-day').innerText = currentDay;
-            document.getElementById('display-pool').innerText = `$${poolLiquidity.toFixed(2)}`;
-            document.getElementById('display-fees').innerText = `$${platformProcessingPot.toFixed(2)}`;
-            document.getElementById('display-cuts').innerText = `$${platformWithdrawalCuts.toFixed(2)}`;
-            document.getElementById('display-user-contrib').innerText = `$${(currentDay * 1.01).toFixed(2)}`;
-
-            const container = document.getElementById('members-container');
-            container.innerHTML = '';
-
-            members.forEach(member => {
-                const dayOfFunding = member.serial * 10;
-                let statusBadge = '';
-                let cardBorder = 'border-gray-800';
-                
-                if (member.isFunded) {
-                    statusBadge = `<span class="bg-emerald-950/80 text-emerald-400 border border-emerald-800 text-[10px] px-2 py-0.5 rounded uppercase font-bold tracking-wider">Live Funded</span>`;
-                    cardBorder = 'border-emerald-900/40 bg-emerald-950/5';
-                } else {
-                    statusBadge = `<span class="bg-gray-800 text-gray-400 border border-gray-700 text-[10px] px-2 py-0.5 rounded uppercase font-bold tracking-wider">Queue Slot ${dayOfFunding}d</span>`;
-                }
-
-                let actionButton = '';
-                if (member.isFunded && member.simulatedProfit > 0) {
-                    actionButton = `
-                        <button onclick="extractProfit(${member.serial})" class="bg-gradient-to-r from-yellow-600 to-amber-600 hover:from-yellow-500 hover:to-amber-500 text-gray-950 text-xs font-bold px-3 py-1.5 rounded shadow transition">
-                            Withdraw Profit
-                        </button>`;
-                }
-
-                let principalStateText = currentDay >= 100 
-                    ? `<span class="text-emerald-400 font-bold">UNLOCKED</span>` 
-                    : `<span class="text-red-500 font-medium">LOCKED UNTIL DAY 100</span>`;
-
-                container.innerHTML += `
-                    <div class="p-4 rounded-lg bg-gray-900/60 border ${cardBorder} flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 transition-all duration-200">
-                        <div class="space-y-1">
-                            <div class="flex items-center gap-2">
-                                <span class="font-mono font-bold text-white text-base">#${String(member.serial).padStart(2, '0')}</span>
-                                ${statusBadge}
-                            </div>
-                            <div class="grid grid-cols-2 gap-x-4 gap-y-0.5 text-xs text-gray-400">
-                                <div>Principal Allocation: <b class="text-white">$${member.principal.toFixed(2)}</b></div>
-                                <div>Principal Lock: ${principalStateText}</div>
-                                <div>Floating Profit Pool: <b class="olive-text">+$${member.simulatedProfit.toFixed(2)}</b></div>
-                                <div>Realized Cashout: <b class="text-gray-300">$${member.withdrawnProfit.toFixed(2)}</b></div>
-                            </div>
+                <!-- Primary Core Ledger Wallet -->
+                <div class="card-bg p-5 rounded-lg shadow-xl">
+                    <h2 class="text-sm font-bold tracking-wider uppercase text-white mb-4 border-b border-gray-800 pb-2">TP Central Ledger</h2>
+                    <div class="space-y-3 font-mono text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400 text-xs uppercase">Global Pool Cash:</span>
+                            <span class="text-white font-bold" id="ledger-pool">$0.00</span>
                         </div>
-                        <div>
-                            ${actionButton}
+                        <div class="flex justify-between">
+                            <span class="text-gray-400 text-xs uppercase">Platform 1% Processing:</span>
+                            <span class="olive-text font-bold" id="ledger-fees">$0.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400 text-xs uppercase">Platform 15% Withdrawals:</span>
+                            <span class="gold-text font-bold" id="ledger-cuts">$0.00</span>
+                        </div>
+                        <div class="flex justify-between border-t border-gray-800 pt-2">
+                            <span class="text-gray-400 text-xs uppercase">Markets4you Commission:</span>
+                            <span class="text-emerald-400 font-bold" id="ledger-comm">$0.00</span>
+                        </div>
+                        <div class="flex justify-between bg-red-950/20 p-2 rounded border border-red-950 text-xs">
+                            <span class="text-red-400 uppercase">Active Debt Liens:</span>
+                            <span class="text-red-400 font-bold" id="ledger-debt">$0.00</span>
                         </div>
                     </div>
-                `;
-            });
+                </div>
 
-            // Logic to visually lock down metrics if the full 100 days macro cycle concludes
-            if (currentDay >= 100) {
-                document.getElementById('display-rule').innerHTML = `<span class="text-emerald-400 font-bold">✓ Complete 100-Day Macro Cycle Concluded. All 10 members successfully funded. All principal barriers dropped.</span>`;
+                <!-- Premium Payment Screen Grid Structure -->
+                <div class="card-bg p-5 rounded-lg shadow-xl">
+                    <h2 class="text-sm font-bold tracking-wider uppercase text-white mb-3">System Payment Interface</h2>
+                    <div class="grid grid-cols-2 gap-2 text-center text-xs">
+                        <div class="p-3 rounded border border-amber-500/40 bg-amber-950/20 font-bold gold-text flex flex-col justify-center items-center cursor-pointer">
+                            <span class="text-[9px] text-amber-500 uppercase block tracking-widest">Alpha Row</span>
+                            mPOS GATEWAY
+                        </div>
+                        <div class="p-3 rounded border border-gray-800 bg-gray-900 flex flex-col justify-center items-center text-gray-400">
+                            <span class="text-[9px] text-gray-600 uppercase block">Digital Coin</span>
+                            Crypto Assets
+                        </div>
+                        <div class="p-3 rounded border border-gray-800 bg-gray-900 flex flex-col justify-center items-center text-gray-400">
+                            <span class="text-[9px] text-gray-600 uppercase block">Settlement</span>
+                            Bank Transfer
+                        </div>
+                        <div class="p-3 rounded border border-gray-800 bg-gray-900 flex flex-col justify-center items-center text-gray-600 line-through">
+                            Traditional Card
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CENTER COLUMN: MAIN OPERATION RUNWAY & DISPATCH ENGINE (5 COLS) -->
+            <div class="lg:col-span-5 space-y-6">
+                
+                <!-- Random Manager Dispatch Hub (Anti-Collusion Engine) -->
+                <div class="card-bg p-5 rounded-lg shadow-xl border-l-2 border-amber-500/50">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-sm font-bold tracking-wider uppercase text-white">Random Manager Dispatch Engine</h2>
+                        <button onclick="rollRandomManagers()" class="text-[10px] bg-gray-800 border border-gray-700 hover:bg-gray-700 px-2 py-1 rounded text-gray-300">Roll (24h Refresh)</button>
+                    </div>
+                    <p class="text-[11px] text-gray-400 mb-3">Anti-Collusion Isolation: You are algorithmically limited to these 3 random choices from separate geographical vectors.</p>
+                    
+                    <div class="space-y-2" id="manager-dispatch-box">
+                        <!-- Dynamic manager cards populate here -->
+                    </div>
+                </div>
+
+                <!-- 10-Member Capital Cycle Cluster -->
+                <div class="card-bg p-5 rounded-lg shadow-xl">
+                    <div class="flex justify-between items-center mb-3 border-b border-gray-800 pb-2">
+                        <h2 class="text-sm font-bold tracking-wider uppercase text-white">10-Member Cluster Serial Ledger</h2>
+                        <span class="text-xs font-mono text-gray-400">Daily: <b class="text-white">$1.01</b></span>
+                    </div>
+                    <div class="space-y-2.5 max-h-[380px] overflow-y-auto pr-1" id="cluster-container">
+                        <!-- Dynamic member states populate here -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: SECURE CHAT NETWORK & MANAGER SANDBOX VETTING (3 COLS) -->
+            <div class="lg:col-span-3 space-y-6">
+                
+                <!-- Dynamic Lock Secure Chat Box Container -->
+                <div class="card-bg rounded-lg shadow-xl flex flex-col h-[320px] overflow-hidden relative" id="chat-card-panel">
+                    <div class="p-3 bg-gray-900 border-b border-gray-800 flex justify-between items-center">
+                        <span class="text-xs font-bold tracking-wider uppercase text-white">Secure Live Chat Network</span>
+                        <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    </div>
+                    
+                    <!-- Chat Lock Overlay Panel -->
+                    <div id="chat-lock-overlay" class="absolute inset-0 bg-[#111827]/95 z-10 flex flex-col items-center justify-center p-4 text-center space-y-2 hidden">
+                        <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10m3.414-9.414a2 2 0 112.828 2.828L12 14.172l-3.414-3.414a2 2 0 010-2.828z text-red-500"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        <h3 class="text-xs font-bold uppercase text-white tracking-wider">Access Embargo</h3>
+                        <p class="text-[10px] text-gray-400">Requires an Active Subscription AND a live funded trading/management footprint.</p>
+                    </div>
+
+                    <!-- Active Scroll Area for Chat Log -->
+                    <div class="p-3 flex-1 overflow-y-auto space-y-2 text-[11px] font-mono" id="chat-messages-container">
+                        <div><span class="olive-text">[SYSTEM]:</span> Secure terminal handshake complete.</div>
+                        <div><span class="gold-text">[ADMIN]:</span> Reminder: Golden Statue allocation is strictly performance-driven. Earn it.</div>
+                    </div>
+                    <div class="p-2 bg-gray-900 border-t border-gray-800 flex gap-1">
+                        <input type="text" placeholder="Type transmission..." class="bg-gray-800 border border-gray-700 rounded text-xs px-2 py-1 flex-1 text-white focus:outline-none">
+                        <button class="bg-gray-700 text-white text-xs px-2 rounded font-bold">></button>
+                    </div>
+                </div>
+
+                <!-- Unvetted Manager Sandbox Vetting Area -->
+                <div class="card-bg p-4 rounded-lg shadow-xl">
+                    <h2 class="text-sm font-bold tracking-wider uppercase text-white mb-2">Manager Vetting Trial Box</h2>
+                    <p class="text-[11px] text-gray-400 mb-3">Amateurs entering here to scrape core signals must keep their $4.99/mo subscription ON to remain inside the trial engine.</p>
+                    <div class="space-y-2 text-xs font-mono">
+                        <div class="p-2 bg-gray-900 rounded border border-gray-800 flex justify-between items-center">
+                            <div>
+                                <span class="block font-bold text-white">Candidate_Alpha</span>
+                                <span class="text-[10px] text-gray-500">Trial Day 14/30</span>
+                            </div>
+                            <span class="text-[10px] bg-amber-950 text-amber-400 px-1.5 py-0.5 rounded border border-amber-800">Vetting (Sub ON)</span>
+                        </div>
+                        <div class="p-2 bg-gray-900 rounded border border-gray-800 flex justify-between items-center">
+                            <div>
+                                <span class="block font-bold text-white">Candidate_Beta</span>
+                                <span class="text-[10px] text-gray-500">Trial Day 03/30</span>
+                            </div>
+                            <span class="text-[10px] bg-red-950 text-red-400 px-1.5 py-0.5 rounded border border-red-900/40">Lapsed (Locked)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- System Footnote Disclaimer -->
+        <div class="card-bg p-4 rounded border border-amber-900/30 bg-amber-950/10 text-[11px] text-gray-400 leading-relaxed">
+            <b class="text-amber-500 uppercase block mb-1">TAKE PROFIT PUBLIC ENVIRONMENTAL DISCLAIMER:</b>
+            Financial market trading involves significant asset risk. Take Profit operates strictly as a technology routing and peer-to-peer funding infrastructure layer. No outcomes, profits, or capital preservation metrics are guaranteed. Platform safety buffers and loss restitutions are allocated dynamically based on available corporate commission reserves and system ledger balances.
+        </div>
+    </div>
+
+    <!-- EXTERNAL EXTRA CUSTOMER SUPPORT SHORTCUT BAR -->
+    <div class="max-w-7xl mx-auto mt-4 text-center">
+        <a href="https://wa.me/2348130500659" target="_blank" class="inline-flex items-center gap-2 text-xs text-gray-500 hover:text-emerald-400 transition font-mono">
+            <span>[External Tech Support Vector: +2348130500659]</span>
+        </a>
+    </div>
+
+    <!-- MAIN CONSOLE LOGIC SCRIPT ENGINE -->
+    <script>
+        // System States
+        let systemTimelineDay = 0;
+        let isSubscriptionActive = true;
+        let selectedManager = null;
+        let systemHasActiveLiveFootprint = false;
+        
+        // Financial Ledger Counters
+        let poolCash = 0;
+        let platformProcessingPot = 0;
+        let platformWithdrawalCuts = 0;
+        let brokerCommissions = 0;
+        let activeRestitutionDebt = 0;
+
+        // Candidate List for Isolation Logic Matrix
+        const regionalPools = {
+            Region_A: ["Manager Kwaghshi (NGA)", "Manager Terna (NGA)", "Manager Solomon (NGA)"],
+            Region_B: ["Manager Vladimer (UK)", "Manager Smith (UK)", "Manager Gordon (UK)"],
+            Region_C: ["Manager Tanaka (JPN)", "Manager Chen (SGP)", "Manager Al-Mansoor (UAE)"]
+        };
+        let currentDispatchedRoll = [];
+
+        // 10 Member Matrix Generation
+        let groupCluster = Array.from({ length: 10 }, (_, idx) => ({
+            serial: idx + 1,
+            isFunded: false,
+            principal: 0,
+            floatingProfit: 0,
+            withdrawnProfit: 0,
+            hasSufferedDrawdown: false
+        }));
+
+        // Trigger Access Code Evaluation
+        function verifyReferralCode() {
+            const inputVal = document.getElementById('ref-code-input').value.trim();
+            if (inputVal.length > 3) {
+                document.getElementById('referral-gate').classList.add('hidden');
+                document.getElementById('main-application').classList.remove('hidden');
+                rollRandomManagers();
+                updateSystemRenderGrid();
             } else {
-                document.getElementById('display-rule').innerText = "Each member deposits $1.01 daily ($1 pool + $0.01 platform fee). Every 10 days, one $100 account goes live.";
+                document.getElementById('gate-error').classList.remove('hidden');
             }
         }
 
-        function advanceDay(daysToJump) {
-            for (let i = 0; i < daysToJump; i++) {
-                if (currentDay >= 100) break;
-                
-                currentDay++;
-                
-                // 1. Process Group Contributions ($1.01 per user total)
-                poolLiquidity += 10; // $1.00 * 10 members goes into global cash pool
-                platformProcessingPot += 0.10; // $0.01 * 10 members goes to TP processing ledger
+        // Toggle Platform Subscription State Switch
+        function toggleSubscription() {
+            isSubscriptionActive = !isSubscriptionActive;
+            const btn = document.getElementById('sub-toggle-btn');
+            if (isSubscriptionActive) {
+                btn.className = "bg-emerald-950 text-emerald-400 border border-emerald-800 text-xs font-bold px-4 py-2 rounded transition";
+                btn.innerText = "Subscription: ACTIVE ($4.99/mo)";
+            } else {
+                btn.className = "bg-red-950 text-red-400 border border-red-800 text-xs font-bold px-4 py-2 rounded transition";
+                btn.innerText = "Subscription: LAPSED (LOCKED)";
+            }
+            updateSystemRenderGrid();
+        }
 
-                // 2. Evaluate if a 10-day block milestone triggers a live funding release
-                if (currentDay % 10 === 0) {
-                    let slotToFund = currentDay / 10;
-                    let targetMember = members.find(m => m.serial === slotToFund);
-                    if (targetMember) {
+        // Roll 3 Random Managers Across 3 Global Geographies (Anti-Collusion Engine)
+        function rollRandomManagers() {
+            const pickRandom = arr => arr[Math.floor(Math.random() * arr.length)];
+            currentDispatchedRoll = [
+                { name: pickRandom(regionalPools.Region_A), region: "Africa Vector" },
+                { name: pickRandom(regionalPools.Region_B), region: "Europe Vector" },
+                { name: pickRandom(regionalPools.Region_C), region: "Asia-Pacific Vector" }
+            ];
+            updateSystemRenderGrid();
+        }
+
+        // Bind Selected Manager Assignment
+        function selectDispatchedManager(index) {
+            if (!isSubscriptionActive) return;
+            selectedManager = currentDispatchedRoll[index].name;
+            updateSystemRenderGrid();
+        }
+
+        // Execute Daily State Shifts Inside the Software System
+        function processDayTicks(daysToAdvance) {
+            if (!isSubscriptionActive) return;
+
+            for (let d = 0; d < daysToAdvance; d++) {
+                if (systemTimelineDay >= 100) break;
+                systemTimelineDay++;
+
+                // Collect $1.01 daily parameters from cluster members
+                poolCash += 10; 
+                platformProcessingPot += 0.10;
+
+                // Evaluate 10-day block allocations to boot active live trading funds
+                if (systemTimelineDay % 10 === 0) {
+                    let sequentialSlot = systemTimelineDay / 10;
+                    let targetMember = groupCluster.find(m => m.serial === sequentialSlot);
+                    if (targetMember && !targetMember.hasSufferedDrawdown) {
                         targetMember.isFunded = true;
                         targetMember.principal = 100.00;
+                        systemHasActiveLiveFootprint = true;
                     }
                 }
 
-                // 3. Simulate active manager floating trading profits for all accounts that are currently LIVE
-                members.forEach(member => {
-                    if (member.isFunded) {
-                        // Managers are verified professionals, generating randomized positive market steps
+                // Simulate Live Execution & Stream Broker Commissions (Markets4you layer simulation)
+                groupCluster.forEach(member => {
+                    if (member.isFunded && !member.hasSufferedDrawdown) {
+                        brokerCommissions += Math.random() * 0.45; // Every trade lot streams partner splits
                         if (Math.random() > 0.4) {
-                            member.simulatedProfit += Math.random() * 2.5; 
+                            member.floatingProfit += Math.random() * 3.10;
                         }
                     }
                 });
             }
-            renderMatrix();
+            updateSystemRenderGrid();
         }
 
-        function extractProfit(serialId) {
-            let member = members.find(m => m.serial === serialId);
-            if (member && member.simulatedProfit > 0) {
-                let grossProfit = member.simulatedProfit;
-                let cut = grossProfit * 0.15; // Hard 15% Platform Withdrawal Fee
-                let netUserProfit = grossProfit - cut;
+        // Simulate 50% Hard Drawdown Shock Event to Test Safety Net Routing
+        function triggerForcedDrawdown() {
+            // Find the first live funded slot to test asset restitution framework
+            let activeTarget = groupCluster.find(m => m.isFunded && !m.hasSufferedDrawdown);
+            if (!activeTarget) return;
 
-                platformWithdrawalCuts += cut;
-                member.withdrawnProfit += netUserProfit;
-                member.simulatedProfit = 0; // Clear floating stack back to equilibrium
-                
-                renderMatrix();
+            activeTarget.hasSufferedDrawdown = true;
+            activeTarget.principal = 50.00; // Drops by half
+            activeRestitutionDebt += 50.00; // Red-flag ledger log recorded
+
+            // Execution Step: System evaluates broker partner link (Markets4you setup)
+            if (brokerCommissions >= 50.00) {
+                // If accumulated backend commission pot handles it, buffer injects automatically
+                brokerCommissions -= 50.00;
+                activeTarget.principal = 100.00; // Returns to full leveraging footprint
+                activeRestitutionDebt -= 50.00;
+                appendSystemChatLog("[SYSTEM ENGINE]: 50% Drawdown logged on Slot #" + activeTarget.serial + ". Manager detached. Markets4you Partner Commission Buffer deployed. Account equity restored to $100.00.");
+            } else {
+                appendSystemChatLog("[SYSTEM ENGINE]: 50% Drawdown logged on Slot #" + activeTarget.serial + ". Manager detached. Restitution lien placed on manager pool balance. Waiting for commission tracking to fill buffer.");
+            }
+            updateSystemRenderGrid();
+        }
+
+        // Extract Gross Profits and Deduct Platform 15% Withdrawal Splitting Fees
+        function releaseProfitSplit(serialId) {
+            let member = groupCluster.find(m => m.serial === serialId);
+            if (member && member.floatingProfit > 0) {
+                let initialProfitValue = member.floatingProfit;
+                let coreCut = initialProfitValue * 0.15;
+                let clearedUserYield = initialProfitValue - coreCut;
+
+                platformWithdrawalCuts += coreCut;
+                member.withdrawnProfit += clearedUserYield;
+                member.floatingProfit = 0;
+
+                updateSystemRenderGrid();
             }
         }
 
-        function resetSimulation() {
-            currentDay = 0;
-            poolLiquidity = 0;
-            platformProcessingPot = 0;
-            platformWithdrawalCuts = 0;
-            members = Array.from({ length: 10 }, (_, i) => ({
-                serial: i + 1,
-                isFunded: false,
-                principal: 0,
-                simulatedProfit: 0,
-                withdrawnProfit: 0
-            }));
-            renderMatrix();
+        // Push Raw Events Onto Chat Pipeline Log
+        function appendSystemChatLog(msg) {
+            const box = document.getElementById('chat-messages-container');
+            box.innerHTML += `<div class="text-amber-400 font-sans">${msg}</div>`;
+            box.scrollTop = box.scrollHeight;
         }
 
-        // Initialize display configuration on mount
-        renderMatrix();
+        // Master Layout Render Controller
+        function updateSystemRenderGrid() {
+            // UI Component Pointers
+            document.getElementById('sim-day').innerText = systemTimelineDay;
+            document.getElementById('ledger-pool').innerText = `$${poolCash.toFixed(2)}`;
+            document.getElementById('ledger-fees').innerText = `$${platformProcessingPot.toFixed(2)}`;
+            document.getElementById('ledger-cuts').innerText = `$${platformWithdrawalCuts.toFixed(2)}`;
+            document.getElementById('ledger-comm').innerText = `$${brokerCommissions.toFixed(2)}`;
+            document.getElementById('ledger-debt').innerText = `$${activeRestitutionDebt.toFixed(2)}`;
+
+            // 1. Evaluate Live Chat Lockout Matrix Rules
+            const isChatAllowed = isSubscriptionActive && (systemTimelineDay >= 100 || systemHasActiveLiveFootprint);
+            const overlay = document.getElementById('chat-lock-overlay');
+            if (isChatAllowed) {
+                overlay.classList.add('hidden');
+            } else {
+                overlay.classList.remove('hidden');
+            }
+
+            // 2. Render Anti-Collusion Dispatch Frame Selection Elements
+            const managerBox = document.getElementById('manager-dispatch-box');
+            managerBox.innerHTML = '';
+            currentDispatchedRoll.forEach((mgr, idx) => {
+                let isSelected = selectedManager === mgr.name;
+                managerBox.innerHTML += `
+                    <div class="p-3 rounded border ${isSelected ? 'border-amber-500 bg-amber-950/15' : 'border-gray-800 bg-gray-900'} flex justify-between items-center text-xs">
+                        <div>
+                            <span class="block font-bold text-white">${mgr.name}</span>
+                            <span class="text-[10px] text-gray-500">${mgr.region}</span>
+                        </div>
+                        <button onclick="selectDispatchedManager(${idx})" class="text-[11px] px-3 py-1 rounded font-bold ${isSelected ? 'bg-amber-500 text-gray-950' : 'bg-gray-800 hover:bg-gray-700 text-white border border-gray-700'}">
+                            ${isSelected ? 'Dispatched' : 'Assign'}
+                        </button>
+                    </div>
+                `;
+            });
+
+            // 3. Render Multi-Tier 10 Member Cluster Operations Grid
+            const clusterBox = document.getElementById('cluster-container');
+            clusterBox.innerHTML = '';
+            groupCluster.forEach(mbr => {
+                let fundingThreshold = mbr.serial * 10;
+                let layoutBorder = 'border-gray-800';
+                let stateBadge = `<span class="bg-gray-800 text-gray-400 border border-gray-700 text-[9px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">In Queue (${fundingThreshold}d)</span>`;
+                
+                if (mbr.isFunded) {
+                    layoutBorder = 'border-emerald-900/40 bg-emerald-950/5';
+                    stateBadge = `<span class="bg-emerald-950/80 text-emerald-400 border border-emerald-800 text-[9px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">Live Active</span>`;
+                }
+                if (mbr.hasSufferedDrawdown && mbr.principal === 50) {
+                    layoutBorder = 'border-red-900/50 bg-red-950/5';
+                    stateBadge = `<span class="bg-red-950 text-red-400 border border-red-900/40 text-[9px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">Drawdown Lockout</span>`;
+                }
+
+                let withdrawalActionMarkup = '';
+                if (mbr.isFunded && mbr.floatingProfit > 0) {
+                    withdrawalActionMarkup = `
+                        <button onclick="releaseProfitSplit(${mbr.serial})" class="bg-gradient-to-r from-yellow-600 to-amber-600 text-gray-950 text-[11px] font-bold px-2.5 py-1 rounded transition">
+                            Split Profit
+                        </button>
+                    `;
+                }
+
+                let executionConstraintText = systemTimelineDay >= 100
+                    ? `<span class="text-emerald-400 font-bold uppercase">Unlocked</span>`
+                    : `<span class="text-red-500 font-medium text-[10px]">LOCKED UNTIL 100D</span>`;
+
+                clusterBox.innerHTML += `
+                    <div class="p-3 rounded-md bg-gray-900/50 border ${layoutBorder} flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 transition">
+                        <div class="space-y-0.5">
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono text-sm font-bold text-white">#${String(mbr.serial).padStart(2, '0')}</span>
+                                ${stateBadge}
+                            </div>
+                            <div class="grid grid-cols-2 gap-x-3 text-[11px] text-gray-400 font-mono">
+                                <div>Equity: <b class="text-white">$${mbr.principal.toFixed(2)}</b></div>
+                                <div>Principal Release: ${executionConstraintText}</div>
+                                <div>Profit Stack: <b class="olive-text">+$${mbr.floatingProfit.toFixed(2)}</b></div>
+                                <div>Realized Cash: <b class="text-gray-300">$${mbr.withdrawnProfit.toFixed(2)}</b></div>
+                            </div>
+                        </div>
+                        <div>${withdrawalActionMarkup}</div>
+                    </div>
+                `;
+            });
+        }
     </script>
 </body>
 </html>
