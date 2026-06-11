@@ -1,482 +1,1014 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Take Profit - Complete Platform Simulation Matrix</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background-color: #0B0F19; color: #E5E7EB; font-family: sans-serif; }
-        .olive-text { color: #A2A737; }
-        .gold-text { color: #C5A059; }
-        .card-bg { background-color: #111827; border: 1px solid #1F2937; }
-        .terminal-glow { box-shadow: 0 0 15px rgba(162, 167, 55, 0.1); }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Take Profit — Platform Simulation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --bg:#060a0f;
+    --surface:#0d1420;
+    --surface2:#111c2e;
+    --border:#1a2a3a;
+    --border2:#0f1e2e;
+    --white:#f0f4f8;
+    --muted:#4a6080;
+    --dim:#2a3f55;
+    --green:#00d4aa;
+    --green2:#00a882;
+    --red:#ff4757;
+    --red2:#cc2233;
+    --gold:#c9a84c;
+    --gold2:#a07828;
+    --blue:#2563eb;
+    --blue2:#1d4ed8;
+    --text:#d0dce8;
+  }
+
+  html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow:hidden;}
+
+  /* ── SCREENS ── */
+  .screen{display:none;height:100vh;overflow-y:auto;overflow-x:hidden;flex-direction:column;}
+  .screen.active{display:flex;}
+
+  /* scrollbar */
+  ::-webkit-scrollbar{width:4px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--dim);border-radius:2px;}
+
+  /* ── LOGO SVG ── */
+  .tp-logo{display:inline-flex;align-items:center;justify-content:center;}
+  .tp-logo svg{display:block;}
+
+  /* ── SCREEN 1: WELCOME ── */
+  #s1{background:var(--bg);justify-content:center;align-items:center;text-align:center;padding:40px 24px;position:relative;overflow:hidden;}
+  #s1::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%, rgba(0,212,170,0.04) 0%, transparent 70%);}
+  .s1-logo-wrap{margin-bottom:32px;}
+  .s1-brand{font-size:11px;letter-spacing:5px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;}
+  .s1-headline{font-size:clamp(28px,7vw,42px);font-weight:900;color:var(--white);line-height:1.1;margin-bottom:16px;}
+  .s1-headline span{color:var(--green);}
+  .s1-sub{font-size:14px;color:var(--muted);line-height:1.7;max-width:360px;margin:0 auto 40px;}
+  .s1-disclaimer{font-size:10px;color:var(--dim);margin-bottom:32px;line-height:1.6;max-width:340px;margin-left:auto;margin-right:auto;}
+  .btn-primary{background:var(--white);color:#060a0f;border:none;border-radius:8px;padding:14px 36px;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:0.3px;transition:opacity .2s;}
+  .btn-primary:hover{opacity:0.88;}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:8px;padding:12px 28px;font-size:14px;font-weight:500;cursor:pointer;margin-top:12px;transition:border-color .2s,color .2s;}
+  .btn-ghost:hover{border-color:var(--green);color:var(--green);}
+  .ticker-strip{position:absolute;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border2);padding:10px 0;overflow:hidden;}
+  .ticker-inner{display:flex;gap:40px;animation:ticker 20s linear infinite;white-space:nowrap;}
+  @keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+  .tick-item{font-family:'JetBrains Mono',monospace;font-size:11px;display:flex;gap:8px;}
+  .tick-up{color:var(--green);}
+  .tick-dn{color:var(--red);}
+
+  /* ── SCREEN 2: GATE ── */
+  #s2{padding:0;background:var(--bg);}
+  .gate-header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 20px;display:flex;align-items:center;gap:12px;}
+  .gate-title{font-size:14px;font-weight:700;color:var(--white);}
+  .gate-body{flex:1;padding:28px 20px;display:flex;flex-direction:column;gap:0;}
+  .gate-step{display:flex;gap:16px;margin-bottom:28px;opacity:0;transform:translateY(16px);transition:all .4s;}
+  .gate-step.visible{opacity:1;transform:none;}
+  .step-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;border:2px solid var(--border);}
+  .step-icon.done{background:var(--green);border-color:var(--green);color:#000;}
+  .step-icon.active{background:var(--surface2);border-color:var(--gold);color:var(--gold);}
+  .step-icon.pending{background:var(--surface);border-color:var(--border);color:var(--muted);}
+  .step-content{flex:1;}
+  .step-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+  .step-text{font-size:14px;color:var(--white);font-weight:600;margin-bottom:8px;}
+  .step-sub{font-size:12px;color:var(--muted);line-height:1.5;}
+  .ref-input{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;color:var(--white);font-size:14px;font-family:'JetBrains Mono',monospace;width:100%;outline:none;margin-top:8px;letter-spacing:2px;}
+  .ref-input:focus{border-color:var(--green);}
+  .fee-badge{display:inline-flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-top:8px;}
+  .fee-amt{font-size:18px;font-weight:800;color:var(--white);font-family:'JetBrains Mono',monospace;}
+  .fee-label{font-size:11px;color:var(--muted);}
+  .verify-bar{height:4px;background:var(--border);border-radius:2px;margin-top:10px;overflow:hidden;}
+  .verify-fill{height:100%;background:var(--green);border-radius:2px;width:0;transition:width 1.5s ease;}
+
+  /* ── SCREEN 3: MANAGER SELECTION ── */
+  #s3{padding:0;background:var(--bg);}
+  .mgr-header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 20px;}
+  .mgr-header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+  .mgr-title{font-size:14px;font-weight:700;color:var(--white);}
+  .refresh-badge{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--gold);background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);border-radius:4px;padding:3px 8px;}
+  .mgr-sub{font-size:12px;color:var(--muted);}
+  .mgr-body{flex:1;padding:16px 16px 24px;}
+  .mgr-rule{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.15);border-radius:8px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--green);line-height:1.5;}
+  .mgr-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;cursor:pointer;transition:border-color .2s,transform .15s;}
+  .mgr-card:hover{border-color:var(--green);transform:translateY(-1px);}
+  .mgr-card.selected{border-color:var(--green);background:rgba(0,212,170,0.05);}
+  .mgr-top{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+  .mgr-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;flex-shrink:0;}
+  .mgr-info{flex:1;}
+  .mgr-name{font-size:15px;font-weight:700;color:var(--white);}
+  .mgr-region{font-size:11px;color:var(--muted);margin-top:1px;}
+  .mgr-grade{font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;}
+  .grade-a{background:rgba(0,212,170,0.15);color:var(--green);}
+  .grade-b{background:rgba(201,168,76,0.15);color:var(--gold);}
+  .mgr-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .mgr-stat{text-align:center;}
+  .mgr-stat-val{font-size:14px;font-weight:700;color:var(--white);font-family:'JetBrains Mono',monospace;}
+  .mgr-stat-lbl{font-size:10px;color:var(--muted);margin-top:2px;}
+  .mgr-accounts{font-size:11px;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--border2);}
+  .select-btn{width:100%;background:var(--white);color:#060a0f;border:none;border-radius:8px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;margin-top:16px;display:none;}
+  .select-btn.show{display:block;}
+
+  /* ── SCREEN 4: TRADER DASHBOARD ── */
+  #s4{padding:0;background:var(--bg);}
+  .dash-header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;}
+  .dash-greeting{font-size:12px;color:var(--muted);}
+  .dash-name{font-size:15px;font-weight:700;color:var(--white);}
+  .dash-badge{font-size:10px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.2);color:var(--green);border-radius:4px;padding:3px 8px;font-family:'JetBrains Mono',monospace;}
+  .dash-body{flex:1;padding:14px 14px 80px;}
+  .balance-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:12px;}
+  .bal-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+  .bal-amount{font-size:36px;font-weight:900;color:var(--white);font-family:'JetBrains Mono',monospace;line-height:1;}
+  .bal-sub{font-size:11px;color:var(--muted);margin-top:4px;}
+  .drawdown-section{margin-top:16px;}
+  .dd-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .dd-label{font-size:11px;color:var(--muted);}
+  .dd-pct{font-size:13px;font-weight:700;font-family:'JetBrains Mono',monospace;}
+  .dd-bar-wrap{position:relative;height:10px;background:var(--border2);border-radius:5px;overflow:visible;}
+  .dd-bar-fill{height:100%;border-radius:5px;transition:width .3s ease;position:relative;}
+  .dd-stop-line{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--red);left:50%;transform:translateX(-50%);border-radius:1px;}
+  .dd-stop-label{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--red);white-space:nowrap;font-family:'JetBrains Mono',monospace;}
+  .dd-legend{display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:var(--dim);font-family:'JetBrains Mono',monospace;}
+  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+  .info-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;}
+  .info-card-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+  .info-card-val{font-size:16px;font-weight:700;color:var(--white);font-family:'JetBrains Mono',monospace;}
+  .info-card-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+  .profit-card{background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
+  .profit-left .label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:4px;}
+  .profit-left .val{font-size:22px;font-weight:800;color:var(--green);font-family:'JetBrains Mono',monospace;}
+  .withdraw-btn{background:var(--green);color:#000;border:none;border-radius:8px;padding:10px 18px;font-size:12px;font-weight:800;cursor:pointer;}
+  .mgr-assigned{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;display:flex;align-items:center;gap:12px;}
+  .simulate-btn{width:100%;background:var(--red);color:#fff;border:none;border-radius:10px;padding:16px;font-size:14px;font-weight:800;cursor:pointer;letter-spacing:0.3px;}
+
+  /* ── SCREEN 5: THE EVENT ── */
+  #s5{padding:0;background:var(--bg);justify-content:center;align-items:center;}
+  .event-wrap{width:100%;padding:24px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;}
+  .event-icon{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 20px;}
+  .event-title{font-size:22px;font-weight:900;color:var(--white);margin-bottom:8px;}
+  .event-sub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:24px;max-width:340px;}
+  .event-steps{width:100%;display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+  .event-step{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;text-align:left;opacity:0;transform:translateX(-20px);transition:all .4s;}
+  .event-step.fire{opacity:1;transform:none;}
+  .event-step-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+  .event-step-text{font-size:13px;color:var(--text);line-height:1.5;}
+  .event-step-text strong{color:var(--white);display:block;margin-bottom:2px;}
+  .broker-inject{background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.25);border-radius:12px;padding:16px;width:100%;margin-bottom:20px;opacity:0;transition:opacity .5s;}
+  .broker-inject.show{opacity:1;}
+  .bi-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:8px;}
+  .bi-flow{display:flex;align-items:center;justify-content:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:13px;}
+  .bi-from{color:var(--muted);}
+  .bi-arrow{color:var(--green);}
+  .bi-to{color:var(--green);font-weight:700;}
+
+  /* ── SCREEN 6: RECOVERY ── */
+  #s6{padding:0;background:var(--bg);}
+  .rec-header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 20px;}
+  .rec-body{flex:1;padding:20px 16px 24px;}
+  .rec-restored{background:rgba(0,212,170,0.06);border:1px solid rgba(0,212,170,0.2);border-radius:12px;padding:16px;margin-bottom:16px;text-align:center;}
+  .rec-restored-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+  .rec-restored-amt{font-size:32px;font-weight:900;color:var(--green);font-family:'JetBrains Mono',monospace;}
+  .rec-restored-sub{font-size:11px;color:var(--muted);margin-top:4px;}
+  .lien-card{background:rgba(255,71,87,0.05);border:1px solid rgba(255,71,87,0.2);border-radius:10px;padding:14px;margin-bottom:16px;}
+  .lien-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+  .lien-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;}
+  .lien-key{color:var(--muted);}
+  .lien-val{color:var(--white);font-family:'JetBrains Mono',monospace;font-weight:600;}
+
+  /* ── SCREEN 7: CAPITAL BUILDING ── */
+  #s7{padding:0;background:var(--bg);}
+  .cap-header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 20px;}
+  .cap-body{flex:1;padding:16px 16px 24px;}
+  .tier-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;}
+  .tier-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:border-color .2s;}
+  .tier-card:hover,.tier-card.selected{border-color:var(--gold);}
+  .tier-card.selected{background:rgba(201,168,76,0.05);}
+  .tier-amt{font-size:16px;font-weight:800;color:var(--white);font-family:'JetBrains Mono',monospace;}
+  .tier-daily{font-size:11px;color:var(--muted);margin-top:2px;}
+  .tier-total{font-size:10px;color:var(--gold);margin-top:4px;}
+  .progress-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;}
+  .prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+  .prog-title{font-size:13px;font-weight:700;color:var(--white);}
+  .prog-day{font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--gold);font-weight:700;}
+  .prog-bar-wrap{height:8px;background:var(--border2);border-radius:4px;margin-bottom:10px;overflow:hidden;}
+  .prog-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold2),var(--gold));border-radius:4px;transition:width .5s ease;}
+  .prog-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .prog-stat-val{font-size:13px;font-weight:700;color:var(--white);font-family:'JetBrains Mono',monospace;}
+  .prog-stat-lbl{font-size:9px;color:var(--muted);margin-top:1px;text-transform:uppercase;letter-spacing:1px;}
+  .contrib-log{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;}
+  .contrib-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .contrib-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border2);font-size:12px;}
+  .contrib-row:last-child{border-bottom:none;}
+  .contrib-day{color:var(--muted);font-family:'JetBrains Mono',monospace;}
+  .contrib-amt{color:var(--white);font-family:'JetBrains Mono',monospace;font-weight:600;}
+  .contrib-status{color:var(--green);font-size:10px;}
+  .profit-avail{background:rgba(0,212,170,0.06);border:1px solid rgba(0,212,170,0.2);border-radius:10px;padding:14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+
+  /* ── SCREEN 8: MANAGER VIEW ── */
+  #s8{padding:0;background:var(--bg);}
+  .mv-header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 20px;}
+  .mv-body{flex:1;padding:14px 14px 24px;}
+  .mv-income{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;}
+  .mv-income-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+  .mv-income-item{text-align:center;}
+  .mv-income-val{font-size:18px;font-weight:800;font-family:'JetBrains Mono',monospace;}
+  .mv-income-lbl{font-size:10px;color:var(--muted);margin-top:2px;}
+  .accounts-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .acc-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;}
+  .acc-card.lien-active{border-color:rgba(255,71,87,0.4);background:rgba(255,71,87,0.03);}
+  .acc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .acc-name{font-size:13px;font-weight:700;color:var(--white);}
+  .acc-status{font-size:10px;padding:3px 8px;border-radius:4px;font-weight:600;}
+  .status-live{background:rgba(0,212,170,0.15);color:var(--green);}
+  .status-lien{background:rgba(255,71,87,0.15);color:var(--red);}
+  .acc-bar-wrap{height:6px;background:var(--border2);border-radius:3px;margin-bottom:6px;overflow:hidden;}
+  .acc-bar-fill{height:100%;border-radius:3px;}
+  .acc-footer{display:flex;justify-content:space-between;font-size:11px;}
+  .acc-dd{color:var(--muted);font-family:'JetBrains Mono',monospace;}
+  .acc-earn{font-family:'JetBrains Mono',monospace;}
+
+  /* ── SCREEN 9: ALIGNMENT ── */
+  #s9{padding:0;background:var(--bg);}
+  .align-header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 20px;text-align:center;}
+  .align-body{flex:1;padding:16px 14px 24px;}
+  .party-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px;}
+  .party-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+  .party-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .party-name{font-size:15px;font-weight:700;color:var(--white);}
+  .party-role{font-size:11px;color:var(--muted);}
+  .party-items{display:flex;flex-direction:column;gap:6px;}
+  .party-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text);line-height:1.5;}
+  .party-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+  .final-cta{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;margin-top:4px;}
+  .final-logo{margin-bottom:12px;}
+  .final-title{font-size:18px;font-weight:900;color:var(--white);margin-bottom:6px;}
+  .final-sub{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:16px;}
+  .restart-btn{background:var(--white);color:#060a0f;border:none;border-radius:8px;padding:12px 28px;font-size:14px;font-weight:800;cursor:pointer;}
+
+  /* ── NAV ── */
+  .nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:10px 0 14px;z-index:100;}
+  .nav-btn{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;opacity:0.4;transition:opacity .2s;}
+  .nav-btn.active{opacity:1;}
+  .nav-btn span:first-child{font-size:16px;}
+  .nav-btn span:last-child{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+
+  /* ── ALERT TOAST ── */
+  .toast{position:fixed;top:16px;left:16px;right:16px;background:var(--red);color:#fff;border-radius:10px;padding:14px 16px;font-size:13px;font-weight:600;z-index:999;transform:translateY(-80px);transition:transform .35s cubic-bezier(.34,1.56,.64,1);display:flex;gap:10px;align-items:flex-start;box-shadow:0 8px 32px rgba(255,71,87,0.4);}
+  .toast.show{transform:translateY(0);}
+  .toast-icon{font-size:18px;flex-shrink:0;}
+  .toast-green{background:var(--green);color:#000;box-shadow:0 8px 32px rgba(0,212,170,0.4);}
+
+  /* PULSE */
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+  .pulse{animation:pulse 1.5s ease-in-out infinite;}
+
+  /* BLINK */
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+  /* SPIN */
+  @keyframes spin{to{transform:rotate(360deg);}}
+</style>
 </head>
-<body class="p-3 md:p-6">
+<body>
 
-    <!-- GATEWAY LAYER: MANDATORY REFERRAL AND SIGN IN -->
-    <div id="referral-gate" class="fixed inset-0 bg-[#0B0F19] z-50 flex items-center justify-center p-4">
-        <div class="card-bg p-8 rounded-xl max-w-md w-full border border-gray-800 text-center space-y-6">
-            <div>
-                <h1 class="text-3xl font-bold tracking-tight text-white">TAKE PROFIT</h1>
-                <p class="text-xs olive-text uppercase tracking-widest font-semibold mt-1">Security Entry Terminal</p>
-            </div>
-            <div class="space-y-4">
-                <div>
-                    <label class="text-left block text-xs uppercase tracking-wider text-gray-400 mb-1">Enter Verification / Referral Code</label>
-                    <input type="text" id="ref-code-input" placeholder="e.g., TP-PRO-99" class="w-full bg-gray-900 border border-gray-700 rounded px-4 py-3 font-mono text-center uppercase tracking-widest text-white focus:outline-none focus:border-amber-500">
-                    <p class="text-[11px] text-red-400 mt-1 hidden" id="gate-error">Access Embargo: A valid active referral code is strictly mandatory to register.</p>
-                </div>
-                <button onclick="verifyReferralCode()" class="w-full bg-gradient-to-r from-yellow-600 to-amber-600 text-gray-950 font-bold py-3 rounded tracking-wide hover:brightness-110 transition">
-                    Initialize System Registration
-                </button>
-            </div>
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toast-icon">⚠️</span>
+  <span id="toast-msg">Manager locked out. 50% drawdown triggered.</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 1 — WELCOME
+═══════════════════════════════════════════════ -->
+<div class="screen active" id="s1">
+  <div class="s1-logo-wrap">
+    <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="72" height="72" fill="#0d0d0d"/>
+      <text x="8" y="54" font-family="Inter,sans-serif" font-weight="900" font-size="46" fill="white">T</text>
+      <text x="34" y="54" font-family="Inter,sans-serif" font-weight="900" font-size="46" fill="white">P</text>
+      <line x1="36" y1="12" x2="36" y2="58" stroke="white" stroke-width="2.5" opacity="0.4"/>
+    </svg>
+  </div>
+  <p class="s1-brand">PPG Solutions — Platform Simulation</p>
+  <h1 class="s1-headline">Trade Smarter.<br/><span>Stay Protected.</span></h1>
+  <p class="s1-sub">Take Profit connects retail traders with vetted professional managers — with automated hard stops, restitution mechanics, and zero permanent loss by design.</p>
+  <p class="s1-disclaimer">⚠️ Simulation only. No real money, accounts, or trades are involved. All data is illustrative. Trading involves risk. Nothing here constitutes financial advice.</p>
+  <button class="btn-primary" onclick="goTo('s2')">Enter Platform →</button>
+  <button class="btn-ghost" onclick="goTo('s9')">View Alignment Summary</button>
+
+  <div class="ticker-strip">
+    <div class="ticker-inner" id="ticker"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 2 — THE GATE
+═══════════════════════════════════════════════ -->
+<div class="screen" id="s2">
+  <div class="gate-header">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" fill="#0d0d0d" rx="4"/><text x="3" y="21" font-family="Inter" font-weight="900" font-size="18" fill="white">T</text><text x="13" y="21" font-family="Inter" font-weight="900" font-size="18" fill="white">P</text><line x1="14" y1="5" x2="14" y2="22" stroke="white" stroke-width="1.5" opacity="0.4"/></svg>
+    <span class="gate-title">Platform Entry</span>
+  </div>
+  <div class="gate-body">
+    <div class="gate-step" id="gs1">
+      <div class="step-icon active">🔑</div>
+      <div class="step-content">
+        <div class="step-label">Step 1</div>
+        <div class="step-text">Referral Code</div>
+        <div class="step-sub">You must have a valid referral code from an active member.</div>
+        <input class="ref-input" id="refInput" placeholder="TP-XXXXXX" maxlength="9" oninput="handleRef(this)"/>
+      </div>
+    </div>
+    <div class="gate-step" id="gs2">
+      <div class="step-icon pending" id="gs2icon">🪪</div>
+      <div class="step-content">
+        <div class="step-label">Step 2</div>
+        <div class="step-text">Identity Verification</div>
+        <div class="step-sub">Submitting ID details to confirm who you are.</div>
+        <div class="verify-bar"><div class="verify-fill" id="verifyFill"></div></div>
+      </div>
+    </div>
+    <div class="gate-step" id="gs3">
+      <div class="step-icon pending" id="gs3icon">💳</div>
+      <div class="step-content">
+        <div class="step-label">Step 3</div>
+        <div class="step-text">Monthly Access Fee</div>
+        <div class="step-sub">Flat monthly fee to activate your terminal access.</div>
+        <div class="fee-badge">
+          <span class="fee-amt">$4.99</span>
+          <span class="fee-label">/ month</span>
         </div>
+      </div>
+    </div>
+    <button class="btn-primary" id="gateBtn" style="display:none;margin-top:8px;" onclick="goTo('s3')">Access Terminal →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 3 — MANAGER SELECTION
+═══════════════════════════════════════════════ -->
+<div class="screen" id="s3">
+  <div class="mgr-header">
+    <div class="mgr-header-top">
+      <span class="mgr-title">Select Your Manager</span>
+      <span class="refresh-badge" id="refreshTimer">Refreshes in 23:47:12</span>
+    </div>
+    <div class="mgr-sub">3 vetted managers · 3 world regions · Random daily pool</div>
+  </div>
+  <div class="mgr-body">
+    <div class="mgr-rule">⚡ You cannot search for a specific manager. The software randomly displays 3 professionals from 3 different regions every 24 hours to prevent collusion.</div>
+    <div class="mgr-card" id="mc1" onclick="selectMgr(1)">
+      <div class="mgr-top">
+        <div class="mgr-avatar" style="background:#1a3a5c;">KO</div>
+        <div class="mgr-info">
+          <div class="mgr-name">Kwame Osei</div>
+          <div class="mgr-region">🌍 West Africa · Ghana</div>
+        </div>
+        <span class="mgr-grade grade-a">Grade A</span>
+      </div>
+      <div class="mgr-stats">
+        <div class="mgr-stat"><div class="mgr-stat-val" style="color:var(--green)">+34.2%</div><div class="mgr-stat-lbl">Avg Return</div></div>
+        <div class="mgr-stat"><div class="mgr-stat-val">18mo</div><div class="mgr-stat-lbl">Active</div></div>
+        <div class="mgr-stat"><div class="mgr-stat-val" style="color:var(--green)">4/5</div><div class="mgr-stat-lbl">Accounts</div></div>
+      </div>
+      <div class="mgr-accounts">Managing 4 active trader accounts · Max drawdown in history: 31%</div>
+    </div>
+    <div class="mgr-card" id="mc2" onclick="selectMgr(2)">
+      <div class="mgr-top">
+        <div class="mgr-avatar" style="background:#2a1a4a;">RL</div>
+        <div class="mgr-info">
+          <div class="mgr-name">Rafael Lima</div>
+          <div class="mgr-region">🌎 South America · Brazil</div>
+        </div>
+        <span class="mgr-grade grade-a">Grade A</span>
+      </div>
+      <div class="mgr-stats">
+        <div class="mgr-stat"><div class="mgr-stat-val" style="color:var(--green)">+28.7%</div><div class="mgr-stat-lbl">Avg Return</div></div>
+        <div class="mgr-stat"><div class="mgr-stat-val">24mo</div><div class="mgr-stat-lbl">Active</div></div>
+        <div class="mgr-stat"><div class="mgr-stat-val" style="color:var(--green)">3/5</div><div class="mgr-stat-lbl">Accounts</div></div>
+      </div>
+      <div class="mgr-accounts">Managing 3 active trader accounts · Max drawdown in history: 28%</div>
+    </div>
+    <div class="mgr-card" id="mc3" onclick="selectMgr(3)">
+      <div class="mgr-top">
+        <div class="mgr-avatar" style="background:#1a3a2a;">SC</div>
+        <div class="mgr-info">
+          <div class="mgr-name">Sarah Chen</div>
+          <div class="mgr-region">🌏 East Asia · Singapore</div>
+        </div>
+        <span class="mgr-grade grade-b">Grade B+</span>
+      </div>
+      <div class="mgr-stats">
+        <div class="mgr-stat"><div class="mgr-stat-val" style="color:var(--green)">+22.1%</div><div class="mgr-stat-lbl">Avg Return</div></div>
+        <div class="mgr-stat"><div class="mgr-stat-val">11mo</div><div class="mgr-stat-lbl">Active</div></div>
+        <div class="mgr-stat"><div class="mgr-stat-val" style="color:var(--gold)">2/5</div><div class="mgr-stat-lbl">Accounts</div></div>
+      </div>
+      <div class="mgr-accounts">Managing 2 active trader accounts · Max drawdown in history: 22%</div>
+    </div>
+    <button class="select-btn" id="selectMgrBtn" onclick="confirmMgr()">Assign This Manager →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 4 — TRADER DASHBOARD
+═══════════════════════════════════════════════ -->
+<div class="screen" id="s4">
+  <div class="dash-header">
+    <div>
+      <div class="dash-greeting">Good morning,</div>
+      <div class="dash-name">Alex Trader</div>
+    </div>
+    <div class="dash-badge pulse">● LIVE</div>
+  </div>
+  <div class="dash-body">
+    <div class="balance-card">
+      <div class="bal-label">Account Balance</div>
+      <div class="bal-amount" id="balAmount">$100.00</div>
+      <div class="bal-sub">Via Markets4you · Manager: <span id="assignedMgrName">Kwame Osei</span></div>
+      <div class="drawdown-section">
+        <div class="dd-header">
+          <span class="dd-label">Drawdown from peak</span>
+          <span class="dd-pct" id="ddPct" style="color:var(--green)">0.0%</span>
+        </div>
+        <div class="dd-bar-wrap">
+          <div class="dd-bar-fill" id="ddFill" style="width:0%;background:var(--green);"></div>
+          <div class="dd-stop-line">
+            <span class="dd-stop-label">50% HARD STOP</span>
+          </div>
+        </div>
+        <div class="dd-legend"><span>Safe</span><span>← Hard Stop →</span><span>Trigger</span></div>
+      </div>
     </div>
 
-    <!-- MAIN PLATFORM INTERFACE (HIDDEN UNTIL REFERRAL VERIFIED) -->
-    <div id="main-application" class="hidden max-w-7xl mx-auto space-y-6">
-        
-        <!-- Header Matrix -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-800 pb-4 gap-4">
-            <div>
-                <h1 class="text-3xl font-bold tracking-tight text-white">TAKE PROFIT</h1>
-                <p class="text-xs text-gray-400">Proprietary Software Infrastructure Layer &bull; Parent: <span class="text-white font-medium">PPG SOLUTIONS</span></p>
-            </div>
-            <div class="flex flex-wrap gap-3 items-center">
-                <!-- Subscription Toggle Button -->
-                <button id="sub-toggle-btn" onclick="toggleSubscription()" class="bg-emerald-950 text-emerald-400 border border-emerald-800 text-xs font-bold px-4 py-2 rounded transition">
-                    Subscription: ACTIVE ($4.99/mo)
-                </button>
-                <span class="text-xs font-mono uppercase bg-gray-800 px-3 py-2 rounded border border-gray-700 gold-text">
-                    Network Status: Secure API Stream
-                </span>
-            </div>
-        </div>
-
-        <!-- Master Interface Layout Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
-            <!-- LEFT COLUMN: SYSTEM CONTROLS, ACCOUNT MANAGEMENT & PAYMENTS (4 COLS) -->
-            <div class="lg:col-span-4 space-y-6">
-                
-                <!-- Time Machine & Simulation Controls -->
-                <div class="card-bg p-5 rounded-lg shadow-xl border-t-2 border-amber-500/30">
-                    <h2 class="text-sm font-bold tracking-wider uppercase text-white mb-3">Simulation Controls</h2>
-                    <div class="flex items-center justify-between mb-4 bg-gray-900 p-3 rounded border border-gray-800">
-                        <div>
-                            <span class="text-[10px] uppercase text-gray-500 block">System Timeline</span>
-                            <span class="text-xl font-mono font-bold text-white"><span id="sim-day">0</span> / 100 Days</span>
-                        </div>
-                        <div class="flex gap-1">
-                            <button onclick="processDayTicks(1)" class="bg-gray-800 hover:bg-gray-700 text-xs px-2.5 py-1.5 rounded border border-gray-700">+1D</button>
-                            <button onclick="processDayTicks(10)" class="bg-gray-800 hover:bg-gray-700 text-xs px-2.5 py-1.5 rounded border border-gray-700 olive-text font-bold">+10D</button>
-                        </div>
-                    </div>
-                    <!-- System Event Injector -->
-                    <div class="space-y-2">
-                        <span class="text-[10px] uppercase text-gray-400 tracking-wider block">Risk Test Rig</span>
-                        <button onclick="triggerForcedDrawdown()" class="w-full bg-red-950/40 hover:bg-red-900/40 text-red-400 text-xs py-2 rounded border border-red-900/50 transition font-medium">
-                            ⚠️ Force 50% Drawdown Event (Test Safety Net)
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Primary Core Ledger Wallet -->
-                <div class="card-bg p-5 rounded-lg shadow-xl">
-                    <h2 class="text-sm font-bold tracking-wider uppercase text-white mb-4 border-b border-gray-800 pb-2">TP Central Ledger</h2>
-                    <div class="space-y-3 font-mono text-sm">
-                        <div class="flex justify-between">
-                            <span class="text-gray-400 text-xs uppercase">Global Pool Cash:</span>
-                            <span class="text-white font-bold" id="ledger-pool">$0.00</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400 text-xs uppercase">Platform 1% Processing:</span>
-                            <span class="olive-text font-bold" id="ledger-fees">$0.00</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400 text-xs uppercase">Platform 15% Withdrawals:</span>
-                            <span class="gold-text font-bold" id="ledger-cuts">$0.00</span>
-                        </div>
-                        <div class="flex justify-between border-t border-gray-800 pt-2">
-                            <span class="text-gray-400 text-xs uppercase">Markets4you Commission:</span>
-                            <span class="text-emerald-400 font-bold" id="ledger-comm">$0.00</span>
-                        </div>
-                        <div class="flex justify-between bg-red-950/20 p-2 rounded border border-red-950 text-xs">
-                            <span class="text-red-400 uppercase">Active Debt Liens:</span>
-                            <span class="text-red-400 font-bold" id="ledger-debt">$0.00</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Premium Payment Screen Grid Structure -->
-                <div class="card-bg p-5 rounded-lg shadow-xl">
-                    <h2 class="text-sm font-bold tracking-wider uppercase text-white mb-3">System Payment Interface</h2>
-                    <div class="grid grid-cols-2 gap-2 text-center text-xs">
-                        <div class="p-3 rounded border border-amber-500/40 bg-amber-950/20 font-bold gold-text flex flex-col justify-center items-center cursor-pointer">
-                            <span class="text-[9px] text-amber-500 uppercase block tracking-widest">Alpha Row</span>
-                            mPOS GATEWAY
-                        </div>
-                        <div class="p-3 rounded border border-gray-800 bg-gray-900 flex flex-col justify-center items-center text-gray-400">
-                            <span class="text-[9px] text-gray-600 uppercase block">Digital Coin</span>
-                            Crypto Assets
-                        </div>
-                        <div class="p-3 rounded border border-gray-800 bg-gray-900 flex flex-col justify-center items-center text-gray-400">
-                            <span class="text-[9px] text-gray-600 uppercase block">Settlement</span>
-                            Bank Transfer
-                        </div>
-                        <div class="p-3 rounded border border-gray-800 bg-gray-900 flex flex-col justify-center items-center text-gray-600 line-through">
-                            Traditional Card
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- CENTER COLUMN: MAIN OPERATION RUNWAY & DISPATCH ENGINE (5 COLS) -->
-            <div class="lg:col-span-5 space-y-6">
-                
-                <!-- Random Manager Dispatch Hub (Anti-Collusion Engine) -->
-                <div class="card-bg p-5 rounded-lg shadow-xl border-l-2 border-amber-500/50">
-                    <div class="flex justify-between items-center mb-3">
-                        <h2 class="text-sm font-bold tracking-wider uppercase text-white">Random Manager Dispatch Engine</h2>
-                        <button onclick="rollRandomManagers()" class="text-[10px] bg-gray-800 border border-gray-700 hover:bg-gray-700 px-2 py-1 rounded text-gray-300">Roll (24h Refresh)</button>
-                    </div>
-                    <p class="text-[11px] text-gray-400 mb-3">Anti-Collusion Isolation: You are algorithmically limited to these 3 random choices from separate geographical vectors.</p>
-                    
-                    <div class="space-y-2" id="manager-dispatch-box">
-                        <!-- Dynamic manager cards populate here -->
-                    </div>
-                </div>
-
-                <!-- 10-Member Capital Cycle Cluster -->
-                <div class="card-bg p-5 rounded-lg shadow-xl">
-                    <div class="flex justify-between items-center mb-3 border-b border-gray-800 pb-2">
-                        <h2 class="text-sm font-bold tracking-wider uppercase text-white">10-Member Cluster Serial Ledger</h2>
-                        <span class="text-xs font-mono text-gray-400">Daily: <b class="text-white">$1.01</b></span>
-                    </div>
-                    <div class="space-y-2.5 max-h-[380px] overflow-y-auto pr-1" id="cluster-container">
-                        <!-- Dynamic member states populate here -->
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- RIGHT COLUMN: SECURE CHAT NETWORK & MANAGER SANDBOX VETTING (3 COLS) -->
-            <div class="lg:col-span-3 space-y-6">
-                
-                <!-- Dynamic Lock Secure Chat Box Container -->
-                <div class="card-bg rounded-lg shadow-xl flex flex-col h-[320px] overflow-hidden relative" id="chat-card-panel">
-                    <div class="p-3 bg-gray-900 border-b border-gray-800 flex justify-between items-center">
-                        <span class="text-xs font-bold tracking-wider uppercase text-white">Secure Live Chat Network</span>
-                        <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    </div>
-                    
-                    <!-- Chat Lock Overlay Panel -->
-                    <div id="chat-lock-overlay" class="absolute inset-0 bg-[#111827]/95 z-10 flex flex-col items-center justify-center p-4 text-center space-y-2 hidden">
-                        <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10m3.414-9.414a2 2 0 112.828 2.828L12 14.172l-3.414-3.414a2 2 0 010-2.828z text-red-500"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                        <h3 class="text-xs font-bold uppercase text-white tracking-wider">Access Embargo</h3>
-                        <p class="text-[10px] text-gray-400">Requires an Active Subscription AND a live funded trading/management footprint.</p>
-                    </div>
-
-                    <!-- Active Scroll Area for Chat Log -->
-                    <div class="p-3 flex-1 overflow-y-auto space-y-2 text-[11px] font-mono" id="chat-messages-container">
-                        <div><span class="olive-text">[SYSTEM]:</span> Secure terminal handshake complete.</div>
-                        <div><span class="gold-text">[ADMIN]:</span> Reminder: Golden Statue allocation is strictly performance-driven. Earn it.</div>
-                    </div>
-                    <div class="p-2 bg-gray-900 border-t border-gray-800 flex gap-1">
-                        <input type="text" placeholder="Type transmission..." class="bg-gray-800 border border-gray-700 rounded text-xs px-2 py-1 flex-1 text-white focus:outline-none">
-                        <button class="bg-gray-700 text-white text-xs px-2 rounded font-bold">></button>
-                    </div>
-                </div>
-
-                <!-- Unvetted Manager Sandbox Vetting Area -->
-                <div class="card-bg p-4 rounded-lg shadow-xl">
-                    <h2 class="text-sm font-bold tracking-wider uppercase text-white mb-2">Manager Vetting Trial Box</h2>
-                    <p class="text-[11px] text-gray-400 mb-3">Amateurs entering here to scrape core signals must keep their $4.99/mo subscription ON to remain inside the trial engine.</p>
-                    <div class="space-y-2 text-xs font-mono">
-                        <div class="p-2 bg-gray-900 rounded border border-gray-800 flex justify-between items-center">
-                            <div>
-                                <span class="block font-bold text-white">Candidate_Alpha</span>
-                                <span class="text-[10px] text-gray-500">Trial Day 14/30</span>
-                            </div>
-                            <span class="text-[10px] bg-amber-950 text-amber-400 px-1.5 py-0.5 rounded border border-amber-800">Vetting (Sub ON)</span>
-                        </div>
-                        <div class="p-2 bg-gray-900 rounded border border-gray-800 flex justify-between items-center">
-                            <div>
-                                <span class="block font-bold text-white">Candidate_Beta</span>
-                                <span class="text-[10px] text-gray-500">Trial Day 03/30</span>
-                            </div>
-                            <span class="text-[10px] bg-red-950 text-red-400 px-1.5 py-0.5 rounded border border-red-900/40">Lapsed (Locked)</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- System Footnote Disclaimer -->
-        <div class="card-bg p-4 rounded border border-amber-900/30 bg-amber-950/10 text-[11px] text-gray-400 leading-relaxed">
-            <b class="text-amber-500 uppercase block mb-1">TAKE PROFIT PUBLIC ENVIRONMENTAL DISCLAIMER:</b>
-            Financial market trading involves significant asset risk. Take Profit operates strictly as a technology routing and peer-to-peer funding infrastructure layer. No outcomes, profits, or capital preservation metrics are guaranteed. Platform safety buffers and loss restitutions are allocated dynamically based on available corporate commission reserves and system ledger balances.
-        </div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-label">Peak Balance</div>
+        <div class="info-card-val" id="peakBal">$100.00</div>
+        <div class="info-card-sub">Starting capital</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">Stop Floor</div>
+        <div class="info-card-val" style="color:var(--red)">$50.00</div>
+        <div class="info-card-sub">Broker hardcoded</div>
+      </div>
     </div>
 
-    <!-- EXTERNAL EXTRA CUSTOMER SUPPORT SHORTCUT BAR -->
-    <div class="max-w-7xl mx-auto mt-4 text-center">
-        <a href="https://wa.me/2348130500659" target="_blank" class="inline-flex items-center gap-2 text-xs text-gray-500 hover:text-emerald-400 transition font-mono">
-            <span>[External Tech Support Vector: +2348130500659]</span>
-        </a>
+    <div class="profit-card">
+      <div class="profit-left">
+        <div class="label">Withdrawable Profit</div>
+        <div class="val" id="profitAmt">+$8.42</div>
+      </div>
+      <button class="withdraw-btn">Withdraw</button>
     </div>
 
-    <!-- MAIN CONSOLE LOGIC SCRIPT ENGINE -->
-    <script>
-        // System States
-        let systemTimelineDay = 0;
-        let isSubscriptionActive = true;
-        let selectedManager = null;
-        let systemHasActiveLiveFootprint = false;
-        
-        // Financial Ledger Counters
-        let poolCash = 0;
-        let platformProcessingPot = 0;
-        let platformWithdrawalCuts = 0;
-        let brokerCommissions = 0;
-        let activeRestitutionDebt = 0;
+    <div class="mgr-assigned">
+      <div class="mgr-avatar" id="dashMgrAvatar" style="width:40px;height:40px;border-radius:50%;background:#1a3a5c;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:14px;">KO</div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:700;color:var(--white);" id="dashMgrName">Kwame Osei</div>
+        <div style="font-size:11px;color:var(--muted);">Assigned Manager · West Africa</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:11px;color:var(--green);font-weight:600;">Active</div>
+        <div style="font-size:10px;color:var(--muted);">Grade A</div>
+      </div>
+    </div>
 
-        // Candidate List for Isolation Logic Matrix
-        const regionalPools = {
-            Region_A: ["Manager Kwaghshi (NGA)", "Manager Terna (NGA)", "Manager Solomon (NGA)"],
-            Region_B: ["Manager Vladimer (UK)", "Manager Smith (UK)", "Manager Gordon (UK)"],
-            Region_C: ["Manager Tanaka (JPN)", "Manager Chen (SGP)", "Manager Al-Mansoor (UAE)"]
-        };
-        let currentDispatchedRoll = [];
+    <button class="simulate-btn" onclick="startEvent()">⚡ Simulate 50% Drawdown Event</button>
+  </div>
+</div>
 
-        // 10 Member Matrix Generation
-        let groupCluster = Array.from({ length: 10 }, (_, idx) => ({
-            serial: idx + 1,
-            isFunded: false,
-            principal: 0,
-            floatingProfit: 0,
-            withdrawnProfit: 0,
-            hasSufferedDrawdown: false
-        }));
+<!-- ═══════════════════════════════════════════════
+     SCREEN 5 — THE EVENT
+═══════════════════════════════════════════════ -->
+<div class="screen" id="s5">
+  <div class="event-wrap">
+    <div class="event-icon" id="eventIcon" style="background:rgba(255,71,87,0.15);border:2px solid var(--red);">⚠️</div>
+    <h2 class="event-title" id="eventTitle">50% Hard Stop Triggered</h2>
+    <p class="event-sub" id="eventSub">The broker's hardcoded stop-loss fired the moment your account hit $50.00. Watch what happens next.</p>
 
-        // Trigger Access Code Evaluation
-        function verifyReferralCode() {
-            const inputVal = document.getElementById('ref-code-input').value.trim();
-            if (inputVal.length > 3) {
-                document.getElementById('referral-gate').classList.add('hidden');
-                document.getElementById('main-application').classList.remove('hidden');
-                rollRandomManagers();
-                updateSystemRenderGrid();
-            } else {
-                document.getElementById('gate-error').classList.remove('hidden');
-            }
-        }
+    <div class="event-steps">
+      <div class="event-step" id="es1">
+        <span class="event-step-icon">🔒</span>
+        <div class="event-step-text"><strong>Manager Locked Out — Instantly</strong>Kwame Osei has been stripped of all access to your account. The platform revoked his terminal credentials in real time.</div>
+      </div>
+      <div class="event-step" id="es2">
+        <span class="event-step-icon">📋</span>
+        <div class="event-step-text"><strong>Restitution Lien Activated</strong>Kwame is red-flagged on TP's internal ledger. All earnings from his other 4 active accounts and referral cuts are now intercepted by the platform toward repaying your $50 loss.</div>
+      </div>
+      <div class="event-step" id="es3">
+        <span class="event-step-icon">🏦</span>
+        <div class="event-step-text"><strong>Broker Tops Ledger to $100</strong>Because you use Markets4you, the broker re-credits your account with $50 ledger equity — backed by TP's commission reserves. Liability sits with TP, not the broker.</div>
+      </div>
+      <div class="event-step" id="es4">
+        <span class="event-step-icon">🛡️</span>
+        <div class="event-step-text"><strong>Broker Credit Is Structurally Safe</strong>The broker's 50% hard stop is still active on your restored $100 account. Your new manager can only lose down to $50 — the broker's $50 credit floor cannot be touched by any losing streak.</div>
+      </div>
+    </div>
 
-        // Toggle Platform Subscription State Switch
-        function toggleSubscription() {
-            isSubscriptionActive = !isSubscriptionActive;
-            const btn = document.getElementById('sub-toggle-btn');
-            if (isSubscriptionActive) {
-                btn.className = "bg-emerald-950 text-emerald-400 border border-emerald-800 text-xs font-bold px-4 py-2 rounded transition";
-                btn.innerText = "Subscription: ACTIVE ($4.99/mo)";
-            } else {
-                btn.className = "bg-red-950 text-red-400 border border-red-800 text-xs font-bold px-4 py-2 rounded transition";
-                btn.innerText = "Subscription: LAPSED (LOCKED)";
-            }
-            updateSystemRenderGrid();
-        }
+    <div class="broker-inject" id="brokerInject">
+      <div class="bi-label">Broker Ledger Injection — Markets4you</div>
+      <div class="bi-flow">
+        <span class="bi-from">$50.00 remaining</span>
+        <span class="bi-arrow">＋$50.00 →</span>
+        <span class="bi-to">$100.00 restored</span>
+      </div>
+    </div>
 
-        // Roll 3 Random Managers Across 3 Global Geographies (Anti-Collusion Engine)
-        function rollRandomManagers() {
-            const pickRandom = arr => arr[Math.floor(Math.random() * arr.length)];
-            currentDispatchedRoll = [
-                { name: pickRandom(regionalPools.Region_A), region: "Africa Vector" },
-                { name: pickRandom(regionalPools.Region_B), region: "Europe Vector" },
-                { name: pickRandom(regionalPools.Region_C), region: "Asia-Pacific Vector" }
-            ];
-            updateSystemRenderGrid();
-        }
+    <button class="btn-primary" id="eventNextBtn" style="display:none;width:100%;" onclick="goTo('s6')">Select New Manager →</button>
+  </div>
+</div>
 
-        // Bind Selected Manager Assignment
-        function selectDispatchedManager(index) {
-            if (!isSubscriptionActive) return;
-            selectedManager = currentDispatchedRoll[index].name;
-            updateSystemRenderGrid();
-        }
+<!-- ═══════════════════════════════════════════════
+     SCREEN 6 — RECOVERY
+═══════════════════════════════════════════════ -->
+<div class="screen" id="s6">
+  <div class="rec-header">
+    <div style="font-size:14px;font-weight:700;color:var(--white);">Account Recovery</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:2px;">New manager pool available · Choose within 24hrs</div>
+  </div>
+  <div class="rec-body">
+    <div class="rec-restored">
+      <div class="rec-restored-label">Account Restored By Broker</div>
+      <div class="rec-restored-amt">$100.00</div>
+      <div class="rec-restored-sub">$50 your capital · $50 broker ledger credit (TP backed)</div>
+    </div>
 
-        // Execute Daily State Shifts Inside the Software System
-        function processDayTicks(daysToAdvance) {
-            if (!isSubscriptionActive) return;
+    <div class="lien-card">
+      <div class="lien-label">⛔ Restitution Lien — Kwame Osei</div>
+      <div class="lien-row"><span class="lien-key">Lien amount</span><span class="lien-val" style="color:var(--red)">$50.00</span></div>
+      <div class="lien-row"><span class="lien-key">Source</span><span class="lien-val">Earnings from 4 active accounts</span></div>
+      <div class="lien-row"><span class="lien-key">Referral cuts frozen</span><span class="lien-val">15% earnings intercepted</span></div>
+      <div class="lien-row"><span class="lien-key">Status</span><span class="lien-val" style="color:var(--gold);">Recovering…</span></div>
+    </div>
 
-            for (let d = 0; d < daysToAdvance; d++) {
-                if (systemTimelineDay >= 100) break;
-                systemTimelineDay++;
+    <div style="font-size:13px;font-weight:700;color:var(--white);margin-bottom:10px;">New Manager Pool — Today's Draw</div>
+    <div class="mgr-card" onclick="goTo('s4');showToast('✅','New manager assigned. Account active.',true)">
+      <div class="mgr-top">
+        <div class="mgr-avatar" style="background:#2a1a4a;">RL</div>
+        <div class="mgr-info">
+          <div class="mgr-name">Rafael Lima</div>
+          <div class="mgr-region">🌎 South America · Brazil</div>
+        </div>
+        <span class="mgr-grade grade-a">Grade A</span>
+      </div>
+      <div class="mgr-stats">
+        <div class="mgr-stat"><div class="mgr-stat-val" style="color:var(--green)">+28.7%</div><div class="mgr-stat-lbl">Avg Return</div></div>
+        <div class="mgr-stat"><div class="mgr-stat-val">24mo</div><div class="mgr-stat-lbl">Active</div></div>
+        <div class="mgr-stat"><div class="mgr-stat-val" style="color:var(--green)">3/5</div><div class="mgr-stat-lbl">Accounts</div></div>
+      </div>
+      <div class="mgr-accounts">Tap to assign Rafael as your new manager →</div>
+    </div>
+    <button class="btn-primary" style="width:100%;margin-top:8px;" onclick="goTo('s7')">View Capital Building Plan →</button>
+  </div>
+</div>
 
-                // Collect $1.01 daily parameters from cluster members
-                poolCash += 10; 
-                platformProcessingPot += 0.10;
+<!-- ═══════════════════════════════════════════════
+     SCREEN 7 — CAPITAL BUILDING
+═══════════════════════════════════════════════ -->
+<div class="screen" id="s7">
+  <div class="cap-header">
+    <div style="font-size:14px;font-weight:700;color:var(--white);">Capital Building Plan</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:2px;">Build a funded trading account without upfront capital</div>
+  </div>
+  <div class="cap-body">
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px;line-height:1.6;">Contribute 1% of your target account daily for 100 days. Your manager trades the account from day one. Profits are withdrawable in real time.</div>
 
-                // Evaluate 10-day block allocations to boot active live trading funds
-                if (systemTimelineDay % 10 === 0) {
-                    let sequentialSlot = systemTimelineDay / 10;
-                    let targetMember = groupCluster.find(m => m.serial === sequentialSlot);
-                    if (targetMember && !targetMember.hasSufferedDrawdown) {
-                        targetMember.isFunded = true;
-                        targetMember.principal = 100.00;
-                        systemHasActiveLiveFootprint = true;
-                    }
-                }
+    <div class="tier-grid">
+      <div class="tier-card selected" id="t1" onclick="selectTier(100,1,0.01)">
+        <div class="tier-amt">$100</div>
+        <div class="tier-daily">$1.01 / day</div>
+        <div class="tier-total">Total: ~$101</div>
+      </div>
+      <div class="tier-card" id="t2" onclick="selectTier(1000,10,0.10)">
+        <div class="tier-amt">$1,000</div>
+        <div class="tier-daily">$10.10 / day</div>
+        <div class="tier-total">Total: ~$1,010</div>
+      </div>
+      <div class="tier-card" id="t3" onclick="selectTier(10000,100,1.00)">
+        <div class="tier-amt">$10,000</div>
+        <div class="tier-daily">$101.00 / day</div>
+        <div class="tier-total">Total: ~$10,100</div>
+      </div>
+      <div class="tier-card" id="t4" onclick="selectTier(500000,5000,50.00)">
+        <div class="tier-amt">$500K</div>
+        <div class="tier-daily">$5,050 / day</div>
+        <div class="tier-total">Total: ~$505K</div>
+      </div>
+    </div>
 
-                // Simulate Live Execution & Stream Broker Commissions (Markets4you layer simulation)
-                groupCluster.forEach(member => {
-                    if (member.isFunded && !member.hasSufferedDrawdown) {
-                        brokerCommissions += Math.random() * 0.45; // Every trade lot streams partner splits
-                        if (Math.random() > 0.4) {
-                            member.floatingProfit += Math.random() * 3.10;
-                        }
-                    }
-                });
-            }
-            updateSystemRenderGrid();
-        }
+    <div class="progress-section">
+      <div class="prog-top">
+        <span class="prog-title" id="progTitle">$100 Tier</span>
+        <span class="prog-day" id="progDay">Day 23 / 100</span>
+      </div>
+      <div class="prog-bar-wrap"><div class="prog-bar-fill" id="progFill" style="width:23%;"></div></div>
+      <div class="prog-stats">
+        <div><div class="prog-stat-val" id="progPaid">$23.23</div><div class="prog-stat-lbl">Contributed</div></div>
+        <div><div class="prog-stat-val" id="progTarget">$100</div><div class="prog-stat-lbl">Target Account</div></div>
+        <div><div class="prog-stat-val" id="progRemain">77 days</div><div class="prog-stat-lbl">Remaining</div></div>
+      </div>
+    </div>
 
-        // Simulate 50% Hard Drawdown Shock Event to Test Safety Net Routing
-        function triggerForcedDrawdown() {
-            // Find the first live funded slot to test asset restitution framework
-            let activeTarget = groupCluster.find(m => m.isFunded && !m.hasSufferedDrawdown);
-            if (!activeTarget) return;
+    <div class="contrib-log">
+      <div class="contrib-title">Contribution Log</div>
+      <div class="contrib-row"><span class="contrib-day">Day 23</span><span class="contrib-amt" id="camt">$1.01</span><span class="contrib-status">✓ Paid</span></div>
+      <div class="contrib-row"><span class="contrib-day">Day 22</span><span class="contrib-amt" id="camt2">$1.01</span><span class="contrib-status">✓ Paid</span></div>
+      <div class="contrib-row"><span class="contrib-day">Day 21</span><span class="contrib-amt" id="camt3">$1.01</span><span class="contrib-status">✓ Paid</span></div>
+      <div class="contrib-row" style="color:var(--red);"><span class="contrib-day" style="color:var(--muted);">Miss</span><span class="contrib-amt" style="color:var(--red);">—</span><span style="font-size:10px;color:var(--red);">❌ Reset</span></div>
+    </div>
 
-            activeTarget.hasSufferedDrawdown = true;
-            activeTarget.principal = 50.00; // Drops by half
-            activeRestitutionDebt += 50.00; // Red-flag ledger log recorded
+    <div class="profit-avail">
+      <div>
+        <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:4px;">Profit Withdrawable Now</div>
+        <div style="font-size:20px;font-weight:800;color:var(--green);font-family:'JetBrains Mono',monospace;" id="capProfit">+$3.14</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px;">Capital ($100) locked until Day 100</div>
+      </div>
+      <button class="withdraw-btn">Withdraw</button>
+    </div>
+    <button class="btn-primary" style="width:100%;" onclick="goTo('s8')">View Manager Dashboard →</button>
+  </div>
+</div>
 
-            // Execution Step: System evaluates broker partner link (Markets4you setup)
-            if (brokerCommissions >= 50.00) {
-                // If accumulated backend commission pot handles it, buffer injects automatically
-                brokerCommissions -= 50.00;
-                activeTarget.principal = 100.00; // Returns to full leveraging footprint
-                activeRestitutionDebt -= 50.00;
-                appendSystemChatLog("[SYSTEM ENGINE]: 50% Drawdown logged on Slot #" + activeTarget.serial + ". Manager detached. Markets4you Partner Commission Buffer deployed. Account equity restored to $100.00.");
-            } else {
-                appendSystemChatLog("[SYSTEM ENGINE]: 50% Drawdown logged on Slot #" + activeTarget.serial + ". Manager detached. Restitution lien placed on manager pool balance. Waiting for commission tracking to fill buffer.");
-            }
-            updateSystemRenderGrid();
-        }
+<!-- ═══════════════════════════════════════════════
+     SCREEN 8 — MANAGER VIEW
+═══════════════════════════════════════════════ -->
+<div class="screen" id="s8">
+  <div class="mv-header">
+    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:2px;">Manager Terminal</div>
+    <div style="font-size:15px;font-weight:700;color:var(--white);">Kwame Osei · Grade A</div>
+  </div>
+  <div class="mv-body">
+    <div class="mv-income">
+      <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">Income Summary</div>
+      <div class="mv-income-grid">
+        <div class="mv-income-item">
+          <div class="mv-income-val" style="color:var(--green);">+$412.80</div>
+          <div class="mv-income-lbl">Mgmt Fees (available)</div>
+        </div>
+        <div class="mv-income-item">
+          <div class="mv-income-val" style="color:var(--red);">-$50.00</div>
+          <div class="mv-income-lbl">Lien (frozen)</div>
+        </div>
+        <div class="mv-income-item">
+          <div class="mv-income-val" style="color:var(--gold);">+$87.30</div>
+          <div class="mv-income-lbl">Referral Cuts</div>
+        </div>
+        <div class="mv-income-item">
+          <div class="mv-income-val" style="color:var(--muted);">0 liability</div>
+          <div class="mv-income-lbl">Personal Risk</div>
+        </div>
+      </div>
+    </div>
 
-        // Extract Gross Profits and Deduct Platform 15% Withdrawal Splitting Fees
-        function releaseProfitSplit(serialId) {
-            let member = groupCluster.find(m => m.serial === serialId);
-            if (member && member.floatingProfit > 0) {
-                let initialProfitValue = member.floatingProfit;
-                let coreCut = initialProfitValue * 0.15;
-                let clearedUserYield = initialProfitValue - coreCut;
+    <div class="accounts-title">Managed Accounts (4 of 5)</div>
 
-                platformWithdrawalCuts += coreCut;
-                member.withdrawnProfit += clearedUserYield;
-                member.floatingProfit = 0;
+    <div class="acc-card">
+      <div class="acc-top">
+        <span class="acc-name">Trader: J. Mensah</span>
+        <span class="acc-status status-live">● Live</span>
+      </div>
+      <div class="acc-bar-wrap"><div class="acc-bar-fill" style="width:18%;background:var(--green);"></div></div>
+      <div class="acc-footer">
+        <span class="acc-dd">DD: 18%</span>
+        <span class="acc-earn" style="color:var(--green);">+$94.20 earned</span>
+      </div>
+    </div>
 
-                updateSystemRenderGrid();
-            }
-        }
+    <div class="acc-card">
+      <div class="acc-top">
+        <span class="acc-name">Trader: P. Santos</span>
+        <span class="acc-status status-live">● Live</span>
+      </div>
+      <div class="acc-bar-wrap"><div class="acc-bar-fill" style="width:31%;background:var(--gold);"></div></div>
+      <div class="acc-footer">
+        <span class="acc-dd">DD: 31%</span>
+        <span class="acc-earn" style="color:var(--green);">+$142.60 earned</span>
+      </div>
+    </div>
 
-        // Push Raw Events Onto Chat Pipeline Log
-        function appendSystemChatLog(msg) {
-            const box = document.getElementById('chat-messages-container');
-            box.innerHTML += `<div class="text-amber-400 font-sans">${msg}</div>`;
-            box.scrollTop = box.scrollHeight;
-        }
+    <div class="acc-card">
+      <div class="acc-top">
+        <span class="acc-name">Trader: M. Yusuf</span>
+        <span class="acc-status status-live">● Live</span>
+      </div>
+      <div class="acc-bar-wrap"><div class="acc-bar-fill" style="width:9%;background:var(--green);"></div></div>
+      <div class="acc-footer">
+        <span class="acc-dd">DD: 9%</span>
+        <span class="acc-earn" style="color:var(--green);">+$176.00 earned</span>
+      </div>
+    </div>
 
-        // Master Layout Render Controller
-        function updateSystemRenderGrid() {
-            // UI Component Pointers
-            document.getElementById('sim-day').innerText = systemTimelineDay;
-            document.getElementById('ledger-pool').innerText = `$${poolCash.toFixed(2)}`;
-            document.getElementById('ledger-fees').innerText = `$${platformProcessingPot.toFixed(2)}`;
-            document.getElementById('ledger-cuts').innerText = `$${platformWithdrawalCuts.toFixed(2)}`;
-            document.getElementById('ledger-comm').innerText = `$${brokerCommissions.toFixed(2)}`;
-            document.getElementById('ledger-debt').innerText = `$${activeRestitutionDebt.toFixed(2)}`;
+    <div class="acc-card lien-active">
+      <div class="acc-top">
+        <span class="acc-name">Trader: Alex Trader</span>
+        <span class="acc-status status-lien">⛔ Lien Active</span>
+      </div>
+      <div class="acc-bar-wrap"><div class="acc-bar-fill" style="width:50%;background:var(--red);"></div></div>
+      <div class="acc-footer">
+        <span class="acc-dd" style="color:var(--red);">DD: 50% — STOPPED</span>
+        <span class="acc-earn" style="color:var(--red);">$50.00 to repay</span>
+      </div>
+    </div>
 
-            // 1. Evaluate Live Chat Lockout Matrix Rules
-            const isChatAllowed = isSubscriptionActive && (systemTimelineDay >= 100 || systemHasActiveLiveFootprint);
-            const overlay = document.getElementById('chat-lock-overlay');
-            if (isChatAllowed) {
-                overlay.classList.add('hidden');
-            } else {
-                overlay.classList.remove('hidden');
-            }
+    <div style="background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.15);border-radius:10px;padding:14px;margin-top:4px;">
+      <div style="font-size:11px;color:var(--green);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;">Zero Personal Liability</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.6;">Kwame carries no personal financial liability for any of these accounts. Market losses are absorbed by the platform's structured safety net — not the manager's personal capital.</div>
+    </div>
 
-            // 2. Render Anti-Collusion Dispatch Frame Selection Elements
-            const managerBox = document.getElementById('manager-dispatch-box');
-            managerBox.innerHTML = '';
-            currentDispatchedRoll.forEach((mgr, idx) => {
-                let isSelected = selectedManager === mgr.name;
-                managerBox.innerHTML += `
-                    <div class="p-3 rounded border ${isSelected ? 'border-amber-500 bg-amber-950/15' : 'border-gray-800 bg-gray-900'} flex justify-between items-center text-xs">
-                        <div>
-                            <span class="block font-bold text-white">${mgr.name}</span>
-                            <span class="text-[10px] text-gray-500">${mgr.region}</span>
-                        </div>
-                        <button onclick="selectDispatchedManager(${idx})" class="text-[11px] px-3 py-1 rounded font-bold ${isSelected ? 'bg-amber-500 text-gray-950' : 'bg-gray-800 hover:bg-gray-700 text-white border border-gray-700'}">
-                            ${isSelected ? 'Dispatched' : 'Assign'}
-                        </button>
-                    </div>
-                `;
-            });
+    <button class="btn-primary" style="width:100%;margin-top:16px;" onclick="goTo('s9')">View Full Alignment →</button>
+  </div>
+</div>
 
-            // 3. Render Multi-Tier 10 Member Cluster Operations Grid
-            const clusterBox = document.getElementById('cluster-container');
-            clusterBox.innerHTML = '';
-            groupCluster.forEach(mbr => {
-                let fundingThreshold = mbr.serial * 10;
-                let layoutBorder = 'border-gray-800';
-                let stateBadge = `<span class="bg-gray-800 text-gray-400 border border-gray-700 text-[9px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">In Queue (${fundingThreshold}d)</span>`;
-                
-                if (mbr.isFunded) {
-                    layoutBorder = 'border-emerald-900/40 bg-emerald-950/5';
-                    stateBadge = `<span class="bg-emerald-950/80 text-emerald-400 border border-emerald-800 text-[9px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">Live Active</span>`;
-                }
-                if (mbr.hasSufferedDrawdown && mbr.principal === 50) {
-                    layoutBorder = 'border-red-900/50 bg-red-950/5';
-                    stateBadge = `<span class="bg-red-950 text-red-400 border border-red-900/40 text-[9px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">Drawdown Lockout</span>`;
-                }
+<!-- ═══════════════════════════════════════════════
+     SCREEN 9 — ALIGNMENT SUMMARY
+═══════════════════════════════════════════════ -->
+<div class="screen" id="s9">
+  <div class="align-header">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">The Four-Party Alignment</div>
+    <div style="font-size:16px;font-weight:800;color:var(--white);">Everyone wins by design.</div>
+  </div>
+  <div class="align-body">
 
-                let withdrawalActionMarkup = '';
-                if (mbr.isFunded && mbr.floatingProfit > 0) {
-                    withdrawalActionMarkup = `
-                        <button onclick="releaseProfitSplit(${mbr.serial})" class="bg-gradient-to-r from-yellow-600 to-amber-600 text-gray-950 text-[11px] font-bold px-2.5 py-1 rounded transition">
-                            Split Profit
-                        </button>
-                    `;
-                }
+    <div class="party-card">
+      <div class="party-top">
+        <div class="party-icon" style="background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.2);">📈</div>
+        <div><div class="party-name">The Retail Trader</div><div class="party-role">Protected participant</div></div>
+      </div>
+      <div class="party-items">
+        <div class="party-item"><div class="party-dot" style="background:var(--green);"></div>Professional manager handles execution — no emotional trading</div>
+        <div class="party-item"><div class="party-dot" style="background:var(--green);"></div>50% hard stop enforced at broker level — permanent loss nearly impossible</div>
+        <div class="party-item"><div class="party-dot" style="background:var(--green);"></div>Broker tops account after a drawdown event, backed by TP</div>
+        <div class="party-item"><div class="party-dot" style="background:var(--green);"></div>Profit withdrawable any time — capital stays working</div>
+      </div>
+    </div>
 
-                let executionConstraintText = systemTimelineDay >= 100
-                    ? `<span class="text-emerald-400 font-bold uppercase">Unlocked</span>`
-                    : `<span class="text-red-500 font-medium text-[10px]">LOCKED UNTIL 100D</span>`;
+    <div class="party-card">
+      <div class="party-top">
+        <div class="party-icon" style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);">🏆</div>
+        <div><div class="party-name">The Professional Manager</div><div class="party-role">Elite trader, zero personal liability</div></div>
+      </div>
+      <div class="party-items">
+        <div class="party-item"><div class="party-dot" style="background:var(--gold);"></div>Manages up to 5 client accounts — deploys skill at scale</div>
+        <div class="party-item"><div class="party-dot" style="background:var(--gold);"></div>Zero personal financial liability for market losses</div>
+        <div class="party-item"><div class="party-dot" style="background:var(--gold);"></div>Spreads own capital across 5 accounts managed by other vetted managers</div>
+        <div class="party-item"><div class="party-dot" style="background:var(--gold);"></div>Earns 15% referral cut from everyone they bring to the platform</div>
+      </div>
+    </div>
 
-                clusterBox.innerHTML += `
-                    <div class="p-3 rounded-md bg-gray-900/50 border ${layoutBorder} flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 transition">
-                        <div class="space-y-0.5">
-                            <div class="flex items-center gap-2">
-                                <span class="font-mono text-sm font-bold text-white">#${String(mbr.serial).padStart(2, '0')}</span>
-                                ${stateBadge}
-                            </div>
-                            <div class="grid grid-cols-2 gap-x-3 text-[11px] text-gray-400 font-mono">
-                                <div>Equity: <b class="text-white">$${mbr.principal.toFixed(2)}</b></div>
-                                <div>Principal Release: ${executionConstraintText}</div>
-                                <div>Profit Stack: <b class="olive-text">+$${mbr.floatingProfit.toFixed(2)}</b></div>
-                                <div>Realized Cash: <b class="text-gray-300">$${mbr.withdrawnProfit.toFixed(2)}</b></div>
-                            </div>
-                        </div>
-                        <div>${withdrawalActionMarkup}</div>
-                    </div>
-                `;
-            });
-        }
-    </script>
+    <div class="party-card">
+      <div class="party-top">
+        <div class="party-icon" style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.2);">🏦</div>
+        <div><div class="party-name">Partner Brokers</div><div class="party-role">Exness · Markets4you · IC Markets · Deriv · Binance · ByBit · and more</div></div>
+      </div>
+      <div class="party-items">
+        <div class="party-item"><div class="party-dot" style="background:var(--blue);"></div>Traders stay active longer — retention problem solved externally</div>
+        <div class="party-item"><div class="party-dot" style="background:var(--blue);"></div>New fully-funded live account deployed on their platform every 10 days</div>
+        <div class="party-item"><div class="party-dot" style="background:var(--blue);"></div>Volume commissions earned on every trade — routed back to TP as buffer</div>
+        <div class="party-item"><div class="party-dot" style="background:var(--blue);"></div>Brokers become TP's primary advertisers — zero acquisition cost to TP</div>
+      </div>
+    </div>
+
+    <div class="party-card">
+      <div class="party-top">
+        <div class="party-icon" style="background:rgba(255,255,255,0.05);border:1px solid var(--border);">
+          <svg width="20" height="20" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" fill="#0d0d0d" rx="3"/><text x="2" y="20" font-family="Inter" font-weight="900" font-size="16" fill="white">T</text><text x="12" y="20" font-family="Inter" font-weight="900" font-size="16" fill="white">P</text><line x1="13" y1="4" x2="13" y2="21" stroke="white" stroke-width="1.5" opacity="0.4"/></svg>
+        </div>
+        <div><div class="party-name">Take Profit · PPG Solutions</div><div class="party-role">The technology router</div></div>
+      </div>
+      <div class="party-items">
+        <div class="party-item"><div class="party-dot" style="background:var(--white);"></div>$4.99/month subscriptions — traders and managers</div>
+        <div class="party-item"><div class="party-dot" style="background:var(--white);"></div>15% service fee on all profit withdrawals — both sides</div>
+        <div class="party-item"><div class="party-dot" style="background:var(--white);"></div>1% daily platform fee on capital-building contributions</div>
+        <div class="party-item"><div class="party-dot" style="background:var(--white);"></div>Forfeited capital from missed daily contributions</div>
+        <div class="party-item"><div class="party-dot" style="background:var(--white);"></div>Volume commissions from partner brokers</div>
+      </div>
+    </div>
+
+    <div class="final-cta">
+      <div class="final-logo">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" fill="#0d0d0d" rx="6"/><text x="5" y="35" font-family="Inter" font-weight="900" font-size="30" fill="white">T</text><text x="23" y="35" font-family="Inter" font-weight="900" font-size="30" fill="white">P</text><line x1="24" y1="8" x2="24" y2="38" stroke="white" stroke-width="2" opacity="0.4"/></svg>
+      </div>
+      <div class="final-title">Take Profit</div>
+      <div class="final-sub">Built on alignment. Sustained by discipline.<br/>A PPG Solutions product.</div>
+      <button class="restart-btn" onclick="restart()">↩ Restart Simulation</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV BAR -->
+<div class="nav-bar" id="navBar" style="display:none;">
+  <button class="nav-btn" onclick="goTo('s4')" id="nav-s4"><span>📊</span><span>Dashboard</span></button>
+  <button class="nav-btn" onclick="goTo('s7')" id="nav-s7"><span>🏗️</span><span>Build</span></button>
+  <button class="nav-btn" onclick="goTo('s8')" id="nav-s8"><span>🎯</span><span>Manager</span></button>
+  <button class="nav-btn" onclick="goTo('s9')" id="nav-s9"><span>⚖️</span><span>Align</span></button>
+</div>
+
+<script>
+// ── STATE ──────────────────────────────────────
+let currentScreen = 's1';
+let selectedMgr = null;
+let ddInterval = null;
+let ddValue = 0;
+let balance = 100;
+
+const navScreens = ['s4','s5','s6','s7','s8','s9'];
+
+// ── NAVIGATION ─────────────────────────────────
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  currentScreen = id;
+  const nav = document.getElementById('navBar');
+  nav.style.display = navScreens.includes(id) ? 'flex' : 'none';
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const nb = document.getElementById('nav-'+id);
+  if(nb) nb.classList.add('active');
+  document.getElementById(id).scrollTop = 0;
+  if(id==='s2') initGate();
+  if(id==='s4') startDashboard();
+  if(id==='s5') initEvent();
+}
+
+// ── TICKER ─────────────────────────────────────
+const pairs = [
+  ['XAUUSD','2,314.50','+0.42%',true],
+  ['EURUSD','1.0847','-0.18%',false],
+  ['BTCUSD','67,420','+1.24%',true],
+  ['GBPUSD','1.2634','+0.09%',true],
+  ['ETHUSD','3,542','-0.33%',false],
+  ['USDJPY','157.82','+0.21%',true],
+  ['USOIL','78.34','-0.55%',false],
+  ['NASDAQ','19,840','+0.67%',true],
+];
+function buildTicker(){
+  const t = document.getElementById('ticker');
+  const doubled = [...pairs,...pairs];
+  t.innerHTML = doubled.map(([p,v,c,up])=>`
+    <span class="tick-item">
+      <span style="color:var(--muted)">${p}</span>
+      <span>${v}</span>
+      <span class="${up?'tick-up':'tick-dn'}">${c}</span>
+    </span>`).join('');
+}
+buildTicker();
+
+// ── GATE ───────────────────────────────────────
+function initGate(){
+  ['gs1','gs2','gs3'].forEach((id,i)=>{
+    setTimeout(()=>{document.getElementById(id).classList.add('visible');},i*200);
+  });
+}
+
+function handleRef(el){
+  const val = el.value.toUpperCase().replace(/[^A-Z0-9-]/g,'');
+  el.value = val;
+  if(val.length>=6){
+    document.getElementById('gs2icon').className='step-icon active';
+    setTimeout(()=>{
+      const fill = document.getElementById('verifyFill');
+      fill.style.width='100%';
+      setTimeout(()=>{
+        document.getElementById('gs2icon').className='step-icon done';
+        document.getElementById('gs2icon').textContent='✓';
+        document.getElementById('gs3icon').className='step-icon active';
+        setTimeout(()=>{
+          document.getElementById('gs3icon').className='step-icon done';
+          document.getElementById('gs3icon').textContent='✓';
+          document.getElementById('gateBtn').style.display='block';
+        },1200);
+      },1600);
+    },300);
+  }
+}
+
+// ── MANAGER SELECTION ──────────────────────────
+const mgrData = {
+  1:{name:'Kwame Osei',region:'West Africa',initials:'KO',color:'#1a3a5c',grade:'A'},
+  2:{name:'Rafael Lima',region:'South America',initials:'RL',color:'#2a1a4a',grade:'A'},
+  3:{name:'Sarah Chen',region:'East Asia',initials:'SC',color:'#1a3a2a',grade:'B+'},
+};
+
+function selectMgr(id){
+  selectedMgr = id;
+  document.querySelectorAll('.mgr-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('mc'+id).classList.add('selected');
+  document.getElementById('selectMgrBtn').classList.add('show');
+}
+
+function confirmMgr(){
+  const m = mgrData[selectedMgr||1];
+  document.getElementById('assignedMgrName').textContent = m.name;
+  document.getElementById('dashMgrName').textContent = m.name;
+  document.getElementById('dashMgrAvatar').textContent = m.initials;
+  document.getElementById('dashMgrAvatar').style.background = m.color;
+  goTo('s4');
+}
+
+// ── DASHBOARD ─────────────────────────────────
+function startDashboard(){
+  if(ddInterval) clearInterval(ddInterval);
+  // gentle drift up profit
+  let profit = 8.42;
+  ddInterval = setInterval(()=>{
+    profit += Math.random()*0.04;
+    document.getElementById('profitAmt').textContent = '+$'+profit.toFixed(2);
+  },1500);
+}
+
+// ── SIMULATE EVENT ─────────────────────────────
+function startEvent(){
+  if(ddInterval) clearInterval(ddInterval);
+  // Animate drawdown on dashboard first
+  let dd = 0;
+  const fill = document.getElementById('ddFill');
+  const pct = document.getElementById('ddPct');
+  const bal = document.getElementById('balAmount');
+  const anim = setInterval(()=>{
+    dd += 1.5;
+    if(dd>=50){dd=50;clearInterval(anim);
+      setTimeout(()=>{
+        showToast('⚠️','50% Hard Stop triggered! Manager locked out.',false);
+        setTimeout(()=>goTo('s5'),1800);
+      },400);
+    }
+    const ratio = dd/100;
+    fill.style.width = (dd*2)+'%'; // bar is 0-100% width representing 0-50% of account
+    const r = Math.round(255*Math.min(1,dd/40));
+    const g = Math.round(170*Math.max(0,1-dd/30));
+    fill.style.background = `rgb(${r},${g},${80-dd})`;
+    pct.textContent = dd.toFixed(1)+'%';
+    pct.style.color = dd>40?'var(--red)':dd>25?'var(--gold)':'var(--green)';
+    bal.textContent = '$'+(100-dd).toFixed(2);
+  },60);
+}
+
+// ── EVENT SCREEN ───────────────────────────────
+function initEvent(){
+  ['es1','es2','es3','es4'].forEach(id=>document.getElementById(id).classList.remove('fire'));
+  document.getElementById('brokerInject').classList.remove('show');
+  document.getElementById('eventNextBtn').style.display='none';
+  setTimeout(()=>document.getElementById('es1').classList.add('fire'),400);
+  setTimeout(()=>document.getElementById('es2').classList.add('fire'),1200);
+  setTimeout(()=>document.getElementById('es3').classList.add('fire'),2200);
+  setTimeout(()=>document.getElementById('brokerInject').classList.add('show'),3000);
+  setTimeout(()=>document.getElementById('es4').classList.add('fire'),3600);
+  setTimeout(()=>document.getElementById('eventNextBtn').style.display='block',4400);
+}
+
+// ── CAPITAL BUILDING ───────────────────────────
+function selectTier(target, daily, fee){
+  document.querySelectorAll('.tier-card').forEach(c=>c.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  const total = (daily+fee)*23;
+  document.getElementById('progTitle').textContent = '$'+target.toLocaleString()+' Tier';
+  document.getElementById('progPaid').textContent = '$'+(total).toFixed(2);
+  document.getElementById('progTarget').textContent = '$'+target.toLocaleString();
+  const damt = (daily+fee).toFixed(2);
+  ['camt','camt2','camt3'].forEach(id=>document.getElementById(id).textContent='$'+damt);
+  document.getElementById('capProfit').textContent = '+$'+(daily*3.14).toFixed(2);
+}
+
+// ── TOAST ──────────────────────────────────────
+function showToast(icon, msg, isGreen){
+  const t = document.getElementById('toast');
+  document.getElementById('toast-icon').textContent = icon;
+  document.getElementById('toast-msg').textContent = msg;
+  t.className = 'toast'+(isGreen?' toast-green':'');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+
+// ── RESTART ────────────────────────────────────
+function restart(){
+  selectedMgr=null;
+  ddValue=0;
+  balance=100;
+  document.getElementById('balAmount').textContent='$100.00';
+  document.getElementById('ddFill').style.width='0%';
+  document.getElementById('ddPct').textContent='0.0%';
+  document.getElementById('profitAmt').textContent='+$8.42';
+  document.getElementById('refInput').value='';
+  document.getElementById('gateBtn').style.display='none';
+  document.getElementById('gs2icon').className='step-icon pending';
+  document.getElementById('gs2icon').textContent='🪪';
+  document.getElementById('gs3icon').className='step-icon pending';
+  document.getElementById('gs3icon').textContent='💳';
+  document.getElementById('verifyFill').style.width='0%';
+  document.querySelectorAll('.mgr-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('selectMgrBtn').classList.remove('show');
+  goTo('s1');
+}
+
+// ── TIMER TICK ─────────────────────────────────
+setInterval(()=>{
+  const t = document.getElementById('refreshTimer');
+  if(t) t.textContent = 'Refreshes in 23:'+String(Math.floor(Math.random()*59)).padStart(2,'0')+':'+String(Math.floor(Math.random()*59)).padStart(2,'0');
+},1000);
+</script>
 </body>
 </html>
