@@ -1,60 +1,64 @@
 export default function Features() {
-  const features = [
+  const panels = [
     {
-      title: "Learn",
-      text: "Start with the basics.",
+      title: "Keep Trading",
+      description:
+        "One losing trade should not permanently end your trading journey.",
     },
     {
-      title: "Practice",
-      text: "Build confidence over time.",
+      title: "Trading Capital",
+      description:
+        "Access trading capital without taking on liability.",
     },
     {
-      title: "Grow",
-      text: "Move forward one step at a time.",
+      title: "Managed Trading",
+      description:
+        "Participate through experienced managers under the Take Profit platform.",
+    },
+    {
+      title: "Learn Before Launch",
+      description:
+        "Join the waitlist and discover how Take Profit works before launch.",
     },
   ];
 
   return (
-    <section className="bg-neutral-50 py-32 px-6">
-      <div className="max-w-6xl mx-auto">
+    <section className="bg-white py-32 px-6">
+      <div className="max-w-7xl mx-auto">
 
-        <div className="text-center mb-24">
-          <h2 className="text-5xl font-semibold text-black">
-            One step at a time
+        <div className="text-center max-w-4xl mx-auto mb-24">
+          <h2 className="text-5xl md:text-6xl font-semibold text-black">
+            Why Take Profit?
           </h2>
 
-          <p className="mt-6 text-lg text-neutral-600">
-            Learn
+          <p className="mt-8 text-xl text-neutral-600 leading-9">
+            A platform built around one belief.
             <br />
-            Practice
+            Losing a trade is fine.
             <br />
-            Grow
+            Losing permanently is not.
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2">
 
-          {features.map((item) => (
-
+          {panels.map((panel) => (
             <div
-              key={item.title}
-              className="rounded-[32px] bg-white border border-neutral-200 p-10 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+              key={panel.title}
+              className="rounded-[32px] border border-neutral-200 bg-neutral-50 p-10 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
             >
-
-              <div className="w-16 h-16 rounded-2xl border border-neutral-300 mb-8 flex items-center justify-center">
+              <div className="w-16 h-16 rounded-2xl border border-neutral-300 flex items-center justify-center mb-8">
                 <div className="w-6 h-6 rounded-full bg-black"></div>
               </div>
 
               <h3 className="text-3xl font-semibold text-black mb-5">
-                {item.title}
+                {panel.title}
               </h3>
 
-              <p className="text-neutral-600 text-lg leading-8">
-                {item.text}
+              <p className="text-lg leading-8 text-neutral-600">
+                {panel.description}
               </p>
-
             </div>
-
           ))}
 
         </div>

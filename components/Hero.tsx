@@ -4,24 +4,25 @@ export default function Hero() {
       <img
         src="/logo.svg"
         alt="Take Profit"
-        className="w-20 h-20 mb-8"
+        className="w-24 h-24 mb-12"
       />
 
-      <h1 className="text-5xl md:text-7xl font-semibold text-black">
-        Trade better
+      <h1 className="text-5xl md:text-7xl font-semibold text-black leading-tight">
+        Trade differently.
       </h1>
 
-      <p className="mt-6 text-xl text-neutral-600">
-        Learn
+      <p className="mt-8 text-2xl text-neutral-600 leading-relaxed">
+        Discover a new path.
         <br />
-        Practice
-        <br />
-        Grow
+        You can now earn.
       </p>
 
-      <button className="mt-10 rounded-full bg-black text-white px-8 py-4">
-        Join Waitlist
-      </button>
+      <a
+  href="#waitlist"
+  className="inline-flex items-center justify-center rounded-full bg-black px-10 py-5 text-white font-semibold"
+>
+  Join Waitlist
+</a>
     </section>
   );
 }
