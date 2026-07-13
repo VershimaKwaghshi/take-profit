@@ -1,10 +1,11 @@
 "use client";
 
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 export default function VerifyPage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const email = searchParams.get("email") || "";
 
   const [code, setCode] = useState("");
@@ -15,7 +16,7 @@ export default function VerifyPage() {
     setLoading(true);
     setMessage("");
 
-    const response = await fetch("/api/waitlist/verify", {
+    const response = await fetch("/api/verify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -36,6 +37,7 @@ export default function VerifyPage() {
 
     setMessage("Email verified successfully");
     setLoading(false);
+    router.push("/success");
   }
 
   return (

@@ -21,13 +21,10 @@ export default function Waitlist() {
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  async function handleSubmit(
-    event: React.FormEvent<HTMLFormElement>
-  ) {
-    event.preventDefault();
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  event.preventDefault();
 
-    setSubmitting(true);
-    setMessage("Connecting...");
+  setMessage("Submitting...");
 
     try {
       const response = await fetch("/api/waitlist", {

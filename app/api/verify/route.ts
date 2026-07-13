@@ -8,16 +8,16 @@ const supabase = createClient(
 
 export async function POST(request: Request) {
   try {
-    const data = await request.json();
+    const { email, code } = await request.json();
 
-    const { data: entry, error } = await supabase
+    const { data, error } = await supabase
       .from("waitlist")
       .select("*")
-      .eq("email", data.email)
-      .eq("verification_code", data.code)
+      .eq("email", email)
+      .eq("verification_code", code)
       .single();
 
-    if (error || !entry) {
+    if (error || !data) {
       return NextResponse.json(
         { error: "Invalid verification code" },
         { status: 400 }
@@ -25,8 +25,8 @@ export async function POST(request: Request) {
     }
 
     if (
-      new Date(entry.verification_expires_at).getTime() <
-      Date.now()
+      !data.verification_expires_at ||
+      new Date(data.verification_expires_at).getTime() < Date.now()
     ) {
       return NextResponse.json(
         { error: "Verification code has expired" },
@@ -38,11 +38,11 @@ export async function POST(request: Request) {
       .from("waitlist")
       .update({
         email_verified: true,
+        status: "verified",
         verification_code: null,
         verification_expires_at: null,
-        status: "verified",
       })
-      .eq("email", data.email);
+      .eq("email", email);
 
     if (updateError) {
       return NextResponse.json(
