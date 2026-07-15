@@ -21,10 +21,13 @@ export default function Waitlist() {
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-  event.preventDefault();
+  async function handleSubmit(
+    event: React.FormEvent<HTMLFormElement>
+  ) {
+    event.preventDefault();
 
-  setMessage("Submitting...");
+    setSubmitting(true);
+    setMessage("");
 
     try {
       const response = await fetch("/api/waitlist", {
@@ -64,9 +67,10 @@ export default function Waitlist() {
         return;
       }
 
-    window.location.href = `/verify?email=${encodeURIComponent(email)}`;
+      window.location.href =
+        `/verify?email=${encodeURIComponent(email)}`;
     } catch (error) {
-      console.error(error);
+      console.error("Waitlist submission error:", error);
       setMessage("Unable to connect. Try again.");
     } finally {
       setSubmitting(false);
@@ -84,7 +88,7 @@ export default function Waitlist() {
             Join the Waitlist
           </h2>
 
-          <p className="mt-6 text-xl text-neutral-600 leading-9">
+          <p className="mt-6 text-xl text-neutral-600 leading-relaxed">
             Join traders discovering a different path
             <br />
             before Take Profit launches.
@@ -104,7 +108,7 @@ export default function Waitlist() {
               }
               placeholder="First Name"
               required
-              className="w-full rounded-2xl border border-neutral-300 bg-white px-6 py-4 text-black outline-none focus:border-black"
+              className="w-full rounded-2xl border border-neutral-300 px-5 py-4 text-black"
             />
 
             <input
@@ -115,7 +119,7 @@ export default function Waitlist() {
               }
               placeholder="Last Name"
               required
-              className="w-full rounded-2xl border border-neutral-300 bg-white px-6 py-4 text-black outline-none focus:border-black"
+              className="w-full rounded-2xl border border-neutral-300 px-5 py-4 text-black"
             />
           </div>
 
@@ -127,7 +131,7 @@ export default function Waitlist() {
             }
             placeholder="Email Address"
             required
-            className="w-full rounded-2xl border border-neutral-300 bg-white px-6 py-4 text-black outline-none focus:border-black"
+            className="w-full rounded-2xl border border-neutral-300 px-5 py-4 text-black"
           />
 
           <TPPhoneInput
@@ -164,13 +168,13 @@ export default function Waitlist() {
               }
               className="w-5 h-5"
             />
-            I'd like early beta access.
+            I&apos;d like early beta access.
           </label>
 
           <button
             type="submit"
             disabled={submitting}
-            className="w-full rounded-full bg-black text-white py-5 text-lg font-semibold transition hover:opacity-90 disabled:opacity-60"
+            className="w-full rounded-full bg-black text-white px-6 py-4 text-lg disabled:opacity-50"
           >
             {submitting
               ? "Connecting..."
@@ -183,7 +187,7 @@ export default function Waitlist() {
             </p>
           )}
 
-          <p className="text-center text-sm text-neutral-500 leading-7">
+          <p className="text-center text-sm text-neutral-500">
             Every registration is verified before being added
             <br />
             to our early access community.
