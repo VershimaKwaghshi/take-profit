@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function VerifyPage() {
+function VerifyContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const email = searchParams.get("email") || "";
 
   const [code, setCode] = useState("");
@@ -38,7 +39,7 @@ export default function VerifyPage() {
 
       router.push("/success");
     } catch (error) {
-      console.error("Verification error:", error);
+      console.error(error);
       setMessage("Unable to verify email");
     } finally {
       setLoading(false);
@@ -69,7 +70,7 @@ export default function VerifyPage() {
 
       setMessage("A new verification code has been sent");
     } catch (error) {
-      console.error("Resend code error:", error);
+      console.error(error);
       setMessage("Unable to resend code");
     } finally {
       setResending(false);
@@ -79,7 +80,7 @@ export default function VerifyPage() {
   return (
     <main className="min-h-screen bg-white text-black flex items-center justify-center px-6">
       <div className="w-full max-w-md text-center">
-        <h1 className="text-3xl font-semibold text-black">
+        <h1 className="text-3xl font-semibold">
           Verify your email
         </h1>
 
@@ -87,7 +88,7 @@ export default function VerifyPage() {
           Enter the six digit code sent to
         </p>
 
-        <p className="mt-1 font-medium text-black">
+        <p className="mt-1 font-medium">
           {email}
         </p>
 
@@ -96,17 +97,17 @@ export default function VerifyPage() {
           inputMode="numeric"
           maxLength={6}
           value={code}
-          onChange={(event) =>
-            setCode(event.target.value.replace(/\D/g, ""))
+          onChange={(e) =>
+            setCode(e.target.value.replace(/\D/g, ""))
           }
           placeholder="000000"
-          className="mt-8 w-full rounded-xl border border-neutral-300 bg-white text-black"
+          className="mt-8 w-full rounded-xl border border-neutral-300 px-5 py-4 text-center text-2xl tracking-[8px] outline-none"
         />
 
         <button
           onClick={verifyEmail}
           disabled={loading || code.length !== 6}
-          className="mt-4 w-full rounded-full bg-black px-6 py-4 text-white disabled:bg-neutral-400"
+          className="mt-6 w-full rounded-full bg-black px-6 py-4 text-white disabled:opacity-50"
         >
           {loading ? "Verifying..." : "Verify email"}
         </button>
@@ -114,7 +115,7 @@ export default function VerifyPage() {
         <button
           onClick={resendCode}
           disabled={resending}
-          className="mt-5 text-sm text-neutral-600 underline disabled:text-neutral-400"
+          className="mt-5 text-sm text-neutral-600 underline"
         >
           {resending ? "Sending..." : "Resend code"}
         </button>
@@ -126,5 +127,19 @@ export default function VerifyPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function VerifyPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen flex items-center justify-center">
+          Loading...
+        </main>
+      }
+    >
+      <VerifyContent />
+    </Suspense>
   );
 }
