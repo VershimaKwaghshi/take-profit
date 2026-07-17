@@ -37,8 +37,12 @@ function VerifyContent() {
         return;
       }
 
+<<<<<<< HEAD
       router.push(result.redirect);
 
+=======
+      router.push(`/dashboard?email=${encodeURIComponent(email)}`);
+>>>>>>> 57ca42f (Add dashboard and branded email)
     } catch (error) {
       console.error(error);
       setMessage("Unable to verify email");
