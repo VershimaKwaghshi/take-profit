@@ -7,7 +7,9 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-const resend = new Resend(process.env.RESEND_API_KEY!);
+const resend = new Resend(
+  process.env.RESEND_API_KEY!
+);
 
 export async function POST(request: Request) {
   try {
@@ -47,18 +49,34 @@ export async function POST(request: Request) {
     }
 
     const { error: emailError } = await resend.emails.send({
-      from: "Take Profit <onboarding@resend.dev>",
+      from: "Take Profit <welcome@takeprofit.name.ng>",
       to: email,
       subject: "Your new Take Profit verification code",
       html: `
-        <h1>Take Profit</h1>
-        <p>Your new verification code is:</p>
-        <h2>${verificationCode}</h2>
-        <p>This code expires in 15 minutes.</p>
+        <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:40px;">
+          <h1>Take Profit</h1>
+
+          <p>Your new verification code is</p>
+
+          <div style="font-size:36px;font-weight:bold;letter-spacing:8px;margin:30px 0;">
+            ${verificationCode}
+          </div>
+
+          <p>This code expires in 15 minutes.</p>
+
+          <p>If you did not request a new code, you can safely ignore this email.</p>
+
+          <br>
+
+          <p>Take Profit</p>
+          <p>takeprofit.name.ng</p>
+        </div>
       `,
     });
 
     if (emailError) {
+      console.error(emailError);
+
       return NextResponse.json(
         { error: "Unable to send verification email" },
         { status: 500 }
