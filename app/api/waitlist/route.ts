@@ -7,9 +7,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-const resend = new Resend(
-  process.env.RESEND_API_KEY!
-);
+const resend = new Resend(process.env.RESEND_API_KEY!);
 
 export async function POST(request: Request) {
   try {
@@ -53,38 +51,30 @@ export async function POST(request: Request) {
       to: data.email,
       subject: "Verify your Take Profit email",
       html: `
-        <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:40px;">
+        <div style="font-family:Arial,sans-serif;padding:40px;max-width:600px;margin:auto">
           <h1>Take Profit</h1>
 
           <p>Hello ${data.first_name},</p>
 
-          <p>Thank you for joining the Take Profit waitlist.</p>
+          <p>Welcome to the Take Profit waitlist.</p>
 
           <p>Your verification code is</p>
 
-          <div style="font-size:36px;font-weight:bold;letter-spacing:8px;margin:30px 0;">
+          <h2 style="font-size:36px;letter-spacing:6px">
             ${verificationCode}
-          </div>
+          </h2>
 
           <p>This code expires in 15 minutes.</p>
 
-          <p>If you did not request this email, you can safely ignore it.</p>
+          <p>Thank you.</p>
 
-          <br>
-
-          <p>Take Profit</p>
-          <p>takeprofit.name.ng</p>
+          <strong>Take Profit</strong>
         </div>
       `,
     });
 
     if (emailError) {
-      console.error("Resend error:", emailError);
-
-      return NextResponse.json(
-        { error: "Unable to send verification email." },
-        { status: 500 }
-      );
+      console.error(emailError);
     }
 
     return NextResponse.json({
@@ -92,7 +82,7 @@ export async function POST(request: Request) {
       email: data.email,
     });
   } catch (error) {
-    console.error("Waitlist error:", error);
+    console.error(error);
 
     return NextResponse.json(
       { error: "Something went wrong" },
