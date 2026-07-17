@@ -37,7 +37,8 @@ function VerifyContent() {
         return;
       }
 
-      router.push("/success");
+      router.push(result.redirect);
+
     } catch (error) {
       console.error(error);
       setMessage("Unable to verify email");
@@ -69,6 +70,7 @@ function VerifyContent() {
       }
 
       setMessage("A new verification code has been sent");
+
     } catch (error) {
       console.error(error);
       setMessage("Unable to resend code");
@@ -80,6 +82,7 @@ function VerifyContent() {
   return (
     <main className="min-h-screen bg-white text-black flex items-center justify-center px-6">
       <div className="w-full max-w-md text-center">
+
         <h1 className="text-3xl font-semibold">
           Verify your email
         </h1>
@@ -125,6 +128,7 @@ function VerifyContent() {
             {message}
           </p>
         )}
+
       </div>
     </main>
   );
