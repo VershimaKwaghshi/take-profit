@@ -53,7 +53,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
+      email,
+      redirect: `/dashboard?email=${encodeURIComponent(email)}`,
     });
+
   } catch (error) {
     console.error("Verification error:", error);
 
