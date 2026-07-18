@@ -37,7 +37,12 @@ function VerifyContent() {
         return;
       }
 
+<<<<<<< HEAD
       router.push(result.redirect);
+
+=======
+      router.push(`/dashboard?email=${encodeURIComponent(email)}`);
+>>>>>>> 57ca42f (Add dashboard and branded email)
     } catch (error) {
       console.error(error);
       setMessage("Unable to verify email");
@@ -97,9 +102,7 @@ function VerifyContent() {
           inputMode="numeric"
           maxLength={6}
           value={code}
-          onChange={(e) =>
-            setCode(e.target.value.replace(/\D/g, ""))
-          }
+          onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
           placeholder="000000"
           className="mt-8 w-full rounded-xl border border-neutral-300 px-5 py-4 text-center text-2xl tracking-[8px] outline-none"
         />
