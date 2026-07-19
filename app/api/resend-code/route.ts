@@ -30,7 +30,6 @@ export async function POST(request: Request) {
         verification_expires_at: verificationExpiresAt,
       })
       .eq("email", email)
-      .eq("email_verified", false)
       .select()
       .single();
 
