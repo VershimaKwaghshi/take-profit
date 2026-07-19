@@ -1,13 +1,23 @@
 "use client";
 
+import { useUser } from "@/app/dashboard/UserProvider";
+
 export default function Topbar() {
+  const { user, loading } = useUser();
+
+  const initial = user?.first_name
+    ? user.first_name.charAt(0).toUpperCase()
+    : "?";
+
   return (
     <header className="flex items-center justify-between">
 
       <div>
 
         <h1 className="text-4xl font-semibold tracking-tight">
-          Welcome back
+          {loading
+            ? "Welcome back"
+            : `Welcome back, ${user?.first_name ?? "there"}`}
         </h1>
 
         <p className="mt-2 text-neutral-500 text-lg">
@@ -26,7 +36,7 @@ export default function Topbar() {
 
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-lg font-semibold text-white">
 
-          V
+          {initial}
 
         </div>
 
