@@ -1,8 +1,13 @@
+"use client";
+
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function SettingsPage() {
+  const router = useRouter();
+
   return (
     <main className="min-h-screen bg-neutral-100">
 
@@ -72,6 +77,7 @@ export default function SettingsPage() {
               </button>
 
               <button
+                onClick={() => router.push("/login")}
                 className="flex w-full items-center justify-between p-8 text-left transition hover:bg-neutral-50"
               >
 
