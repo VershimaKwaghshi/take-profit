@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const links = [
   {
@@ -29,6 +29,7 @@ const links = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <aside className="hidden lg:flex h-screen w-72 shrink-0 flex-col border-r border-neutral-200 bg-white px-8 py-10">
@@ -77,7 +78,10 @@ export default function Sidebar() {
 
       <div className="mt-auto">
 
-        <button className="w-full rounded-2xl border border-neutral-300 py-4 transition hover:bg-neutral-100">
+        <button
+          onClick={() => router.push("/login")}
+          className="w-full rounded-2xl border border-neutral-300 py-4 transition hover:bg-neutral-100"
+        >
 
           Sign Out
 
