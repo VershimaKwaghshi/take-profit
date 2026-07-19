@@ -2,6 +2,7 @@
 
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 function VerifyContent() {
   const router = useRouter();
@@ -37,12 +38,8 @@ function VerifyContent() {
         return;
       }
 
-<<<<<<< HEAD
       router.push(result.redirect);
 
-=======
-      router.push(`/dashboard?email=${encodeURIComponent(email)}`);
->>>>>>> 57ca42f (Add dashboard and branded email)
     } catch (error) {
       console.error(error);
       setMessage("Unable to verify email");
@@ -85,7 +82,16 @@ function VerifyContent() {
   return (
     <main className="min-h-screen bg-white text-black flex items-center justify-center px-6">
       <div className="w-full max-w-md text-center">
-        <h1 className="text-3xl font-semibold">
+
+        <Image
+          src="/logo.svg"
+          alt="Take Profit"
+          width={40}
+          height={40}
+          className="mx-auto"
+        />
+
+        <h1 className="mt-6 text-3xl font-semibold">
           Verify your email
         </h1>
 
