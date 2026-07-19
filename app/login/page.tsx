@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -47,7 +48,14 @@ export default function LoginPage() {
 
       <div className="w-full max-w-md rounded-[36px] border border-neutral-200 bg-white p-10 shadow-sm">
 
-        <h1 className="text-4xl font-semibold">
+        <Image
+          src="/logo.svg"
+          alt="Take Profit"
+          width={40}
+          height={40}
+        />
+
+        <h1 className="mt-6 text-4xl font-semibold">
           Welcome back
         </h1>
 
