@@ -28,6 +28,7 @@ export async function POST(request: Request) {
         targeted_assets: data.targeted_assets,
         trading_frequency: data.trading_frequency,
         beta_opt_in: data.beta_opt_in,
+        referred_by: data.referred_by || null,
         email_verified: false,
         verification_code: verificationCode,
         verification_expires_at: verificationExpiresAt,
@@ -39,6 +40,23 @@ export async function POST(request: Request) {
         { error: error.message },
         { status: 400 }
       );
+    }
+
+    if (data.referred_by) {
+      const { data: referrer } = await supabase
+        .from("waitlist")
+        .select("referral_count")
+        .eq("referral_code", data.referred_by)
+        .single();
+
+      if (referrer) {
+        await supabase
+          .from("waitlist")
+          .update({
+            referral_count: (referrer.referral_count || 0) + 1,
+          })
+          .eq("referral_code", data.referred_by);
+      }
     }
 
     const { error: emailError } = await resend.emails.send({
