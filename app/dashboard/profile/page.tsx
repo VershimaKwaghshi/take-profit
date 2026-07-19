@@ -1,7 +1,20 @@
+"use client";
+
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
+import { useUser } from "@/app/dashboard/UserProvider";
+
+function formatJoinedDate(dateString: string) {
+  return new Date(dateString).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
 
 export default function ProfilePage() {
+  const { user, loading, error } = useUser();
+
   return (
     <main className="min-h-screen bg-neutral-100">
 
@@ -19,6 +32,12 @@ export default function ProfilePage() {
               Profile
             </h1>
 
+            {error && (
+              <p className="mt-6 text-red-600">
+                {error}
+              </p>
+            )}
+
             <div className="mt-12 grid gap-8 md:grid-cols-2">
 
               <div>
@@ -28,7 +47,11 @@ export default function ProfilePage() {
                 </p>
 
                 <p className="mt-2 text-xl font-medium">
-                  John Doe
+                  {loading
+                    ? "Loading..."
+                    : user
+                    ? `${user.first_name} ${user.last_name}`
+                    : "—"}
                 </p>
 
               </div>
@@ -40,7 +63,7 @@ export default function ProfilePage() {
                 </p>
 
                 <p className="mt-2 text-xl font-medium">
-                  john@example.com
+                  {loading ? "Loading..." : user?.email ?? "—"}
                 </p>
 
               </div>
@@ -52,7 +75,7 @@ export default function ProfilePage() {
                 </p>
 
                 <p className="mt-2 text-xl font-medium">
-                  Nigeria
+                  {loading ? "Loading..." : user?.country ?? "—"}
                 </p>
 
               </div>
@@ -64,7 +87,9 @@ export default function ProfilePage() {
                 </p>
 
                 <p className="mt-2 text-xl font-medium">
-                  TPL9XK8Q2M
+                  {loading
+                    ? "Loading..."
+                    : user?.referral_code ?? "Pending"}
                 </p>
 
               </div>
@@ -76,7 +101,11 @@ export default function ProfilePage() {
                 </p>
 
                 <p className="mt-2 text-xl font-medium">
-                  18 Jul 2026
+                  {loading
+                    ? "Loading..."
+                    : user?.created_at
+                    ? formatJoinedDate(user.created_at)
+                    : "—"}
                 </p>
 
               </div>
