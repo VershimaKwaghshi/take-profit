@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type { Country, Value } from "react-phone-number-input";
 import CountrySelect from "./waitlist/CountrySelect";
 import TPPhoneInput from "./waitlist/PhoneInput";
@@ -8,7 +9,10 @@ import ExperienceSelect from "./waitlist/ExperienceSelect";
 import FrequencySelect from "./waitlist/FrequencySelect";
 import AssetSelector from "./waitlist/AssetSelector";
 
-export default function Waitlist() {
+function WaitlistForm() {
+  const searchParams = useSearchParams();
+  const referredBy = searchParams.get("ref");
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -45,6 +49,7 @@ export default function Waitlist() {
           targeted_assets: assets,
           trading_frequency: frequency || "",
           beta_opt_in: beta,
+          referred_by: referredBy || null,
         }),
       });
 
@@ -195,5 +200,13 @@ export default function Waitlist() {
         </form>
       </div>
     </section>
+  );
+}
+
+export default function Waitlist() {
+  return (
+    <Suspense fallback={null}>
+      <WaitlistForm />
+    </Suspense>
   );
 }
