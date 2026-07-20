@@ -90,13 +90,11 @@ function WaitlistForm() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-5xl md:text-6xl font-semibold text-black">
-            Join the Waitlist
+            Join Waitlist
           </h2>
 
           <p className="mt-6 text-xl text-neutral-600 leading-relaxed">
-            Join traders discovering a different path
-            <br />
-            before Take Profit launches.
+            Be among the first traders on Take Profit.
           </p>
         </div>
 
@@ -173,7 +171,7 @@ function WaitlistForm() {
               }
               className="w-5 h-5"
             />
-            I&apos;d like early beta access.
+            I would like early beta access.
           </label>
 
           <button
