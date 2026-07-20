@@ -3,22 +3,22 @@ export default function Features() {
     {
       title: "Keep Trading",
       description:
-        "One losing trade should not permanently end your trading journey.",
+        "One losing trade does not end your access to the markets.",
     },
     {
       title: "Trading Capital",
       description:
-        "Access trading capital without taking on liability.",
+        "Trade with real capital, without carrying the liability.",
     },
     {
       title: "Managed Trading",
       description:
-        "Participate through experienced managers under the Take Profit platform.",
+        "Let experienced managers trade on the platform for you.",
     },
     {
       title: "Learn Before Launch",
       description:
-        "Join the waitlist and discover how Take Profit works before launch.",
+        "See exactly how Take Profit works before it opens.",
     },
   ];
 
@@ -28,15 +28,13 @@ export default function Features() {
 
         <div className="text-center max-w-4xl mx-auto mb-24">
           <h2 className="text-5xl md:text-6xl font-semibold text-black">
-            Why Take Profit?
+            Why Take Profit
           </h2>
 
           <p className="mt-8 text-xl text-neutral-600 leading-9">
-            A platform built around one belief.
+            Built on one rule.
             <br />
-            Losing a trade is fine.
-            <br />
-            Losing permanently is not.
+            One trade should not end everything.
           </p>
         </div>
 
