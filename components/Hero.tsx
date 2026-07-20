@@ -8,21 +8,21 @@ export default function Hero() {
       />
 
       <h1 className="text-5xl md:text-7xl font-semibold text-black leading-tight">
-        Trade differently.
+        Trade with real capital.
       </h1>
 
       <p className="mt-8 text-2xl text-neutral-600 leading-relaxed">
-        Discover a new path.
+        Keep more of the upside.
         <br />
-        You can now earn.
+        Carry less of the risk.
       </p>
 
       <a
-  href="#waitlist"
-  className="inline-flex items-center justify-center rounded-full bg-black px-10 py-5 text-white font-semibold"
->
-  Join Waitlist
-</a>
+        href="#waitlist"
+        className="inline-flex items-center justify-center rounded-full bg-black px-10 py-5 text-white font-semibold"
+      >
+        Join Waitlist
+      </a>
     </section>
   );
 }
