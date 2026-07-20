@@ -14,14 +14,12 @@ export default function Philosophy() {
         </h2>
 
         <p className="mt-10 text-xl leading-9 text-neutral-300 max-w-3xl mx-auto">
-          Trading has two outcomes.
-          <br />
           A trade can move in your favour.
           <br />
           A trade can move against you.
           <br />
           <br />
-          We believe neither outcome should permanently end your journey.
+          Neither should end your journey.
         </p>
 
       </div>
