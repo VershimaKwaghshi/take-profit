@@ -11,7 +11,10 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   async function continueLogin() {
-    if (!email) return;
+    if (!email.trim()) {
+      alert("Please enter your email.");
+      return;
+    }
 
     setLoading(true);
 
@@ -29,7 +32,7 @@ export default function LoginPage() {
       const result = await response.json();
 
       if (!response.ok) {
-        alert(result.error || "Unable to continue");
+        alert(result.error || "Unable to continue.");
         return;
       }
 
@@ -37,7 +40,7 @@ export default function LoginPage() {
         `/verify?email=${encodeURIComponent(email)}`
       );
     } catch {
-      alert("Something went wrong");
+      alert("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -48,35 +51,67 @@ export default function LoginPage() {
 
       <div className="w-full max-w-md rounded-[36px] border border-neutral-200 bg-white p-10 shadow-sm">
 
-        <Image
-          src="/logo.svg"
-          alt="Take Profit"
-          width={40}
-          height={40}
-        />
+        {/* Logo */}
 
-        <h1 className="mt-6 text-4xl font-semibold">
+        <div className="flex items-center gap-3">
+
+          <Image
+            src="/logo.svg"
+            alt="Take Profit"
+            width={42}
+            height={42}
+          />
+
+          <span className="text-lg font-semibold">
+            Take Profit
+          </span>
+
+        </div>
+
+        {/* Back */}
+
+        <button
+          onClick={() => router.push("/")}
+          className="mt-6 text-sm text-neutral-500 transition hover:text-black"
+        >
+          ← Back to Home
+        </button>
+
+        {/* Heading */}
+
+        <h1 className="mt-6 text-4xl font-semibold tracking-tight">
           Welcome back
         </h1>
 
-        <p className="mt-3 text-neutral-500">
-          Enter your email to continue.
+        <p className="mt-3 text-neutral-500 leading-7">
+          Enter the email address you used to join the Take Profit waitlist.
+          We'll send you a fresh verification code.
         </p>
+
+        {/* Email */}
 
         <input
           type="email"
           placeholder="Email address"
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="mt-10 w-full rounded-2xl border border-neutral-300 px-5 py-4 outline-none"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              continueLogin();
+            }
+          }}
+          className="mt-10 w-full rounded-2xl border border-neutral-300 bg-white px-5 py-4 outline-none transition focus:border-black focus:ring-2 focus:ring-black/10"
         />
+
+        {/* Continue */}
 
         <button
           onClick={continueLogin}
           disabled={loading}
-          className="mt-8 w-full rounded-full bg-black py-4 text-white transition hover:opacity-90 disabled:opacity-50"
+          className="mt-8 w-full rounded-full bg-black py-4 font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {loading ? "Sending..." : "Continue"}
+          {loading ? "Sending verification code..." : "Continue"}
         </button>
 
       </div>
