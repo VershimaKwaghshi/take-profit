@@ -8,13 +8,37 @@ export async function POST(request: Request) {
   try {
     const { email } = await request.json();
 
-    if (!email) {
+    if (!email || !email.trim()) {
       return NextResponse.json(
-        { error: "Email is required" },
-        { status: 400 }
+        {
+          error: "Please enter your email address.",
+        },
+        {
+          status: 400,
+        }
       );
     }
 
+    // Check whether the email already exists
+    const { data: user, error: findError } = await supabase
+      .from("waitlist")
+      .select("id, first_name")
+      .eq("email", email)
+      .single();
+
+    if (findError || !user) {
+      return NextResponse.json(
+        {
+          error:
+            "We couldn't find an account with this email. Please join the waitlist first.",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
+
+    // Generate a fresh verification code
     const verificationCode = Math.floor(
       100000 + Math.random() * 900000
     ).toString();
@@ -23,55 +47,75 @@ export async function POST(request: Request) {
       Date.now() + 15 * 60 * 1000
     ).toISOString();
 
-    const { data, error } = await supabase
+    const { error: updateError } = await supabase
       .from("waitlist")
       .update({
         verification_code: verificationCode,
         verification_expires_at: verificationExpiresAt,
       })
-      .eq("email", email)
-      .select()
-      .single();
+      .eq("email", email);
 
-    if (error || !data) {
+    if (updateError) {
       return NextResponse.json(
         {
-          error: "Unable to resend verification code",
+          error: "Unable to generate a new verification code.",
         },
         {
-          status: 400,
+          status: 500,
         }
       );
     }
 
-    const { error: emailError } =
-      await resend.emails.send({
-        from: "Take Profit <welcome@takeprofit.name.ng>",
-        to: email,
-        subject: "Your new verification code",
-        html: `
-          <div style="font-family:Arial,sans-serif;padding:40px;max-width:600px;margin:auto">
-            <h1>Take Profit</h1>
+    const { error: emailError } = await resend.emails.send({
+      from: "Take Profit <welcome@takeprofit.name.ng>",
+      to: email,
+      subject: "Your new Take Profit verification code",
+      html: `
+      <div style="font-family:Arial,sans-serif;padding:40px;max-width:600px;margin:auto">
 
-            <p>Your new verification code is</p>
+        <h1 style="margin-bottom:24px;">
+          Take Profit
+        </h1>
 
-            <h2 style="font-size:36px;letter-spacing:6px">
-              ${verificationCode}
-            </h2>
+        <p>Hello ${user.first_name},</p>
 
-            <p>This code expires in 15 minutes.</p>
+        <p>
+          Use the verification code below to continue to your dashboard.
+        </p>
 
-            <strong>Take Profit</strong>
-          </div>
-        `,
-      });
+        <div
+          style="
+            font-size:38px;
+            font-weight:bold;
+            letter-spacing:8px;
+            margin:30px 0;
+          "
+        >
+          ${verificationCode}
+        </div>
+
+        <p>
+          This code expires in <strong>15 minutes</strong>.
+        </p>
+
+        <p>
+          If you didn't request this code, you can safely ignore this email.
+        </p>
+
+        <br/>
+
+        <strong>Take Profit</strong>
+
+      </div>
+      `,
+    });
 
     if (emailError) {
       console.error(emailError);
 
       return NextResponse.json(
         {
-          error: "Unable to send verification email",
+          error: "Unable to send verification email.",
         },
         {
           status: 500,
@@ -87,7 +131,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       {
-        error: "Something went wrong",
+        error: "Something went wrong.",
       },
       {
         status: 500,
