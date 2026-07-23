@@ -2,6 +2,7 @@ import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import ReferralLinkCard from "@/components/ReferralLinkCard";
 
+
 export default function DashboardPage() {
   const features = [
     "Trading",
