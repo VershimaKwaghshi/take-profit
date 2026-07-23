@@ -1,18 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Copy,
-  Share2,
-  QrCode,
-  Check,
-  X,
-  Download,
-  Lock,
-} from "lucide-react";
+import { Copy, Share2, QrCode, Check, X, Download } from "lucide-react";
 import { useUser } from "@/app/dashboard/UserProvider";
 
-const REFERRAL_BASE_URL = "https://takeprofit.name.ng/r";
+const REFERRAL_BASE_URL = "https://takeprofit.name.ng/invite";
 
 export default function ReferralLinkCard() {
   const { user, loading, error } = useUser();
@@ -26,11 +18,6 @@ export default function ReferralLinkCard() {
     ? `${REFERRAL_BASE_URL}/${referralCode}`
     : null;
 
-  const verifiedReferrals = user?.verified_referrals ?? 0;
-  const totalReferrals = user?.referral_count ?? 0;
-
-  const unlocked = verifiedReferrals >= 1;
-
   async function handleCopy() {
     if (!referralLink) return;
 
@@ -38,18 +25,24 @@ export default function ReferralLinkCard() {
 
     setCopied(true);
 
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
   }
 
   async function handleShare() {
     if (!referralLink) return;
 
     if (navigator.share) {
-      await navigator.share({
-        title: "Take Profit",
-        text: "Join me on Take Profit.",
-        url: referralLink,
-      });
+      try {
+        await navigator.share({
+          title: "Take Profit",
+          text: "Join me on Take Profit",
+          url: referralLink,
+        });
+      } catch {
+        // User cancelled sharing
+      }
     } else {
       handleCopy();
     }
@@ -63,49 +56,22 @@ export default function ReferralLinkCard() {
 
   return (
     <>
-      <section className="rounded-[36px] border border-neutral-200 bg-white p-10 shadow-sm">
+      <section className="rounded-[32px] border border-neutral-200 bg-white p-10 shadow-sm">
 
-        <div className="flex items-center justify-between">
-
-          <div>
-
-            <p className="text-sm font-medium uppercase tracking-wide text-neutral-500">
-              Referral Centre
-            </p>
-
-            <h2 className="mt-2 text-3xl font-semibold">
-              Invite Friends
-            </h2>
-
-          </div>
-
-          <div
-            className={`rounded-full px-5 py-2 text-sm font-medium ${
-              unlocked
-                ? "bg-green-100 text-green-700"
-                : "bg-neutral-100 text-neutral-700"
-            }`}
-          >
-            {unlocked ? "Unlocked" : "1 Verified Referral Required"}
-          </div>
-
-        </div>
-
-        <p className="mt-6 max-w-2xl leading-8 text-neutral-500">
-          Invite one verified friend to unlock the Take Profit ecosystem.
-          Once one friend successfully joins and verifies their email,
-          your account unlocks automatically.
+        <p className="text-neutral-500">
+          Your Referral Link
         </p>
 
-        <div className="mt-8 rounded-2xl bg-neutral-100 p-5">
+        <div className="mt-5 rounded-2xl bg-neutral-100 p-5">
 
           <p className="break-all text-lg font-medium">
 
             {loading
-              ? "Loading..."
+              ? "Loading your referral link..."
               : error
-              ? "Unable to load referral link."
-              : referralLink}
+              ? "Unable to load referral link"
+              : referralLink ??
+                "Your referral code is being generated..."}
 
           </p>
 
@@ -115,83 +81,43 @@ export default function ReferralLinkCard() {
 
           <button
             onClick={handleCopy}
-            className="flex items-center gap-2 rounded-full bg-black px-6 py-3 text-white"
+            disabled={!referralLink}
+            className="flex items-center gap-2 rounded-full bg-black px-6 py-3 text-white transition hover:opacity-90 disabled:opacity-50"
           >
-            {copied ? <Check size={18} /> : <Copy size={18} />}
-            {copied ? "Copied" : "Copy Link"}
+
+            {copied ? (
+              <Check size={18} />
+            ) : (
+              <Copy size={18} />
+            )}
+
+            {copied ? "Copied" : "Copy"}
+
           </button>
 
           <button
             onClick={handleShare}
-            className="flex items-center gap-2 rounded-full border border-neutral-300 px-6 py-3"
+            disabled={!referralLink}
+            className="flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-6 py-3 transition hover:bg-neutral-100 disabled:opacity-50"
           >
+
             <Share2 size={18} />
+
             Share
+
           </button>
 
           <button
             onClick={() => setShowQr(true)}
-            className="flex items-center gap-2 rounded-full border border-neutral-300 px-6 py-3"
+            disabled={!referralLink}
+            className="flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-6 py-3 transition hover:bg-neutral-100 disabled:opacity-50"
           >
+
             <QrCode size={18} />
+
             QR Code
+
           </button>
-
-        </div>
-
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-
-          <div className="rounded-3xl border border-neutral-200 p-8">
-
-            <p className="text-sm text-neutral-500">
-              Total Referrals
-            </p>
-
-            <h3 className="mt-3 text-4xl font-semibold">
-              {totalReferrals}
-            </h3>
-
-          </div>
-
-          <div className="rounded-3xl border border-neutral-200 p-8">
-
-            <p className="text-sm text-neutral-500">
-              Verified Referrals
-            </p>
-
-            <h3 className="mt-3 text-4xl font-semibold">
-              {verifiedReferrals}
-            </h3>
-
-          </div>
-
-          <div className="rounded-3xl border border-neutral-200 p-8">
-
-            <div className="flex items-center gap-2">
-
-              <Lock size={18} />
-
-              <span className="text-sm text-neutral-500">
-                Unlock Progress
-              </span>
-
-            </div>
-
-            <h3 className="mt-3 text-4xl font-semibold">
-              {Math.min(verifiedReferrals, 1)}/1
-            </h3>
-
-            <div className="mt-5 h-3 overflow-hidden rounded-full bg-neutral-200">
-
-              <div
-                className={`h-full rounded-full bg-black ${
-                  unlocked ? "w-full" : "w-0"
-                }`}
-              />
-
-            </div>
-
-          </div>
 
         </div>
 
@@ -205,9 +131,9 @@ export default function ReferralLinkCard() {
 
             <div className="flex items-center justify-between">
 
-              <h3 className="text-2xl font-semibold">
-                Your QR Code
-              </h3>
+              <h2 className="text-2xl font-semibold">
+                Your Referral QR Code
+              </h2>
 
               <button
                 onClick={() => setShowQr(false)}
@@ -219,7 +145,7 @@ export default function ReferralLinkCard() {
 
             <img
               src={qrSrc}
-              alt="QR Code"
+              alt="Referral QR Code"
               className="mx-auto mt-8 rounded-2xl"
             />
 
@@ -228,8 +154,11 @@ export default function ReferralLinkCard() {
               download="take-profit-qr.png"
               className="mt-8 flex items-center justify-center gap-2 rounded-full bg-black py-4 text-white"
             >
+
               <Download size={18} />
+
               Download QR
+
             </a>
 
           </div>
