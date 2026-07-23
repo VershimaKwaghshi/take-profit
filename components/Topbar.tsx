@@ -1,9 +1,15 @@
 "use client";
 
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useUser } from "@/app/dashboard/UserProvider";
 
 export default function Topbar() {
   const { user, loading } = useUser();
+  const router = useRouter();
+
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const initial = user?.first_name
     ? user.first_name.charAt(0).toUpperCase()
@@ -40,19 +46,92 @@ export default function Topbar() {
 
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="relative">
 
-          <button className="rounded-full border border-neutral-300 bg-white px-6 py-3 transition hover:bg-neutral-100">
-
-            Notifications
-
-          </button>
-
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-lg font-semibold text-white">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-lg font-semibold text-white"
+          >
 
             {initial}
 
-          </div>
+          </button>
+
+          {menuOpen && (
+
+            <div className="absolute right-0 mt-4 w-72 overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-xl">
+
+              <div className="border-b border-neutral-200 p-6">
+
+                <h3 className="text-lg font-semibold">
+
+                  {user?.first_name} {user?.last_name}
+
+                </h3>
+
+                <p className="mt-1 text-sm text-neutral-500">
+
+                  {user?.email}
+
+                </p>
+
+              </div>
+
+              <div className="py-2">
+
+                <Link
+                  href="/dashboard/referrals"
+                  className="block px-6 py-4 hover:bg-neutral-100"
+                >
+                  👥 Referrals
+                </Link>
+
+                <Link
+                  href="/dashboard/notifications"
+                  className="block px-6 py-4 hover:bg-neutral-100"
+                >
+                  🔔 Notifications
+                </Link>
+
+                <Link
+                  href="/dashboard/profile"
+                  className="block px-6 py-4 hover:bg-neutral-100"
+                >
+                  👤 Profile
+                </Link>
+
+                <Link
+                  href="/dashboard/settings"
+                  className="block px-6 py-4 hover:bg-neutral-100"
+                >
+                  ⚙️ Settings
+                </Link>
+
+                <Link
+                  href="/dashboard/help"
+                  className="block px-6 py-4 hover:bg-neutral-100"
+                >
+                  ❓ Help & Contact
+                </Link>
+
+              </div>
+
+              <div className="border-t border-neutral-200 p-2">
+
+                <button
+                  onClick={() => router.push("/login")}
+                  className="w-full rounded-2xl px-5 py-4 text-left text-red-600 transition hover:bg-red-50"
+                >
+
+                  🚪 Sign Out
+
+                </button>
+
+              </div>
+
+            </div>
+
+          )}
 
         </div>
 
