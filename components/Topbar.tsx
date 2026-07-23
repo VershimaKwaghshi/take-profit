@@ -1,52 +1,51 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Bell, Menu } from "lucide-react";
 import { useUser } from "@/app/dashboard/UserProvider";
 
 export default function Topbar() {
-  const { user, loading } = useUser();
+  const { user } = useUser();
   const router = useRouter();
 
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const initial = user?.first_name
-    ? user.first_name.charAt(0).toUpperCase()
-    : "?";
-
-  const verifiedReferrals =
-    (user as typeof user & { verified_referrals?: number })
-      ?.verified_referrals ?? 0;
-
-  const unlocked = verifiedReferrals >= 1;
+  const initial =
+    user?.first_name?.charAt(0).toUpperCase() ?? "?";
 
   return (
-    <header>
+    <header className="mb-10">
 
-      <div className="flex items-start justify-between">
+      <div className="flex items-center justify-between">
 
-        <div>
+        <Link
+          href="/dashboard"
+          className="flex items-center gap-3"
+        >
 
-          <h1 className="text-4xl font-semibold tracking-tight">
+          <Image
+            src="/logo.svg"
+            alt="Take Profit"
+            width={36}
+            height={36}
+          />
 
-            {loading
-              ? "Welcome back"
-              : `Welcome back, ${user?.first_name ?? "there"} 👋`}
+          <span className="text-2xl font-semibold">
+            Take Profit
+          </span>
 
-          </h1>
+        </Link>
 
-          <p className="mt-3 text-lg text-neutral-500">
+        <div className="flex items-center gap-4">
 
-            {unlocked
-              ? "Your Take Profit account is unlocked."
-              : "Invite one verified friend to unlock Take Profit."}
+          <button className="flex h-12 w-12 items-center justify-center rounded-full border border-neutral-200 bg-white transition hover:bg-neutral-100">
 
-          </p>
+            <Bell size={20} />
 
-        </div>
-
-        <div className="relative">
+          </button>
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}
@@ -57,19 +56,42 @@ export default function Topbar() {
 
           </button>
 
-          {menuOpen && (
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-neutral-200 bg-white transition hover:bg-neutral-100"
+          >
 
-            <div className="absolute right-0 mt-4 w-72 overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-xl">
+            <Menu size={22} />
 
-              <div className="border-b border-neutral-200 p-6">
+          </button>
 
-                <h3 className="text-lg font-semibold">
+        </div>
+
+      </div>
+
+      {menuOpen && (
+
+        <div className="absolute right-10 top-24 z-50 w-80 overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-xl">
+
+          <div className="border-b border-neutral-200 p-6">
+
+            <div className="flex items-center gap-4">
+
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-black text-xl font-semibold text-white">
+
+                {initial}
+
+              </div>
+
+              <div>
+
+                <h3 className="font-semibold">
 
                   {user?.first_name} {user?.last_name}
 
                 </h3>
 
-                <p className="mt-1 text-sm text-neutral-500">
+                <p className="text-sm text-neutral-500">
 
                   {user?.email}
 
@@ -77,125 +99,65 @@ export default function Topbar() {
 
               </div>
 
-              <div className="py-2">
-
-                <Link
-                  href="/dashboard/referrals"
-                  className="block px-6 py-4 hover:bg-neutral-100"
-                >
-                  👥 Referrals
-                </Link>
-
-                <Link
-                  href="/dashboard/notifications"
-                  className="block px-6 py-4 hover:bg-neutral-100"
-                >
-                  🔔 Notifications
-                </Link>
-
-                <Link
-                  href="/dashboard/profile"
-                  className="block px-6 py-4 hover:bg-neutral-100"
-                >
-                  👤 Profile
-                </Link>
-
-                <Link
-                  href="/dashboard/settings"
-                  className="block px-6 py-4 hover:bg-neutral-100"
-                >
-                  ⚙️ Settings
-                </Link>
-
-                <Link
-                  href="/dashboard/help"
-                  className="block px-6 py-4 hover:bg-neutral-100"
-                >
-                  ❓ Help & Contact
-                </Link>
-
-              </div>
-
-              <div className="border-t border-neutral-200 p-2">
-
-                <button
-                  onClick={() => router.push("/login")}
-                  className="w-full rounded-2xl px-5 py-4 text-left text-red-600 transition hover:bg-red-50"
-                >
-
-                  🚪 Sign Out
-
-                </button>
-
-              </div>
-
             </div>
 
-          )}
+          </div>
 
-        </div>
+          <div className="py-2">
 
-      </div>
+            <Link
+              href="/dashboard/profile"
+              className="block px-6 py-4 hover:bg-neutral-100"
+            >
+              👤 Profile
+            </Link>
 
-      <div className="mt-8 rounded-[28px] border border-neutral-200 bg-white p-8 shadow-sm">
+            <Link
+              href="/dashboard/referrals"
+              className="block px-6 py-4 hover:bg-neutral-100"
+            >
+              👥 Referrals
+            </Link>
 
-        <div className="flex items-center justify-between">
+            <Link
+              href="/dashboard/notifications"
+              className="block px-6 py-4 hover:bg-neutral-100"
+            >
+              🔔 Notifications
+            </Link>
 
-          <div>
+            <Link
+              href="/dashboard/settings"
+              className="block px-6 py-4 hover:bg-neutral-100"
+            >
+              ⚙️ Settings
+            </Link>
 
-            <p className="text-sm uppercase tracking-wide text-neutral-500">
-
-              Platform Status
-
-            </p>
-
-            <h2 className="mt-2 text-3xl font-semibold">
-
-              {unlocked
-                ? "🟢 Unlocked"
-                : "🔒 Locked"}
-
-            </h2>
+            <Link
+              href="/dashboard/help"
+              className="block px-6 py-4 hover:bg-neutral-100"
+            >
+              💬 Help & Contact
+            </Link>
 
           </div>
 
-          <div className="text-right">
+          <div className="border-t border-neutral-200 p-2">
 
-            <p className="text-sm text-neutral-500">
+            <button
+              onClick={() => router.push("/login")}
+              className="w-full rounded-2xl px-5 py-4 text-left text-red-600 transition hover:bg-red-50"
+            >
 
-              Verified Referrals
+              🚪 Sign Out
 
-            </p>
-
-            <p className="mt-2 text-3xl font-semibold">
-
-              {verifiedReferrals}/1
-
-            </p>
+            </button>
 
           </div>
 
         </div>
 
-        <div className="mt-8 h-3 overflow-hidden rounded-full bg-neutral-200">
-
-          <div
-            className={`h-full rounded-full bg-black transition-all duration-700 ${
-              unlocked ? "w-full" : "w-0"
-            }`}
-          />
-
-        </div>
-
-        <p className="mt-6 text-neutral-500">
-
-          {unlocked
-            ? "Congratulations! Your account has been unlocked."
-            : "Once one invited friend verifies their email, your account will unlock automatically."}
-
-        </p>
-
-      </div>
+      )}
 
     </header>
   );
