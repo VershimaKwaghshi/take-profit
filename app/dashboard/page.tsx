@@ -1,18 +1,13 @@
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import ReferralLinkCard from "@/components/ReferralLinkCard";
+import { Lock } from "lucide-react";
 
 export default function DashboardPage() {
-  const features = [
-    "Trading",
-    "Funding",
-    "Restitution",
-    "Analytics",
-    "Academy",
-    "Marketplace",
-    "Community",
-    "AI Assistant",
-  ];
+  // This will come from the database later
+  const verifiedReferrals = 0;
+
+  const unlocked = verifiedReferrals >= 1;
 
   return (
     <main className="min-h-screen bg-neutral-100">
@@ -21,38 +16,137 @@ export default function DashboardPage() {
 
         <Sidebar />
 
-        <section className="flex-1 p-10">
+        <section className="flex-1 p-8">
 
           <Topbar />
 
-          <div className="mt-10">
+          {/* Portfolio */}
+
+          <div className="mt-8 rounded-[32px] border border-neutral-200 bg-white p-8 shadow-sm">
+
+            <p className="text-sm font-medium uppercase tracking-wide text-neutral-500">
+
+              Portfolio
+
+            </p>
+
+            {unlocked ? (
+
+              <>
+
+                <h2 className="mt-4 text-5xl font-semibold">
+
+                  Coming Soon
+
+                </h2>
+
+                <p className="mt-5 max-w-xl leading-8 text-neutral-500">
+
+                  Your financial balances, funding,
+                  rewards and future assets will appear
+                  here once the Take Profit platform
+                  launches.
+
+                </p>
+
+              </>
+
+            ) : (
+
+              <>
+
+                <div className="mt-6 flex items-center gap-3">
+
+                  <Lock size={24} />
+
+                  <h2 className="text-4xl font-semibold">
+
+                    Locked
+
+                  </h2>
+
+                </div>
+
+                <p className="mt-5 max-w-xl leading-8 text-neutral-500">
+
+                  Unlock your portfolio by inviting
+                  one verified friend.
+
+                </p>
+
+              </>
+
+            )}
+
+          </div>
+
+          {/* Referral */}
+
+          <div className="mt-8">
 
             <ReferralLinkCard />
 
           </div>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {/* Learning Centre */}
 
-            {features.map((feature) => (
+          <div className="mt-8 rounded-[32px] border border-neutral-200 bg-white p-8 shadow-sm">
 
-              <div
-                key={feature}
-                className="rounded-[32px] border border-neutral-200 bg-white p-10 shadow-sm"
-              >
+            <p className="text-sm font-medium uppercase tracking-wide text-neutral-500">
 
-                <h2 className="text-2xl font-semibold">
-                  {feature}
-                </h2>
+              Learning Centre
 
-                <p className="mt-5 leading-7 text-neutral-500">
+            </p>
+
+            {unlocked ? (
+
+              <>
+
+                <h2 className="mt-4 text-4xl font-semibold">
 
                   Coming Soon
 
+                </h2>
+
+                <p className="mt-5 max-w-xl leading-8 text-neutral-500">
+
+                  The first Take Profit learning
+                  experience is currently being
+                  prepared.
+
+                  You'll automatically receive
+                  access once it's published.
+
                 </p>
 
-              </div>
+              </>
 
-            ))}
+            ) : (
+
+              <>
+
+                <div className="mt-6 flex items-center gap-3">
+
+                  <Lock size={24} />
+
+                  <h2 className="text-4xl font-semibold">
+
+                    Locked
+
+                  </h2>
+
+                </div>
+
+                <p className="mt-5 max-w-xl leading-8 text-neutral-500">
+
+                  Complete your referral mission
+                  to unlock the Learning Centre.
+
+                </p>
+
+              </>
+
+            )}
 
           </div>
 
