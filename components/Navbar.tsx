@@ -8,39 +8,31 @@ export default function Navbar() {
           href="/"
           className="flex items-center gap-3"
         >
-
           <img
             src="/logo.svg"
             alt="Take Profit"
-            className="h-8 w-8"
+            className="w-8 h-8"
           />
 
-          <span className="text-xl font-semibold tracking-tight text-black">
-
+          <span className="text-black text-xl font-semibold tracking-tight">
             Take Profit
-
           </span>
-
         </a>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
 
           <a
             href="/login"
-            className="rounded-full border border-neutral-300 px-6 py-3 font-semibold text-black transition hover:bg-neutral-100"
+            className="text-neutral-600 font-medium hover:text-black transition"
           >
-
             Log In
-
           </a>
 
           <a
             href="#waitlist"
-            className="rounded-full bg-black px-6 py-3 font-semibold text-white transition hover:opacity-90"
+            className="inline-flex items-center justify-center rounded-full bg-black px-6 py-3 text-white font-semibold transition hover:opacity-90"
           >
-
             Join Waitlist
-
           </a>
 
         </div>
