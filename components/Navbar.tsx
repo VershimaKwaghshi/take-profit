@@ -11,31 +11,38 @@ export default function Navbar() {
           <img
             src="/logo.svg"
             alt="Take Profit"
-            className="w-8 h-8"
+            className="h-8 w-8"
           />
 
-          <span className="text-black text-xl font-semibold tracking-tight">
+          <span className="text-xl font-semibold tracking-tight text-black">
             Take Profit
           </span>
         </a>
 
-        <div className="flex items-center gap-6">
+        <nav className="flex items-center gap-8">
+
+          <a
+            href="/"
+            className="font-medium text-neutral-600 transition hover:text-black"
+          >
+            Home
+          </a>
 
           <a
             href="/login"
-            className="text-neutral-600 font-medium hover:text-black transition"
+            className="font-medium text-neutral-600 transition hover:text-black"
           >
             Log In
           </a>
 
           <a
-            href="#waitlist"
-            className="inline-flex items-center justify-center rounded-full bg-black px-6 py-3 text-white font-semibold transition hover:opacity-90"
+            href="/waitlist"
+            className="inline-flex items-center justify-center rounded-full bg-black px-6 py-3 font-semibold text-white transition hover:opacity-90"
           >
             Join Waitlist
           </a>
 
-        </div>
+        </nav>
 
       </div>
 
