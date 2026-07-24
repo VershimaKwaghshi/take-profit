@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useSearchParams } from "next/navigation";
 
 export type DashboardUser = {
   first_name: string;
@@ -22,12 +23,14 @@ type UserContextValue = {
   user: DashboardUser | null;
   loading: boolean;
   error: string | null;
+  email: string | null;
 };
 
 const UserContext = createContext<UserContextValue>({
   user: null,
   loading: true,
   error: null,
+  email: null,
 });
 
 export function useUser() {
@@ -39,26 +42,32 @@ export default function UserProvider({
 }: {
   children: React.ReactNode;
 }) {
+  const searchParams = useSearchParams();
+
+  const email = searchParams.get("email");
+
   const [user, setUser] = useState<DashboardUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!email) {
+      setLoading(false);
+      setError("No email found.");
+      return;
+    }
+
+    let cancelled = false;
+
     async function loadUser() {
-      const email = localStorage.getItem("tp_email");
-
-      if (!email) {
-        setError("Please log in again.");
-        setLoading(false);
-        return;
-      }
-
       try {
         const response = await fetch(
           `/api/dashboard?email=${encodeURIComponent(email)}`
         );
 
         const data = await response.json();
+
+        if (cancelled) return;
 
         if (!response.ok) {
           setError(data.error || "Unable to load account.");
@@ -67,14 +76,22 @@ export default function UserProvider({
           setUser(data);
         }
       } catch {
-        setError("Unable to load account.");
+        if (!cancelled) {
+          setError("Unable to load account.");
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
     }
 
     loadUser();
-  }, []);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [email]);
 
   return (
     <UserContext.Provider
@@ -82,6 +99,7 @@ export default function UserProvider({
         user,
         loading,
         error,
+        email,
       }}
     >
       {children}
