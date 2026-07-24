@@ -1,67 +1,110 @@
 export default function Features() {
-  const panels = [
+  const features = [
     {
-      title: "Keep Trading",
+      title: "Trading",
       description:
-        "One losing trade does not end your access to the markets.",
+        "Access financial markets through a platform designed around smarter risk management.",
     },
     {
-      title: "Trading Capital",
+      title: "Funding",
       description:
-        "Trade with real capital, without carrying the liability.",
+        "Unlock opportunities to trade with real capital while reducing personal financial exposure.",
+    },
+    {
+      title: "Restitution",
+      description:
+        "We're building new ways to help traders recover from setbacks instead of being left behind.",
+    },
+    {
+      title: "Academy",
+      description:
+        "Learn how Take Profit works through guided educational content before the platform launches.",
     },
     {
       title: "Managed Trading",
       description:
-        "Let experienced managers trade on the platform for you.",
+        "Choose experienced managers to trade on your behalf while you monitor performance.",
     },
     {
-      title: "Learn Before Launch",
+      title: "Marketplace",
       description:
-        "See exactly how Take Profit works before it opens.",
+        "Access financial products, services, and opportunities from trusted partners in one place.",
+    },
+    {
+      title: "Community",
+      description:
+        "Connect with other members, learn together, and grow within the Take Profit ecosystem.",
+    },
+    {
+      title: "AI Assistant",
+      description:
+        "An intelligent assistant designed to help members understand the platform and make informed decisions.",
     },
   ];
 
   return (
     <section className="bg-white py-32 px-6">
-      <div className="max-w-7xl mx-auto">
 
-        <div className="text-center max-w-4xl mx-auto mb-24">
-          <h2 className="text-5xl md:text-6xl font-semibold text-black">
-            Why Take Profit
+      <div className="mx-auto max-w-7xl">
+
+        <div className="mx-auto mb-24 max-w-4xl text-center">
+
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-neutral-500">
+            What Take Profit Offers
+          </p>
+
+          <h2 className="mt-8 text-5xl font-semibold text-black md:text-6xl">
+
+            One Platform.
+            <br />
+            Multiple Opportunities.
+
           </h2>
 
-          <p className="mt-8 text-xl text-neutral-600 leading-9">
-            Built on one rule.
-            <br />
-            One trade should not end everything.
+          <p className="mt-8 text-xl leading-9 text-neutral-600">
+
+            Take Profit is being built as a complete financial ecosystem,
+            giving members access to far more than just trading.
+
           </p>
+
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
 
-          {panels.map((panel) => (
+          {features.map((feature) => (
+
             <div
-              key={panel.title}
-              className="rounded-[32px] border border-neutral-200 bg-neutral-50 p-10 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+              key={feature.title}
+              className="rounded-[32px] border border-neutral-200 bg-neutral-50 p-8 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
             >
-              <div className="w-16 h-16 rounded-2xl border border-neutral-300 flex items-center justify-center mb-8">
-                <div className="w-6 h-6 rounded-full bg-black"></div>
+
+              <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-2xl border border-neutral-300">
+
+                <div className="h-6 w-6 rounded-full bg-black"></div>
+
               </div>
 
-              <h3 className="text-3xl font-semibold text-black mb-5">
-                {panel.title}
+              <h3 className="text-2xl font-semibold text-black">
+
+                {feature.title}
+
               </h3>
 
-              <p className="text-lg leading-8 text-neutral-600">
-                {panel.description}
+              <p className="mt-5 leading-8 text-neutral-600">
+
+                {feature.description}
+
               </p>
+
             </div>
+
           ))}
 
         </div>
 
       </div>
+
     </section>
   );
 }
