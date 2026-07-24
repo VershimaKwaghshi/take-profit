@@ -1,110 +1,103 @@
 export default function Features() {
-  const features = [
-    {
-      title: "Trading",
-      description:
-        "Access financial markets through a platform designed around smarter risk management.",
-    },
-    {
-      title: "Funding",
-      description:
-        "Unlock opportunities to trade with real capital while reducing personal financial exposure.",
-    },
-    {
-      title: "Restitution",
-      description:
-        "We're building new ways to help traders recover from setbacks instead of being left behind.",
-    },
-    {
-      title: "Academy",
-      description:
-        "Learn how Take Profit works through guided educational content before the platform launches.",
-    },
-    {
-      title: "Managed Trading",
-      description:
-        "Choose experienced managers to trade on your behalf while you monitor performance.",
-    },
-    {
-      title: "Marketplace",
-      description:
-        "Access financial products, services, and opportunities from trusted partners in one place.",
-    },
-    {
-      title: "Community",
-      description:
-        "Connect with other members, learn together, and grow within the Take Profit ecosystem.",
-    },
-    {
-      title: "AI Assistant",
-      description:
-        "An intelligent assistant designed to help members understand the platform and make informed decisions.",
-    },
-  ];
-
   return (
-    <section className="bg-white py-32 px-6">
-
+    <section
+      id="features"
+      className="bg-white py-32 px-6"
+    >
       <div className="mx-auto max-w-7xl">
 
         <div className="mx-auto mb-24 max-w-4xl text-center">
 
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-neutral-500">
-            What Take Profit Offers
+          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-neutral-500">
+            Why Take Profit
           </p>
 
-          <h2 className="mt-8 text-5xl font-semibold text-black md:text-6xl">
-
-            One Platform.
+          <h2 className="mt-8 text-5xl font-semibold leading-tight text-black md:text-6xl">
+            Built on one rule.
             <br />
-            Multiple Opportunities.
-
+            One trade should not end everything.
           </h2>
 
-          <p className="mt-8 text-xl leading-9 text-neutral-600">
-
-            Take Profit is being built as a complete financial ecosystem,
-            giving members access to far more than just trading.
-
+          <p className="mx-auto mt-8 max-w-2xl text-xl leading-9 text-neutral-600">
+            Take Profit exists to help traders stay in the market,
+            continue learning and grow over time.
           </p>
 
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-8 lg:grid-cols-2">
 
-          {features.map((feature) => (
+          {/* White */}
 
-            <div
-              key={feature.title}
-              className="rounded-[32px] border border-neutral-200 bg-neutral-50 p-8 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
-            >
+          <div className="rounded-[36px] border border-neutral-200 bg-white p-10 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
 
-              <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-2xl border border-neutral-300">
+            <div className="mb-8 h-14 w-14 rounded-2xl bg-black"></div>
 
-                <div className="h-6 w-6 rounded-full bg-black"></div>
+            <h3 className="text-3xl font-semibold text-black">
+              Keep Trading
+            </h3>
 
-              </div>
+            <p className="mt-5 text-lg leading-8 text-neutral-600">
+              One losing trade should never permanently remove
+              you from the markets.
+            </p>
 
-              <h3 className="text-2xl font-semibold text-black">
+          </div>
 
-                {feature.title}
+          {/* Blue */}
 
-              </h3>
+          <div className="rounded-[36px] bg-blue-600 p-10 text-white transition duration-300 hover:-translate-y-1 hover:shadow-2xl">
 
-              <p className="mt-5 leading-8 text-neutral-600">
+            <div className="mb-8 h-14 w-14 rounded-2xl bg-white"></div>
 
-                {feature.description}
+            <h3 className="text-3xl font-semibold">
+              Trading Capital
+            </h3>
 
-              </p>
+            <p className="mt-5 text-lg leading-8 text-blue-100">
+              Access real trading capital while protecting your
+              personal finances.
+            </p>
 
-            </div>
+          </div>
 
-          ))}
+          {/* Red */}
+
+          <div className="rounded-[36px] bg-red-600 p-10 text-white transition duration-300 hover:-translate-y-1 hover:shadow-2xl">
+
+            <div className="mb-8 h-14 w-14 rounded-2xl bg-white"></div>
+
+            <h3 className="text-3xl font-semibold">
+              Risk Protection
+            </h3>
+
+            <p className="mt-5 text-lg leading-8 text-red-100">
+              Every rule inside Take Profit is designed to help
+              traders survive difficult market conditions.
+            </p>
+
+          </div>
+
+          {/* Black */}
+
+          <div className="rounded-[36px] bg-black p-10 text-white transition duration-300 hover:-translate-y-1 hover:shadow-2xl">
+
+            <div className="mb-8 h-14 w-14 rounded-2xl bg-blue-600"></div>
+
+            <h3 className="text-3xl font-semibold">
+              Learn Before Launch
+            </h3>
+
+            <p className="mt-5 text-lg leading-8 text-neutral-300">
+              Explore how Take Profit works, complete guided
+              learning, and help shape the platform before launch.
+            </p>
+
+          </div>
 
         </div>
 
       </div>
-
     </section>
   );
 }
