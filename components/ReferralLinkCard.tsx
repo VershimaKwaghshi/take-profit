@@ -1,108 +1,57 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { useSearchParams } from "next/navigation";
+import { useUser } from "@/app/dashboard/UserProvider";
 
-export type DashboardUser = {
-  first_name: string;
-  last_name: string;
-  email: string;
-  country: string;
-  referral_code: string | null;
-  referral_count: number | null;
-  email_verified: boolean;
-  created_at: string;
-};
+export default function ReferralLinkCard() {
+  const { user } = useUser();
 
-type UserContextValue = {
-  user: DashboardUser | null;
-  loading: boolean;
-  error: string | null;
-  email: string | null;
-};
+  const referralLink = user?.referral_code
+    ? `https://takeprofit.name.ng/invite/${user.referral_code}`
+    : "";
 
-const UserContext = createContext<UserContextValue>({
-  user: null,
-  loading: true,
-  error: null,
-  email: null,
-});
+  async function copyLink() {
+    if (!referralLink) return;
 
-export function useUser() {
-  return useContext(UserContext);
-}
+    await navigator.clipboard.writeText(referralLink);
 
-export default function UserProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const searchParams = useSearchParams();
-
-  const email = searchParams.get("email");
-
-  const [user, setUser] = useState<DashboardUser | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!email) {
-      setLoading(false);
-      setError("No email found.");
-      return;
-    }
-
-    let cancelled = false;
-
-    async function loadUser(userEmail: string) {
-      try {
-        const response = await fetch(
-          `/api/dashboard?email=${encodeURIComponent(userEmail)}`
-        );
-
-        const data = await response.json();
-
-        if (cancelled) return;
-
-        if (!response.ok) {
-          setError(data.error || "Unable to load account.");
-          setUser(null);
-        } else {
-          setUser(data);
-        }
-      } catch {
-        if (!cancelled) {
-          setError("Unable to load account.");
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    }
-
-    loadUser(email);
-
-    return () => {
-      cancelled = true;
-    };
-  }, [email]);
+    alert("Referral link copied.");
+  }
 
   return (
-    <UserContext.Provider
-      value={{
-        user,
-        loading,
-        error,
-        email,
-      }}
-    >
-      {children}
-    </UserContext.Provider>
+    <div className="rounded-[32px] border border-neutral-200 bg-white p-8 shadow-sm">
+
+      <h2 className="text-3xl font-semibold">
+        Your Referral Link
+      </h2>
+
+      <div className="mt-6 rounded-2xl bg-neutral-100 p-5 break-all text-lg">
+
+        {referralLink || "Loading referral link..."}
+
+      </div>
+
+      <div className="mt-6 flex flex-wrap gap-4">
+
+        <button
+          onClick={copyLink}
+          className="rounded-full bg-black px-7 py-3 text-white"
+        >
+          Copy
+        </button>
+
+        <a
+          href={
+            referralLink
+              ? `https://wa.me/?text=${encodeURIComponent(referralLink)}`
+              : "#"
+          }
+          className="rounded-full border border-neutral-300 px-7 py-3"
+        >
+          Share
+        </a>
+
+      </div>
+
+    </div>
   );
 }
