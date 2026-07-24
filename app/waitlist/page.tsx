@@ -4,29 +4,43 @@ import Footer from "@/components/Footer";
 
 export default function WaitlistPage() {
   return (
-    <main className="bg-white">
+    <main className="bg-white min-h-screen">
 
       <Navbar />
 
-      <section className="bg-neutral-100 px-6 py-32">
+      <section className="pt-40 pb-20 px-6">
 
-        <div className="mx-auto max-w-4xl text-center">
+        <div className="mx-auto max-w-5xl text-center">
 
-          <h1 className="text-6xl font-semibold tracking-tight text-black">
+          <span className="rounded-full bg-blue-100 px-5 py-2 text-sm font-semibold text-blue-700">
+            EARLY ACCESS
+          </span>
 
-            Join the Take Profit Waitlist
+          <h1 className="mt-8 text-5xl md:text-7xl font-semibold leading-tight text-black">
+
+            Join the
+            <br />
+            Take Profit
+            <br />
+            Waitlist
 
           </h1>
 
-          <p className="mt-8 text-xl leading-9 text-neutral-600">
+          <p className="mx-auto mt-10 max-w-3xl text-xl leading-9 text-neutral-600">
 
-            Create your account today and become one of the first members of
-            Take Profit.
+            Apply for early access.
 
-            <br /><br />
+            <br />
 
-            Register, verify your email, unlock your dashboard,
-            invite others, and follow our journey before launch.
+            Learn how Take Profit works.
+
+            <br />
+
+            Invite verified traders.
+
+            <br />
+
+            Help shape the future of the platform.
 
           </p>
 
