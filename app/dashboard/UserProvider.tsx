@@ -59,10 +59,10 @@ export default function UserProvider({
 
     let cancelled = false;
 
-    async function loadUser() {
+    async function loadUser(userEmail: string) {
       try {
         const response = await fetch(
-          `/api/dashboard?email=${encodeURIComponent(email)}`
+          `/api/dashboard?email=${encodeURIComponent(userEmail)}`
         );
 
         const data = await response.json();
@@ -86,7 +86,7 @@ export default function UserProvider({
       }
     }
 
-    loadUser();
+    loadUser(email!);
 
     return () => {
       cancelled = true;
