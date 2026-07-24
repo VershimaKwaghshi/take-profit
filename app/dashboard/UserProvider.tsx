@@ -44,15 +44,15 @@ export default function UserProvider({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const email = localStorage.getItem("tp_email");
-
-    if (!email) {
-      setLoading(false);
-      setError("Please log in again.");
-      return;
-    }
-
     async function loadUser() {
+      const email = localStorage.getItem("tp_email");
+
+      if (!email) {
+        setError("Please log in again.");
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await fetch(
           `/api/dashboard?email=${encodeURIComponent(email)}`
@@ -62,10 +62,10 @@ export default function UserProvider({
 
         if (!response.ok) {
           setError(data.error || "Unable to load account.");
-          return;
+          setUser(null);
+        } else {
+          setUser(data);
         }
-
-        setUser(data);
       } catch {
         setError("Unable to load account.");
       } finally {
