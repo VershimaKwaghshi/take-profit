@@ -1,153 +1,155 @@
 "use client";
 
-import { Suspense, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import Image from "next/image";
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
 function VerifyContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
-  const email = searchParams.get("email") || "";
-
-  const [code, setCode] = useState("");
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [resending, setResending] = useState(false);
-
-  async function verifyEmail() {
-    setLoading(true);
-    setMessage("");
-
-    try {
-      const response = await fetch("/api/verify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          code,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        setMessage(result.error || "Verification failed");
-        return;
-      }
-
-      router.push(result.redirect);
-
-    } catch (error) {
-      console.error(error);
-      setMessage("Unable to verify email");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function resendCode() {
-    setResending(true);
-    setMessage("");
-
-    try {
-      const response = await fetch("/api/resend-code", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        setMessage(result.error || "Unable to resend code");
-        return;
-      }
-
-      setMessage("A new verification code has been sent");
-    } catch (error) {
-      console.error(error);
-      setMessage("Unable to resend code");
-    } finally {
-      setResending(false);
-    }
-  }
+  const email = searchParams.get("email");
 
   return (
-    <main className="min-h-screen bg-white text-black flex items-center justify-center px-6">
-      <div className="w-full max-w-md text-center">
+    <main className="min-h-screen bg-white flex items-center justify-center px-6">
 
-        <Image
+      <div className="w-full max-w-3xl text-center">
+
+        <img
           src="/logo.svg"
           alt="Take Profit"
-          width={40}
-          height={40}
-          className="mx-auto"
+          className="mx-auto w-28"
         />
 
-        <h1 className="mt-6 text-3xl font-semibold">
-          Verify your email
+        <div className="mt-10 inline-flex rounded-full bg-blue-100 px-5 py-2">
+
+          <span className="text-sm font-semibold text-blue-700">
+            STEP 1 OF 4
+          </span>
+
+        </div>
+
+        <h1 className="mt-8 text-5xl md:text-6xl font-semibold text-black">
+
+          Application
+          <br />
+          Received.
+
         </h1>
 
-        <p className="mt-4 text-neutral-600">
-          Enter the six digit code sent to
+        <p className="mt-8 text-xl leading-9 text-neutral-600">
+
+          We've sent a verification email to
+
         </p>
 
-        <p className="mt-1 font-medium">
+        <p className="mt-4 text-2xl font-semibold text-black break-all">
+
           {email}
+
         </p>
 
-        <input
-          type="text"
-          inputMode="numeric"
-          maxLength={6}
-          value={code}
-          onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
-          placeholder="000000"
-          className="mt-8 w-full rounded-xl border border-neutral-300 px-5 py-4 text-center text-2xl tracking-[8px] outline-none"
-        />
+        <div className="mt-14 rounded-[36px] bg-black p-10 text-left text-white">
 
-        <button
-          onClick={verifyEmail}
-          disabled={loading || code.length !== 6}
-          className="mt-6 w-full rounded-full bg-black px-6 py-4 text-white disabled:opacity-50"
-        >
-          {loading ? "Verifying..." : "Verify email"}
-        </button>
+          <h2 className="text-2xl font-semibold">
 
-        <button
-          onClick={resendCode}
-          disabled={resending}
-          className="mt-5 text-sm text-neutral-600 underline"
-        >
-          {resending ? "Sending..." : "Resend code"}
-        </button>
+            What happens next?
 
-        {message && (
-          <p className="mt-4 text-sm text-neutral-700">
-            {message}
-          </p>
-        )}
+          </h2>
+
+          <div className="mt-8 space-y-8">
+
+            <div className="flex gap-5">
+
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 font-semibold">
+                1
+              </div>
+
+              <div>
+
+                <h3 className="font-semibold">
+                  Verify your email
+                </h3>
+
+                <p className="mt-2 text-neutral-300">
+                  Click the verification link we sent.
+                </p>
+
+              </div>
+
+            </div>
+
+            <div className="flex gap-5">
+
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-600 font-semibold">
+                2
+              </div>
+
+              <div>
+
+                <h3 className="font-semibold">
+                  Access your dashboard
+                </h3>
+
+                <p className="mt-2 text-neutral-300">
+                  Your dashboard opens immediately after verification.
+                </p>
+
+              </div>
+
+            </div>
+
+            <div className="flex gap-5">
+
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 font-semibold">
+                3
+              </div>
+
+              <div>
+
+                <h3 className="font-semibold">
+                  Invite verified traders
+                </h3>
+
+                <p className="mt-2 text-neutral-300">
+                  Unlock more platform features as referrals verify.
+                </p>
+
+              </div>
+
+            </div>
+
+            <div className="flex gap-5">
+
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black font-semibold">
+                4
+              </div>
+
+              <div>
+
+                <h3 className="font-semibold">
+                  Prepare for launch
+                </h3>
+
+                <p className="mt-2 text-neutral-300">
+                  Learn, explore and be ready when Take Profit goes live.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
+
     </main>
   );
 }
 
 export default function VerifyPage() {
   return (
-    <Suspense
-      fallback={
-        <main className="min-h-screen flex items-center justify-center">
-          Loading...
-        </main>
-      }
-    >
+    <Suspense fallback={null}>
       <VerifyContent />
     </Suspense>
   );
