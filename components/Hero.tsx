@@ -38,12 +38,6 @@ export default function Hero() {
             Join Waitlist
           </a>
 
-          <a
-            href="#features"
-            className="rounded-full border border-neutral-300 px-10 py-5 font-semibold text-black transition hover:bg-neutral-100"
-          >
-            Learn More
-          </a>
 
         </div>
 
