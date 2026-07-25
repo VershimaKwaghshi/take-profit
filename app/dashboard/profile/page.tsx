@@ -2,18 +2,18 @@
 
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
-import { useUser } from "@/app/dashboard/UserProvider";
-
-function formatJoinedDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-}
+import { useUser } from "../UserProvider";
 
 export default function ProfilePage() {
-  const { user, loading, error } = useUser();
+  const { user, loading } = useUser();
+
+  if (loading) {
+    return (
+      <main className="min-h-screen flex items-center justify-center">
+        Loading...
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-neutral-100">
@@ -22,92 +22,56 @@ export default function ProfilePage() {
 
         <Sidebar />
 
-        <section className="flex-1 p-10">
+        <section className="flex-1 p-8">
 
           <Topbar />
 
-          <div className="mt-10 rounded-[36px] border border-neutral-200 bg-white p-12 shadow-sm">
+          <div className="mt-8 rounded-[32px] bg-white p-10 shadow">
 
             <h1 className="text-4xl font-semibold">
               Profile
             </h1>
 
-            {error && (
-              <p className="mt-6 text-red-600">
-                {error}
-              </p>
-            )}
-
-            <div className="mt-12 grid gap-8 md:grid-cols-2">
+            <div className="mt-10 space-y-6">
 
               <div>
-
                 <p className="text-sm text-neutral-500">
-                  Full Name
+                  First Name
                 </p>
 
-                <p className="mt-2 text-xl font-medium">
-                  {loading
-                    ? "Loading..."
-                    : user
-                    ? `${user.first_name} ${user.last_name}`
-                    : "—"}
+                <p className="text-xl font-medium">
+                  {user?.first_name ?? "-"}
                 </p>
-
               </div>
 
               <div>
+                <p className="text-sm text-neutral-500">
+                  Last Name
+                </p>
 
+                <p className="text-xl font-medium">
+                  {user?.last_name ?? "-"}
+                </p>
+              </div>
+
+              <div>
                 <p className="text-sm text-neutral-500">
                   Email
                 </p>
 
-                <p className="mt-2 text-xl font-medium">
-                  {loading ? "Loading..." : user?.email ?? "—"}
+                <p className="text-xl font-medium">
+                  {user?.email ?? "-"}
                 </p>
-
               </div>
 
               <div>
-
                 <p className="text-sm text-neutral-500">
-                  Country
+                  Referrals
                 </p>
 
-                <p className="mt-2 text-xl font-medium">
-                  {loading ? "Loading..." : user?.country ?? "—"}
+                <p className="text-xl font-medium">
+                  {user?.referral_count ?? 0}
                 </p>
-
-              </div>
-
-              <div>
-
-                <p className="text-sm text-neutral-500">
-                  Referral Code
-                </p>
-
-                <p className="mt-2 text-xl font-medium">
-                  {loading
-                    ? "Loading..."
-                    : user?.referral_code ?? "Pending"}
-                </p>
-
-              </div>
-
-              <div>
-
-                <p className="text-sm text-neutral-500">
-                  Joined
-                </p>
-
-                <p className="mt-2 text-xl font-medium">
-                  {loading
-                    ? "Loading..."
-                    : user?.created_at
-                    ? formatJoinedDate(user.created_at)
-                    : "—"}
-                </p>
-
               </div>
 
             </div>
