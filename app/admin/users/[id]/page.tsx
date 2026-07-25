@@ -2,109 +2,122 @@
 
 import { useEffect, useState } from "react";
 
-export default function UserDetailsPage({
+export default function UserProfile({
   params,
 }: {
-  params: { id: string };
+  params: {
+    id: string;
+  };
 }) {
+
   const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+
     async function loadUser() {
-      const response = await fetch(`/api/admin/users/${params.id}`);
+
+      const response = await fetch(
+        `/api/admin/users/${params.id}`
+      );
+
       const data = await response.json();
 
       setUser(data);
-      setLoading(false);
+
     }
 
     loadUser();
+
   }, [params.id]);
 
-  if (loading) {
+  if (!user) {
+
     return (
-      <main className="min-h-screen flex items-center justify-center">
+      <main className="p-10">
         Loading...
       </main>
     );
+
   }
 
   return (
-    <main className="min-h-screen bg-neutral-100">
 
-      <div className="mx-auto max-w-5xl p-10">
+    <main className="p-10">
 
-        <div className="rounded-[36px] bg-white p-10 shadow">
+      <h1 className="text-5xl font-semibold">
 
-          <h1 className="text-4xl font-semibold">
-            {user.first_name} {user.last_name}
-          </h1>
+        {user.first_name} {user.last_name}
 
-          <div className="mt-10 grid gap-8 md:grid-cols-2">
+      </h1>
 
-            <div>
-              <p className="text-neutral-500">Email</p>
-              <p className="text-xl">{user.email}</p>
-            </div>
+      <div className="mt-10 grid gap-6 md:grid-cols-2">
 
-            <div>
-              <p className="text-neutral-500">Country</p>
-              <p className="text-xl">{user.country}</p>
-            </div>
+        <div className="rounded-[30px] bg-white p-8 shadow">
 
-            <div>
-              <p className="text-neutral-500">Referral Code</p>
-              <p className="text-xl">
-                {user.referral_code || "None"}
-              </p>
-            </div>
+          <h3 className="text-lg font-semibold">
 
-            <div>
-              <p className="text-neutral-500">Referrals</p>
-              <p className="text-xl">
-                {user.referral_count ?? 0}
-              </p>
-            </div>
+            Email
 
-            <div>
-              <p className="text-neutral-500">Verified</p>
+          </h3>
 
-              <p className="text-xl">
-                {user.email_verified ? "Yes" : "No"}
-              </p>
-            </div>
+          <p className="mt-4">
+            {user.email}
+          </p>
 
-            <div>
-              <p className="text-neutral-500">Joined</p>
+        </div>
 
-              <p className="text-xl">
-                {new Date(user.created_at).toLocaleString()}
-              </p>
-            </div>
+        <div className="rounded-[30px] bg-white p-8 shadow">
 
-          </div>
+          <h3 className="text-lg font-semibold">
 
-          <div className="mt-12 flex gap-4">
+            Country
 
-            <button className="rounded-full bg-blue-600 px-6 py-3 text-white">
-              Edit User
-            </button>
+          </h3>
 
-            <button className="rounded-full bg-black px-6 py-3 text-white">
-              Reset Referral
-            </button>
+          <p className="mt-4">
+            {user.country}
+          </p>
 
-            <button className="rounded-full bg-red-600 px-6 py-3 text-white">
-              Suspend User
-            </button>
+        </div>
 
-          </div>
+        <div className="rounded-[30px] bg-white p-8 shadow">
+
+          <h3 className="text-lg font-semibold">
+
+            Referrals
+
+          </h3>
+
+          <p className="mt-4 text-4xl font-semibold">
+
+            {user.referral_count}
+
+          </p>
+
+        </div>
+
+        <div className="rounded-[30px] bg-white p-8 shadow">
+
+          <h3 className="text-lg font-semibold">
+
+            Status
+
+          </h3>
+
+          <p className="mt-4">
+
+            {user.email_verified
+              ? "Verified"
+              : "Pending"}
+
+          </p>
 
         </div>
 
       </div>
 
     </main>
+
   );
+
 }
