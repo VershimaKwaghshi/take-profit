@@ -140,6 +140,17 @@ export default function Topbar() {
               💬 Help & Contact
             </Link>
 
+            {user?.is_admin && (
+
+              <Link
+                href="/admin"
+                className="mx-3 my-2 block rounded-2xl bg-blue-600 px-6 py-4 font-semibold text-white transition hover:bg-blue-700"
+              >
+                🛡️ Admin Portal
+              </Link>
+
+            )}
+
           </div>
 
           <div className="border-t border-neutral-200 p-2">
