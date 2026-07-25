@@ -40,31 +40,34 @@ export function UserProvider({
       try {
         const email = localStorage.getItem("tp-email");
 
-        console.log("LOCAL STORAGE EMAIL:", email);
-
         if (!email) {
+          alert("❌ tp-email not found in localStorage");
           setLoading(false);
           return;
         }
+
+        alert(`📧 Email: ${email}`);
 
         const response = await fetch(
           `/api/dashboard?email=${encodeURIComponent(email)}`
         );
 
-        console.log("API STATUS:", response.status);
+        alert(`📡 API Status: ${response.status}`);
 
         if (!response.ok) {
+          const error = await response.text();
+          alert(error);
           setLoading(false);
           return;
         }
 
         const data = await response.json();
 
-        console.log("USER DATA:", data);
+        alert(JSON.stringify(data, null, 2));
 
         setUser(data);
-      } catch (err) {
-        console.error(err);
+      } catch (err: any) {
+        alert(err?.message || "Unknown error");
       } finally {
         setLoading(false);
       }
