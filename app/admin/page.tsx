@@ -3,89 +3,115 @@
 import { useEffect, useState } from "react";
 
 type Stats = {
-  totalUsers: number;
-  verifiedUsers: number;
-  totalReferrals: number;
+  total: number;
+  verified: number;
+  pending: number;
   announcements: number;
 };
 
 export default function AdminPage() {
+
   const [stats, setStats] = useState<Stats>({
-    totalUsers: 0,
-    verifiedUsers: 0,
-    totalReferrals: 0,
+    total: 0,
+    verified: 0,
+    pending: 0,
     announcements: 0,
   });
 
-  const [loading, setLoading] = useState(true);
-
   useEffect(() => {
-    async function loadDashboard() {
-      const response = await fetch("/api/admin/dashboard");
+
+    async function loadStats() {
+
+      const response = await fetch("/api/admin/stats");
+
       const data = await response.json();
 
       setStats(data);
-      setLoading(false);
+
     }
 
-    loadDashboard();
+    loadStats();
+
   }, []);
 
   return (
-    <main className="p-10">
 
-      <h1 className="text-5xl font-semibold">
-        Dashboard
-      </h1>
+    <main className="min-h-screen bg-neutral-100">
 
-      <p className="mt-3 text-neutral-500">
-        Welcome back, Administrator.
-      </p>
+      <div className="border-b bg-white">
 
-      <div className="mt-10 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-6">
 
-        <div className="rounded-[30px] bg-blue-600 p-8 text-white">
+          <div>
 
-          <p>Total Users</p>
+            <h1 className="text-4xl font-semibold">
+              Take Profit Admin
+            </h1>
 
-          <h2 className="mt-5 text-5xl font-bold">
-            {loading ? "..." : stats.totalUsers}
-          </h2>
+            <p className="text-neutral-500">
+              Internal Management Portal
+            </p>
 
-        </div>
+          </div>
 
-        <div className="rounded-[30px] bg-red-600 p-8 text-white">
-
-          <p>Verified Users</p>
-
-          <h2 className="mt-5 text-5xl font-bold">
-            {loading ? "..." : stats.verifiedUsers}
-          </h2>
+          <div className="rounded-full bg-black px-5 py-2 text-white">
+            Administrator
+          </div>
 
         </div>
 
-        <div className="rounded-[30px] bg-black p-8 text-white">
+      </div>
 
-          <p>Total Referrals</p>
+      <div className="mx-auto max-w-7xl p-8">
 
-          <h2 className="mt-5 text-5xl font-bold">
-            {loading ? "..." : stats.totalReferrals}
-          </h2>
+        <div className="grid gap-6 md:grid-cols-4">
 
-        </div>
+          <div className="rounded-[30px] bg-blue-600 p-8 text-white">
 
-        <div className="rounded-[30px] bg-white p-8 shadow">
+            <p>Total Waitlist</p>
 
-          <p>Announcements</p>
+            <h2 className="mt-4 text-5xl font-semibold">
+              {stats.total}
+            </h2>
 
-          <h2 className="mt-5 text-5xl font-bold">
-            {loading ? "..." : stats.announcements}
-          </h2>
+          </div>
+
+          <div className="rounded-[30px] bg-red-600 p-8 text-white">
+
+            <p>Pending Verification</p>
+
+            <h2 className="mt-4 text-5xl font-semibold">
+              {stats.pending}
+            </h2>
+
+          </div>
+
+          <div className="rounded-[30px] bg-black p-8 text-white">
+
+            <p>Verified Users</p>
+
+            <h2 className="mt-4 text-5xl font-semibold">
+              {stats.verified}
+            </h2>
+
+          </div>
+
+          <div className="rounded-[30px] bg-white p-8 shadow">
+
+            <p>Announcements</p>
+
+            <h2 className="mt-4 text-5xl font-semibold">
+              {stats.announcements}
+            </h2>
+
+          </div>
 
         </div>
 
       </div>
 
     </main>
+
   );
+
 }
