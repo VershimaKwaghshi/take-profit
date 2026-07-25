@@ -16,32 +16,43 @@ export default function Home() {
 
       <Features />
 
-      <section className="bg-black py-28">
+      <section className="bg-black py-36">
 
-        <div className="mx-auto max-w-4xl px-6 text-center text-white">
+        <div className="mx-auto max-w-6xl px-6 text-center">
 
-          <h2 className="text-5xl font-semibold">
+          <p className="text-sm uppercase tracking-[0.35em] text-red-500">
 
-            Be among the first to experience Take Profit.
+            EARLY ACCESS
+
+          </p>
+
+          <h2 className="mt-8 text-5xl font-semibold leading-tight text-white md:text-7xl">
+
+            Build your future
+            <br />
+            before launch.
 
           </h2>
 
-          <p className="mt-8 text-xl leading-9 text-neutral-300">
+          <p className="mx-auto mt-10 max-w-3xl text-xl leading-10 text-neutral-300">
 
-            Join our early access community today.
-            Secure your account before launch,
-            invite friends, unlock your dashboard,
-            and follow the journey as Take Profit comes to life.
+            Secure your account today.
+
+            Learn how Take Profit works.
+
+            Invite one verified member.
+
+            Unlock your complete dashboard.
+
+            Be ready from day one.
 
           </p>
 
           <a
             href="/waitlist"
-            className="mt-12 inline-flex items-center justify-center rounded-full bg-white px-8 py-4 font-semibold text-black transition hover:bg-neutral-100"
+            className="mt-16 inline-flex items-center justify-center rounded-full bg-white px-10 py-5 text-lg font-semibold text-black transition hover:bg-neutral-100"
           >
-
             Join Waitlist
-
           </a>
 
         </div>
