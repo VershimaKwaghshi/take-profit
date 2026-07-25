@@ -1,12 +1,14 @@
+import Link from "next/link";
+
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-white">
 
       {/* Background */}
 
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.06),transparent_45%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.06),transparent_45%)]" />
 
-      <div className="mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-6 text-center">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-6 text-center">
 
         <h1 className="max-w-6xl text-5xl font-semibold leading-tight tracking-tight text-black md:text-7xl">
 
@@ -29,19 +31,16 @@ export default function Hero() {
 
         </p>
 
-        <div className="mt-14 flex flex-wrap items-center justify-center gap-5">
+        <div className="mt-14">
 
-          <a
+          <Link
             href="/waitlist"
-            className="rounded-full bg-black px-10 py-5 font-semibold text-white transition hover:bg-neutral-900"
+            className="inline-flex items-center justify-center rounded-full bg-black px-10 py-5 font-semibold text-white transition hover:bg-neutral-900"
           >
             Join Waitlist
-          </a>
-
+          </Link>
 
         </div>
-
-        {/* Premium Statement */}
 
         <div className="mt-28 w-full max-w-5xl rounded-[40px] border border-neutral-900 bg-black px-10 py-14 text-left shadow-2xl">
 
