@@ -41,33 +41,24 @@ export function UserProvider({
         const email = localStorage.getItem("tp-email");
 
         if (!email) {
-          alert("❌ tp-email not found in localStorage");
           setLoading(false);
           return;
         }
-
-        alert(`📧 Email: ${email}`);
 
         const response = await fetch(
           `/api/dashboard?email=${encodeURIComponent(email)}`
         );
 
-        alert(`📡 API Status: ${response.status}`);
-
         if (!response.ok) {
-          const error = await response.text();
-          alert(error);
           setLoading(false);
           return;
         }
 
         const data = await response.json();
 
-        alert(JSON.stringify(data, null, 2));
-
         setUser(data);
-      } catch (err: any) {
-        alert(err?.message || "Unknown error");
+      } catch (err) {
+        console.error(err);
       } finally {
         setLoading(false);
       }
