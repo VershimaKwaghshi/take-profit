@@ -52,29 +52,31 @@ export async function POST(request: Request) {
 
       try {
         await resend.emails.send({
-          from: "Take Profit <noreply@takeprofit.name.ng>",
+          from: "Take Profit <welcome@takeprofit.name.ng>",
           to: user.email,
           subject,
           html: `
-          <div style="font-family:Arial;padding:40px;max-width:650px;margin:auto">
+          <div style="font-family:Arial,sans-serif;padding:40px;max-width:650px;margin:auto;background:#0f0f0f;color:#ffffff">
 
             <img
               src="https://takeprofit.name.ng/logo.png"
               width="70"
+              alt="Take Profit"
             />
 
-            <h1 style="margin-top:30px">
+            <h1 style="margin-top:30px;font-size:32px;">
               ${subject}
             </h1>
 
-            <div style="font-size:16px;line-height:1.8">
+            <div style="font-size:16px;line-height:1.8;margin-top:30px;">
               ${message.replace(/\n/g, "<br/>")}
             </div>
 
-            <hr style="margin:40px 0"/>
+            <hr style="margin:50px 0;border:none;border-top:1px solid #333;" />
 
-            <p style="color:#666">
-              Take Profit<br/>
+            <p style="color:#999;font-size:14px;">
+              Take Profit
+              <br/>
               A PLeNat Technologies company.
             </p>
 
@@ -84,7 +86,7 @@ export async function POST(request: Request) {
 
         sent++;
       } catch (err) {
-        console.error(err);
+        console.error("Email failed:", err);
       }
     }
 
