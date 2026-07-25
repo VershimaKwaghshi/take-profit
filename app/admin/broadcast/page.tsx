@@ -7,6 +7,47 @@ export default function BroadcastPage() {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [audience, setAudience] = useState("all");
+  const [sending, setSending] = useState(false);
+
+  async function sendBroadcast() {
+
+    if (!subject || !message) {
+      alert("Fill every field.");
+      return;
+    }
+
+    setSending(true);
+
+    const response = await fetch(
+      "/api/admin/broadcast",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          audience,
+          subject,
+          message,
+        }),
+      }
+    );
+
+    const result = await response.json();
+
+    setSending(false);
+
+    if (!response.ok) {
+      alert(result.error);
+      return;
+    }
+
+    alert(`Broadcast sent to ${result.sent} users.`);
+
+    setSubject("");
+    setMessage("");
+
+  }
 
   return (
 
@@ -17,19 +58,19 @@ export default function BroadcastPage() {
       </h1>
 
       <p className="mt-3 text-neutral-500">
-        Send platform updates to your users.
+        Send announcements to everyone.
       </p>
 
-      <div className="mt-10 rounded-[32px] bg-white p-10 shadow">
+      <div className="mt-10 rounded-[30px] bg-white p-10 shadow">
 
-        <label className="text-lg font-medium">
+        <label className="font-medium">
           Audience
         </label>
 
         <select
           value={audience}
           onChange={(e) => setAudience(e.target.value)}
-          className="mt-3 w-full rounded-2xl border border-neutral-300 p-4"
+          className="mt-3 w-full rounded-2xl border p-4"
         >
 
           <option value="all">
@@ -46,32 +87,34 @@ export default function BroadcastPage() {
 
         </select>
 
-        <label className="mt-8 block text-lg font-medium">
+        <label className="mt-8 block font-medium">
           Subject
         </label>
 
         <input
+          className="mt-3 w-full rounded-2xl border p-4"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
-          className="mt-3 w-full rounded-2xl border border-neutral-300 p-4"
-          placeholder="Email subject"
         />
 
-        <label className="mt-8 block text-lg font-medium">
+        <label className="mt-8 block font-medium">
           Message
         </label>
 
         <textarea
+          className="mt-3 h-80 w-full rounded-2xl border p-4"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="mt-3 h-72 w-full rounded-2xl border border-neutral-300 p-4"
-          placeholder="Write your announcement..."
         />
 
         <button
-          className="mt-8 rounded-full bg-black px-8 py-4 text-white"
+          onClick={sendBroadcast}
+          disabled={sending}
+          className="mt-8 rounded-full bg-black px-8 py-4 text-white disabled:opacity-50"
         >
-          Send Broadcast
+          {sending
+            ? "Sending..."
+            : "Send Broadcast"}
         </button>
 
       </div>
