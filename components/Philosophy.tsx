@@ -1,40 +1,51 @@
 export default function Philosophy() {
   return (
-    <section className="bg-black py-32 text-white">
+    <section className="bg-white py-32">
 
-      <div className="mx-auto max-w-5xl px-6 text-center">
+      <div className="mx-auto max-w-6xl px-6">
 
-        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-neutral-400">
+        <p className="text-sm font-semibold uppercase tracking-[0.35em] text-neutral-500">
 
-          Why We Built Take Profit
+          DISCOVER TAKE PROFIT
 
         </p>
 
-        <h2 className="mt-8 text-5xl font-semibold leading-tight md:text-7xl">
+        <h2 className="mt-8 max-w-5xl text-5xl font-semibold leading-tight tracking-tight text-black md:text-7xl">
 
-          Losing a trade is fine.
+          Discover a new path.
+
           <br />
-          Losing permanently is not.
+
+          You can now earn.
 
         </h2>
 
-        <p className="mx-auto mt-12 max-w-3xl text-xl leading-9 text-neutral-300">
+        <div className="mt-14 max-w-4xl space-y-8 text-xl leading-10 text-neutral-600">
 
-          Financial markets will always have winners and losers.
+          <p>
 
-          <br /><br />
+            Take Profit is a proprietary trading platform built for disciplined
+            traders who want more than another broker.
 
-          But one mistake shouldn't permanently remove someone from the opportunity to build wealth.
+          </p>
 
-          <br /><br />
+          <p>
 
-          We believe setbacks should become lessons, not the end of a financial journey.
+            Before launch, every member receives guided education explaining how
+            the platform works, why each feature exists and how to use it
+            responsibly.
 
-          <br /><br />
+          </p>
 
-          Take Profit is being built around that single belief.
+          <p>
 
-        </p>
+            Complete your journey, invite one verified member and unlock your
+            complete Take Profit experience before the platform officially
+            launches.
+
+          </p>
+
+        </div>
 
       </div>
 
