@@ -3,6 +3,7 @@
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import ReferralLinkCard from "@/components/ReferralLinkCard";
+import AnnouncementCard from "./AnnouncementCard";
 import { Lock } from "lucide-react";
 import { useUser } from "./UserProvider";
 
@@ -33,6 +34,14 @@ export default function DashboardPage() {
         <section className="flex-1 p-8">
 
           <Topbar />
+
+          {/* Announcements */}
+
+          <div className="mt-8">
+
+            <AnnouncementCard />
+
+          </div>
 
           {/* Portfolio */}
 
