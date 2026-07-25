@@ -63,8 +63,7 @@ function WaitlistForm() {
         return;
       }
 
-      window.location.href =
-        `/verify?email=${encodeURIComponent(email)}`;
+      window.location.href = `/verify?email=${encodeURIComponent(email)}`;
 
     } catch {
       setMessage("Unable to connect.");
@@ -76,58 +75,7 @@ function WaitlistForm() {
   return (
     <section className="pb-32 px-6">
 
-      <div className="mx-auto max-w-7xl grid lg:grid-cols-[420px_1fr] gap-12">
-
-        {/* LEFT PANEL */}
-
-        <div className="space-y-8">
-
-          <div className="rounded-[36px] bg-black p-8 text-white">
-
-            <div className="text-blue-400 text-sm font-semibold uppercase tracking-[0.3em]">
-              EARLY ACCESS
-            </div>
-
-            <h2 className="mt-6 text-3xl font-semibold">
-              Why Join?
-            </h2>
-
-            <p className="mt-6 text-neutral-300 leading-8">
-              Join the earliest members helping shape
-              Take Profit before launch.
-            </p>
-
-          </div>
-
-          <div className="rounded-[36px] bg-blue-600 p-8 text-white">
-
-            <h3 className="text-2xl font-semibold">
-              Learn Before Launch
-            </h3>
-
-            <p className="mt-5 text-blue-100 leading-8">
-              Watch short learning sessions explaining
-              exactly how Take Profit works.
-            </p>
-
-          </div>
-
-          <div className="rounded-[36px] bg-red-600 p-8 text-white">
-
-            <h3 className="text-2xl font-semibold">
-              Referral Access
-            </h3>
-
-            <p className="mt-5 text-red-100 leading-8">
-              Invite verified traders and unlock
-              additional platform features before launch.
-            </p>
-
-          </div>
-
-        </div>
-
-        {/* FORM */}
+      <div className="mx-auto max-w-3xl">
 
         <form
           onSubmit={handleSubmit}
@@ -147,7 +95,7 @@ function WaitlistForm() {
             <input
               required
               value={firstName}
-              onChange={(e)=>setFirstName(e.target.value)}
+              onChange={(e) => setFirstName(e.target.value)}
               placeholder="First Name"
               className="rounded-2xl border border-neutral-300 px-5 py-4"
             />
@@ -155,7 +103,7 @@ function WaitlistForm() {
             <input
               required
               value={lastName}
-              onChange={(e)=>setLastName(e.target.value)}
+              onChange={(e) => setLastName(e.target.value)}
               placeholder="Last Name"
               className="rounded-2xl border border-neutral-300 px-5 py-4"
             />
@@ -166,7 +114,7 @@ function WaitlistForm() {
             required
             type="email"
             value={email}
-            onChange={(e)=>setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             className="w-full rounded-2xl border border-neutral-300 px-5 py-4"
           />
@@ -196,12 +144,12 @@ function WaitlistForm() {
             onChange={setFrequency}
           />
 
-          <label className="flex gap-3 items-center">
+          <label className="flex items-center gap-3">
 
             <input
               type="checkbox"
               checked={beta}
-              onChange={(e)=>setBeta(e.target.checked)}
+              onChange={(e) => setBeta(e.target.checked)}
             />
 
             <span>
