@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import UserProvider from "./UserProvider";
+import { UserProvider } from "./UserProvider";
 
 export default function DashboardLayout({
   children,
@@ -8,7 +8,9 @@ export default function DashboardLayout({
 }) {
   return (
     <Suspense fallback={null}>
-      <UserProvider>{children}</UserProvider>
+      <UserProvider>
+        {children}
+      </UserProvider>
     </Suspense>
   );
 }
