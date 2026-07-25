@@ -36,6 +36,9 @@ export default function LoginPage() {
         return;
       }
 
+      // SAVE EMAIL FOR DASHBOARD
+      localStorage.setItem("tp-email", email);
+
       router.push(
         `/verify?email=${encodeURIComponent(email)}`
       );
@@ -51,10 +54,7 @@ export default function LoginPage() {
 
       <div className="w-full max-w-md rounded-[36px] border border-neutral-200 bg-white p-10 shadow-sm">
 
-        {/* Logo */}
-
         <div className="flex items-center gap-3">
-
           <Image
             src="/logo.svg"
             alt="Take Profit"
@@ -65,10 +65,7 @@ export default function LoginPage() {
           <span className="text-lg font-semibold">
             Take Profit
           </span>
-
         </div>
-
-        {/* Back */}
 
         <button
           onClick={() => router.push("/")}
@@ -76,8 +73,6 @@ export default function LoginPage() {
         >
           ← Back to Home
         </button>
-
-        {/* Heading */}
 
         <h1 className="mt-6 text-4xl font-semibold tracking-tight">
           Welcome back
@@ -87,8 +82,6 @@ export default function LoginPage() {
           Enter the email address you used to join the Take Profit waitlist.
           We'll send you a fresh verification code.
         </p>
-
-        {/* Email */}
 
         <input
           type="email"
@@ -103,8 +96,6 @@ export default function LoginPage() {
           }}
           className="mt-10 w-full rounded-2xl border border-neutral-300 bg-white px-5 py-4 outline-none transition focus:border-black focus:ring-2 focus:ring-black/10"
         />
-
-        {/* Continue */}
 
         <button
           onClick={continueLogin}
