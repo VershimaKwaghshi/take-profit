@@ -1,16 +1,24 @@
 import { NextResponse } from "next/server";
-import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
+import { createClient } from "@supabase/supabase-js";
 
-async function getDashboardUser(email: string | null) {
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+
+  const email = searchParams.get("email");
+
   if (!email) {
     return NextResponse.json(
-      { error: "Email is required" },
+      { error: "Email required." },
       { status: 400 }
     );
   }
 
-  // Get logged-in user
-  const { data: user, error } = await supabase
+  const { data, error } = await supabase
     .from("waitlist")
     .select(`
       first_name,
@@ -20,57 +28,18 @@ async function getDashboardUser(email: string | null) {
       referral_code,
       referral_count,
       email_verified,
-      created_at
+      created_at,
+      is_admin
     `)
     .eq("email", email)
     .single();
 
-  if (error || !user) {
+  if (error) {
     return NextResponse.json(
-      { error: "User not found" },
+      { error: "User not found." },
       { status: 404 }
     );
   }
 
-  // Count verified referrals
-  const { count } = await supabase
-    .from("waitlist")
-    .select("*", {
-      count: "exact",
-      head: true,
-    })
-    .eq("referred_by", user.referral_code)
-    .eq("email_verified", true);
-
-  return NextResponse.json({
-    ...user,
-    verified_referrals: count ?? 0,
-  });
-}
-
-// GET
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-
-  return getDashboardUser(
-    searchParams.get("email")
-  );
-}
-
-// POST
-export async function POST(request: Request) {
-  try {
-    const { email } = await request.json();
-
-    return getDashboardUser(email);
-  } catch {
-    return NextResponse.json(
-      {
-        error: "Server error",
-      },
-      {
-        status: 500,
-      }
-    );
-  }
+  return NextResponse.json(data);
 }
