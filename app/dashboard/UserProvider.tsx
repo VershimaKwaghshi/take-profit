@@ -37,26 +37,37 @@ export function UserProvider({
 
   useEffect(() => {
     async function loadUser() {
-      const email = localStorage.getItem("tp-email");
+      try {
+        const email = localStorage.getItem("tp-email");
 
-      if (!email) {
+        console.log("LOCAL STORAGE EMAIL:", email);
+
+        if (!email) {
+          setLoading(false);
+          return;
+        }
+
+        const response = await fetch(
+          `/api/dashboard?email=${encodeURIComponent(email)}`
+        );
+
+        console.log("API STATUS:", response.status);
+
+        if (!response.ok) {
+          setLoading(false);
+          return;
+        }
+
+        const data = await response.json();
+
+        console.log("USER DATA:", data);
+
+        setUser(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
         setLoading(false);
-        return;
       }
-
-      const response = await fetch(
-        `/api/dashboard?email=${encodeURIComponent(email)}`
-      );
-
-      if (!response.ok) {
-        setLoading(false);
-        return;
-      }
-
-      const data = await response.json();
-
-      setUser(data);
-      setLoading(false);
     }
 
     loadUser();
