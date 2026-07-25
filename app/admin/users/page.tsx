@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type User = {
   id: string;
@@ -15,30 +15,40 @@ type User = {
 };
 
 export default function UsersPage() {
-
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-
     async function loadUsers() {
-
       const response = await fetch("/api/admin/users");
-
       const data = await response.json();
 
       setUsers(data);
-
       setLoading(false);
-
     }
 
     loadUsers();
-
   }, []);
 
-  return (
+  const filteredUsers = useMemo(() => {
+    return users.filter((user) => {
+      const query = search.toLowerCase();
 
+      return (
+        `${user.first_name} ${user.last_name}`
+          .toLowerCase()
+          .includes(query) ||
+        user.email.toLowerCase().includes(query) ||
+        user.country.toLowerCase().includes(query) ||
+        (user.referral_code || "")
+          .toLowerCase()
+          .includes(query)
+      );
+    });
+  }, [users, search]);
+
+  return (
     <main className="min-h-screen bg-neutral-100">
 
       <div className="border-b bg-white">
@@ -49,13 +59,29 @@ export default function UsersPage() {
             Users
           </h1>
 
+          <p className="mt-2 text-neutral-500">
+            {filteredUsers.length} users found
+          </p>
+
         </div>
 
       </div>
 
       <div className="mx-auto max-w-7xl p-8">
 
-        <div className="rounded-[30px] bg-white shadow overflow-hidden">
+        <div className="mb-8 rounded-[30px] bg-white p-6 shadow">
+
+          <input
+            type="text"
+            placeholder="Search by name, email, country or referral code..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full rounded-2xl border border-neutral-300 px-5 py-4 outline-none focus:border-blue-600"
+          />
+
+        </div>
+
+        <div className="overflow-hidden rounded-[30px] bg-white shadow">
 
           <table className="w-full">
 
@@ -63,25 +89,17 @@ export default function UsersPage() {
 
               <tr>
 
-                <th className="p-5 text-left">
-                  Name
-                </th>
+                <th className="p-5 text-left">Name</th>
 
-                <th className="p-5 text-left">
-                  Email
-                </th>
+                <th className="p-5 text-left">Email</th>
 
-                <th className="p-5 text-left">
-                  Country
-                </th>
+                <th className="p-5 text-left">Country</th>
 
-                <th className="p-5 text-left">
-                  Referrals
-                </th>
+                <th className="p-5 text-left">Referrals</th>
 
-                <th className="p-5 text-left">
-                  Verified
-                </th>
+                <th className="p-5 text-left">Verified</th>
+
+                <th className="p-5 text-left">Action</th>
 
               </tr>
 
@@ -93,57 +111,68 @@ export default function UsersPage() {
 
                 <tr>
 
-                  <td
-                    colSpan={5}
-                    className="p-10 text-center"
-                  >
+                  <td colSpan={6} className="p-8 text-center">
+
                     Loading...
+
                   </td>
 
                 </tr>
 
               )}
 
-              {!loading && users.map((user) => (
+              {!loading &&
+                filteredUsers.map((user) => (
 
-                <tr
-                  key={user.id}
-                  className="border-t"
-                >
+                  <tr
+                    key={user.id}
+                    className="border-t"
+                  >
 
-                  <td className="p-5">
+                    <td className="p-5">
 
-                    {user.first_name} {user.last_name}
+                      {user.first_name} {user.last_name}
 
-                  </td>
+                    </td>
 
-                  <td className="p-5">
+                    <td className="p-5">
 
-                    {user.email}
+                      {user.email}
 
-                  </td>
+                    </td>
 
-                  <td className="p-5">
+                    <td className="p-5">
 
-                    {user.country}
+                      {user.country}
 
-                  </td>
+                    </td>
 
-                  <td className="p-5">
+                    <td className="p-5">
 
-                    {user.referral_count ?? 0}
+                      {user.referral_count ?? 0}
 
-                  </td>
+                    </td>
 
-                  <td className="p-5">
+                    <td className="p-5">
 
-                    {user.email_verified ? "✅" : "❌"}
+                      {user.email_verified ? "✅" : "❌"}
 
-                  </td>
+                    </td>
 
-                </tr>
+                    <td className="p-5">
 
-              ))}
+                      <a
+                        href={`/admin/users/${user.id}`}
+                        className="rounded-full bg-blue-600 px-5 py-2 text-white"
+                      >
+                        View
+                      </a>
+
+                    </td>
+
+                  </tr>
+
+                ))}
 
             </tbody>
 
@@ -154,7 +183,5 @@ export default function UsersPage() {
       </div>
 
     </main>
-
   );
-
 }
