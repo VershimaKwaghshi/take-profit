@@ -6,103 +6,74 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useSearchParams } from "next/navigation";
 
-export type DashboardUser = {
+type User = {
   first_name: string;
   last_name: string;
   email: string;
   country: string;
-  referral_code: string | null;
-  referral_count: number | null;
+  referral_code: string;
+  referral_count: number;
   email_verified: boolean;
   created_at: string;
+  is_admin: boolean;
 };
 
-type UserContextValue = {
-  user: DashboardUser | null;
+const UserContext = createContext<{
+  user: User | null;
   loading: boolean;
-  error: string | null;
-  email: string | null;
-};
-
-const UserContext = createContext<UserContextValue>({
+}>({
   user: null,
   loading: true,
-  error: null,
-  email: null,
 });
 
-export function useUser() {
-  return useContext(UserContext);
-}
-
-export default function UserProvider({
+export function UserProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const searchParams = useSearchParams();
-
-  const email = searchParams.get("email");
-
-  const [user, setUser] = useState<DashboardUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!email) {
-      setLoading(false);
-      setError("No email found.");
-      return;
-    }
+    async function loadUser() {
+      const email = localStorage.getItem("tp-email");
 
-    let cancelled = false;
-
-    async function loadUser(userEmail: string) {
-      try {
-        const response = await fetch(
-          `/api/dashboard?email=${encodeURIComponent(userEmail)}`
-        );
-
-        const data = await response.json();
-
-        if (cancelled) return;
-
-        if (!response.ok) {
-          setError(data.error || "Unable to load account.");
-          setUser(null);
-        } else {
-          setUser(data);
-        }
-      } catch {
-        if (!cancelled) {
-          setError("Unable to load account.");
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
+      if (!email) {
+        setLoading(false);
+        return;
       }
+
+      const response = await fetch(
+        `/api/dashboard?email=${encodeURIComponent(email)}`
+      );
+
+      if (!response.ok) {
+        setLoading(false);
+        return;
+      }
+
+      const data = await response.json();
+
+      setUser(data);
+      setLoading(false);
     }
 
-    loadUser(email!);
-
-    return () => {
-      cancelled = true;
-    };
-  }, [email]);
+    loadUser();
+  }, []);
 
   return (
     <UserContext.Provider
       value={{
         user,
         loading,
-        error,
-        email,
       }}
     >
       {children}
     </UserContext.Provider>
   );
+}
+
+export function useUser() {
+  return useContext(UserContext);
 }
