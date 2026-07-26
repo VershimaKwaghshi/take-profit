@@ -1,81 +1,70 @@
-import Link from "next/link";
+"use client";
+
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-white">
 
-      <div className="mx-auto max-w-7xl px-6 py-24 md:py-36">
+      <div className="mx-auto flex min-h-[92vh] max-w-7xl flex-col justify-center px-6 pt-10 pb-16">
 
-        <div className="grid items-center gap-20 lg:grid-cols-2">
+        {/* Small label */}
 
-          {/* LEFT */}
+        <span className="mb-5 text-xs font-semibold uppercase tracking-[0.45em] text-red-600">
+          Trade Smarter
+        </span>
 
-          <div>
+        {/* Heading */}
 
-            <p className="mb-6 text-sm font-semibold uppercase tracking-[0.35em] text-red-600">
-              Trade Smarter
-            </p>
+        <h1 className="max-w-4xl text-[56px] font-black leading-[0.9] tracking-tight text-black sm:text-7xl md:text-8xl">
+          Trade with
+          <br />
+          real capital.
+        </h1>
 
-            <h1 className="text-5xl font-black leading-[1.05] tracking-tight text-black md:text-7xl">
+        {/* Description */}
 
-              Trade with
-              <br />
+        <p className="mt-8 max-w-2xl text-[22px] leading-relaxed text-neutral-600">
+          Keep more of the upside.
+          <br className="hidden sm:block" />
+          Carry less of the risk.
+          <br className="hidden sm:block" />
+          Learn continuously and stay in the market longer.
+        </p>
 
-              real capital.
+        {/* Buttons */}
 
-            </h1>
+        <div className="mt-12 flex flex-col gap-4 sm:flex-row">
 
-            <p className="mt-10 max-w-xl text-xl leading-9 text-neutral-600">
+          <Link
+            href="/waitlist"
+            className="flex h-16 items-center justify-center rounded-full bg-black px-10 text-lg font-semibold text-white transition hover:opacity-90"
+          >
+            Join Waitlist
+          </Link>
 
-              Keep more of the upside.
+          <Link
+            href="#about"
+            className="flex h-16 items-center justify-center rounded-full border border-neutral-300 bg-white px-10 text-lg font-semibold text-black transition hover:bg-neutral-100"
+          >
+            Learn More
+          </Link>
 
-              Carry less of the risk.
+        </div>
 
-              Learn continuously and stay in the market longer.
+        {/* Illustration */}
 
-            </p>
+        <div className="mt-20 flex justify-center">
 
-            <div className="mt-12 flex flex-col gap-5 sm:flex-row">
-
-              <Link
-                href="/waitlist"
-                className="rounded-full bg-black px-10 py-5 text-center text-lg font-semibold text-white transition hover:opacity-90"
-              >
-                Join Waitlist
-              </Link>
-
-              <Link
-                href="#platform"
-                className="rounded-full border border-neutral-300 px-10 py-5 text-center text-lg font-semibold transition hover:bg-neutral-100"
-              >
-                Learn More
-              </Link>
-
-            </div>
-
-          </div>
-
-          {/* RIGHT */}
-
-          <div className="flex justify-center">
-
-            <div className="relative">
-
-              <div className="absolute inset-0 -z-10 rounded-full bg-gradient-to-br from-blue-100 via-red-50 to-white blur-3xl" />
-
-              <Image
-                src="/og-image.png"
-                alt="Take Profit"
-                width={650}
-                height={650}
-                priority
-                className="w-full max-w-[520px]"
-              />
-
-            </div>
-
-          </div>
+          <Image
+            src="/seesaw.png"
+            alt="Take Profit"
+            width={1100}
+            height={700}
+            priority
+            className="w-full max-w-3xl object-contain"
+          />
 
         </div>
 
