@@ -1,12 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-white">
-      <div className="mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 pt-24 pb-12">
+      <div className="mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 py-24">
 
         {/* Small Label */}
         <span className="mb-5 text-xs font-semibold uppercase tracking-[0.45em] text-red-600">
@@ -29,7 +28,7 @@ export default function Hero() {
           Learn continuously and stay in the market longer.
         </p>
 
-        {/* Button */}
+        {/* CTA */}
         <div className="mt-12">
           <Link
             href="/waitlist"
@@ -37,18 +36,6 @@ export default function Hero() {
           >
             Join Waitlist
           </Link>
-        </div>
-
-        {/* Hero Illustration */}
-        <div className="mt-14 flex justify-center">
-          <Image
-            src="/seesaw.png"
-            alt="Take Profit"
-            width={1200}
-            height={700}
-            priority
-            className="h-auto w-full max-w-4xl object-contain"
-          />
         </div>
 
       </div>
