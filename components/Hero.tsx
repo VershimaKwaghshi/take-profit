@@ -1,67 +1,81 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-white">
 
-      {/* Background */}
+      <div className="mx-auto max-w-7xl px-6 py-24 md:py-36">
 
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.06),transparent_45%)]" />
+        <div className="grid items-center gap-20 lg:grid-cols-2">
 
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-6 text-center">
+          {/* LEFT */}
 
-        <h1 className="max-w-6xl text-5xl font-semibold leading-tight tracking-tight text-black md:text-7xl">
+          <div>
 
-          Trade with real capital.
+            <p className="mb-6 text-sm font-semibold uppercase tracking-[0.35em] text-red-600">
+              Trade Smarter
+            </p>
 
-          <br />
+            <h1 className="text-5xl font-black leading-[1.05] tracking-tight text-black md:text-7xl">
 
-          Keep more of the upside.
+              Trade with
+              <br />
 
-          <br />
+              real capital.
 
-          Carry less of the risk.
+            </h1>
 
-        </h1>
+            <p className="mt-10 max-w-xl text-xl leading-9 text-neutral-600">
 
-        <p className="mt-10 max-w-3xl text-xl leading-9 text-neutral-600">
+              Keep more of the upside.
 
-          A proprietary trading platform helping disciplined traders
-          access capital, learn continuously and stay in the market longer.
+              Carry less of the risk.
 
-        </p>
+              Learn continuously and stay in the market longer.
 
-        <div className="mt-14">
+            </p>
 
-          <Link
-            href="/waitlist"
-            className="inline-flex items-center justify-center rounded-full bg-black px-10 py-5 font-semibold text-white transition hover:bg-neutral-900"
-          >
-            Join Waitlist
-          </Link>
+            <div className="mt-12 flex flex-col gap-5 sm:flex-row">
 
-        </div>
+              <Link
+                href="/waitlist"
+                className="rounded-full bg-black px-10 py-5 text-center text-lg font-semibold text-white transition hover:opacity-90"
+              >
+                Join Waitlist
+              </Link>
 
-        <div className="mt-28 w-full max-w-5xl rounded-[40px] border border-neutral-900 bg-black px-10 py-14 text-left shadow-2xl">
+              <Link
+                href="#platform"
+                className="rounded-full border border-neutral-300 px-10 py-5 text-center text-lg font-semibold transition hover:bg-neutral-100"
+              >
+                Learn More
+              </Link>
 
-          <p className="text-sm uppercase tracking-[0.35em] text-red-500">
+            </div>
 
-            OUR BELIEF
+          </div>
 
-          </p>
+          {/* RIGHT */}
 
-          <h2 className="mt-6 text-4xl font-semibold leading-tight text-white md:text-5xl">
+          <div className="flex justify-center">
 
-            One mistake should never permanently remove a disciplined trader from the opportunity to build wealth.
+            <div className="relative">
 
-          </h2>
+              <div className="absolute inset-0 -z-10 rounded-full bg-gradient-to-br from-blue-100 via-red-50 to-white blur-3xl" />
 
-          <p className="mt-8 max-w-3xl text-lg leading-9 text-neutral-300">
+              <Image
+                src="/og-image.png"
+                alt="Take Profit"
+                width={650}
+                height={650}
+                priority
+                className="w-full max-w-[520px]"
+              />
 
-            Take Profit exists to help traders survive long enough to
-            improve, stay consistent and grow with confidence.
+            </div>
 
-          </p>
+          </div>
 
         </div>
 
