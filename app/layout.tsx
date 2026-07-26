@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    "Trade Smarter. Build Wealth Together.",
+    "Trade with real capital. Keep more of the upside. Carry less of the risk.",
 
   applicationName: "Take Profit",
 
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     title: "Take Profit",
 
     description:
-      "Trade Smarter. Build Wealth Together.",
+      "Trade with real capital. Keep more of the upside. Carry less of the risk.",
 
     url: "https://takeprofit.name.ng",
 
@@ -58,10 +58,10 @@ export const metadata: Metadata = {
 
     images: [
       {
-        url: "/og-image.png",
+        url: "/seesaw.png",
         width: 1200,
-        height: 630,
-        alt: "Take Profit",
+        height: 1200,
+        alt: "Take Profit Logo",
       },
     ],
   },
@@ -72,9 +72,9 @@ export const metadata: Metadata = {
     title: "Take Profit",
 
     description:
-      "Trade Smarter. Build Wealth Together.",
+      "Trade with real capital. Keep more of the upside. Carry less of the risk.",
 
-    images: ["/og-image.png"],
+    images: ["/seesaw.png"],
   },
 
   appleWebApp: {
@@ -91,13 +91,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-
-      <body>
-
-        {children}
-
-      </body>
-
+      <body>{children}</body>
     </html>
   );
 }
