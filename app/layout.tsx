@@ -43,25 +43,23 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
+    type: "website",
+    url: "https://takeprofit.name.ng",
+    siteName: "Take Profit",
+
     title: "Take Profit",
 
     description:
       "Trade with real capital. Keep more of the upside. Carry less of the risk.",
 
-    url: "https://takeprofit.name.ng",
-
-    siteName: "Take Profit",
-
-    locale: "en_US",
-
-    type: "website",
-
     images: [
       {
-        url: "/seesaw.png",
+        url: "https://takeprofit.name.ng/og-image.png",
+        secureUrl: "https://takeprofit.name.ng/og-image.png",
         width: 1200,
-        height: 1200,
-        alt: "Take Profit Logo",
+        height: 630,
+        alt: "Take Profit",
+        type: "image/png",
       },
     ],
   },
@@ -74,7 +72,9 @@ export const metadata: Metadata = {
     description:
       "Trade with real capital. Keep more of the upside. Carry less of the risk.",
 
-    images: ["/seesaw.png"],
+    images: [
+      "https://takeprofit.name.ng/og-image.png",
+    ],
   },
 
   appleWebApp: {
