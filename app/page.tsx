@@ -1,58 +1,169 @@
-import Navbar from "../components/Navbar";
-import Hero from "../components/Hero";
-import Philosophy from "../components/Philosophy";
-import Features from "../components/Features";
-import Footer from "../components/Footer";
+<section className="bg-black py-32">
 
-export default function Home() {
-  return (
-    <main className="bg-white">
+  <div className="mx-auto max-w-7xl px-6">
 
-      <Navbar />
+    <div className="max-w-4xl">
 
-      <Hero />
+      <p className="text-sm font-semibold uppercase tracking-[0.35em] text-red-500">
 
-      <Philosophy />
+        TAKE PROFIT
 
-      <Features />
+      </p>
 
-      <section className="bg-black py-36">
+      <h2 className="mt-8 text-5xl font-semibold leading-tight text-white md:text-7xl">
 
-        <div className="mx-auto max-w-6xl px-6 text-center">
+        One platform.
 
-          <p className="text-sm uppercase tracking-[0.35em] text-red-500">
+        <br />
 
-            TAKE PROFIT
+        Every opportunity.
 
-          </p>
+      </h2>
 
-          <h2 className="mt-8 text-5xl font-semibold leading-tight text-white md:text-7xl">
+      <p className="mt-8 max-w-2xl text-xl leading-10 text-neutral-300">
 
-            Your journey
-            <br />
-            starts today.
+        Built for traders who want access to capital, structured risk management and long term growth.
 
-          </h2>
+      </p>
 
-          <p className="mx-auto mt-10 max-w-3xl text-xl leading-10 text-neutral-300">
+    </div>
 
-            Be among the first to experience the platform when it launches.
+    <div className="mt-20 grid gap-8 lg:grid-cols-3">
 
-          </p>
+      <div className="rounded-[36px] bg-neutral-900 p-10">
 
-          <a
-            href="/waitlist"
-            className="mt-16 inline-flex items-center justify-center rounded-full bg-white px-10 py-5 text-lg font-semibold text-black transition hover:bg-neutral-100"
+        <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
+
+          CAPITAL
+
+        </p>
+
+        <h3 className="mt-8 text-6xl font-bold text-white">
+
+          $100K
+
+        </h3>
+
+        <p className="mt-8 text-lg leading-9 text-neutral-400">
+
+          Trade with funded capital while protecting your own.
+
+        </p>
+
+      </div>
+
+      <div className="rounded-[36px] bg-neutral-900 p-10">
+
+        <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
+
+          GROWTH
+
+        </p>
+
+        <div className="mt-12">
+
+          <svg
+            viewBox="0 0 500 220"
+            className="w-full"
           >
-            Join Waitlist
-          </a>
+
+            <defs>
+
+              <linearGradient
+                id="growthFill"
+                x1="0%"
+                y1="0%"
+                x2="0%"
+                y2="100%"
+              >
+
+                <stop
+                  offset="0%"
+                  stopColor="#dc2626"
+                  stopOpacity="0.35"
+                />
+
+                <stop
+                  offset="100%"
+                  stopColor="#dc2626"
+                  stopOpacity="0"
+                />
+
+              </linearGradient>
+
+            </defs>
+
+            <path
+              d="
+                M0 190
+                C40 185 70 175 110 160
+                S180 130 240 105
+                S320 75 390 45
+                S450 25 500 12
+                L500 220
+                L0 220
+                Z
+              "
+              fill="url(#growthFill)"
+            />
+
+            <path
+              d="
+                M0 190
+                C40 185 70 175 110 160
+                S180 130 240 105
+                S320 75 390 45
+                S450 25 500 12
+              "
+              fill="none"
+              stroke="#ef4444"
+              strokeWidth="6"
+              strokeLinecap="round"
+            />
+
+          </svg>
 
         </div>
 
-      </section>
+      </div>
 
-      <Footer />
+      <div className="rounded-[36px] bg-neutral-900 p-10">
 
-    </main>
-  );
-}
+        <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
+
+          USERS
+
+        </p>
+
+        <h3 className="mt-8 text-6xl font-bold text-white">
+
+          Live
+
+        </h3>
+
+        <p className="mt-8 text-lg leading-9 text-neutral-400">
+
+          Every new registration contributes to the growth of the platform.
+
+        </p>
+
+      </div>
+
+    </div>
+
+    <div className="mt-24">
+
+      <a
+        href="/waitlist"
+        className="inline-flex h-16 items-center justify-center rounded-full bg-white px-12 text-lg font-semibold text-black transition hover:bg-neutral-100"
+      >
+
+        Join Waitlist
+
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
