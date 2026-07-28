@@ -1,11 +1,22 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
 import { Resend } from "resend";
+import { rateLimit, getClientIp } from "@/lib/rateLimit";
 
 const resend = new Resend(process.env.RESEND_API_KEY!);
 
 export async function POST(request: Request) {
   try {
+    const ip = getClientIp(request);
+    const limit = rateLimit(`waitlist:${ip}`, 5, 60 * 60 * 1000);
+
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: "Too many signups from this connection. Please try again later." },
+        { status: 429 }
+      );
+    }
+
     const data = await request.json();
 
     const verificationCode = Math.floor(
