@@ -1,13 +1,32 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
+import { createSessionToken } from "@/lib/session";
+import { SESSION_COOKIE_NAME } from "@/lib/auth";
+import { rateLimit } from "@/lib/rateLimit";
 
 export async function POST(request: Request) {
   try {
     const { email, code } = await request.json();
 
+    if (!email || !code) {
+      return NextResponse.json(
+        { error: "Email and code are required." },
+        { status: 400 }
+      );
+    }
+
+    const limit = rateLimit(`verify:${email}`, 10, 15 * 60 * 1000);
+
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: "Too many attempts. Please wait a few minutes and try again." },
+        { status: 429 }
+      );
+    }
+
     const { data, error } = await supabase
       .from("waitlist")
-      .select("*")
+      .select("id, email, is_admin, verification_code, verification_expires_at")
       .eq("email", email)
       .eq("verification_code", code)
       .single();
@@ -46,12 +65,27 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({
-      success: true,
-      email,
-      redirect: `/dashboard?email=${encodeURIComponent(email)}`,
+    const token = createSessionToken({
+      id: data.id,
+      email: data.email,
+      is_admin: data.is_admin,
     });
 
+    const response = NextResponse.json({
+      success: true,
+      email,
+      redirect: `/dashboard`,
+    });
+
+    response.cookies.set(SESSION_COOKIE_NAME, token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+    return response;
   } catch (error) {
     console.error("Verification error:", error);
 
