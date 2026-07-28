@@ -9,97 +9,92 @@ export default function Features() {
         <div className="mx-auto max-w-5xl text-center">
 
           <p className="text-sm font-semibold uppercase tracking-[0.35em] text-neutral-500">
+
             TAKE PROFIT
+
           </p>
 
           <h2 className="mt-8 text-5xl font-semibold leading-tight text-black md:text-6xl">
-            Everything works together.
+
+            Everything you need
+            <br />
+            in one place.
+
           </h2>
 
           <p className="mx-auto mt-8 max-w-3xl text-xl leading-9 text-neutral-600">
-            Markets create opportunities and setbacks.
 
-            What matters is having the ability to recover, improve and continue building.
+            Built to help traders access capital, manage risk and continue building wealth.
 
-            Take Profit brings together education, capital, risk management and community so every stage of your trading journey works together.
           </p>
 
         </div>
 
-        <div className="mt-20 rounded-[40px] bg-black p-12 shadow-2xl">
+        <div className="mt-24 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
 
-          <div className="grid gap-14 lg:grid-cols-2">
+          <div className="rounded-[32px] bg-white p-10 shadow-sm">
 
-            <div>
+            <p className="text-sm uppercase tracking-[0.3em] text-red-600">
 
-              <p className="text-sm uppercase tracking-[0.35em] text-red-500">
-                THE PLATFORM
-              </p>
+              CAPITAL
 
-              <h3 className="mt-6 text-4xl font-semibold text-white">
-                Built to keep traders
-                moving forward.
-              </h3>
+            </p>
 
-              <p className="mt-8 text-lg leading-9 text-neutral-300">
-                Every part of Take Profit exists for one purpose.
+            <h3 className="mt-6 text-3xl font-semibold text-black">
 
-                Helping traders stay in the market and continue building.
-              </p>
+              Trade with real capital.
 
-            </div>
+            </h3>
 
-            <div className="space-y-10">
+            <p className="mt-6 text-lg leading-8 text-neutral-600">
 
-              <div className="border-b border-neutral-800 pb-8">
+              Access funded trading accounts without committing your own trading capital.
 
-                <h4 className="text-2xl font-semibold text-white">
-                  Education
-                </h4>
+            </p>
 
-                <p className="mt-3 leading-8 text-neutral-400">
-                  Understand the platform before you begin.
-                </p>
+          </div>
 
-              </div>
+          <div className="rounded-[32px] bg-white p-10 shadow-sm">
 
-              <div className="border-b border-neutral-800 pb-8">
+            <p className="text-sm uppercase tracking-[0.3em] text-red-600">
 
-                <h4 className="text-2xl font-semibold text-white">
-                  Capital
-                </h4>
+              RISK MANAGEMENT
 
-                <p className="mt-3 leading-8 text-neutral-400">
-                  Access trading capital without relying only on your own funds.
-                </p>
+            </p>
 
-              </div>
+            <h3 className="mt-6 text-3xl font-semibold text-black">
 
-              <div className="border-b border-neutral-800 pb-8">
+              Stay in control.
 
-                <h4 className="text-2xl font-semibold text-white">
-                  Risk Management
-                </h4>
+            </h3>
 
-                <p className="mt-3 leading-8 text-neutral-400">
-                  Protect your capital and stay in the market longer.
-                </p>
+            <p className="mt-6 text-lg leading-8 text-neutral-600">
 
-              </div>
+              Clear rules and built in protection help reduce permanent losses.
 
-              <div>
+            </p>
 
-                <h4 className="text-2xl font-semibold text-white">
-                  Community
-                </h4>
+          </div>
 
-                <p className="mt-3 leading-8 text-neutral-400">
-                  Grow alongside traders sharing experience, knowledge and progress.
-                </p>
+          <div className="rounded-[32px] bg-white p-10 shadow-sm">
 
-              </div>
+            <p className="text-sm uppercase tracking-[0.3em] text-red-600">
 
-            </div>
+              GROWTH
+
+            </p>
+
+            <h3 className="mt-6 text-3xl font-semibold text-black">
+
+              Keep moving forward.
+
+            </h3>
+
+            <p className="mt-6 text-lg leading-8 text-neutral-600">
+
+              Every trade contributes to a long term record of your progress.
+
+            </p>
 
           </div>
 
