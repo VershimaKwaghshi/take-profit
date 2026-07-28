@@ -1,204 +1,134 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Hero() {
+  const [users, setUsers] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch("/api/stats")
+      .then((res) => res.json())
+      .then((data) => setUsers(data.users))
+      .catch(() => {});
+  }, []);
+
   return (
     <section className="bg-white">
 
-      <div className="mx-auto flex min-h-[calc(100vh-88px)] max-w-7xl items-center px-6 py-20 md:px-10 lg:px-16">
+      <div className="mx-auto grid min-h-[calc(100vh-88px)] max-w-7xl items-center gap-16 px-6 py-20 lg:grid-cols-2">
 
-        <div className="grid w-full items-center gap-20 lg:grid-cols-2">
+        <div>
 
-          {/* Left */}
+          <span className="text-xs font-bold uppercase tracking-[0.45em] text-red-600">
 
-          <div>
+            TRADE SMARTER
 
-            <p className="text-xs font-bold uppercase tracking-[0.45em] text-red-600">
+          </span>
 
-              TRADE SMARTER
+          <h1 className="mt-6 text-5xl font-black leading-[0.9] tracking-tight text-black sm:text-6xl md:text-7xl lg:text-8xl">
 
-            </p>
+            Trade with
+            <br />
+            real capital.
 
-            <h1 className="mt-8 text-6xl font-black leading-[0.9] tracking-tight text-black sm:text-7xl md:text-8xl">
+          </h1>
 
-              Trade with
-              <br />
+          <p className="mt-10 max-w-xl text-xl leading-10 text-neutral-600">
 
-              real capital.
+            Keep more of the upside.
 
-            </h1>
+            <br />
 
-            <p className="mt-10 max-w-xl text-2xl leading-relaxed text-neutral-600">
+            Carry less of the risk.
 
-              Keep more of the upside.
+            <br />
 
-              <br />
+            Recover.
 
-              Carry less of the risk.
+            Improve.
 
-              <br />
+            Continue building wealth.
 
-              Build wealth over time.
+          </p>
 
-            </p>
+          <Link
+            href="/waitlist"
+            className="mt-14 inline-flex h-16 items-center justify-center rounded-full bg-black px-12 text-lg font-semibold text-white transition hover:bg-neutral-900"
+          >
 
-            <div className="mt-14">
+            Join Waitlist
 
-              <Link
-                href="/waitlist"
-                className="inline-flex h-16 items-center justify-center rounded-full bg-black px-12 text-lg font-semibold text-white transition hover:bg-neutral-900"
-              >
-                Join Waitlist
-              </Link>
+          </Link>
+
+        </div>
+
+        <div>
+
+          <div className="overflow-hidden rounded-[36px] border border-neutral-200 bg-white shadow-xl">
+
+            <div className="border-b border-neutral-200 p-8">
+
+              <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
+
+                Available Capital
+
+              </p>
+
+              <h2 className="mt-5 text-5xl font-bold">
+
+                $100,000
+
+              </h2>
 
             </div>
 
-          </div>
+            <div className="border-b border-neutral-200 p-8">
 
-          {/* Right */}
+              <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
 
-          <div>
+                Users
 
-            <div className="overflow-hidden rounded-[36px] border border-neutral-200 bg-black shadow-[0_30px_80px_rgba(0,0,0,.15)]">
+              </p>
 
-              <div className="border-b border-neutral-800 px-8 py-6">
+              <h2 className="mt-5 text-5xl font-bold">
 
-                <p className="text-xs uppercase tracking-[0.35em] text-neutral-500">
+                {users === null
+                  ? "..."
+                  : users.toLocaleString()}
 
-                  TAKE PROFIT
+              </h2>
 
-                </p>
+            </div>
 
-                <h3 className="mt-4 text-3xl font-semibold text-white">
+            <div className="p-8">
 
-                  Trader Dashboard
+              <p className="mb-8 text-sm uppercase tracking-[0.3em] text-neutral-500">
 
-                </h3>
+                Growth
 
-              </div>
+              </p>
 
-              <div className="space-y-8 p-8">
+              <svg
+                viewBox="0 0 500 180"
+                className="w-full"
+              >
 
-                <div className="grid grid-cols-2 gap-5">
+                <path
+                  d="
+                    M0 150
+                    C40 148 70 142 110 132
+                    S180 112 230 95
+                    S320 70 390 45
+                    S450 28 500 18
+                  "
+                  fill="none"
+                  stroke="#dc2626"
+                  strokeWidth="5"
+                  strokeLinecap="round"
+                />
 
-                  <div className="rounded-3xl bg-neutral-900 p-6">
-
-                    <p className="text-sm text-neutral-500">
-
-                      Available Capital
-
-                    </p>
-
-                    <h4 className="mt-4 text-3xl font-bold text-white">
-
-                      $100K
-
-                    </h4>
-
-                  </div>
-
-                  <div className="rounded-3xl bg-neutral-900 p-6">
-
-                    <p className="text-sm text-neutral-500">
-
-                      Risk Score
-
-                    </p>
-
-                    <h4 className="mt-4 text-3xl font-bold text-green-400">
-
-                      Healthy
-
-                    </h4>
-
-                  </div>
-
-                </div>
-
-                <div className="rounded-3xl bg-neutral-900 p-6">
-
-                  <p className="text-sm text-neutral-500">
-
-                    Trader Growth
-
-                  </p>
-
-                  <div className="mt-8 flex h-32 items-end gap-3">
-
-                    <div className="h-10 w-full rounded-full bg-red-500"></div>
-
-                    <div className="h-16 w-full rounded-full bg-red-500"></div>
-
-                    <div className="h-12 w-full rounded-full bg-red-500"></div>
-
-                    <div className="h-24 w-full rounded-full bg-red-500"></div>
-
-                    <div className="h-20 w-full rounded-full bg-red-500"></div>
-
-                    <div className="h-28 w-full rounded-full bg-red-500"></div>
-
-                    <div className="h-24 w-full rounded-full bg-red-500"></div>
-
-                    <div className="h-32 w-full rounded-full bg-red-500"></div>
-
-                  </div>
-
-                </div>
-
-                <div className="grid grid-cols-3 gap-5">
-
-                  <div className="rounded-3xl bg-neutral-900 p-5">
-
-                    <p className="text-xs uppercase tracking-wider text-neutral-500">
-
-                      Education
-
-                    </p>
-
-                    <p className="mt-3 text-white">
-
-                      Ready
-
-                    </p>
-
-                  </div>
-
-                  <div className="rounded-3xl bg-neutral-900 p-5">
-
-                    <p className="text-xs uppercase tracking-wider text-neutral-500">
-
-                      Community
-
-                    </p>
-
-                    <p className="mt-3 text-white">
-
-                      Active
-
-                    </p>
-
-                  </div>
-
-                  <div className="rounded-3xl bg-neutral-900 p-5">
-
-                    <p className="text-xs uppercase tracking-wider text-neutral-500">
-
-                      Performance
-
-                    </p>
-
-                    <p className="mt-3 text-white">
-
-                      Tracking
-
-                    </p>
-
-                  </div>
-
-                </div>
-
-              </div>
+              </svg>
 
             </div>
 
