@@ -38,16 +38,7 @@ export function UserProvider({
   useEffect(() => {
     async function loadUser() {
       try {
-        const email = localStorage.getItem("tp-email");
-
-        if (!email) {
-          setLoading(false);
-          return;
-        }
-
-        const response = await fetch(
-          `/api/dashboard?email=${encodeURIComponent(email)}`
-        );
+        const response = await fetch("/api/dashboard");
 
         if (!response.ok) {
           setLoading(false);
