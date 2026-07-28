@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
+import { requireAdmin } from "@/lib/auth";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
-export async function GET() {
+export async function GET(request: Request) {
+  const { response } = requireAdmin(request);
+  if (response) return response;
 
   const { data, error } = await supabase
     .from("waitlist")
@@ -21,5 +19,4 @@ export async function GET() {
   }
 
   return NextResponse.json(data);
-
 }
