@@ -1,169 +1,181 @@
-<section className="bg-black py-32">
+import Link from "next/link";
 
-  <div className="mx-auto max-w-7xl px-6">
+import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import Philosophy from "../components/Philosophy";
+import Features from "../components/Features";
+import Footer from "../components/Footer";
 
-    <div className="max-w-4xl">
+export default function Home() {
+  return (
+    <main className="bg-white">
 
-      <p className="text-sm font-semibold uppercase tracking-[0.35em] text-red-500">
+      <Navbar />
 
-        TAKE PROFIT
+      <Hero />
 
-      </p>
+      <Philosophy />
 
-      <h2 className="mt-8 text-5xl font-semibold leading-tight text-white md:text-7xl">
+      <Features />
 
-        One platform.
+      <section className="bg-black py-32">
 
-        <br />
+        <div className="mx-auto max-w-7xl px-6">
 
-        Every opportunity.
+          <div className="max-w-4xl">
 
-      </h2>
+            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-red-500">
 
-      <p className="mt-8 max-w-2xl text-xl leading-10 text-neutral-300">
+              TAKE PROFIT
 
-        Built for traders who want access to capital, structured risk management and long term growth.
+            </p>
 
-      </p>
+            <h2 className="mt-8 text-5xl font-semibold leading-tight text-white md:text-7xl">
 
-    </div>
+              One platform.
 
-    <div className="mt-20 grid gap-8 lg:grid-cols-3">
+              <br />
 
-      <div className="rounded-[36px] bg-neutral-900 p-10">
+              Every opportunity.
 
-        <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
+            </h2>
 
-          CAPITAL
+            <p className="mt-8 max-w-2xl text-xl leading-10 text-neutral-300">
 
-        </p>
+              Built for traders who want access to capital, structured risk management and long term growth.
 
-        <h3 className="mt-8 text-6xl font-bold text-white">
+            </p>
 
-          $100K
+          </div>
 
-        </h3>
+          <div className="mt-20 grid gap-8 lg:grid-cols-3">
 
-        <p className="mt-8 text-lg leading-9 text-neutral-400">
+            <div className="rounded-[36px] bg-neutral-900 p-10">
 
-          Trade with funded capital while protecting your own.
+              <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
 
-        </p>
+                CAPITAL
 
-      </div>
+              </p>
 
-      <div className="rounded-[36px] bg-neutral-900 p-10">
+              <h3 className="mt-8 text-6xl font-bold text-white">
 
-        <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
+                $100K
 
-          GROWTH
+              </h3>
 
-        </p>
+              <p className="mt-8 text-lg leading-9 text-neutral-400">
 
-        <div className="mt-12">
+                Trade with funded capital while protecting your own.
 
-          <svg
-            viewBox="0 0 500 220"
-            className="w-full"
-          >
+              </p>
 
-            <defs>
+            </div>
 
-              <linearGradient
-                id="growthFill"
-                x1="0%"
-                y1="0%"
-                x2="0%"
-                y2="100%"
-              >
+            <div className="rounded-[36px] bg-neutral-900 p-10">
 
-                <stop
-                  offset="0%"
-                  stopColor="#dc2626"
-                  stopOpacity="0.35"
-                />
+              <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
 
-                <stop
-                  offset="100%"
-                  stopColor="#dc2626"
-                  stopOpacity="0"
-                />
+                GROWTH
 
-              </linearGradient>
+              </p>
 
-            </defs>
+              <div className="mt-10">
 
-            <path
-              d="
-                M0 190
-                C40 185 70 175 110 160
-                S180 130 240 105
-                S320 75 390 45
-                S450 25 500 12
-                L500 220
-                L0 220
-                Z
-              "
-              fill="url(#growthFill)"
-            />
+                <svg
+                  viewBox="0 0 500 220"
+                  className="w-full"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
 
-            <path
-              d="
-                M0 190
-                C40 185 70 175 110 160
-                S180 130 240 105
-                S320 75 390 45
-                S450 25 500 12
-              "
-              fill="none"
-              stroke="#ef4444"
-              strokeWidth="6"
-              strokeLinecap="round"
-            />
+                  <defs>
 
-          </svg>
+                    <linearGradient
+                      id="growthFill"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+
+                      <stop
+                        offset="0%"
+                        stopColor="#dc2626"
+                        stopOpacity="0.35"
+                      />
+
+                      <stop
+                        offset="100%"
+                        stopColor="#dc2626"
+                        stopOpacity="0"
+                      />
+
+                    </linearGradient>
+
+                  </defs>
+
+                  <path
+                    fill="url(#growthFill)"
+                    d="M0 190 C40 185 70 175 110 160 S180 130 240 105 S320 75 390 45 S450 25 500 12 L500 220 L0 220 Z"
+                  />
+
+                  <path
+                    fill="none"
+                    stroke="#ef4444"
+                    strokeWidth={6}
+                    strokeLinecap="round"
+                    d="M0 190 C40 185 70 175 110 160 S180 130 240 105 S320 75 390 45 S450 25 500 12"
+                  />
+
+                </svg>
+
+              </div>
+
+            </div>
+
+            <div className="rounded-[36px] bg-neutral-900 p-10">
+
+              <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
+
+                USERS
+
+              </p>
+
+              <h3 className="mt-8 text-6xl font-bold text-white">
+
+                Live
+
+              </h3>
+
+              <p className="mt-8 text-lg leading-9 text-neutral-400">
+
+                Every new registration contributes to the growth of the platform.
+
+              </p>
+
+            </div>
+
+          </div>
+
+          <div className="mt-24">
+
+            <Link
+              href="/waitlist"
+              className="inline-flex h-16 items-center justify-center rounded-full bg-white px-12 text-lg font-semibold text-black transition hover:bg-neutral-100"
+            >
+
+              Join Waitlist
+
+            </Link>
+
+          </div>
 
         </div>
 
-      </div>
+      </section>
 
-      <div className="rounded-[36px] bg-neutral-900 p-10">
+      <Footer />
 
-        <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
-
-          USERS
-
-        </p>
-
-        <h3 className="mt-8 text-6xl font-bold text-white">
-
-          Live
-
-        </h3>
-
-        <p className="mt-8 text-lg leading-9 text-neutral-400">
-
-          Every new registration contributes to the growth of the platform.
-
-        </p>
-
-      </div>
-
-    </div>
-
-    <div className="mt-24">
-
-      <a
-        href="/waitlist"
-        className="inline-flex h-16 items-center justify-center rounded-full bg-white px-12 text-lg font-semibold text-black transition hover:bg-neutral-100"
-      >
-
-        Join Waitlist
-
-      </a>
-
-    </div>
-
-  </div>
-
-</section>
+    </main>
+  );
+}
