@@ -22,29 +22,21 @@ export default function Home() {
 
           <p className="text-sm uppercase tracking-[0.35em] text-red-500">
 
-            EARLY ACCESS
+            TAKE PROFIT
 
           </p>
 
           <h2 className="mt-8 text-5xl font-semibold leading-tight text-white md:text-7xl">
 
-            Build your future
+            Your journey
             <br />
-            before launch.
+            starts today.
 
           </h2>
 
           <p className="mx-auto mt-10 max-w-3xl text-xl leading-10 text-neutral-300">
 
-            Secure your account today.
-
-            Learn how Take Profit works.
-
-            Invite one verified member.
-
-            Unlock your complete dashboard.
-
-            Be ready from day one.
+            Be among the first to experience the platform when it launches.
 
           </p>
 
