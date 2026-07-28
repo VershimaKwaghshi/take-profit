@@ -3,8 +3,13 @@ import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
 import { requireSession } from "@/lib/auth";
 
 export async function GET(request: Request) {
-  const { session, response } = requireSession(request);
-  if (response) return response;
+  const auth = requireSession(request);
+
+  if (auth.response) {
+    return auth.response;
+  }
+
+  const session = auth.session!;
 
   const { data, error } = await supabase
     .from("waitlist")
