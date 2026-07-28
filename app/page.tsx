@@ -135,23 +135,6 @@ export default function Home() {
 
             <div className="rounded-[36px] bg-neutral-900 p-10">
 
-              <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
-
-                USERS
-
-              </p>
-
-              <h3 className="mt-8 text-6xl font-bold text-white">
-
-                Live
-
-              </h3>
-
-              <p className="mt-8 text-lg leading-9 text-neutral-400">
-
-                Every new registration contributes to the growth of the platform.
-
-              </p>
 
             </div>
 
