@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
+import { requireAdmin } from "@/lib/auth";
 
 export async function POST(request: Request) {
+  const { response } = requireAdmin(request);
+  if (response) return response;
 
   const body = await request.json();
 
@@ -18,20 +16,11 @@ export async function POST(request: Request) {
     });
 
   if (error) {
-
     return NextResponse.json(
-      {
-        error: error.message,
-      },
-      {
-        status: 500,
-      }
+      { error: error.message },
+      { status: 500 }
     );
-
   }
 
-  return NextResponse.json({
-    success: true,
-  });
-
+  return NextResponse.json({ success: true });
 }
