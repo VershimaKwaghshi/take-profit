@@ -1,26 +1,18 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
+import { requireAdmin } from "@/lib/auth";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
-export async function GET() {
+export async function GET(request: Request) {
+  const { response } = requireAdmin(request);
+  if (response) return response;
 
   const { data, error } = await supabase
     .from("waitlist")
-    .select(
-      "id,first_name,last_name,email,referral_code,referral_count"
-    )
-    .order("referral_count", {
-      ascending: false,
-    });
+    .select("id,first_name,last_name,email,referral_code,referral_count")
+    .order("referral_count", { ascending: false });
 
   if (error) {
-    return NextResponse.json([], {
-      status: 500,
-    });
+    return NextResponse.json([], { status: 500 });
   }
 
   return NextResponse.json(data);
