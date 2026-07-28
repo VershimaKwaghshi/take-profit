@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
+import { requireAdmin } from "@/lib/auth";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
 export async function POST(request: Request) {
+  const { response } = requireAdmin(request);
+  if (response) return response;
+
   try {
     const {
       audience,
@@ -99,12 +98,8 @@ export async function POST(request: Request) {
     console.error(error);
 
     return NextResponse.json(
-      {
-        error: "Broadcast failed.",
-      },
-      {
-        status: 500,
-      }
+      { error: "Broadcast failed." },
+      { status: 500 }
     );
   }
 }
