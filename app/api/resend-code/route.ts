@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
 import { Resend } from "resend";
+import { rateLimit } from "@/lib/rateLimit";
 
 const resend = new Resend(process.env.RESEND_API_KEY!);
 
@@ -19,7 +20,15 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check whether the email already exists
+    const limit = rateLimit(`resend-code:${email}`, 3, 15 * 60 * 1000);
+
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: "Too many code requests. Please wait a few minutes and try again." },
+        { status: 429 }
+      );
+    }
+
     const { data: user, error: findError } = await supabase
       .from("waitlist")
       .select("id, first_name")
@@ -38,7 +47,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Generate a fresh verification code
     const verificationCode = Math.floor(
       100000 + Math.random() * 900000
     ).toString();
