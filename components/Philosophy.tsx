@@ -24,24 +24,25 @@ export default function Philosophy() {
 
           <p>
 
-            Take Profit is a proprietary trading platform built for disciplined
-            traders who want more than another broker.
+            Take Profit was built around one belief.
 
           </p>
 
           <p>
 
-            Before launch, every member receives guided education explaining how
-            the platform works, why each feature exists and how to use it
-            responsibly.
+            Traders should not permanently lose the opportunity to grow because of the inevitable nature of the market.
 
           </p>
 
           <p>
 
-            Complete your journey, invite one verified member and unlock your
-            complete Take Profit experience before the platform officially
-            launches.
+            Every trader experiences losses.
+
+          </p>
+
+          <p>
+
+            What matters is having the opportunity to recover, improve and continue building wealth.
 
           </p>
 
