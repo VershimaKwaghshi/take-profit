@@ -36,9 +36,6 @@ export default function LoginPage() {
         return;
       }
 
-      // SAVE EMAIL FOR DASHBOARD
-      localStorage.setItem("tp-email", email);
-
       router.push(
         `/verify?email=${encodeURIComponent(email)}`
       );
