@@ -18,14 +18,13 @@ export default function Features() {
 
             Everything begins
             <br />
-            before launch.
+            with understanding.
 
           </h2>
 
           <p className="mx-auto mt-8 max-w-3xl text-xl leading-9 text-neutral-600">
 
-            Joining the waitlist is more than reserving your place.
-            It's the beginning of your Take Profit journey.
+            Every member is introduced to the complete Take Profit experience before the platform launches.
 
           </p>
 
@@ -39,21 +38,20 @@ export default function Features() {
 
               <p className="text-sm uppercase tracking-[0.35em] text-red-500">
 
-                BEFORE LAUNCH
+                TAKE PROFIT
 
               </p>
 
               <h3 className="mt-6 text-4xl font-semibold text-white">
 
-                Learn every part of
-                Take Profit.
+                Built around
+                traders.
 
               </h3>
 
               <p className="mt-8 text-lg leading-9 text-neutral-300">
 
-                Every member receives structured learning designed to explain
-                exactly how Take Profit works before the platform launches.
+                Take Profit combines education, capital, performance tracking, risk management and community into one platform designed to support trader growth.
 
               </p>
 
@@ -65,14 +63,13 @@ export default function Features() {
 
                 <h4 className="text-2xl font-semibold text-white">
 
-                  Articles
+                  Education
 
                 </h4>
 
                 <p className="mt-3 leading-8 text-neutral-400">
 
-                  Clear written guides explaining every feature and every
-                  decision behind the platform.
+                  Learn how every part of the platform works before you begin.
 
                 </p>
 
@@ -82,14 +79,13 @@ export default function Features() {
 
                 <h4 className="text-2xl font-semibold text-white">
 
-                  Video Lessons
+                  Proprietary Capital
 
                 </h4>
 
                 <p className="mt-3 leading-8 text-neutral-400">
 
-                  Watch practical walkthroughs showing how each feature works
-                  before you ever use it.
+                  Access funding designed to help traders grow without relying entirely on personal capital.
 
                 </p>
 
@@ -99,14 +95,29 @@ export default function Features() {
 
                 <h4 className="text-2xl font-semibold text-white">
 
-                  Visual Demonstrations
+                  Performance Tracking
 
                 </h4>
 
                 <p className="mt-3 leading-8 text-neutral-400">
 
-                  Learn through illustrations, examples and guided experiences
-                  that simplify complex ideas.
+                  Measure your progress and build consistency over time.
+
+                </p>
+
+              </div>
+
+              <div className="border-b border-neutral-800 pb-8">
+
+                <h4 className="text-2xl font-semibold text-white">
+
+                  Risk Management
+
+                </h4>
+
+                <p className="mt-3 leading-8 text-neutral-400">
+
+                  Tools designed to help you protect capital while pursuing long term growth.
 
                 </p>
 
@@ -116,14 +127,13 @@ export default function Features() {
 
                 <h4 className="text-2xl font-semibold text-white">
 
-                  Unlock Everything
+                  Community
 
                 </h4>
 
                 <p className="mt-3 leading-8 text-neutral-400">
 
-                  Invite one verified member and your complete Take Profit
-                  dashboard becomes available before launch.
+                  Connect with traders sharing ideas, experiences and progress.
 
                 </p>
 
