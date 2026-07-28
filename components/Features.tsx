@@ -9,23 +9,19 @@ export default function Features() {
         <div className="mx-auto max-w-5xl text-center">
 
           <p className="text-sm font-semibold uppercase tracking-[0.35em] text-neutral-500">
-
-            THE TAKE PROFIT EXPERIENCE
-
+            TAKE PROFIT
           </p>
 
           <h2 className="mt-8 text-5xl font-semibold leading-tight text-black md:text-6xl">
-
-            Everything begins
-            <br />
-            with understanding.
-
+            Everything works together.
           </h2>
 
           <p className="mx-auto mt-8 max-w-3xl text-xl leading-9 text-neutral-600">
+            Markets create opportunities and setbacks.
 
-            Every member is introduced to the complete Take Profit experience before the platform launches.
+            What matters is having the ability to recover, improve and continue building.
 
+            Take Profit brings together education, capital, risk management and community so every stage of your trading journey works together.
           </p>
 
         </div>
@@ -37,22 +33,18 @@ export default function Features() {
             <div>
 
               <p className="text-sm uppercase tracking-[0.35em] text-red-500">
-
-                TAKE PROFIT
-
+                THE PLATFORM
               </p>
 
               <h3 className="mt-6 text-4xl font-semibold text-white">
-
-                Built around
-                traders.
-
+                Built to keep traders
+                moving forward.
               </h3>
 
               <p className="mt-8 text-lg leading-9 text-neutral-300">
+                Every part of Take Profit exists for one purpose.
 
-                Take Profit combines education, capital, performance tracking, risk management and community into one platform designed to support trader growth.
-
+                Helping traders stay in the market and continue building.
               </p>
 
             </div>
@@ -62,15 +54,11 @@ export default function Features() {
               <div className="border-b border-neutral-800 pb-8">
 
                 <h4 className="text-2xl font-semibold text-white">
-
                   Education
-
                 </h4>
 
                 <p className="mt-3 leading-8 text-neutral-400">
-
-                  Learn how every part of the platform works before you begin.
-
+                  Understand the platform before you begin.
                 </p>
 
               </div>
@@ -78,15 +66,11 @@ export default function Features() {
               <div className="border-b border-neutral-800 pb-8">
 
                 <h4 className="text-2xl font-semibold text-white">
-
-                  Proprietary Capital
-
+                  Capital
                 </h4>
 
                 <p className="mt-3 leading-8 text-neutral-400">
-
-                  Access funding designed to help traders grow without relying entirely on personal capital.
-
+                  Access trading capital without relying only on your own funds.
                 </p>
 
               </div>
@@ -94,31 +78,11 @@ export default function Features() {
               <div className="border-b border-neutral-800 pb-8">
 
                 <h4 className="text-2xl font-semibold text-white">
-
-                  Performance Tracking
-
-                </h4>
-
-                <p className="mt-3 leading-8 text-neutral-400">
-
-                  Measure your progress and build consistency over time.
-
-                </p>
-
-              </div>
-
-              <div className="border-b border-neutral-800 pb-8">
-
-                <h4 className="text-2xl font-semibold text-white">
-
                   Risk Management
-
                 </h4>
 
                 <p className="mt-3 leading-8 text-neutral-400">
-
-                  Tools designed to help you protect capital while pursuing long term growth.
-
+                  Protect your capital and stay in the market longer.
                 </p>
 
               </div>
@@ -126,15 +90,11 @@ export default function Features() {
               <div>
 
                 <h4 className="text-2xl font-semibold text-white">
-
                   Community
-
                 </h4>
 
                 <p className="mt-3 leading-8 text-neutral-400">
-
-                  Connect with traders sharing ideas, experiences and progress.
-
+                  Grow alongside traders sharing experience, knowledge and progress.
                 </p>
 
               </div>
