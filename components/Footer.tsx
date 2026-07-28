@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
@@ -7,58 +6,67 @@ export default function Footer() {
 
       <div className="mx-auto max-w-7xl px-6 py-24">
 
-        <div className="grid gap-20 lg:grid-cols-[1.6fr_1fr]">
+        <div className="grid gap-20 lg:grid-cols-[1.7fr_1fr]">
 
           <div>
 
-            <div className="flex items-center gap-4">
+            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-red-500">
 
-              <Image
-                src="/logo.svg"
-                alt="Take Profit"
-                width={46}
-                height={46}
-              />
-
-              <span className="text-3xl font-semibold text-white">
-
-                Take Profit
-
-              </span>
-
-            </div>
-
-            <h2 className="mt-10 max-w-3xl text-5xl font-semibold leading-tight text-white md:text-6xl">
-
-              Recover.
-
-              <br />
-
-              Improve.
-
-              <br />
-
-              Continue building wealth.
-
-            </h2>
-
-            <p className="mt-10 max-w-2xl text-xl leading-10 text-neutral-400">
-
-              Capital.
-
-              <br />
-
-              Risk Management.
-
-              <br />
-
-              Growth.
+              TAKE PROFIT
 
             </p>
 
+            <h2 className="mt-10 max-w-4xl text-5xl font-semibold leading-tight text-white md:text-6xl">
+
+              Access capital.
+
+              <br />
+
+              Manage risk.
+
+              <br />
+
+              Keep trading.
+
+            </h2>
+
+            <div className="mt-12 flex flex-wrap gap-4">
+
+              <div className="rounded-full border border-white/10 px-5 py-3 text-white">
+
+                Capital
+
+              </div>
+
+              <div className="rounded-full border border-white/10 px-5 py-3 text-white">
+
+                Education
+
+              </div>
+
+              <div className="rounded-full border border-white/10 px-5 py-3 text-white">
+
+                Performance Tracking
+
+              </div>
+
+              <div className="rounded-full border border-white/10 px-5 py-3 text-white">
+
+                Risk Management
+
+              </div>
+
+              <div className="rounded-full border border-white/10 px-5 py-3 text-white">
+
+                Trader Growth
+
+              </div>
+
+            </div>
+
           </div>
 
-          <div className="grid gap-12 sm:grid-cols-2">
+          <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-1">
 
             <div>
 
@@ -128,19 +136,23 @@ export default function Footer() {
 
         </div>
 
-        <div className="mt-24 flex flex-col gap-4 border-t border-white/10 pt-10 text-sm text-neutral-500 md:flex-row md:items-center md:justify-between">
+        <div className="mt-24 border-t border-white/10 pt-10">
 
-          <p>
+          <div className="flex flex-col gap-4 text-sm text-neutral-500 md:flex-row md:items-center md:justify-between">
 
-            © 2026 Take Profit
+            <p>
 
-          </p>
+              © 2026 Take Profit
 
-          <p>
+            </p>
 
-            Built by PLeNat Technologies
+            <p>
 
-          </p>
+              Built by PLeNat Technologies
+
+            </p>
+
+          </div>
 
         </div>
 
