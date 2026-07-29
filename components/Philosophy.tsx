@@ -30,7 +30,7 @@ export default function Philosophy() {
 
           <p>
 
-            Traders should not permanently lose the opportunity to grow because of the inevitable nature of the market.
+            Traders should not permanently lose their future because of the inevitable nature of the market.
 
           </p>
 
@@ -42,7 +42,7 @@ export default function Philosophy() {
 
           <p>
 
-            What matters is having the opportunity to recover, improve and continue.
+            What matters is having the chance to recover, improve and continue.
 
           </p>
 
