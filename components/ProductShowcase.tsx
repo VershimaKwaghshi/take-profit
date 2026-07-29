@@ -14,7 +14,11 @@ export default function ProductShowcase() {
 
           <h2 className="mt-8 text-5xl font-semibold leading-tight text-white md:text-7xl">
 
-            What you'll discover.
+            Capital.
+
+            <br />
+
+            Risk Management.
 
           </h2>
 
@@ -26,13 +30,13 @@ export default function ProductShowcase() {
 
             <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
 
-              AVAILABLE CAPITAL
+              CAPITAL
 
             </p>
 
             <h3 className="mt-8 text-6xl font-bold text-white">
 
-              $100M
+              $100M+
 
             </h3>
 
