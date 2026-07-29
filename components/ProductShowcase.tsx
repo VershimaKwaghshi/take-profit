@@ -4,7 +4,7 @@ export default function ProductShowcase() {
 
       <div className="mx-auto max-w-7xl px-6">
 
-        <div className="max-w-4xl">
+        <div className="max-w-5xl">
 
           <p className="text-sm font-semibold uppercase tracking-[0.35em] text-red-500">
 
@@ -18,13 +18,17 @@ export default function ProductShowcase() {
 
             <br />
 
+            Restitution.
+
+            <br />
+
             Risk Management.
 
           </h2>
 
         </div>
 
-        <div className="mt-20 grid gap-8 lg:grid-cols-2">
+        <div className="mt-20 grid gap-8 lg:grid-cols-3">
 
           <div className="rounded-[36px] bg-neutral-900 p-10">
 
@@ -37,6 +41,22 @@ export default function ProductShowcase() {
             <h3 className="mt-8 text-6xl font-bold text-white">
 
               $100M+
+
+            </h3>
+
+          </div>
+
+          <div className="rounded-[36px] bg-neutral-900 p-10">
+
+            <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
+
+              RESTITUTION
+
+            </p>
+
+            <h3 className="mt-8 text-3xl font-semibold text-white">
+
+              Available
 
             </h3>
 
