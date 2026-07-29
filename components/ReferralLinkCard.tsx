@@ -1,13 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { useUser } from "@/app/dashboard/UserProvider";
 
 export default function ReferralLinkCard() {
   const { user, loading } = useUser();
 
+  const [copied, setCopied] = useState(false);
+
   if (loading) {
     return (
-      <div className="rounded-[32px] border border-neutral-200 bg-white p-8 shadow-sm">
+      <div className="rounded-[28px] bg-neutral-50 p-8">
         Loading...
       </div>
     );
@@ -25,42 +28,36 @@ export default function ReferralLinkCard() {
 
     await navigator.clipboard.writeText(referralLink);
 
-    alert("Referral link copied.");
+    setCopied(true);
+
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
   }
 
   return (
-    <div className="rounded-[32px] border border-neutral-200 bg-white p-8 shadow-sm">
+    <div>
 
-      <h2 className="text-3xl font-semibold">
-        Your Referral Link
-      </h2>
+      <div className="rounded-3xl bg-neutral-100 p-6 break-all text-base leading-8 text-neutral-700">
 
-      <div className="mt-4 text-sm text-neutral-500">
-        DEBUG EMAIL: {user?.email}
-      </div>
-
-      <div className="mt-2 text-sm text-neutral-500">
-        DEBUG CODE: {referralCode}
-      </div>
-
-      <div className="mt-6 rounded-2xl bg-neutral-100 p-5 break-all text-lg">
-
-        {referralLink || "NO REFERRAL LINK"}
+        {referralLink || "Referral link unavailable."}
 
       </div>
 
-      <div className="mt-6 flex gap-4">
+      <div className="mt-8 flex flex-wrap gap-4">
 
         <button
           onClick={copyLink}
-          className="rounded-full bg-black px-7 py-3 text-white"
+          className="inline-flex h-12 items-center justify-center rounded-full bg-black px-8 font-medium text-white transition hover:bg-neutral-900"
         >
-          Copy
+          {copied ? "Copied" : "Copy Link"}
         </button>
 
         <a
           href={`https://wa.me/?text=${encodeURIComponent(referralLink)}`}
-          className="rounded-full border border-neutral-300 px-7 py-3"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex h-12 items-center justify-center rounded-full border border-neutral-300 px-8 font-medium text-neutral-700 transition hover:bg-neutral-100"
         >
           Share
         </a>
