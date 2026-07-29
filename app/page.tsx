@@ -23,7 +23,7 @@ export default function Home() {
 
         <div className="mx-auto max-w-6xl px-6 text-center">
 
-          <p className="text-sm uppercase tracking-[0.35em] text-red-500">
+          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-red-500">
 
             TAKE PROFIT
 
@@ -39,7 +39,7 @@ export default function Home() {
 
           <p className="mx-auto mt-10 max-w-3xl text-xl leading-10 text-neutral-300">
 
-            Be among the first to experience the platform when it launches.
+            Complete your registration before launch.
 
           </p>
 
@@ -47,7 +47,9 @@ export default function Home() {
             href="/waitlist"
             className="mt-16 inline-flex items-center justify-center rounded-full bg-white px-10 py-5 text-lg font-semibold text-black transition hover:bg-neutral-100"
           >
+
             Join Waitlist
+
           </a>
 
         </div>
