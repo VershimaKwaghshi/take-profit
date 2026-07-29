@@ -1,18 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function Hero() {
-  const [users, setUsers] = useState<number | null>(null);
-
-  useEffect(() => {
-    fetch("/api/stats")
-      .then((res) => res.json())
-      .then((data) => setUsers(data.users))
-      .catch(() => {});
-  }, []);
-
   return (
     <section className="bg-white">
 
@@ -21,7 +11,9 @@ export default function Hero() {
         <div>
 
           <span className="text-xs font-bold uppercase tracking-[0.45em] text-red-600">
+
             TRADE SMARTER
+
           </span>
 
           <h1 className="mt-6 text-5xl font-black leading-[0.9] tracking-tight text-black sm:text-6xl md:text-7xl lg:text-8xl">
@@ -67,39 +59,33 @@ export default function Hero() {
 
           <div className="overflow-hidden rounded-[40px] border border-neutral-200 bg-white shadow-2xl">
 
-            <div className="border-b border-neutral-200 p-10">
+            <div className="border-b border-neutral-200 px-10 py-8">
 
-              <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
+              <div className="flex items-center justify-between">
 
-                Available Capital
+                <p className="text-sm uppercase tracking-[0.35em] text-neutral-500">
 
-              </p>
+                  Available Capital
 
-              <h2 className="mt-5 text-6xl font-bold text-black">
+                </p>
 
-                $100,000
+                <div className="flex gap-2">
 
-              </h2>
+                  <div className="h-3 w-3 rounded-full bg-red-500" />
 
-              <p className="mt-5 text-lg leading-8 text-neutral-500">
+                  <div className="h-3 w-3 rounded-full bg-blue-500" />
 
-                Access funded capital while protecting your own.
+                </div>
 
-              </p>
+              </div>
 
             </div>
 
-            <div className="p-10">
+            <div className="px-10 py-16">
 
-              <p className="text-sm uppercase tracking-[0.3em] text-neutral-500">
+              <h2 className="text-6xl font-black tracking-tight text-black md:text-7xl">
 
-                Users
-
-              </p>
-
-              <h2 className="mt-5 text-6xl font-bold text-black">
-
-                {users === null ? "..." : users.toLocaleString()}
+                $100M
 
               </h2>
 
