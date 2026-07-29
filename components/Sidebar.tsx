@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { useUser } from "@/app/dashboard/UserProvider";
 
 const links = [
   {
@@ -29,7 +30,7 @@ const links = [
 
 const adminLinks = [
   {
-    name: "Admin Dashboard",
+    name: "Dashboard",
     href: "/admin",
   },
   {
@@ -58,36 +59,35 @@ export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
+  const { user } = useUser();
+
   return (
     <aside className="hidden lg:flex h-screen w-72 shrink-0 flex-col border-r border-neutral-200 bg-white px-8 py-10">
 
-      <div className="flex items-center gap-4">
+      <Link
+        href="/dashboard"
+        className="flex items-center gap-4"
+      >
 
         <Image
           src="/logo.svg"
           alt="Take Profit"
-          width={46}
-          height={46}
+          width={36}
+          height={36}
         />
 
-        <div>
+        <span className="text-2xl font-semibold tracking-tight">
+          Take Profit
+        </span>
 
-          <h2 className="text-2xl font-semibold">
-            Take Profit
-          </h2>
+      </Link>
 
-          <p className="text-xs text-neutral-500">
-            A PLeNat Technologies company.
-          </p>
+      <div className="mt-14">
 
-        </div>
+        <p className="mb-5 text-xs font-semibold uppercase tracking-[0.35em] text-neutral-400">
 
-      </div>
+          Workspace
 
-      <div className="mt-12">
-
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">
-          Trading
         </p>
 
         <nav className="space-y-2">
@@ -97,19 +97,17 @@ export default function Sidebar() {
             const active = pathname === link.href;
 
             return (
-
               <Link
                 key={link.href}
                 href={link.href}
-                className={`block rounded-2xl px-5 py-4 text-[16px] transition ${
+                className={`block rounded-2xl px-5 py-4 text-[16px] transition-all duration-200 ${
                   active
-                    ? "bg-black text-white"
+                    ? "bg-black text-white shadow-lg"
                     : "text-neutral-600 hover:bg-neutral-100 hover:text-black"
                 }`}
               >
                 {link.name}
               </Link>
-
             );
 
           })}
@@ -118,45 +116,49 @@ export default function Sidebar() {
 
       </div>
 
-      <div className="mt-12">
+      {user?.is_admin && (
 
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-blue-600">
-          Administration
-        </p>
+        <div className="mt-14">
 
-        <nav className="space-y-2">
+          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.35em] text-neutral-400">
 
-          {adminLinks.map((link) => {
+            Administration
 
-            const active = pathname === link.href;
+          </p>
 
-            return (
+          <nav className="space-y-2">
 
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`block rounded-2xl px-5 py-4 text-[16px] transition ${
-                  active
-                    ? "bg-blue-600 text-white"
-                    : "text-neutral-600 hover:bg-blue-50 hover:text-blue-700"
-                }`}
-              >
-                {link.name}
-              </Link>
+            {adminLinks.map((link) => {
 
-            );
+              const active = pathname === link.href;
 
-          })}
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`block rounded-2xl px-5 py-4 text-[16px] transition-all duration-200 ${
+                    active
+                      ? "bg-black text-white shadow-lg"
+                      : "text-neutral-600 hover:bg-neutral-100 hover:text-black"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
 
-        </nav>
+            })}
 
-      </div>
+          </nav>
 
-      <div className="mt-auto">
+        </div>
+
+      )}
+
+      <div className="mt-auto pt-10">
 
         <button
           onClick={() => router.push("/login")}
-          className="w-full rounded-2xl bg-red-600 py-4 text-white transition hover:bg-red-700"
+          className="w-full rounded-2xl border border-neutral-200 py-4 font-medium text-neutral-700 transition hover:bg-neutral-100"
         >
           Sign Out
         </button>
