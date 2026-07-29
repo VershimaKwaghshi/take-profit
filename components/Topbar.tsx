@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Bell, Menu } from "lucide-react";
+import { Bell, ChevronDown } from "lucide-react";
 import { useUser } from "@/app/dashboard/UserProvider";
 
 export default function Topbar() {
@@ -17,7 +17,7 @@ export default function Topbar() {
     user?.first_name?.charAt(0).toUpperCase() ?? "?";
 
   return (
-    <header className="mb-10">
+    <header className="mb-12">
 
       <div className="flex items-center justify-between">
 
@@ -29,146 +29,146 @@ export default function Topbar() {
           <Image
             src="/logo.svg"
             alt="Take Profit"
-            width={36}
-            height={36}
+            width={30}
+            height={30}
           />
 
-          <span className="text-2xl font-semibold">
+          <span className="text-2xl font-semibold tracking-tight">
             Take Profit
           </span>
 
         </Link>
 
-        <div className="flex items-center gap-4">
+        <div className="relative flex items-center gap-4">
 
-          <button className="flex h-12 w-12 items-center justify-center rounded-full border border-neutral-200 bg-white transition hover:bg-neutral-100">
+          <button className="flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 bg-white transition hover:bg-neutral-100">
 
-            <Bell size={20} />
-
-          </button>
-
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-lg font-semibold text-white"
-          >
-
-            {initial}
+            <Bell size={18} />
 
           </button>
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-neutral-200 bg-white transition hover:bg-neutral-100"
+            className="flex items-center gap-3 rounded-full border border-neutral-200 bg-white px-2 py-2 transition hover:bg-neutral-100"
           >
 
-            <Menu size={22} />
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-sm font-semibold text-white">
+
+              {initial}
+
+            </div>
+
+            <ChevronDown
+              size={18}
+              className={`transition ${
+                menuOpen ? "rotate-180" : ""
+              }`}
+            />
 
           </button>
 
-        </div>
+          {menuOpen && (
 
-      </div>
+            <div className="absolute right-0 top-16 z-50 w-80 overflow-hidden rounded-[28px] border border-neutral-200 bg-white shadow-2xl">
 
-      {menuOpen && (
+              <div className="border-b border-neutral-100 p-7">
 
-        <div className="absolute right-10 top-24 z-50 w-80 overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-xl">
+                <div className="flex items-center gap-4">
 
-          <div className="border-b border-neutral-200 p-6">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-black text-lg font-semibold text-white">
 
-            <div className="flex items-center gap-4">
+                    {initial}
 
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-black text-xl font-semibold text-white">
+                  </div>
 
-                {initial}
+                  <div>
+
+                    <h3 className="text-lg font-semibold">
+
+                      {user?.first_name} {user?.last_name}
+
+                    </h3>
+
+                    <p className="mt-1 text-sm text-neutral-500">
+
+                      {user?.email}
+
+                    </p>
+
+                  </div>
+
+                </div>
 
               </div>
 
-              <div>
+              <div className="py-3">
 
-                <h3 className="font-semibold">
+                <Link
+                  href="/dashboard/profile"
+                  className="block px-7 py-4 text-neutral-700 transition hover:bg-neutral-50"
+                >
+                  Profile
+                </Link>
 
-                  {user?.first_name} {user?.last_name}
+                <Link
+                  href="/dashboard/referrals"
+                  className="block px-7 py-4 text-neutral-700 transition hover:bg-neutral-50"
+                >
+                  Referrals
+                </Link>
 
-                </h3>
+                <Link
+                  href="/dashboard/notifications"
+                  className="block px-7 py-4 text-neutral-700 transition hover:bg-neutral-50"
+                >
+                  Notifications
+                </Link>
 
-                <p className="text-sm text-neutral-500">
+                <Link
+                  href="/dashboard/settings"
+                  className="block px-7 py-4 text-neutral-700 transition hover:bg-neutral-50"
+                >
+                  Settings
+                </Link>
 
-                  {user?.email}
+                <Link
+                  href="/dashboard/help"
+                  className="block px-7 py-4 text-neutral-700 transition hover:bg-neutral-50"
+                >
+                  Help & Contact
+                </Link>
 
-                </p>
+                {user?.is_admin && (
+
+                  <Link
+                    href="/admin"
+                    className="mx-4 mt-3 block rounded-2xl bg-black px-6 py-4 text-center font-medium text-white transition hover:bg-neutral-900"
+                  >
+                    Admin Portal
+                  </Link>
+
+                )}
+
+              </div>
+
+              <div className="border-t border-neutral-100 p-3">
+
+                <button
+                  onClick={() => router.push("/login")}
+                  className="w-full rounded-2xl px-5 py-4 text-left text-red-600 transition hover:bg-red-50"
+                >
+                  Sign Out
+                </button>
 
               </div>
 
             </div>
 
-          </div>
-
-          <div className="py-2">
-
-            <Link
-              href="/dashboard/profile"
-              className="block px-6 py-4 hover:bg-neutral-100"
-            >
-              👤 Profile
-            </Link>
-
-            <Link
-              href="/dashboard/referrals"
-              className="block px-6 py-4 hover:bg-neutral-100"
-            >
-              👥 Referrals
-            </Link>
-
-            <Link
-              href="/dashboard/notifications"
-              className="block px-6 py-4 hover:bg-neutral-100"
-            >
-              🔔 Notifications
-            </Link>
-
-            <Link
-              href="/dashboard/settings"
-              className="block px-6 py-4 hover:bg-neutral-100"
-            >
-              ⚙️ Settings
-            </Link>
-
-            <Link
-              href="/dashboard/help"
-              className="block px-6 py-4 hover:bg-neutral-100"
-            >
-              💬 Help & Contact
-            </Link>
-
-            {user?.is_admin && (
-
-              <Link
-                href="/admin"
-                className="mx-3 my-2 block rounded-2xl bg-blue-600 px-6 py-4 font-semibold text-white transition hover:bg-blue-700"
-              >
-                🛡️ Admin Portal
-              </Link>
-
-            )}
-
-          </div>
-
-          <div className="border-t border-neutral-200 p-2">
-
-            <button
-              onClick={() => router.push("/login")}
-              className="w-full rounded-2xl px-5 py-4 text-left text-red-600 transition hover:bg-red-50"
-            >
-
-              🚪 Sign Out
-
-            </button>
-
-          </div>
+          )}
 
         </div>
 
-      )}
+      </div>
 
     </header>
   );
