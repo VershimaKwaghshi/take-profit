@@ -12,7 +12,10 @@ export async function POST(request: Request) {
 
     if (!limit.allowed) {
       return NextResponse.json(
-        { error: "Too many signups from this connection. Please try again later." },
+        {
+          error:
+            "Too many signups from this connection. Please try again later.",
+        },
         { status: 429 }
       );
     }
@@ -53,64 +56,38 @@ export async function POST(request: Request) {
       );
     }
 
-    if (data.referred_by) {
-      const { data: referrer } = await supabase
-        .from("waitlist")
-        .select("referral_count")
-        .eq("referral_code", data.referred_by)
-        .single();
-
-      if (referrer) {
-        await supabase
-          .from("waitlist")
-          .update({
-            referral_count: (referrer.referral_count || 0) + 1,
-          })
-          .eq("referral_code", data.referred_by);
-      }
-    }
-
-    const { error: emailError } = await resend.emails.send({
+    await resend.emails.send({
       from: "Take Profit <welcome@takeprofit.name.ng>",
       to: data.email,
       subject: "Verify your Take Profit email",
       html: `
-        <div style="font-family:Arial,sans-serif;padding:40px;max-width:600px;margin:auto">
-          <h1>Take Profit</h1>
+      <div style="font-family:Arial;padding:40px">
+        <h2>Welcome to Take Profit</h2>
 
-          <p>Hello ${data.first_name},</p>
+        <p>Your verification code:</p>
 
-          <p>Welcome to the Take Profit waitlist.</p>
+        <h1>${verificationCode}</h1>
 
-          <p>Your verification code is</p>
-
-          <h2 style="font-size:36px;letter-spacing:6px">
-            ${verificationCode}
-          </h2>
-
-          <p>This code expires in 15 minutes.</p>
-
-          <p>Thank you.</p>
-
-          <strong>Take Profit</strong>
-        </div>
+        <p>This code expires in 15 minutes.</p>
+      </div>
       `,
     });
-
-    if (emailError) {
-      console.error(emailError);
-    }
 
     return NextResponse.json({
       success: true,
       email: data.email,
     });
+
   } catch (error) {
     console.error(error);
 
     return NextResponse.json(
-      { error: "Something went wrong" },
-      { status: 500 }
+      {
+        error: "Something went wrong",
+      },
+      {
+        status: 500,
+      }
     );
   }
 }
