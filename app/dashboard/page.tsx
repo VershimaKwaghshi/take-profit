@@ -30,116 +30,105 @@ export default function DashboardPage() {
 
         <Sidebar />
 
-        <section className="flex-1 p-8">
+        <section className="flex-1 p-10">
 
           <Topbar />
 
-          {/* Announcements */}
+          <div className="mt-10">
 
-          <div className="mt-8">
+            <h1 className="text-5xl font-semibold text-black">
+              Welcome back.
+            </h1>
+
+            <p className="mt-4 text-xl text-neutral-500">
+              Your Take Profit journey continues here.
+            </p>
+
+          </div>
+
+          <div className="mt-10">
             <AnnouncementCard />
           </div>
 
+          <div className="mt-8 grid gap-8 lg:grid-cols-2">
 
-          {/* Take Profit Journey */}
+            <div className="rounded-[32px] bg-white p-8 shadow-sm">
 
-          <div className="mt-8 rounded-[36px] bg-white p-10 shadow-sm">
+              <p className="text-sm uppercase tracking-[0.35em] text-neutral-500">
+                ACCOUNT STATUS
+              </p>
 
-            <p className="text-sm uppercase tracking-widest text-neutral-500">
-              TAKE PROFIT JOURNEY
-            </p>
+              <h2 className="mt-5 text-4xl font-semibold">
 
-            <h2 className="mt-4 text-5xl font-semibold text-black">
-              🔓 Unlock Everything
-            </h2>
+                {unlocked ? "Ready for Launch" : "Preparing for Launch"}
 
-            <p className="mt-6 text-xl leading-9 text-neutral-600">
-              Before Take Profit launches, you'll receive complete education on how the
-              platform works through carefully prepared articles, videos, visual
-              demonstrations and practical explanations.
-            </p>
+              </h2>
 
-            <p className="mt-6 text-xl leading-9 text-neutral-600">
-              <strong>Invite just one verified member.</strong>
-              Once your referral verifies their email, your entire Take Profit account
-              unlocks permanently, giving you access to every feature available at launch.
-            </p>
+              <p className="mt-6 text-lg leading-8 text-neutral-600">
 
-          </div>
+                {unlocked
+                  ? "Your account has been unlocked and is ready for launch."
+                  : "Complete one verified referral to unlock your account before launch."}
 
+              </p>
 
-          {/* Portfolio */}
+            </div>
 
-          <div className="mt-8 rounded-[32px] border border-neutral-200 bg-white p-8 shadow-sm">
+            <div className="rounded-[32px] bg-white p-8 shadow-sm">
 
-            <p className="text-sm font-medium uppercase tracking-wide text-neutral-500">
-              Portfolio
-            </p>
+              <p className="text-sm uppercase tracking-[0.35em] text-neutral-500">
+                REFERRAL PROGRESS
+              </p>
 
-            {unlocked ? (
-              <>
-                <h2 className="mt-4 text-5xl font-semibold">
-                  Coming Soon
-                </h2>
+              <h2 className="mt-5 text-6xl font-semibold">
 
-                <p className="mt-5 max-w-xl leading-8 text-neutral-500">
-                  Your financial balances, funding,
-                  rewards and future assets will appear
-                  here once the Take Profit platform
-                  launches.
-                </p>
-              </>
-            ) : (
-              <>
-                <h2 className="mt-6 text-4xl font-semibold">
-                  Getting Ready
-                </h2>
+                {verifiedReferrals} / 1
 
-                <p className="mt-5 max-w-xl leading-8 text-neutral-500">
-                  Your portfolio will become available
-                  when Take Profit launches.
-                </p>
-              </>
-            )}
+              </h2>
 
-          </div>
+              <div className="mt-8 h-3 overflow-hidden rounded-full bg-neutral-200">
 
+                <div
+                  className={`h-full rounded-full transition-all ${
+                    unlocked ? "w-full" : "w-1/2"
+                  } bg-red-600`}
+                />
 
-          {/* Referral */}
+              </div>
 
-          <div className="mt-8 rounded-[32px] border border-neutral-200 bg-white p-8 shadow-sm">
-
-            <h2 className="text-5xl font-semibold">
-              Invite 1 Verified Member
-            </h2>
-
-            <p className="mt-4 text-neutral-600 leading-8">
-              One verified referral unlocks your complete Take Profit experience.
-            </p>
-
-            <div className="mt-8">
-              <ReferralLinkCard />
             </div>
 
           </div>
 
+          <div className="mt-8 rounded-[32px] bg-white p-8 shadow-sm">
 
-          {/* Learning Centre */}
+            <p className="text-sm uppercase tracking-[0.35em] text-neutral-500">
 
-          <div className="mt-8 rounded-[32px] border border-neutral-200 bg-white p-8 shadow-sm">
+              YOUR REFERRAL LINK
 
-            <p className="text-sm font-medium uppercase tracking-wide text-neutral-500">
-              Learning Centre
             </p>
 
-            <h2 className="mt-4 text-4xl font-semibold">
-              Coming Soon
-            </h2>
+            <div className="mt-8">
 
-            <p className="mt-5 max-w-xl leading-8 text-neutral-500">
-              The Take Profit education experience will guide you step by step
-              through articles, videos, visual demonstrations and practical
-              explanations before launch.
+              <ReferralLinkCard />
+
+            </div>
+
+          </div>
+
+          <div className="mt-8 rounded-[32px] bg-white p-8 shadow-sm">
+
+            <p className="text-sm uppercase tracking-[0.35em] text-neutral-500">
+
+              LATEST UPDATE
+
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-600">
+
+              Take Profit is preparing for launch.
+              New updates will appear here as they become available.
+
             </p>
 
           </div>
