@@ -96,7 +96,7 @@ export default function DashboardPage() {
 
                 {unlocked
                   ? "Education unlocked. Available at launch."
-                  : "Complete one verified referral to unlock your education before launch."}
+                  : "YOU NEED ONE REFERRAL TO GAIN ACCESS."}
 
               </p>
 
