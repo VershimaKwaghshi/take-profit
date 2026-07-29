@@ -85,8 +85,7 @@ export default function Hero() {
 
               <h2 className="text-6xl font-black tracking-tight text-black md:text-7xl">
 
-                UP TO 
-                $100M
+                $100M+
 
               </h2>
 
