@@ -42,7 +42,7 @@ export default function Philosophy() {
 
           <p>
 
-            What matters is having the opportunity to recover, improve and continue building wealth.
+            What matters is having the opportunity to recover, improve and continue.
 
           </p>
 
