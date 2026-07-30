@@ -26,23 +26,11 @@ export default function Hero() {
 
           </h1>
 
-          <p className="mt-10 max-w-xl text-xl leading-10 text-neutral-600">
+          <p className="text-lg text-gray-600 mt-6">
+Take Profit is currently in development.
 
-            Keep more of the upside.
-
-            <br />
-
-            Carry less of the risk.
-
-            <br />
-
-            Recover.
-
-            Improve.
-
-            Continue.
-
-          </p>
+Join the waitlist to learn how the platform works, follow our progress, and be among the first to receive access when we launch.
+</p>
 
           <Link
             href="/waitlist"
