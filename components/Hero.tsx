@@ -9,7 +9,7 @@ export default function Hero() {
         {/* Left */}
         <div>
           <span className="text-xs font-bold uppercase tracking-[0.45em] text-red-600">
-            PRE-LAUNCH WAITLIST
+            NOW ACCEPTING EARLY MEMBERS
           </span>
 
           <h1 className="mt-6 text-5xl font-black leading-[0.9] tracking-tight text-black sm:text-6xl md:text-7xl lg:text-8xl">
@@ -18,55 +18,55 @@ export default function Hero() {
             real capital.
           </h1>
 
-          <p className="mt-8 max-w-xl text-lg leading-8 text-gray-600">
-            Take Profit isn't live yet.
+          <p className="mt-8 max-w-xl text-xl leading-9 text-neutral-600">
+            Take Profit is currently in development.
           </p>
 
-          <p className="mt-4 max-w-xl text-lg leading-8 text-gray-600">
-            Join the waitlist to learn how the platform works, follow our
-            progress, and be among the first to receive access when we launch.
+          <p className="mt-4 max-w-xl text-lg leading-8 text-neutral-600">
+            Join the waitlist to understand how the platform works before launch,
+            receive product updates, and be among the first to gain access when
+            we're ready.
           </p>
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2">
-            <div className="rounded-3xl border border-neutral-200 bg-white p-6 transition hover:shadow-lg">
-              <h3 className="text-lg font-bold text-black">
+            <div className="rounded-[28px] border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <h3 className="text-xl font-semibold text-black">
                 Learn the Platform
               </h3>
 
-              <p className="mt-3 text-gray-600 leading-7">
+              <p className="mt-3 text-neutral-600 leading-7">
                 Understand how Take Profit works before it launches.
               </p>
             </div>
 
-            <div className="rounded-3xl border border-neutral-200 bg-white p-6 transition hover:shadow-lg">
-              <h3 className="text-lg font-bold text-black">
-                Recovery System
+            <div className="rounded-[28px] border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <h3 className="text-xl font-semibold text-black">
+                Follow the Journey
               </h3>
 
-              <p className="mt-3 text-gray-600 leading-7">
-                Discover how the platform is designed to help traders recover
-                and continue after setbacks.
+              <p className="mt-3 text-neutral-600 leading-7">
+                Receive updates as we continue building Take Profit.
               </p>
             </div>
 
-            <div className="rounded-3xl border border-neutral-200 bg-white p-6 transition hover:shadow-lg">
-              <h3 className="text-lg font-bold text-black">
-                Trading Capital
+            <div className="rounded-[28px] border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <h3 className="text-xl font-semibold text-black">
+                Discover What's Different
               </h3>
 
-              <p className="mt-3 text-gray-600 leading-7">
-                Learn how members can access company-funded trading capital.
+              <p className="mt-3 text-neutral-600 leading-7">
+                Learn what makes Take Profit different from traditional trading
+                platforms.
               </p>
             </div>
 
-            <div className="rounded-3xl border border-neutral-200 bg-white p-6 transition hover:shadow-lg">
-              <h3 className="text-lg font-bold text-black">
-                Product Updates
+            <div className="rounded-[28px] border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <h3 className="text-xl font-semibold text-black">
+                Get Early Access
               </h3>
 
-              <p className="mt-3 text-gray-600 leading-7">
-                Receive updates, new features, and your invitation when Take
-                Profit launches.
+              <p className="mt-3 text-neutral-600 leading-7">
+                Be among the first invited when Take Profit officially launches.
               </p>
             </div>
           </div>
@@ -79,8 +79,8 @@ export default function Hero() {
               Join the Waitlist
             </Link>
 
-            <p className="mt-5 text-sm text-gray-500">
-              Join today to understand how Take Profit works before launch.
+            <p className="mt-5 text-sm text-neutral-500">
+              No commitment. Just learn how Take Profit works before launch.
             </p>
           </div>
         </div>
@@ -91,7 +91,7 @@ export default function Hero() {
             <div className="border-b border-neutral-200 px-10 py-8">
               <div className="flex items-center justify-between">
                 <p className="text-sm uppercase tracking-[0.35em] text-neutral-500">
-                  Capital
+                  Take Profit
                 </p>
 
                 <div className="flex gap-2">
@@ -103,13 +103,16 @@ export default function Hero() {
 
             <div className="px-10 py-16">
               <h2 className="text-6xl font-black tracking-tight text-black md:text-7xl">
-                $100M+
+                Learn.
+                <br />
+                Prepare.
+                <br />
+                Launch.
               </h2>
 
-              <p className="mt-6 max-w-sm text-gray-600 leading-7">
-                Built to connect traders with professional managers through a
-                platform designed for long-term participation, not one-time
-                opportunities.
+              <p className="mt-8 text-lg leading-8 text-neutral-600">
+                Join the waitlist today and follow the journey as we build a new
+                trading experience.
               </p>
             </div>
           </div>
