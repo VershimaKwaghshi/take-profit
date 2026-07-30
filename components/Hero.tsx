@@ -106,10 +106,25 @@ Receive progress updates and be among the first invited when Take Profit launche
 
           <Link
             href="/waitlist"
-            className="mt-14 inline-flex h-16 items-center justify-center rounded-full bg-black px-12 text-lg font-semibold text-white transition hover:bg-neutral-900"
-          >
+            className="py-24 text-center">
 
-            Join Waitlist
+<h2 className="text-4xl font-bold">
+
+Be among the first.
+
+</h2>
+
+<p className="mt-6 text-gray-600">
+
+Join the waitlist today to learn how Take Profit works before launch.
+
+</p>
+
+<button>
+
+Join Waitlist
+
+</button>
 
           </Link>
 
