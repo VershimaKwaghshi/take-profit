@@ -1,112 +1,94 @@
 export default function Footer() {
   return (
-    <footer className="bg-black">
-      <div className="mx-auto max-w-7xl px-6 py-24">
-        <div className="grid gap-20 lg:grid-cols-[1.6fr_1fr]">
+    <footer className="bg-black border-t border-neutral-900">
+      <div className="mx-auto max-w-7xl px-6 py-20">
+        <div className="grid gap-16 md:grid-cols-3">
+
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-red-500">
-              PRE-LAUNCH
+            <h3 className="text-2xl font-semibold text-white">
+              Take Profit
+            </h3>
+
+            <p className="mt-6 max-w-sm leading-8 text-neutral-400">
+              Building a different trading experience.
             </p>
-
-            <h2 className="mt-8 text-5xl font-semibold leading-tight text-white md:text-7xl">
-              Learn.
-              <br />
-              Prepare.
-              <br />
-              Launch.
-            </h2>
-
-            <p className="mt-10 max-w-2xl text-xl leading-10 text-neutral-400">
-              Join the waitlist to understand how Take Profit works, follow our
-              progress, and be among the first to access the platform when it
-              launches.
-            </p>
-
-            <a
-              href="/waitlist"
-              className="mt-12 inline-flex h-14 items-center justify-center rounded-full bg-white px-8 text-lg font-semibold text-black transition hover:bg-neutral-200"
-            >
-              Join the Waitlist
-            </a>
           </div>
 
-          <div className="grid gap-14 sm:grid-cols-2">
-            <div>
-              <p className="mb-6 text-sm font-semibold uppercase tracking-[0.35em] text-neutral-500">
-                PLATFORM
-              </p>
+          <div>
+            <p className="mb-6 text-sm font-semibold uppercase tracking-[0.35em] text-neutral-500">
+              PLATFORM
+            </p>
 
-              <div className="space-y-5">
-                <a
-                  href="/"
-                  className="block text-lg text-white transition hover:text-red-500"
-                >
-                  Home
-                </a>
+            <div className="space-y-4">
 
-                <a
-                  href="/#features"
-                  className="block text-lg text-white transition hover:text-red-500"
-                >
-                  How It Works
-                </a>
+              <a
+                href="/waitlist"
+                className="block text-white transition hover:text-red-500"
+              >
+                Join Waitlist
+              </a>
 
-                <a
-                  href="/waitlist"
-                  className="block text-lg text-white transition hover:text-red-500"
-                >
-                  Join Waitlist
-                </a>
+              <a
+                href="/login"
+                className="block text-white transition hover:text-red-500"
+              >
+                Log In
+              </a>
 
-                <a
-                  href="/login"
-                  className="block text-lg text-white transition hover:text-red-500"
-                >
-                  Log In
-                </a>
-              </div>
             </div>
 
-            <div>
-              <p className="mb-6 text-sm font-semibold uppercase tracking-[0.35em] text-neutral-500">
-                COMPANY
-              </p>
-
-              <div className="space-y-5">
-                <a
-                  href="/privacy"
-                  className="block text-lg text-white transition hover:text-red-500"
-                >
-                  Privacy Policy
-                </a>
-
-                <a
-                  href="/terms"
-                  className="block text-lg text-white transition hover:text-red-500"
-                >
-                  Terms of Use
-                </a>
-
-                <a
-                  href="mailto:support@takeprofit.name.ng"
-                  className="block text-lg text-white transition hover:text-red-500"
-                >
-                  Contact
-                </a>
-              </div>
-            </div>
           </div>
+
+          <div>
+            <p className="mb-6 text-sm font-semibold uppercase tracking-[0.35em] text-neutral-500">
+              LEGAL
+            </p>
+
+            <div className="space-y-4">
+
+              <a
+                href="/privacy"
+                className="block text-white transition hover:text-red-500"
+              >
+                Privacy Policy
+              </a>
+
+              <a
+                href="/terms"
+                className="block text-white transition hover:text-red-500"
+              >
+                Terms of Use
+              </a>
+
+              <a
+                href="mailto:support@takeprofit.name.ng"
+                className="block text-white transition hover:text-red-500"
+              >
+                Contact
+              </a>
+
+            </div>
+
+          </div>
+
         </div>
 
-        <div className="mt-24 border-t border-neutral-800 pt-8">
+        <div className="mt-16 border-t border-neutral-900 pt-8">
+
           <div className="flex flex-col gap-4 text-sm text-neutral-500 md:flex-row md:items-center md:justify-between">
-            <p>© 2026 Take Profit. All rights reserved.</p>
 
             <p>
-              A product of <span className="text-white">PPG Solutions</span>
+              © 2026 Take Profit. All rights reserved.
             </p>
+
+            <p>
+              PLeNat Technologies
+            </p>
+
           </div>
+
         </div>
+
       </div>
     </footer>
   );
