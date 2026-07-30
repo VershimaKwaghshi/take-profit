@@ -1,44 +1,55 @@
 export default function Footer() {
   return (
     <footer className="bg-black">
-
       <div className="mx-auto max-w-7xl px-6 py-24">
-
         <div className="grid gap-20 lg:grid-cols-[1.6fr_1fr]">
-
           <div>
-
             <p className="text-sm font-semibold uppercase tracking-[0.35em] text-red-500">
-              TAKE PROFIT
+              PRE-LAUNCH
             </p>
 
             <h2 className="mt-8 text-5xl font-semibold leading-tight text-white md:text-7xl">
-              Recover.
+              Learn.
               <br />
-              Improve.
+              Prepare.
               <br />
-              Continue.
+              Launch.
             </h2>
 
             <p className="mt-10 max-w-2xl text-xl leading-10 text-neutral-400">
-              Capital.
-              <br />
-              Risk Management.
-              <br />
-              Growth.
+              Join the waitlist to understand how Take Profit works, follow our
+              progress, and be among the first to access the platform when it
+              launches.
             </p>
 
+            <a
+              href="/waitlist"
+              className="mt-12 inline-flex h-14 items-center justify-center rounded-full bg-white px-8 text-lg font-semibold text-black transition hover:bg-neutral-200"
+            >
+              Join the Waitlist
+            </a>
           </div>
 
           <div className="grid gap-14 sm:grid-cols-2">
-
             <div>
-
               <p className="mb-6 text-sm font-semibold uppercase tracking-[0.35em] text-neutral-500">
                 PLATFORM
               </p>
 
               <div className="space-y-5">
+                <a
+                  href="/"
+                  className="block text-lg text-white transition hover:text-red-500"
+                >
+                  Home
+                </a>
+
+                <a
+                  href="/#features"
+                  className="block text-lg text-white transition hover:text-red-500"
+                >
+                  How It Works
+                </a>
 
                 <a
                   href="/waitlist"
@@ -53,19 +64,15 @@ export default function Footer() {
                 >
                   Log In
                 </a>
-
               </div>
-
             </div>
 
             <div>
-
               <p className="mb-6 text-sm font-semibold uppercase tracking-[0.35em] text-neutral-500">
                 COMPANY
               </p>
 
               <div className="space-y-5">
-
                 <a
                   href="/privacy"
                   className="block text-lg text-white transition hover:text-red-500"
@@ -80,32 +87,27 @@ export default function Footer() {
                   Terms of Use
                 </a>
 
+                <a
+                  href="mailto:support@takeprofit.name.ng"
+                  className="block text-lg text-white transition hover:text-red-500"
+                >
+                  Contact
+                </a>
               </div>
-
             </div>
-
           </div>
-
         </div>
 
-        <div className="mt-24 border-t border-neutral-900 pt-8">
-
+        <div className="mt-24 border-t border-neutral-800 pt-8">
           <div className="flex flex-col gap-4 text-sm text-neutral-500 md:flex-row md:items-center md:justify-between">
+            <p>© 2026 Take Profit. All rights reserved.</p>
 
             <p>
-              © 2026 Take Profit. All rights reserved.
+              A product of <span className="text-white">PPG Solutions</span>
             </p>
-
-            <p>
-              PLeNat Technologies
-            </p>
-
           </div>
-
         </div>
-
       </div>
-
     </footer>
   );
 }
