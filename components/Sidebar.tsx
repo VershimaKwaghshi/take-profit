@@ -15,7 +15,7 @@ const links = [
     href: "/dashboard/referrals",
   },
   {
-    name: "Education",
+    name: "Academy",
     href: "/dashboard/education",
   },
   {
@@ -58,39 +58,66 @@ const adminLinks = [
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-
   const { user } = useUser();
 
   return (
-    <aside className="hidden lg:flex h-screen w-72 shrink-0 flex-col border-r border-neutral-200 bg-white px-8 py-10">
+    <aside className="hidden h-screen w-72 shrink-0 flex-col bg-[#071A52] text-white lg:flex">
 
-      <Link
-        href="/dashboard"
-        className="flex items-center gap-4"
-      >
+      <div className="border-b border-white/10 px-8 py-8">
 
-        <Image
-          src="/logo.svg"
-          alt="Take Profit"
-          width={36}
-          height={36}
-        />
+        <Link
+          href="/dashboard"
+          className="flex items-center gap-4"
+        >
+          <Image
+            src="/logo.svg"
+            alt="Take Profit"
+            width={40}
+            height={40}
+          />
 
-        <span className="text-2xl font-semibold tracking-tight">
-          Take Profit
-        </span>
+          <div>
+            <h2 className="text-2xl font-semibold">
+              Take Profit
+            </h2>
 
-      </Link>
+            <p className="mt-1 text-xs uppercase tracking-[0.3em] text-blue-200">
+              Academy
+            </p>
+          </div>
 
-      <div className="mt-14">
+        </Link>
 
-        <p className="mb-5 text-xs font-semibold uppercase tracking-[0.35em] text-neutral-400">
+      </div>
 
-          Workspace
+      <div className="px-8 pt-10">
 
+        <div className="rounded-3xl bg-white/10 p-6">
+
+          <p className="text-xs uppercase tracking-[0.35em] text-blue-200">
+            PRE-LAUNCH
+          </p>
+
+          <h3 className="mt-4 text-2xl font-semibold">
+            Founding Member
+          </h3>
+
+          <p className="mt-4 text-sm leading-7 text-blue-100">
+            Learn how Take Profit works before launch and follow our progress
+            from inside your dashboard.
+          </p>
+
+        </div>
+
+      </div>
+
+      <div className="mt-12 px-8">
+
+        <p className="mb-5 text-xs font-semibold uppercase tracking-[0.35em] text-blue-300">
+          Navigation
         </p>
 
-        <nav className="space-y-2">
+        <nav className="space-y-3">
 
           {links.map((link) => {
 
@@ -100,10 +127,10 @@ export default function Sidebar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`block rounded-2xl px-5 py-4 text-[16px] transition-all duration-200 ${
+                className={`block rounded-2xl px-5 py-4 font-medium transition-all duration-200 ${
                   active
-                    ? "bg-black text-white shadow-lg"
-                    : "text-neutral-600 hover:bg-neutral-100 hover:text-black"
+                    ? "bg-red-600 text-white shadow-lg"
+                    : "text-blue-100 hover:bg-white/10"
                 }`}
               >
                 {link.name}
@@ -118,15 +145,13 @@ export default function Sidebar() {
 
       {user?.is_admin && (
 
-        <div className="mt-14">
+        <div className="mt-12 px-8">
 
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.35em] text-neutral-400">
-
+          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.35em] text-blue-300">
             Administration
-
           </p>
 
-          <nav className="space-y-2">
+          <nav className="space-y-3">
 
             {adminLinks.map((link) => {
 
@@ -136,10 +161,10 @@ export default function Sidebar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`block rounded-2xl px-5 py-4 text-[16px] transition-all duration-200 ${
+                  className={`block rounded-2xl px-5 py-4 font-medium transition-all duration-200 ${
                     active
-                      ? "bg-black text-white shadow-lg"
-                      : "text-neutral-600 hover:bg-neutral-100 hover:text-black"
+                      ? "bg-red-600 text-white"
+                      : "text-blue-100 hover:bg-white/10"
                   }`}
                 >
                   {link.name}
@@ -154,11 +179,11 @@ export default function Sidebar() {
 
       )}
 
-      <div className="mt-auto pt-10">
+      <div className="mt-auto border-t border-white/10 p-8">
 
         <button
           onClick={() => router.push("/login")}
-          className="w-full rounded-2xl border border-neutral-200 py-4 font-medium text-neutral-700 transition hover:bg-neutral-100"
+          className="w-full rounded-2xl bg-white py-4 font-semibold text-black transition hover:bg-neutral-200"
         >
           Sign Out
         </button>
