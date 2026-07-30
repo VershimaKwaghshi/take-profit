@@ -50,6 +50,60 @@ Instead of rushing people into a new trading platform, we're taking time to teac
 
 </section>
 
+<section className="py-24">
+
+<h2 className="text-3xl font-bold">
+
+What you'll learn
+
+</h2>
+
+<div className="grid gap-8 mt-12">
+
+<div>
+
+<h3>Professional managers</h3>
+
+<p>
+Understand how managed trading works.
+</p>
+
+</div>
+
+<div>
+
+<h3>Recovery system</h3>
+
+<p>
+Learn how Take Profit is designed to help traders recover after significant losses.
+</p>
+
+</div>
+
+<div>
+
+<h3>Trading capital</h3>
+
+<p>
+See how members can access company-funded trading capital.
+</p>
+
+</div>
+
+<div>
+
+<h3>Launch updates</h3>
+
+<p>
+Receive progress updates and be among the first invited when Take Profit launches.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
           <Link
             href="/waitlist"
             className="mt-14 inline-flex h-16 items-center justify-center rounded-full bg-black px-12 text-lg font-semibold text-white transition hover:bg-neutral-900"
