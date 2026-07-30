@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Bell, ChevronDown } from "lucide-react";
 import { useUser } from "@/app/dashboard/UserProvider";
@@ -17,7 +19,26 @@ export default function Topbar() {
   return (
     <header className="mb-10">
 
-      <div className="flex items-center justify-end">
+      <div className="flex items-center justify-between">
+
+        <Link
+          href="/dashboard"
+          className="flex items-center gap-3"
+        >
+
+          <Image
+            src="/logo.svg"
+            alt="Take Profit"
+            width={36}
+            height={36}
+            priority
+          />
+
+          <span className="text-2xl font-semibold tracking-tight text-black">
+            Take Profit
+          </span>
+
+        </Link>
 
         <div className="relative flex items-center gap-4">
 
@@ -119,16 +140,6 @@ export default function Topbar() {
                   className="block w-full px-8 py-4 text-left transition hover:bg-neutral-100"
                 >
                   Referrals
-                </button>
-
-                <button
-                  onClick={() => {
-                    setMenuOpen(false);
-                    router.push("/dashboard/education");
-                  }}
-                  className="block w-full px-8 py-4 text-left transition hover:bg-neutral-100"
-                >
-                  Academy
                 </button>
 
                 <button
