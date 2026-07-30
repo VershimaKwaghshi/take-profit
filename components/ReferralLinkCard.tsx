@@ -10,7 +10,7 @@ export default function ReferralLinkCard() {
 
   if (loading) {
     return (
-      <div className="rounded-[28px] bg-neutral-100 p-8">
+      <div className="rounded-[28px] bg-neutral-50 p-8">
         Loading...
       </div>
     );
@@ -22,8 +22,6 @@ export default function ReferralLinkCard() {
     referralCode.length > 0
       ? `https://takeprofit.name.ng/invite/${referralCode}`
       : "";
-
-  const referralCount = user?.referral_count ?? 0;
 
   async function copyLink() {
     if (!referralLink) return;
@@ -40,67 +38,29 @@ export default function ReferralLinkCard() {
   return (
     <div>
 
-      <div className="rounded-[32px] bg-[#071A52] p-8 text-white">
+      <div className="rounded-3xl bg-neutral-100 p-6 break-all text-base leading-8 text-neutral-700">
 
-        <p className="text-sm font-semibold uppercase tracking-[0.35em] text-blue-200">
-          Your Referral Link
-        </p>
+        {referralLink || "Referral link unavailable."}
 
-        <div className="mt-6 break-all rounded-2xl bg-white/10 p-5 text-base leading-8">
-          {referralLink || "Referral link unavailable."}
-        </div>
+      </div>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
+      <div className="mt-8 flex flex-wrap gap-4">
 
-          <div className="rounded-2xl bg-white p-6">
+        <button
+          onClick={copyLink}
+          className="inline-flex h-12 items-center justify-center rounded-full bg-black px-8 font-medium text-white transition hover:bg-neutral-900"
+        >
+          {copied ? "Copied" : "Copy Link"}
+        </button>
 
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-neutral-500">
-              Verified Referrals
-            </p>
-
-            <p className="mt-3 text-5xl font-bold text-black">
-              {referralCount}
-            </p>
-
-          </div>
-
-          <div className="rounded-2xl bg-[#A3221B] p-6">
-
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-red-100">
-              Status
-            </p>
-
-            <p className="mt-3 text-3xl font-bold text-white">
-              Founding Member
-            </p>
-
-            <p className="mt-4 text-red-100">
-              Share your referral link and invite others to join before launch.
-            </p>
-
-          </div>
-
-        </div>
-
-        <div className="mt-8 flex flex-wrap gap-4">
-
-          <button
-            onClick={copyLink}
-            className="inline-flex h-14 items-center justify-center rounded-full bg-white px-8 font-semibold text-black transition hover:bg-neutral-200"
-          >
-            {copied ? "Copied" : "Copy Link"}
-          </button>
-
-          <a
-            href={`https://wa.me/?text=${encodeURIComponent(referralLink)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex h-14 items-center justify-center rounded-full border border-white/30 px-8 font-semibold text-white transition hover:bg-white/10"
-          >
-            Share
-          </a>
-
-        </div>
+        <a
+          href={`https://wa.me/?text=${encodeURIComponent(referralLink)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex h-12 items-center justify-center rounded-full border border-neutral-300 px-8 font-medium text-neutral-700 transition hover:bg-neutral-100"
+        >
+          Share
+        </a>
 
       </div>
 
