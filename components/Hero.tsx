@@ -32,6 +32,24 @@ Take Profit is currently in development.
 Join the waitlist to learn how the platform works, follow our progress, and be among the first to receive access when we launch.
 </p>
 
+           <section className="py-24">
+
+<h2 className="text-3xl font-bold">
+Why a waitlist?
+</h2>
+
+<p className="mt-6 text-gray-600 leading-8">
+
+Take Profit isn't live yet.
+
+We're opening a waitlist first so early members can understand exactly how the platform works before launch.
+
+Instead of rushing people into a new trading platform, we're taking time to teach every member how it works.
+
+</p>
+
+</section>
+
           <Link
             href="/waitlist"
             className="mt-14 inline-flex h-16 items-center justify-center rounded-full bg-black px-12 text-lg font-semibold text-white transition hover:bg-neutral-900"
