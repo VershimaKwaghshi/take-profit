@@ -11,57 +11,103 @@ type Announcement = {
 
 export default function AnnouncementCard() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadAnnouncements() {
-      const response = await fetch("/api/announcements");
-      const data = await response.json();
+      try {
+        const response = await fetch("/api/announcements");
+        const data = await response.json();
 
-      setAnnouncements(data);
+        setAnnouncements(data);
+      } catch {
+        setAnnouncements([]);
+      } finally {
+        setLoading(false);
+      }
     }
 
     loadAnnouncements();
   }, []);
 
   return (
-    <section className="rounded-[32px] border border-neutral-200 bg-white p-8 shadow-sm">
+    <section className="overflow-hidden rounded-[40px] bg-[#8F2018] shadow-xl">
 
-      <h2 className="text-3xl font-semibold">
-        Announcements
-      </h2>
+      <div className="p-10 md:p-14">
 
-      <div className="mt-8 space-y-6">
+        <p className="text-sm font-semibold uppercase tracking-[0.45em] text-red-100">
+          Latest Updates
+        </p>
 
-        {announcements.length === 0 && (
-          <p className="text-neutral-500">
-            No announcements yet.
-          </p>
-        )}
+        <h2 className="mt-6 text-5xl font-bold leading-tight text-white">
+          Stay informed
+        </h2>
 
-        {announcements.map((announcement) => (
+        <p className="mt-8 max-w-2xl text-xl leading-10 text-red-100">
+          Development updates, Academy lessons and launch announcements
+          will appear here as they become available.
+        </p>
 
-          <div
-            key={announcement.id}
-            className="rounded-2xl bg-neutral-100 p-6"
-          >
+        <div className="mt-12 space-y-6">
 
-            <h3 className="text-xl font-semibold">
-              {announcement.title}
-            </h3>
+          {loading && (
 
-            <p className="mt-3 text-neutral-700 leading-7">
-              {announcement.body}
-            </p>
+            <div className="rounded-[30px] bg-white p-8">
+              <p className="text-neutral-500">
+                Loading updates...
+              </p>
+            </div>
 
-            <p className="mt-5 text-sm text-neutral-500">
-              {new Date(
-                announcement.created_at
-              ).toLocaleString()}
-            </p>
+          )}
 
-          </div>
+          {!loading && announcements.length === 0 && (
 
-        ))}
+            <div className="rounded-[30px] bg-white p-8">
+
+              <p className="text-3xl font-bold text-black">
+                No new updates today
+              </p>
+
+              <p className="mt-6 text-lg leading-9 text-neutral-600">
+                We are actively building Take Profit.
+                Check back regularly for product updates,
+                Academy lessons and important announcements.
+              </p>
+
+            </div>
+
+          )}
+
+          {announcements.map((announcement) => (
+
+            <div
+              key={announcement.id}
+              className="rounded-[30px] bg-white p-8"
+            >
+
+              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-red-700">
+                Academy Update
+              </p>
+
+              <h3 className="mt-4 text-3xl font-bold text-black">
+                {announcement.title}
+              </h3>
+
+              <p className="mt-6 text-lg leading-9 text-neutral-700">
+                {announcement.body}
+              </p>
+
+              <p className="mt-8 text-sm text-neutral-500">
+                {new Date(
+                  announcement.created_at
+                ).toLocaleDateString()}
+              </p>
+
+            </div>
+
+          ))}
+
+        </div>
 
       </div>
 
