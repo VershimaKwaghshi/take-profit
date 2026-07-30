@@ -36,23 +36,47 @@ export default function DashboardPage() {
 
           {/* HERO */}
 
-          <div className="overflow-hidden rounded-[40px] bg-gradient-to-r from-[#071A52] via-[#1D4ED8] to-[#DC2626] px-10 py-12 text-white shadow-xl">
+         <div className="overflow-hidden rounded-[40px] bg-gradient-to-r from-[#071A52] via-[#1D4ED8] to-[#DC2626] px-10 py-12 text-white shadow-xl">
 
-            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-blue-100">
-              FOUNDING MEMBER
-            </p>
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
 
-            <h1 className="mt-5 text-5xl font-bold">
-              Welcome{user?.first_name ? `, ${user.first_name}` : ""}.
-            </h1>
+      <div>
 
-            <p className="mt-6 max-w-3xl text-xl leading-9 text-blue-100">
-              You're one of the first members of Take Profit.
-              This dashboard is where you'll learn how the platform works,
-              follow our progress, and prepare for launch.
-            </p>
+      <span className="inline-flex rounded-full bg-white/15 px-4 py-2 text-sm font-semibold tracking-wide">
+        FOUNDING MEMBER
+      </span>
 
-          </div>
+      <h1 className="mt-6 text-5xl font-bold">
+        Welcome{user?.first_name ? `, ${user.first_name}` : ""}.
+      </h1>
+
+      <p className="mt-6 max-w-3xl text-xl leading-9 text-blue-100">
+        You're one of the first members of Take Profit.
+        Learn how the platform works, unlock the Academy,
+        and prepare for launch.
+      </p>
+
+      </div>
+
+      <div className="rounded-[30px] bg-white/10 px-8 py-8 backdrop-blur">
+
+       <p className="text-sm uppercase tracking-[0.35em] text-blue-100">
+        MEMBER STATUS
+       </p>
+
+       <h2 className="mt-3 text-3xl font-bold">
+        Founding Member
+       </h2>
+
+       <p className="mt-4 text-blue-100">
+        Joined before public launch.
+        </p>
+
+        </div>
+
+        </div>
+
+        </div>
 
           {/* PROGRESS */}
 
