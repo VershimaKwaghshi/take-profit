@@ -11,13 +11,13 @@ export default function DashboardPage() {
 
   const verifiedReferrals = user?.referral_count ?? 0;
 
-  const unlocked = verifiedReferrals >= 1;
+  const academyUnlocked = verifiedReferrals >= 1;
 
   if (loading) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#EEF6FF] via-white to-[#FFF5F5]">
         <p className="text-lg text-neutral-600">
-          Loading dashboard...
+          Loading dashboard
         </p>
       </main>
     );
@@ -34,55 +34,53 @@ export default function DashboardPage() {
 
           <Topbar />
 
-          {/* HERO */}
+          <div className="mt-10 rounded-[40px] bg-[#071A52] p-10 shadow-2xl">
 
-         <div className="overflow-hidden rounded-[40px] bg-gradient-to-r from-[#071A52] via-[#1D4ED8] to-[#DC2626] px-10 py-12 text-white shadow-xl">
+            <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
 
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+              <div className="max-w-3xl">
 
-      <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.35em] text-blue-200">
+                  FOUNDING MEMBER
+                </p>
 
-      <span className="inline-flex rounded-full bg-white/15 px-4 py-2 text-sm font-semibold tracking-wide">
-        FOUNDING MEMBER
-      </span>
+                <h1 className="mt-6 text-5xl font-bold text-white">
 
-      <h1 className="mt-6 text-5xl font-bold">
-        Welcome{user?.first_name ? `, ${user.first_name}` : ""}.
-      </h1>
+                  Welcome {user?.first_name}
 
-      <p className="mt-6 max-w-3xl text-xl leading-9 text-blue-100">
-        You're one of the first members of Take Profit.
-        Learn how the platform works, unlock the Academy,
-        and prepare for launch.
-      </p>
+                </h1>
 
-      </div>
+                <p className="mt-6 text-xl leading-9 text-blue-100">
 
-      <div className="rounded-[30px] bg-white/10 px-8 py-8 backdrop-blur">
+                  You joined Take Profit before launch. Learn how the platform works, unlock the Academy and follow development as we prepare for launch.
 
-       <p className="text-sm uppercase tracking-[0.35em] text-blue-100">
-        MEMBER STATUS
-       </p>
+                </p>
 
-       <h2 className="mt-3 text-3xl font-bold">
-        Founding Member
-       </h2>
+              </div>
 
-       <p className="mt-4 text-blue-100">
-        Joined before public launch.
-        </p>
+              <div className="rounded-[32px] bg-white p-8 shadow-lg">
 
-        </div>
+                <p className="text-sm font-semibold uppercase tracking-[0.35em] text-neutral-500">
+                  MEMBER STATUS
+                </p>
 
-        </div>
+                <h2 className="mt-4 text-3xl font-bold text-black">
+                  Founding Member
+                </h2>
 
-        </div>
+                <p className="mt-3 text-neutral-600">
+                  Waiting for launch
+                </p>
 
-          {/* PROGRESS */}
+              </div>
+
+            </div>
+
+          </div>
 
           <div className="mt-8 rounded-[32px] bg-white p-8 shadow-sm">
 
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex items-center justify-between">
 
               <div>
 
@@ -90,15 +88,21 @@ export default function DashboardPage() {
                   YOUR PROGRESS
                 </p>
 
-                <h2 className="mt-3 text-3xl font-semibold text-black">
-                  Pre-launch Journey
+                <h2 className="mt-3 text-3xl font-bold text-black">
+                  Progress before launch
                 </h2>
 
               </div>
 
-              <span className="rounded-full bg-blue-50 px-5 py-2 text-sm font-semibold text-blue-700">
-                {verifiedReferrals}/1 Referral
-              </span>
+              <div className="rounded-full bg-black px-6 py-3">
+
+                <span className="text-white font-semibold">
+
+                  {verifiedReferrals} of 1 Referral
+
+                </span>
+
+              </div>
 
             </div>
 
@@ -106,78 +110,88 @@ export default function DashboardPage() {
 
               <div
                 className={`h-full rounded-full transition-all duration-500 ${
-                  unlocked
-                    ? "w-full bg-gradient-to-r from-blue-600 to-red-600"
-                    : "w-1/2 bg-gradient-to-r from-blue-600 to-red-600"
+                  academyUnlocked
+                    ? "w-full bg-gradient-to-r from-[#1D4ED8] to-[#DC2626]"
+                    : "w-1/2 bg-gradient-to-r from-[#1D4ED8] to-[#DC2626]"
                 }`}
               />
 
             </div>
 
-            <div className="mt-10 grid gap-8 md:grid-cols-4">
+            <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
 
-              <div>
+              <div className="rounded-[28px] border border-neutral-200 p-6">
 
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-600 font-bold text-white">
-                  ✓
-                </div>
+                <p className="text-sm font-semibold uppercase tracking-[0.25em] text-neutral-500">
+                  WAITLIST
+                </p>
 
-                <p className="mt-4 font-semibold text-black">
-                  Joined Waitlist
+                <h3 className="mt-4 text-2xl font-bold text-black">
+                  Joined
+                </h3>
+
+                <p className="mt-3 text-neutral-600">
+                  Your account is active.
                 </p>
 
               </div>
 
-              <div>
+              <div className="rounded-[28px] border border-neutral-200 p-6">
 
-                <div
-                  className={`flex h-10 w-10 items-center justify-center rounded-full font-bold ${
-                    unlocked
-                      ? "bg-green-600 text-white"
-                      : "bg-blue-600 text-white"
-                  }`}
-                >
-                  {unlocked ? "✓" : "2"}
-                </div>
+                <p className="text-sm font-semibold uppercase tracking-[0.25em] text-neutral-500">
+                  REFERRALS
+                </p>
 
-                <p className="mt-4 font-semibold text-black">
-                  Invite One Friend
+                <h3 className="mt-4 text-2xl font-bold text-black">
+
+                  {verifiedReferrals} Verified
+
+                </h3>
+
+                <p className="mt-3 text-neutral-600">
+
+                  {academyUnlocked
+                    ? "Requirement completed."
+                    : "Invite one verified member."}
+
                 </p>
 
               </div>
 
-              <div>
+              <div className="rounded-[28px] border border-neutral-200 p-6">
 
-                <div
-                  className={`flex h-10 w-10 items-center justify-center rounded-full font-bold ${
-                    unlocked
-                      ? "bg-green-600 text-white"
-                      : "bg-neutral-200"
-                  }`}
-                >
-                  3
-                </div>
+                <p className="text-sm font-semibold uppercase tracking-[0.25em] text-neutral-500">
+                  ACADEMY
+                </p>
 
-                <p
-                  className={`mt-4 ${
-                    unlocked
-                      ? "font-semibold text-black"
-                      : "text-neutral-500"
-                  }`}
-                >
-                  Unlock Academy
+                <h3 className="mt-4 text-2xl font-bold text-black">
+
+                  {academyUnlocked ? "Unlocked" : "Locked"}
+
+                </h3>
+
+                <p className="mt-3 text-neutral-600">
+
+                  {academyUnlocked
+                    ? "Content will appear here."
+                    : "Unlock with one verified referral."}
+
                 </p>
 
               </div>
 
-              <div>
+              <div className="rounded-[28px] border border-neutral-200 p-6">
 
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200 font-bold">
-                  4
-                </div>
+                <p className="text-sm font-semibold uppercase tracking-[0.25em] text-neutral-500">
+                  LAUNCH
+                </p>
 
-                <p className="mt-4 text-neutral-500">
-                  Platform Launch
+                <h3 className="mt-4 text-2xl font-bold text-black">
+                  Preparing
+                </h3>
+
+                <p className="mt-3 text-neutral-600">
+                  More updates coming soon.
                 </p>
 
               </div>
@@ -185,146 +199,133 @@ export default function DashboardPage() {
             </div>
 
           </div>
-
-          {/* ANNOUNCEMENTS */}
 
           <div className="mt-8">
             <AnnouncementCard />
           </div>
 
-          {/* TAKE PROFIT ACADEMY */}
+                    <div className="mt-8 rounded-[40px] bg-black p-10 shadow-xl">
 
-          <div className="mt-8 overflow-hidden rounded-[36px] bg-[#071A52] shadow-xl">
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
 
-            <div className="bg-gradient-to-r from-[#071A52] via-[#0F3EA8] to-[#C1121F] p-[1px]">
+              <div className="max-w-3xl">
 
-              <div className="rounded-[35px] bg-[#071A52] px-10 py-12">
-
-                <p className="text-sm font-semibold uppercase tracking-[0.35em] text-blue-200">
+                <p className="text-sm font-semibold uppercase tracking-[0.35em] text-neutral-400">
                   TAKE PROFIT ACADEMY
                 </p>
 
-                <h2 className="mt-5 text-5xl font-semibold leading-tight text-white">
-                  Learn before
-                  <br />
-                  launch.
+                <h2 className="mt-5 text-5xl font-bold text-white">
+                  Learn before launch
                 </h2>
 
-                <p className="mt-8 max-w-3xl text-xl leading-9 text-blue-100">
-                  Complete short lessons designed to help you understand
-                  how Take Profit works before the platform launches.
+                <p className="mt-6 text-xl leading-9 text-neutral-300">
+                  The Academy will teach you how Take Profit works before the platform becomes available.
                 </p>
 
-                <div className="mt-12 grid gap-6 lg:grid-cols-3">
+              </div>
 
-                  <div className="rounded-3xl bg-white/10 p-7">
+              <div
+                className={`rounded-[28px] px-8 py-6 ${
+                  academyUnlocked
+                    ? "bg-blue-600 text-white"
+                    : "bg-red-600 text-white"
+                }`}
+              >
 
-                    <p className="text-xs font-semibold uppercase tracking-[0.35em] text-blue-200">
-                      LESSON ONE
-                    </p>
+                <p className="text-sm font-semibold uppercase tracking-[0.35em]">
+                  STATUS
+                </p>
 
-                    <h3 className="mt-5 text-2xl font-semibold text-white">
-                      Why Take Profit Exists
-                    </h3>
+                <h3 className="mt-3 text-3xl font-bold">
 
-                    <p className="mt-4 leading-8 text-blue-100">
-                      Learn why Take Profit was created and the problem it
-                      aims to solve for traders.
-                    </p>
+                  {academyUnlocked ? "Unlocked" : "Locked"}
 
-                  </div>
-
-                  <div className="rounded-3xl bg-white/10 p-7">
-
-                    <p className="text-xs font-semibold uppercase tracking-[0.35em] text-blue-200">
-                      LESSON TWO
-                    </p>
-
-                    <h3 className="mt-5 text-2xl font-semibold text-white">
-                      Company Capital
-                    </h3>
-
-                    <p className="mt-4 leading-8 text-blue-100">
-                      Discover how company-funded trading capital will work
-                      when Take Profit launches.
-                    </p>
-
-                  </div>
-
-                  <div className="rounded-3xl bg-white/10 p-7">
-
-                    <p className="text-xs font-semibold uppercase tracking-[0.35em] text-blue-200">
-                      LESSON THREE
-                    </p>
-
-                    <h3 className="mt-5 text-2xl font-semibold text-white">
-                      Recovery System
-                    </h3>
-
-                    <p className="mt-4 leading-8 text-blue-100">
-                      Understand the thinking behind helping traders recover,
-                      improve and continue after setbacks.
-                    </p>
-
-                  </div>
-
-                </div>
-
-                <div className="mt-12 rounded-3xl bg-white/10 p-8">
-
-                  <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-
-                    <div>
-
-                      <p className="text-sm uppercase tracking-[0.35em] text-blue-200">
-                        EARLY ACCESS
-                      </p>
-
-                      <h3 className="mt-3 text-3xl font-semibold text-white">
-                        Unlock the Academy
-                      </h3>
-
-                      <p className="mt-4 max-w-2xl leading-8 text-blue-100">
-
-                        {unlocked
-                          ? "Your Academy access has been unlocked. Lessons will become available before launch."
-                          : "Invite one verified member to unlock early access to the Take Profit Academy."}
-
-                      </p>
-
-                    </div>
-
-                    <div className="rounded-2xl bg-white px-8 py-6 text-center">
-
-                      <p className="text-sm uppercase tracking-[0.35em] text-neutral-500">
-                        STATUS
-                      </p>
-
-                      <p
-                        className={`mt-3 text-2xl font-bold ${
-                          unlocked
-                            ? "text-green-600"
-                            : "text-red-600"
-                        }`}
-                      >
-                        {unlocked ? "Unlocked" : "Locked"}
-                      </p>
-
-                    </div>
-
-                  </div>
-
-                </div>
+                </h3>
 
               </div>
 
             </div>
 
+            <div className="mt-10 grid gap-6 lg:grid-cols-3">
+
+              <div className="rounded-[30px] bg-white p-8">
+
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-neutral-500">
+                  LESSON ONE
+                </p>
+
+                <h3 className="mt-5 text-2xl font-bold text-black">
+                  Why Take Profit Exists
+                </h3>
+
+                <p className="mt-4 leading-8 text-neutral-600">
+                  Understand the problem Take Profit was built to solve.
+                </p>
+
+              </div>
+
+              <div className="rounded-[30px] bg-white p-8">
+
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-neutral-500">
+                  LESSON TWO
+                </p>
+
+                <h3 className="mt-5 text-2xl font-bold text-black">
+                  Company Capital
+                </h3>
+
+                <p className="mt-4 leading-8 text-neutral-600">
+                  Learn how members gain access to company funded trading capital.
+                </p>
+
+              </div>
+
+              <div className="rounded-[30px] bg-white p-8">
+
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-neutral-500">
+                  LESSON THREE
+                </p>
+
+                <h3 className="mt-5 text-2xl font-bold text-black">
+                  Recovery System
+                </h3>
+
+                <p className="mt-4 leading-8 text-neutral-600">
+                  Learn how Take Profit is designed to help traders continue after significant setbacks.
+                </p>
+
+              </div>
+
+            </div>
+
+            <div className="mt-10">
+
+              {academyUnlocked ? (
+
+                <button className="rounded-full bg-white px-8 py-4 font-semibold text-black transition hover:bg-neutral-200">
+
+                  Open Academy
+
+                </button>
+
+              ) : (
+
+                <button
+                  disabled
+                  className="cursor-not-allowed rounded-full bg-neutral-700 px-8 py-4 font-semibold text-neutral-300"
+                >
+
+                  Unlock With One Verified Referral
+
+                </button>
+
+              )}
+
+            </div>
+
           </div>
 
-          {/* REFERRAL */}
-
-          <div className="mt-8 rounded-[32px] bg-white p-8 shadow-sm">
+                    <div className="mt-8 rounded-[32px] bg-white p-8 shadow-sm">
 
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
 
@@ -334,24 +335,23 @@ export default function DashboardPage() {
                   YOUR REFERRAL LINK
                 </p>
 
-                <h2 className="mt-3 text-3xl font-semibold text-black">
-                  Invite one friend.
+                <h2 className="mt-3 text-3xl font-bold text-black">
+                  Invite one verified member
                 </h2>
 
                 <p className="mt-4 max-w-2xl text-lg leading-8 text-neutral-600">
-                  Share your personal referral link. Once one verified member joins
-                  through your invitation, your Academy access will be unlocked.
+                  Once one verified member joins through your referral link your Academy unlocks automatically.
                 </p>
 
               </div>
 
-              <div className="rounded-3xl bg-blue-50 px-8 py-6 text-center">
+              <div className="rounded-[28px] bg-black px-8 py-6 text-center">
 
-                <p className="text-sm uppercase tracking-[0.35em] text-blue-700">
+                <p className="text-sm font-semibold uppercase tracking-[0.35em] text-neutral-400">
                   VERIFIED REFERRALS
                 </p>
 
-                <h3 className="mt-3 text-5xl font-bold text-[#071A52]">
+                <h3 className="mt-3 text-5xl font-bold text-white">
                   {verifiedReferrals}
                 </h3>
 
@@ -367,119 +367,29 @@ export default function DashboardPage() {
 
           </div>
 
-          {/* ROADMAP */}
+          <div className="mt-8 rounded-[32px] bg-[#8B1111] p-8 shadow-xl">
 
-          <div className="mt-8 rounded-[32px] bg-white p-8 shadow-sm">
-
-            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-neutral-500">
-              ROADMAP
+            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-red-200">
+              LATEST UPDATES
             </p>
 
-            <h2 className="mt-3 text-3xl font-semibold text-black">
-              What happens next?
+            <h2 className="mt-4 text-3xl font-bold text-white">
+              Stay informed
             </h2>
 
-            <div className="mt-10 space-y-8">
+            <p className="mt-6 max-w-3xl text-lg leading-9 text-red-100">
+              Development updates, new Academy lessons and launch announcements will appear here as they become available.
+            </p>
 
-              <div className="flex items-center gap-5">
+            <div className="mt-8 rounded-[24px] bg-white p-6">
 
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-600 text-white font-bold">
-                  ✓
-                </div>
+              <p className="font-semibold text-black">
+                No new updates today
+              </p>
 
-                <div>
-
-                  <h3 className="font-semibold text-black">
-                    Waitlist Open
-                  </h3>
-
-                  <p className="text-neutral-500">
-                    Members are joining Take Profit.
-                  </p>
-
-                </div>
-
-              </div>
-
-              <div className="flex items-center gap-5">
-
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white font-bold">
-                  2
-                </div>
-
-                <div>
-
-                  <h3 className="font-semibold text-black">
-                    Academy Access
-                  </h3>
-
-                  <p className="text-neutral-500">
-                    Eligible members unlock early educational content.
-                  </p>
-
-                </div>
-
-              </div>
-
-              <div className="flex items-center gap-5">
-
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200 font-bold">
-                  3
-                </div>
-
-                <div>
-
-                  <h3 className="font-semibold text-black">
-                    Development Updates
-                  </h3>
-
-                  <p className="text-neutral-500">
-                    Follow our progress as new features are introduced.
-                  </p>
-
-                </div>
-
-              </div>
-
-              <div className="flex items-center gap-5">
-
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200 font-bold">
-                  4
-                </div>
-
-                <div>
-
-                  <h3 className="font-semibold text-black">
-                    Early Access
-                  </h3>
-
-                  <p className="text-neutral-500">
-                    Founding members receive invitations before public launch.
-                  </p>
-
-                </div>
-
-              </div>
-
-              <div className="flex items-center gap-5">
-
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200 font-bold">
-                  5
-                </div>
-
-                <div>
-
-                  <h3 className="font-semibold text-black">
-                    Official Launch
-                  </h3>
-
-                  <p className="text-neutral-500">
-                    Take Profit officially opens to the public.
-                  </p>
-
-                </div>
-
-              </div>
+              <p className="mt-3 leading-8 text-neutral-600">
+                We are actively building Take Profit. Check back regularly for product updates and new learning content.
+              </p>
 
             </div>
 
