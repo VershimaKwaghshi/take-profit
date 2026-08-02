@@ -29,25 +29,25 @@ function WaitlistForm() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    const ref = searchParams.get("ref");
+    // Check for any common referral parameter in the URL
+    const ref =
+      searchParams.get("ref") ||
+      searchParams.get("referred_by") ||
+      searchParams.get("referral") ||
+      searchParams.get("referral_code");
 
     if (ref) {
       localStorage.setItem("takeprofit_referral", ref);
       setReferredBy(ref);
     } else {
-      const savedRef = localStorage.getItem(
-        "takeprofit_referral"
-      );
-
+      const savedRef = localStorage.getItem("takeprofit_referral");
       if (savedRef) {
         setReferredBy(savedRef);
       }
     }
   }, [searchParams]);
 
-  async function handleSubmit(
-    e: React.FormEvent<HTMLFormElement>
-  ) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     setSubmitting(true);
@@ -82,9 +82,7 @@ function WaitlistForm() {
 
       localStorage.removeItem("takeprofit_referral");
 
-      window.location.href = `/verify?email=${encodeURIComponent(
-        email
-      )}`;
+      window.location.href = `/verify?email=${encodeURIComponent(email)}`;
     } catch {
       setMessage("Unable to connect.");
     } finally {
@@ -99,26 +97,17 @@ function WaitlistForm() {
           onSubmit={handleSubmit}
           className="space-y-6 rounded-[40px] border border-neutral-200 bg-white p-10 shadow-xl"
         >
-          <h2 className="text-4xl font-semibold">
-            Application
-          </h2>
+          <h2 className="text-4xl font-semibold">Application</h2>
 
-          <p className="text-neutral-600">
-            Complete your application below.
-          </p>
+          <p className="text-neutral-600">Complete your application below.</p>
 
           {referredBy && (
             <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
               <p className="text-sm font-medium text-blue-900">
                 Referral Applied
               </p>
-
               <p className="mt-1 text-sm text-blue-700">
-                Referral Code
-                {" "}
-                <span className="font-semibold">
-                  {referredBy}
-                </span>
+                Referral Code: <span className="font-semibold">{referredBy}</span>
               </p>
             </div>
           )}
@@ -127,9 +116,7 @@ function WaitlistForm() {
             <input
               required
               value={firstName}
-              onChange={(e) =>
-                setFirstName(e.target.value)
-              }
+              onChange={(e) => setFirstName(e.target.value)}
               placeholder="First Name"
               className="rounded-2xl border border-neutral-300 px-5 py-4"
             />
@@ -137,9 +124,7 @@ function WaitlistForm() {
             <input
               required
               value={lastName}
-              onChange={(e) =>
-                setLastName(e.target.value)
-              }
+              onChange={(e) => setLastName(e.target.value)}
               placeholder="Last Name"
               className="rounded-2xl border border-neutral-300 px-5 py-4"
             />
@@ -149,65 +134,39 @@ function WaitlistForm() {
             required
             type="email"
             value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             className="w-full rounded-2xl border border-neutral-300 px-5 py-4"
           />
 
-          <TPPhoneInput
-            value={phone}
-            onChange={setPhone}
-          />
+          <TPPhoneInput value={phone} onChange={setPhone} />
 
-          <CountrySelect
-            value={country}
-            onChange={setCountry}
-          />
+          <CountrySelect value={country} onChange={setCountry} />
 
-          <ExperienceSelect
-            value={experience}
-            onChange={setExperience}
-          />
+          <ExperienceSelect value={experience} onChange={setExperience} />
 
-          <AssetSelector
-            value={assets}
-            onChange={setAssets}
-          />
+          <AssetSelector value={assets} onChange={setAssets} />
 
-          <FrequencySelect
-            value={frequency}
-            onChange={setFrequency}
-          />
+          <FrequencySelect value={frequency} onChange={setFrequency} />
 
           <label className="flex items-center gap-3">
             <input
               type="checkbox"
               checked={beta}
-              onChange={(e) =>
-                setBeta(e.target.checked)
-              }
+              onChange={(e) => setBeta(e.target.checked)}
             />
-
-            <span>
-              Notify me when beta begins.
-            </span>
+            <span>Notify me when beta begins.</span>
           </label>
 
           <button
             disabled={submitting}
             className="w-full rounded-full bg-black py-5 text-lg font-semibold text-white transition hover:opacity-90 disabled:opacity-60"
           >
-            {submitting
-              ? "Submitting..."
-              : "Join Waitlist"}
+            {submitting ? "Submitting..." : "Join Waitlist"}
           </button>
 
           {message && (
-            <p className="text-center text-red-600">
-              {message}
-            </p>
+            <p className="text-center text-red-600">{message}</p>
           )}
         </form>
       </div>
