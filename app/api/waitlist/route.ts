@@ -1,97 +1,91 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
-import { Resend } from "resend";
-import { rateLimit, getClientIp } from "@/lib/rateLimit";
-
-const resend = new Resend(process.env.RESEND_API_KEY!);
 
 export async function POST(request: Request) {
   try {
-    const ip = getClientIp(request);
-    const limit = rateLimit(`waitlist:${ip}`, 5, 60 * 60 * 1000);
+    const { email, code } = await request.json();
 
-    if (!limit.allowed) {
+    if (!email || !code) {
       return NextResponse.json(
-        {
-          error:
-            "Too many signups from this connection. Please try again later.",
-        },
-        { status: 429 }
-      );
-    }
-
-    const data = await request.json();
-
-    // Support both snake_case and camelCase keys for referral code
-    const referredBy =
-      data.referred_by || data.referredBy || data.ref || null;
-
-    const verificationCode = Math.floor(
-      100000 + Math.random() * 900000
-    ).toString();
-
-    const verificationExpiresAt = new Date(
-      Date.now() + 15 * 60 * 1000
-    ).toISOString();
-
-    const { error } = await supabase
-      .from("waitlist")
-      .insert({
-        first_name: data.first_name || data.firstName,
-        last_name: data.last_name || data.lastName,
-        email: data.email,
-        phone: data.phone,
-        country: data.country,
-        experience: data.experience,
-        targeted_assets: data.targeted_assets || data.targetedAssets,
-        trading_frequency: data.trading_frequency || data.tradingFrequency,
-        beta_opt_in: data.beta_opt_in ?? data.betaOptIn ?? false,
-        referred_by: referredBy,
-        email_verified: false,
-        verification_code: verificationCode,
-        verification_expires_at: verificationExpiresAt,
-        status: "pending",
-      });
-
-    if (error) {
-      return NextResponse.json(
-        { error: error.message },
+        { error: "Email and verification code are required." },
         { status: 400 }
       );
     }
 
-    await resend.emails.send({
-      from: "Take Profit <welcome@takeprofit.name.ng>",
-      to: data.email,
-      subject: "Verify your Take Profit email",
-      html: `
-      <div style="font-family:Arial;padding:40px">
-        <h2>Welcome to Take Profit</h2>
+    // 1. Fetch user to check verification code and expiration
+    const { data: user, error: fetchError } = await supabase
+      .from("waitlist")
+      .select("*")
+      .eq("email", email)
+      .single();
 
-        <p>Your verification code:</p>
+    if (fetchError || !user) {
+      return NextResponse.json(
+        { error: "User not found." },
+        { status: 404 }
+      );
+    }
 
-        <h1>${verificationCode}</h1>
+    if (user.email_verified) {
+      return NextResponse.json(
+        { error: "Email is already verified." },
+        { status: 400 }
+      );
+    }
 
-        <p>This code expires in 15 minutes.</p>
-      </div>
-      `,
-    });
+    if (user.verification_code !== code) {
+      return NextResponse.json(
+        { error: "Invalid verification code." },
+        { status: 400 }
+      );
+    }
+
+    if (new Date(user.verification_expires_at) < new Date()) {
+      return NextResponse.json(
+        { error: "Verification code has expired." },
+        { status: 400 }
+      );
+    }
+
+    // 2. Mark email as verified
+    const { error: updateError } = await supabase
+      .from("waitlist")
+      .update({ email_verified: true, status: "active" })
+      .eq("email", email);
+
+    if (updateError) {
+      return NextResponse.json(
+        { error: updateError.message },
+        { status: 400 }
+      );
+    }
+
+    // 3. Increment referral count for the referrer if referred_by exists
+    if (user.referred_by) {
+      const { data: referrer } = await supabase
+        .from("waitlist")
+        .select("referral_count")
+        .or(`email.eq.${user.referred_by},id.eq.${user.referred_by}`)
+        .single();
+
+      if (referrer) {
+        const currentCount = referrer.referral_count || 0;
+        await supabase
+          .from("waitlist")
+          .update({ referral_count: currentCount + 1 })
+          .or(`email.eq.${user.referred_by},id.eq.${user.referred_by}`);
+      }
+    }
 
     return NextResponse.json({
       success: true,
-      email: data.email,
+      message: "Email successfully verified.",
     });
-
   } catch (error) {
     console.error(error);
-
     return NextResponse.json(
-      {
-        error: "Something went wrong",
-      },
-      {
-        status: 500,
-      }
+      { error: "Something went wrong." },
+      { status: 500 }
     );
   }
 }
