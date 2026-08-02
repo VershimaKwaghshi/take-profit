@@ -80,19 +80,19 @@ export async function POST(request: Request) {
       })
       .eq("id", data.id);
 
+    // Increment referral count if referred_by exists
     if (data.referred_by) {
       const { data: referrer } = await supabase
         .from("waitlist")
         .select("id, referral_count")
-        .eq("referral_code", data.referred_by)
+        .or(`referral_code.eq.${data.referred_by},email.eq.${data.referred_by},id.eq.${data.referred_by}`)
         .single();
 
       if (referrer) {
         await supabase
           .from("waitlist")
           .update({
-            referral_count:
-              (referrer.referral_count ?? 0) + 1,
+            referral_count: (referrer.referral_count ?? 0) + 1,
           })
           .eq("id", referrer.id);
       }
