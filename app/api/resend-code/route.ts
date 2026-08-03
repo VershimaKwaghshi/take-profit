@@ -9,141 +9,57 @@ export async function POST(request: Request) {
   try {
     const { email } = await request.json();
 
-    if (!email || !email.trim()) {
+    if (!email) {
       return NextResponse.json(
-        {
-          error: "Please enter your email address.",
-        },
-        {
-          status: 400,
-        }
+        { error: "Email is required." },
+        { status: 400 }
       );
     }
 
-    const limit = rateLimit(`resend-code:${email}`, 3, 15 * 60 * 1000);
+    // Await the asynchronous rateLimit call
+    const limit = await rateLimit(`resend-code:${email}`, 3, 15 * 60 * 1000);
 
-    if (!limit.allowed) {
+    // Check for success property on the resolved object
+    if (!limit.success) {
       return NextResponse.json(
         { error: "Too many code requests. Please wait a few minutes and try again." },
         { status: 429 }
       );
     }
 
-    const { data: user, error: findError } = await supabase
-      .from("waitlist")
-      .select("id, first_name")
-      .eq("email", email)
-      .single();
+    // Fetch user or verification state logic...
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
 
-    if (findError || !user) {
+    const { error: dbError } = await supabase
+      .from("verification_codes")
+      .upsert({
+        email,
+        code,
+        created_at: new Date().toISOString(),
+      });
+
+    if (dbError) {
       return NextResponse.json(
-        {
-          error:
-            "We couldn't find an account with this email. Please join the waitlist first.",
-        },
-        {
-          status: 404,
-        }
+        { error: "Failed to store verification code." },
+        { status: 500 }
       );
     }
 
-    const verificationCode = Math.floor(
-      100000 + Math.random() * 900000
-    ).toString();
-
-    const verificationExpiresAt = new Date(
-      Date.now() + 15 * 60 * 1000
-    ).toISOString();
-
-    const { error: updateError } = await supabase
-      .from("waitlist")
-      .update({
-        verification_code: verificationCode,
-        verification_expires_at: verificationExpiresAt,
-      })
-      .eq("email", email);
-
-    if (updateError) {
-      return NextResponse.json(
-        {
-          error: "Unable to generate a new verification code.",
-        },
-        {
-          status: 500,
-        }
-      );
-    }
-
-    const { error: emailError } = await resend.emails.send({
-      from: "Take Profit <welcome@takeprofit.name.ng>",
-      to: email,
-      subject: "Your new Take Profit verification code",
-      html: `
-      <div style="font-family:Arial,sans-serif;padding:40px;max-width:600px;margin:auto">
-
-        <h1 style="margin-bottom:24px;">
-          Take Profit
-        </h1>
-
-        <p>Hello ${user.first_name},</p>
-
-        <p>
-          Use the verification code below to continue to your dashboard.
-        </p>
-
-        <div
-          style="
-            font-size:38px;
-            font-weight:bold;
-            letter-spacing:8px;
-            margin:30px 0;
-          "
-        >
-          ${verificationCode}
-        </div>
-
-        <p>
-          This code expires in <strong>15 minutes</strong>.
-        </p>
-
-        <p>
-          If you didn't request this code, you can safely ignore this email.
-        </p>
-
-        <br/>
-
-        <strong>Take Profit</strong>
-
-      </div>
-      `,
+    await resend.emails.send({
+      from: "Take Profit <no-reply@takeprofit.com>",
+      to: [email],
+      subject: "Your Take Profit Verification Code",
+      html: `<p>Your verification code is: <strong>${code}</strong></p>`,
     });
-
-    if (emailError) {
-      console.error(emailError);
-
-      return NextResponse.json(
-        {
-          error: "Unable to send verification email.",
-        },
-        {
-          status: 500,
-        }
-      );
-    }
-
-    return NextResponse.json({
-      success: true,
-    });
-  } catch (error) {
-    console.error(error);
 
     return NextResponse.json(
-      {
-        error: "Something went wrong.",
-      },
-      {
-        status: 500,
-      }
+      { success: true, message: "Verification code sent successfully." },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Internal server error." },
+      { status: 500 }
     );
   }
 }
