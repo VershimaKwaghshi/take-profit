@@ -1,19 +1,21 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
-import { createSessionToken } from "@/lib/session"; // Use your actual session helper exported by lib/session.ts
 
 export async function GET() {
   try {
-    // Replace with your actual session retrieval logic from lib/session.ts
-    const session = await createSessionToken(); 
+    const cookieStore = await cookies();
+    const sessionToken = cookieStore.get("session")?.value;
 
-    if (!session || !session.email) {
+    if (!sessionToken) {
       return NextResponse.json(
         { error: "Unauthorized" },
         { status: 401 }
       );
     }
 
+    // Decode or verify your session token here if needed.
+    // Replace `sessionToken` with the authenticated email from your session context.
     const { data: user, error } = await supabase
       .from("waitlist")
       .select(`
@@ -27,7 +29,7 @@ export async function GET() {
         created_at,
         is_admin
       `)
-      .eq("email", session.email)
+      .eq("email", sessionToken) 
       .maybeSingle();
 
     if (error || !user) {
