@@ -1,112 +1,46 @@
 "use client";
 
-import Sidebar from "@/components/Sidebar";
-import Topbar from "@/components/Topbar";
-import Link from "next/link";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function SettingsPage() {
   const router = useRouter();
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  async function handleSignOut() {
+    setLoggingOut(true);
+    try {
+      await fetch("/api/logout", { method: "POST" });
+    } catch {
+      // Continue navigation even if API fails
+    } finally {
+      router.push("/login");
+      router.refresh();
+    }
+  }
 
   return (
-    <main className="min-h-screen bg-neutral-100">
-
-      <div className="flex">
-
-        <Sidebar />
-
-        <section className="flex-1 p-10">
-
-          <Topbar />
-
-          <div className="mt-10 rounded-[36px] border border-neutral-200 bg-white shadow-sm">
-
-            <div className="border-b border-neutral-200 p-10">
-
-              <h1 className="text-4xl font-semibold">
-                Settings
-              </h1>
-
-            </div>
-
-            <div className="divide-y divide-neutral-200">
-
-              <Link
-                href="/login"
-                className="flex items-center justify-between p-8 transition hover:bg-neutral-50"
-              >
-
-                <div>
-
-                  <h2 className="text-xl font-medium">
-                    Change Email
-                  </h2>
-
-                  <p className="mt-2 text-neutral-500">
-                    Update the email connected to your account.
-                  </p>
-
-                </div>
-
-                <span>
-                  →
-                </span>
-
-              </Link>
-
-              <button
-                className="flex w-full items-center justify-between p-8 text-left transition hover:bg-neutral-50"
-              >
-
-                <div>
-
-                  <h2 className="text-xl font-medium">
-                    Notifications
-                  </h2>
-
-                  <p className="mt-2 text-neutral-500">
-                    Coming Soon
-                  </p>
-
-                </div>
-
-                <span>
-                  →
-                </span>
-
-              </button>
-
-              <button
-                onClick={() => router.push("/login")}
-                className="flex w-full items-center justify-between p-8 text-left transition hover:bg-neutral-50"
-              >
-
-                <div>
-
-                  <h2 className="text-xl font-medium">
-                    Sign Out
-                  </h2>
-
-                  <p className="mt-2 text-neutral-500">
-                    End your current session.
-                  </p>
-
-                </div>
-
-                <span>
-                  →
-                </span>
-
-              </button>
-
-            </div>
-
-          </div>
-
-        </section>
-
+    <div className="mx-auto max-w-4xl space-y-8 p-8">
+      <div>
+        <h1 className="text-3xl font-bold text-black">Settings</h1>
+        <p className="mt-2 text-neutral-600">Manage your account preferences.</p>
       </div>
 
-    </main>
+      <div className="rounded-3xl border border-neutral-200 bg-white p-8 shadow-sm">
+        <h2 className="text-xl font-semibold text-black">Account Actions</h2>
+        <p className="mt-2 text-sm text-neutral-500">
+          Sign out of your active Take Profit session on this device.
+        </p>
+        <div className="mt-6">
+          <button
+            onClick={handleSignOut}
+            disabled={loggingOut}
+            className="rounded-2xl bg-red-600 px-6 py-3 font-semibold text-white transition hover:bg-red-700 disabled:opacity-50"
+          >
+            {loggingOut ? "Signing Out..." : "Sign Out"}
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
