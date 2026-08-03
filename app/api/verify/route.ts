@@ -18,7 +18,6 @@ export async function POST(request: Request) {
     // 1. Await rate limit evaluation
     const limit = await rateLimit(`verify:${email}`, 5, 15 * 60 * 1000);
 
-    // 2. Check the .success boolean property
     if (!limit.success) {
       return NextResponse.json(
         {
@@ -28,26 +27,41 @@ export async function POST(request: Request) {
       );
     }
 
-    // Verify code in database
-    const { data, error } = await supabase
+    // 2. Verify code in database
+    const { data: codeRecord, error: codeError } = await supabase
       .from("verification_codes")
       .select("*")
       .eq("email", email)
       .eq("code", code)
       .maybeSingle();
 
-    if (error || !data) {
+    if (codeError || !codeRecord) {
       return NextResponse.json(
         { error: "Invalid or expired verification code." },
         { status: 400 }
       );
     }
 
-    // Delete verification code after successful usage
+    // 3. Delete verification code after successful usage
     await supabase.from("verification_codes").delete().eq("email", email);
 
-    // Create session token and set HTTP-only cookie
-    const token = await createSessionToken({ email });
+    // 4. Retrieve or create user profile to get id and is_admin
+    const { data: userRecord } = await supabase
+      .from("users")
+      .select("id, email, is_admin")
+      .eq("email", email)
+      .maybeSingle();
+
+    const userId = userRecord?.id || email;
+    const isAdmin = !!userRecord?.is_admin;
+
+    // 5. Pass complete user object to createSessionToken
+    const token = createSessionToken({
+      id: userId,
+      email: email,
+      is_admin: isAdmin,
+    });
+
     const response = NextResponse.json(
       { success: true, message: "Verification successful." },
       { status: 200 }
