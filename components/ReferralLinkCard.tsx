@@ -52,7 +52,6 @@ export default function ReferralLinkCard() {
           {copied ? "Copied" : "Copy Link"}
         </button>
 
-
         <a
           href={referralLink ? `https://wa.me/?text=${encodeURIComponent(referralLink)}` : "#"}
           target="_blank"
