@@ -16,10 +16,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Await the asynchronous rateLimit call
     const limit = await rateLimit(`resend-code:${email}`, 3, 15 * 60 * 1000);
 
-    // Check for success property on the resolved object
     if (!limit.success) {
       return NextResponse.json(
         { error: "Too many code requests. Please wait a few minutes and try again." },
@@ -27,16 +25,18 @@ export async function POST(request: Request) {
       );
     }
 
-    // Fetch user or verification state logic...
     const code = Math.floor(100000 + Math.random() * 900000).toString();
 
     const { error: dbError } = await supabase
       .from("verification_codes")
-      .upsert({
-        email,
-        code,
-        created_at: new Date().toISOString(),
-      });
+      .upsert(
+        {
+          email,
+          code,
+          created_at: new Date().toISOString(),
+        },
+        { onConflict: "email" }
+      );
 
     if (dbError) {
       return NextResponse.json(
@@ -45,18 +45,28 @@ export async function POST(request: Request) {
       );
     }
 
-    await resend.emails.send({
-      from: "Take Profit <no-reply@takeprofit.com>",
+    // Capture the output from Resend to handle errors explicitly
+    const { data: emailData, error: emailError } = await resend.emails.send({
+      from: "Take Profit <welcome@takeprofit.name.ng>",
       to: [email],
       subject: "Your Take Profit Verification Code",
       html: `<p>Your verification code is: <strong>${code}</strong></p>`,
     });
+
+    if (emailError) {
+      console.error("Resend delivery failed:", emailError);
+      return NextResponse.json(
+        { error: `Email delivery failed: ${emailError.message}` },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json(
       { success: true, message: "Verification code sent successfully." },
       { status: 200 }
     );
   } catch (error) {
+    console.error("Internal API error:", error);
     return NextResponse.json(
       { error: "Internal server error." },
       { status: 500 }
