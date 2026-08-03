@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import Select from "react-select";
 import {
   getCountries,
@@ -22,14 +23,15 @@ export default function CountrySelect({
   value,
   onChange,
 }: Props) {
+  const selectId = useId();
   const selectedCountry = countries.find(
     (country) => country.value === value
   );
 
   return (
     <Select
-      instanceId="country-select"
-      inputId="country-select"
+      instanceId={selectId}
+      inputId={selectId}
       options={countries}
       value={selectedCountry}
       onChange={(option) =>
