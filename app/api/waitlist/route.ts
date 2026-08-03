@@ -8,9 +8,12 @@ const resend = new Resend(process.env.RESEND_API_KEY!);
 export async function POST(request: Request) {
   try {
     const ip = getClientIp(request);
-    const limit = rateLimit(`waitlist:${ip}`, 5, 60 * 60 * 1000);
+    
+    // 1. Await the asynchronous rateLimit execution
+    const limit = await rateLimit(`waitlist:${ip}`, 5, 60 * 60 * 1000);
 
-    if (!limit.allowed) {
+    // 2. Check the .success property instead of .allowed
+    if (!limit.success) {
       return NextResponse.json(
         {
           error:
