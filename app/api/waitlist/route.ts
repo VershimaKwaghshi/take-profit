@@ -29,6 +29,9 @@ export async function POST(request: Request) {
     const referredBy =
       data.referred_by || data.referredBy || data.ref || null;
 
+    // Generate unique referral code for the new user
+    const userReferralCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+
     const verificationCode = Math.floor(
       100000 + Math.random() * 900000
     ).toString();
@@ -50,6 +53,7 @@ export async function POST(request: Request) {
         trading_frequency: data.trading_frequency || data.tradingFrequency,
         beta_opt_in: data.beta_opt_in ?? data.betaOptIn ?? false,
         referred_by: referredBy,
+        referral_code: userReferralCode, // Added referral code column
         email_verified: false,
         verification_code: verificationCode,
         verification_expires_at: verificationExpiresAt,
