@@ -1,75 +1,47 @@
-"use client";
+import { NextResponse } from "next/server";
+import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
+import { getSession } from "@/lib/session"; // Or your session reader
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+export async function GET() {
+  try {
+    const session = await getSession();
 
-type User = {
-  first_name: string;
-  last_name: string;
-  email: string;
-  country: string;
-  referral_code: string;
-  referral_count: number;
-  email_verified: boolean;
-  created_at: string;
-  is_admin: boolean;
-};
-
-const UserContext = createContext<{
-  user: User | null;
-  loading: boolean;
-}>({
-  user: null,
-  loading: true,
-});
-
-export function UserProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadUser() {
-      try {
-        const response = await fetch("/api/dashboard");
-
-        if (!response.ok) {
-          setLoading(false);
-          return;
-        }
-
-        const data = await response.json();
-
-        setUser(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+    if (!session || !session.email) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
     }
 
-    loadUser();
-  }, []);
+    // Explicitly query referral_code and referral_count
+    const { data: user, error } = await supabase
+      .from("waitlist")
+      .select(`
+        first_name,
+        last_name,
+        email,
+        country,
+        referral_code,
+        referral_count,
+        email_verified,
+        created_at,
+        is_admin
+      `)
+      .eq("email", session.email)
+      .maybeSingle();
 
-  return (
-    <UserContext.Provider
-      value={{
-        user,
-        loading,
-      }}
-    >
-      {children}
-    </UserContext.Provider>
-  );
-}
+    if (error || !user) {
+      return NextResponse.json(
+        { error: "User not found" },
+        { status: 404 }
+      );
+    }
 
-export function useUser() {
-  return useContext(UserContext);
+    return NextResponse.json(user, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }
