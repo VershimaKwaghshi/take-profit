@@ -19,12 +19,13 @@ if (typeof setInterval !== "undefined") {
   }, 5 * 60 * 1000);
 }
 
-export function getClientIp(req: NextRequest): string {
-  const xff = req.headers.get("x-forwarded-for");
+export function getClientIp(req: NextRequest | Request): string {
+  const headers = req.headers;
+  const xff = headers.get("x-forwarded-for");
   if (xff) {
     return xff.split(",")[0].trim();
   }
-  const realIp = req.headers.get("x-real-ip");
+  const realIp = headers.get("x-real-ip");
   if (realIp) {
     return realIp.trim();
   }
@@ -58,3 +59,6 @@ export async function checkRateLimit(
     resetAt: bucket.resetAt,
   };
 }
+
+// Alias export to satisfy legacy route imports
+export const rateLimit = checkRateLimit;
