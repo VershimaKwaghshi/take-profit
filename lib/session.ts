@@ -31,10 +31,12 @@ function base64UrlDecode(input: string): Buffer {
   return Buffer.from(base64, "base64");
 }
 
+function computeHmac(payload: string): Buffer {
+  return crypto.createHmac("sha256", SECRET).update(payload).digest();
+}
+
 function sign(payload: string): string {
-  return base64UrlEncode(
-    crypto.createHmac("sha256", SECRET).update(payload).digest()
-  );
+  return base64UrlEncode(computeHmac(payload));
 }
 
 const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 7; // 7 days
@@ -68,21 +70,21 @@ export function verifySessionToken(
   const parts = token.split(".");
   if (parts.length !== 2) return null;
 
-  const [payloadStr, signature] = parts;
-
-  const expectedSignature = sign(payloadStr);
-
-  const sigBuffer = Buffer.from(signature);
-  const expectedBuffer = Buffer.from(expectedSignature);
-
-  if (
-    sigBuffer.length !== expectedBuffer.length ||
-    !crypto.timingSafeEqual(sigBuffer, expectedBuffer)
-  ) {
-    return null;
-  }
+  const [payloadStr, signatureStr] = parts;
 
   try {
+    const receivedSigBuffer = base64UrlDecode(signatureStr);
+    const expectedSigBuffer = computeHmac(payloadStr);
+
+    // Constant-time length check: HMAC-SHA256 always outputs 32 bytes
+    if (
+      receivedSigBuffer.length !== 32 ||
+      expectedSigBuffer.length !== 32 ||
+      !crypto.timingSafeEqual(receivedSigBuffer, expectedSigBuffer)
+    ) {
+      return null;
+    }
+
     const json = base64UrlDecode(payloadStr).toString("utf8");
     const payload = JSON.parse(json) as SessionPayload;
 
