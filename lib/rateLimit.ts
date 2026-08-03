@@ -1,3 +1,5 @@
+import { NextRequest } from "next/server";
+
 type Bucket = {
   count: number;
   resetAt: number;
@@ -5,29 +7,54 @@ type Bucket = {
 
 const buckets = new Map<string, Bucket>();
 
-export function rateLimit(
+// Periodic cleanup of stale rate limit entries every 5 minutes
+if (typeof setInterval !== "undefined") {
+  setInterval(() => {
+    const now = Date.now();
+    for (const [key, bucket] of buckets.entries()) {
+      if (bucket.resetAt <= now) {
+        buckets.delete(key);
+      }
+    }
+  }, 5 * 60 * 1000);
+}
+
+export function getClientIp(req: NextRequest): string {
+  const xff = req.headers.get("x-forwarded-for");
+  if (xff) {
+    return xff.split(",")[0].trim();
+  }
+  const realIp = req.headers.get("x-real-ip");
+  if (realIp) {
+    return realIp.trim();
+  }
+  return "127.0.0.1";
+}
+
+export async function checkRateLimit(
   key: string,
   limit: number,
   windowMs: number
-): { allowed: boolean; remaining: number } {
+): Promise<{ success: boolean; remaining: number; resetAt: number }> {
   const now = Date.now();
-  const bucket = buckets.get(key);
+  let bucket = buckets.get(key);
 
-  if (!bucket || bucket.resetAt < now) {
-    buckets.set(key, { count: 1, resetAt: now + windowMs });
-    return { allowed: true, remaining: limit - 1 };
-  }
-
-  if (bucket.count >= limit) {
-    return { allowed: false, remaining: 0 };
+  if (!bucket || bucket.resetAt <= now) {
+    bucket = {
+      count: 0,
+      resetAt: now + windowMs,
+    };
   }
 
   bucket.count += 1;
-  return { allowed: true, remaining: limit - bucket.count };
-}
+  buckets.set(key, bucket);
 
-export function getClientIp(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for");
-  if (forwarded) return forwarded.split(",")[0].trim();
-  return "unknown";
+  const success = bucket.count <= limit;
+  const remaining = Math.max(0, limit - bucket.count);
+
+  return {
+    success,
+    remaining,
+    resetAt: bucket.resetAt,
+  };
 }
