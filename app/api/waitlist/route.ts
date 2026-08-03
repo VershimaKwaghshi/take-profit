@@ -8,11 +8,9 @@ const resend = new Resend(process.env.RESEND_API_KEY!);
 export async function POST(request: Request) {
   try {
     const ip = getClientIp(request);
-    
-    // 1. Await the asynchronous rateLimit execution
+
     const limit = await rateLimit(`waitlist:${ip}`, 5, 60 * 60 * 1000);
 
-    // 2. Check the .success property instead of .allowed
     if (!limit.success) {
       return NextResponse.json(
         {
@@ -25,20 +23,14 @@ export async function POST(request: Request) {
 
     const data = await request.json();
 
-    // Extract referral code supporting snake_case, camelCase, or plain ref
     const referredBy =
       data.referred_by || data.referredBy || data.ref || null;
 
-    // Generate unique referral code for the new user
     const userReferralCode = Math.random().toString(36).substring(2, 8).toUpperCase();
 
     const verificationCode = Math.floor(
       100000 + Math.random() * 900000
     ).toString();
-
-    const verificationExpiresAt = new Date(
-      Date.now() + 15 * 60 * 1000
-    ).toISOString();
 
     const { error } = await supabase
       .from("waitlist")
@@ -53,10 +45,8 @@ export async function POST(request: Request) {
         trading_frequency: data.trading_frequency || data.tradingFrequency,
         beta_opt_in: data.beta_opt_in ?? data.betaOptIn ?? false,
         referred_by: referredBy,
-        referral_code: userReferralCode, // Added referral code column
+        referral_code: userReferralCode,
         email_verified: false,
-        verification_code: verificationCode,
-        verification_expires_at: verificationExpiresAt,
         status: "pending",
       });
 
@@ -64,6 +54,25 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: error.message },
         { status: 400 }
+      );
+    }
+
+    // Write the code where /api/verify actually looks for it
+    const { error: codeError } = await supabase
+      .from("verification_codes")
+      .upsert(
+        {
+          email: data.email,
+          code: verificationCode,
+          created_at: new Date().toISOString(),
+        },
+        { onConflict: "email" }
+      );
+
+    if (codeError) {
+      return NextResponse.json(
+        { error: "Failed to store verification code." },
+        { status: 500 }
       );
     }
 
