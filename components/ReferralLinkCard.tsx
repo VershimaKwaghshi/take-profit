@@ -15,17 +15,16 @@ export default function ReferralLinkCard() {
     );
   }
 
-  // Fallback chain: referral_code -> email prefix
-  const rawCode =
-    user?.referral_code ||
-    (user?.email ? user.email.split("@")[0] : "");
+  // Derive a code if referral_code is missing
+  const derivedCode = user?.email 
+    ? user.email.split("@")[0].replace(/[^a-zA-Z0-9]/g, "") 
+    : "";
 
-  const referralCode = rawCode ? String(rawCode).trim() : "";
+  const referralCode = user?.referral_code || derivedCode;
 
-  const referralLink =
-    referralCode.length > 0
-      ? `https://takeprofit.name.ng/invite/${referralCode}`
-      : "";
+  const referralLink = referralCode
+    ? `https://takeprofit.name.ng/invite/${referralCode}`
+    : "";
 
   async function copyLink() {
     if (!referralLink) return;
