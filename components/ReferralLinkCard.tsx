@@ -15,10 +15,9 @@ export default function ReferralLinkCard() {
     );
   }
 
-  // Fallback chain: referral_code -> id -> email prefix
+  // Fallback chain: referral_code -> email prefix
   const rawCode =
     user?.referral_code ||
-    user?.id ||
     (user?.email ? user.email.split("@")[0] : "");
 
   const referralCode = rawCode ? String(rawCode).trim() : "";
