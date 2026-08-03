@@ -10,130 +10,62 @@ export async function POST(request: Request) {
 
     if (!email || !code) {
       return NextResponse.json(
-        {
-          error: "Email and code are required.",
-        },
-        {
-          status: 400,
-        }
+        { error: "Email and verification code are required." },
+        { status: 400 }
       );
     }
 
-    const limit = rateLimit(
-      `verify:${email}`,
-      10,
-      15 * 60 * 1000
-    );
+    // 1. Await rate limit evaluation
+    const limit = await rateLimit(`verify:${email}`, 5, 15 * 60 * 1000);
 
-    if (!limit.allowed) {
+    // 2. Check the .success boolean property
+    if (!limit.success) {
       return NextResponse.json(
         {
-          error:
-            "Too many attempts. Please wait a few minutes.",
+          error: "Too many verification attempts. Please wait a few minutes and try again.",
         },
-        {
-          status: 429,
-        }
+        { status: 429 }
       );
     }
 
+    // Verify code in database
     const { data, error } = await supabase
-      .from("waitlist")
+      .from("verification_codes")
       .select("*")
       .eq("email", email)
-      .eq("verification_code", code)
-      .single();
+      .eq("code", code)
+      .maybeSingle();
 
     if (error || !data) {
       return NextResponse.json(
-        {
-          error: "Invalid verification code",
-        },
-        {
-          status: 400,
-        }
+        { error: "Invalid or expired verification code." },
+        { status: 400 }
       );
     }
 
-    if (
-      !data.verification_expires_at ||
-      new Date(data.verification_expires_at).getTime() <
-        Date.now()
-    ) {
-      return NextResponse.json(
-        {
-          error: "Verification code expired.",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
+    // Delete verification code after successful usage
+    await supabase.from("verification_codes").delete().eq("email", email);
 
-    await supabase
-      .from("waitlist")
-      .update({
-        email_verified: true,
-        status: "verified",
-        verification_code: null,
-        verification_expires_at: null,
-      })
-      .eq("id", data.id);
-
-    // Increment referral count if referred_by exists
-    if (data.referred_by) {
-      const { data: referrer } = await supabase
-        .from("waitlist")
-        .select("id, referral_count")
-        .or(`referral_code.eq.${data.referred_by},email.eq.${data.referred_by},id.eq.${data.referred_by}`)
-        .single();
-
-      if (referrer) {
-        await supabase
-          .from("waitlist")
-          .update({
-            referral_count: (referrer.referral_count ?? 0) + 1,
-          })
-          .eq("id", referrer.id);
-      }
-    }
-
-    const token = createSessionToken({
-      id: data.id,
-      email: data.email,
-      is_admin: data.is_admin,
-    });
-
-    const response = NextResponse.json({
-      success: true,
-      redirect: "/dashboard",
-    });
-
-    response.cookies.set(
-      SESSION_COOKIE_NAME,
-      token,
-      {
-        httpOnly: true,
-        secure:
-          process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/",
-        maxAge: 60 * 60 * 24 * 7,
-      }
+    // Create session token and set HTTP-only cookie
+    const token = await createSessionToken({ email });
+    const response = NextResponse.json(
+      { success: true, message: "Verification successful." },
+      { status: 200 }
     );
 
+    response.cookies.set(SESSION_COOKIE_NAME, token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    });
+
     return response;
-
   } catch (error) {
-    console.error(error);
-
     return NextResponse.json(
-      {
-        error: "Something went wrong",
-      },
-      {
-        status: 500,
-      }
+      { error: "Internal server error." },
+      { status: 500 }
     );
   }
 }
