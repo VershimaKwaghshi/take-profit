@@ -1,38 +1,47 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
-import { requireSession } from "@/lib/auth";
+import { createSessionToken } from "@/lib/session"; // Use your actual session helper exported by lib/session.ts
 
-export async function GET(request: Request) {
-  const auth = requireSession(request);
+export async function GET() {
+  try {
+    // Replace with your actual session retrieval logic from lib/session.ts
+    const session = await createSessionToken(); 
 
-  if (auth.response) {
-    return auth.response;
-  }
+    if (!session || !session.email) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
 
-  const session = auth.session!;
+    const { data: user, error } = await supabase
+      .from("waitlist")
+      .select(`
+        first_name,
+        last_name,
+        email,
+        country,
+        referral_code,
+        referral_count,
+        email_verified,
+        created_at,
+        is_admin
+      `)
+      .eq("email", session.email)
+      .maybeSingle();
 
-  const { data, error } = await supabase
-    .from("waitlist")
-    .select(`
-      first_name,
-      last_name,
-      email,
-      country,
-      referral_code,
-      referral_count,
-      email_verified,
-      created_at,
-      is_admin
-    `)
-    .eq("id", session.id)
-    .single();
+    if (error || !user) {
+      return NextResponse.json(
+        { error: "User not found" },
+        { status: 404 }
+      );
+    }
 
-  if (error) {
+    return NextResponse.json(user, { status: 200 });
+  } catch (error) {
     return NextResponse.json(
-      { error: "User not found." },
-      { status: 404 }
+      { error: "Internal server error" },
+      { status: 500 }
     );
   }
-
-  return NextResponse.json(data);
 }
