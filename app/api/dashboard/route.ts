@@ -1,21 +1,18 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
+import { getSessionFromRequest } from "@/lib/auth";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const cookieStore = await cookies();
-    const sessionToken = cookieStore.get("session")?.value;
+    const session = getSessionFromRequest(request);
 
-    if (!sessionToken) {
+    if (!session) {
       return NextResponse.json(
         { error: "Unauthorized" },
         { status: 401 }
       );
     }
 
-    // Decode or verify your session token here if needed.
-    // Replace `sessionToken` with the authenticated email from your session context.
     const { data: user, error } = await supabase
       .from("waitlist")
       .select(`
@@ -29,7 +26,7 @@ export async function GET() {
         created_at,
         is_admin
       `)
-      .eq("email", sessionToken) 
+      .eq("email", session.email)
       .maybeSingle();
 
     if (error || !user) {
