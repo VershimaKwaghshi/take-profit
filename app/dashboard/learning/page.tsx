@@ -1,4 +1,4 @@
-limport Link from "next/link";
+import Link from "next/link";
 import { Check, Lock } from "lucide-react";
 import { getLearningModules } from "@/lib/learning";
 
@@ -64,6 +64,38 @@ export default async function LearningPage() {
 
       </section>
 
+      {/* Vision Card */}
+
+      <section className="mt-10">
+
+        <Link
+          href="/dashboard/learning/vision"
+          className="block rounded-[32px] border border-[#071A52]/20 bg-[#071A52] p-10 text-white transition hover:shadow-xl"
+        >
+
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/70">
+            The Vision
+          </p>
+
+          <h2 className="mt-4 text-4xl font-semibold">
+            Why Take Profit Exists
+          </h2>
+
+          <p className="mt-5 max-w-3xl text-lg leading-9 text-white/90">
+            Discover why Take Profit is being built, the challenge we are
+            solving, and the principles guiding every decision we make.
+          </p>
+
+          <div className="mt-8 inline-flex rounded-full bg-white px-7 py-3 font-semibold text-[#071A52]">
+            Read the Vision
+          </div>
+
+        </Link>
+
+      </section>
+
+      {/* Modules */}
+
       <section className="mt-10 space-y-5">
 
         {modules.map((module, index) => {
@@ -105,8 +137,7 @@ export default async function LearningPage() {
 
                   ) : unlocked ? (
 
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-[#071A52]">
-                    </div>
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-[#071A52]" />
 
                   ) : (
 
@@ -124,21 +155,15 @@ export default async function LearningPage() {
                   <div>
 
                     <p className="text-sm font-semibold uppercase tracking-[0.3em] text-neutral-500">
-
                       Module {module.order_number}
-
                     </p>
 
                     <h2 className="mt-3 text-2xl font-semibold text-black">
-
                       {module.title}
-
                     </h2>
 
                     <p className="mt-3 max-w-2xl leading-8 text-neutral-600">
-
                       {module.description}
-
                     </p>
 
                   </div>
@@ -150,25 +175,19 @@ export default async function LearningPage() {
                   {completed ? (
 
                     <span className="inline-flex rounded-full bg-[#071A52] px-6 py-3 text-sm font-semibold text-white">
-
                       Completed
-
                     </span>
 
                   ) : unlocked ? (
 
                     <span className="inline-flex rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#071A52]">
-
                       Start
-
                     </span>
 
                   ) : (
 
                     <span className="inline-flex rounded-full border border-neutral-300 px-6 py-3 text-sm font-semibold text-neutral-500">
-
                       Locked
-
                     </span>
 
                   )}
