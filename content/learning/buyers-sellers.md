@@ -1,74 +1,66 @@
-# Buyers & Sellers
+# buyers sellers
 
-Every trade has two sides.
+every trade has two sides
+whenever someone buys a financial asset someone else is selling it likewise whenever someone sells someone else is buying
+without both participants agreeing on a price no trade can take place
 
-Whenever someone buys a financial asset, someone else is selling it. Likewise, whenever someone sells, someone else is buying.
-
-Without both participants agreeing on a price, no trade can take place.
-
-![Buyers and Sellers](/learning/buyers-sellers.svg)
+![buyers and sellers](/learning/buyers-sellers.svg)
 
 ---
 
-## Who Are The Buyers?
+## who are the buyers
 
-Buyers believe the price of an asset is likely to rise.
+buyers believe the price of an asset is likely to rise
+they purchase an asset with the expectation that they can later sell it at a higher price
 
-They purchase an asset with the expectation that they can later sell it at a higher price.
+buyers can include
+* individual retail traders
+* investment firms
+* banks
+* hedge funds
+* pension funds
+* governments
+* other institutions
 
-Buyers can include:
-- Individual retail traders
-- Investment firms
-- Banks
-- Hedge funds
-- Pension funds
-- Governments
-- Other institutions
-
-Although their reasons may differ, they all share one thing in common: they are willing to buy at the current market price.
-
----
-
-## Who Are The Sellers?
-
-Sellers believe the current price is acceptable for selling.
-
-Some sellers expect the price to fall.
-
-Others simply want to lock in profits, reduce risk, or rebalance their investments.
-
-Just like buyers, sellers include both individuals and large financial institutions.
+although their reasons may differ they all share one thing in common they are willing to buy at the current market price
 
 ---
 
-## How A Trade Happens
+## who are the sellers
 
-Imagine a buyer wants to purchase one unit of an asset.
+sellers believe the current price is acceptable for selling
+some sellers expect the price to fall
+others simply want to lock in profits reduce risk or rebalance their investments
 
-If a seller is willing to sell one unit at the same price, the trade is executed.
-
-Neither side trades with the market itself.
-
-Instead, the market acts as a system that brings buyers and sellers together and records the transaction.
+just like buyers sellers include both individuals and large financial institutions
 
 ---
 
-## Why This Matters
+## how a trade happens
 
-Every price you see on a trading chart is the result of thousands—or even millions—of buying and selling decisions.
+imagine a buyer wants to purchase one unit of an asset
+if a seller is willing to sell one unit at the same price the trade is executed
 
-Prices rise when buying pressure becomes stronger than selling pressure.
-
-Prices fall when selling pressure becomes stronger than buying pressure.
-
-Understanding this relationship is one of the most important concepts in trading because every market movement begins with the interaction between buyers and sellers.
+neither side trades with the market itself
+instead the market acts as a system that brings buyers and sellers together and records the transaction
 
 ---
 
-## Key Takeaway
+## why this matters
 
-Every completed trade requires both a buyer and a seller.
+every price you see on a trading chart is the result of thousands or even millions of buying and selling decisions
 
-The financial market does not create trades—it simply matches participants who are willing to exchange an asset at an agreed price.
+prices rise when buying pressure becomes stronger than selling pressure
+prices fall when selling pressure becomes stronger than buying pressure
 
-The next module explains how individual traders gain access to these markets through brokers.
+understanding this relationship is one of the most important concepts in trading because every market movement begins with the interaction between buyers and sellers
+
+---
+
+## key takeaway
+
+every completed trade requires both a buyer and a seller
+
+the financial market does not create trades it simply matches participants who are willing to exchange an asset at an agreed price
+
+the next module explains how individual traders gain access to these markets through brokers
