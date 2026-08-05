@@ -2,142 +2,77 @@ import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 
 const lessons = [
-  {
-    number: "01",
-    title: "Understanding Take Profit",
-    status: "Available at launch",
-  },
-  {
-    number: "02",
-    title: "Risk Management",
-    status: "Available at launch",
-  },
-  {
-    number: "03",
-    title: "Restitution",
-    status: "Available at launch",
-  },
-  {
-    number: "04",
-    title: "Capital Access",
-    status: "Available at launch",
-  },
-  {
-    number: "05",
-    title: "Trading Psychology",
-    status: "Available at launch",
-  },
-  {
-    number: "06",
-    title: "Platform Walkthrough",
-    status: "Available at launch",
-  },
+  { number: "01", title: "Understanding Take Profit", status: "Available at launch" },
+  { number: "02", title: "Risk Management", status: "Available at launch" },
+  { number: "03", title: "Restitution", status: "Available at launch" },
+  { number: "04", title: "Capital Access", status: "Available at launch" },
+  { number: "05", title: "Trading Psychology", status: "Available at launch" },
+  { number: "06", title: "Platform Walkthrough", status: "Available at launch" },
 ];
 
 export default function EducationPage() {
   return (
-    <main className="min-h-screen bg-neutral-100">
+    <div>
+      <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-ember">
+        Take Profit Academy
+      </p>
 
-      <div className="flex">
+      <h1 className="mt-5 text-4xl font-semibold text-chalk md:text-5xl">
+        Learn before launch.
+      </h1>
 
-        <Sidebar />
+      <p className="mt-6 max-w-2xl leading-8 text-fog">
+        Every lesson has been prepared to help you understand Take Profit
+        before the platform officially launches.
+      </p>
 
-        <section className="flex-1 p-10">
+      <div className="mt-10 grid gap-6 lg:grid-cols-[320px_1fr]">
+        <div className="rounded-lg border border-panel-line bg-panel p-8">
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-fog">
+            Your progress
+          </p>
 
-          <Topbar />
+          <h2 className="mt-6 font-mono text-5xl font-semibold tabular-nums text-chalk">
+            0%
+          </h2>
 
-          <div className="mt-10">
-
-            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-neutral-500">
-              TAKE PROFIT ACADEMY
-            </p>
-
-            <h1 className="mt-5 text-5xl font-semibold text-black">
-              Learn before launch.
-            </h1>
-
-            <p className="mt-6 max-w-2xl text-xl leading-9 text-neutral-600">
-              Every lesson has been prepared to help you understand Take Profit
-              before the platform officially launches.
-            </p>
-
+          <div className="mt-8 h-2 overflow-hidden rounded-full bg-panel-line">
+            <div className="h-full w-0 rounded-full bg-ember" />
           </div>
 
-          <div className="mt-10 grid gap-8 lg:grid-cols-[320px_1fr]">
+          <p className="mt-8 leading-7 text-fog">
+            Your learning journey begins when Take Profit launches.
+          </p>
+        </div>
 
-            <div className="rounded-[32px] bg-white p-8 shadow-sm">
+        <div className="rounded-lg border border-panel-line bg-panel p-8">
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-fog">
+            Learning path
+          </p>
 
-              <p className="text-sm uppercase tracking-[0.35em] text-neutral-500">
-                YOUR PROGRESS
-              </p>
-
-              <h2 className="mt-6 text-6xl font-semibold">
-                0%
-              </h2>
-
-              <div className="mt-8 h-3 overflow-hidden rounded-full bg-neutral-200">
-
-                <div className="h-full w-0 rounded-full bg-red-600" />
-
-              </div>
-
-              <p className="mt-8 leading-8 text-neutral-500">
-                Your learning journey begins when Take Profit launches.
-              </p>
-
-            </div>
-
-            <div className="rounded-[32px] bg-white p-8 shadow-sm">
-
-              <p className="text-sm uppercase tracking-[0.35em] text-neutral-500">
-                LEARNING PATH
-              </p>
-
-              <div className="mt-8 divide-y divide-neutral-200">
-
-                {lessons.map((lesson) => (
-
-                  <div
-                    key={lesson.number}
-                    className="flex items-center justify-between py-7"
-                  >
-
-                    <div className="flex items-center gap-6">
-
-                      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-neutral-100 text-lg font-semibold">
-
-                        {lesson.number}
-
-                      </div>
-
-                      <div>
-
-                        <h3 className="text-xl font-semibold text-black">
-                          {lesson.title}
-                        </h3>
-
-                        <p className="mt-2 text-neutral-500">
-                          {lesson.status}
-                        </p>
-
-                      </div>
-
-                    </div>
-
+          <div className="mt-6 divide-y divide-panel-line">
+            {lessons.map((lesson) => (
+              <div
+                key={lesson.number}
+                className="flex items-center justify-between py-6"
+              >
+                <div className="flex items-center gap-6">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full border border-panel-line font-mono text-sm text-fog">
+                    {lesson.number}
                   </div>
 
-                ))}
-
+                  <div>
+                    <h3 className="text-lg font-semibold text-chalk">
+                      {lesson.title}
+                    </h3>
+                    <p className="mt-1 text-sm text-fog">{lesson.status}</p>
+                  </div>
+                </div>
               </div>
-
-            </div>
-
+            ))}
           </div>
-
-        </section>
-
+        </div>
       </div>
-
-    </main>
+    </div>
   );
 }
