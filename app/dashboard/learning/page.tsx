@@ -1,87 +1,194 @@
 import Link from "next/link";
+import { Check, Lock } from "lucide-react";
 import { getLearningModules } from "@/lib/learning";
 
 export default async function LearningPage() {
   const modules = await getLearningModules();
 
+  const completedModules = 0;
+
+  const percentage =
+    modules.length === 0
+      ? 0
+      : Math.round(
+          (completedModules / modules.length) * 100
+        );
+
   return (
     <main className="mx-auto max-w-6xl px-6 py-12">
 
-      <h1 className="text-4xl font-semibold">
-        Learning Center
-      </h1>
+      <div>
 
-      <p className="mt-4 max-w-2xl text-neutral-600">
-        Exclusive content for Founding Traders. Learn how Take Profit works and follow our progress toward launch.
-      </p>
+        <h1 className="text-5xl font-semibold text-black">
+          Learning Center
+        </h1>
 
-      <div className="mt-12">
-
-        <div className="h-3 w-full rounded-full bg-neutral-200">
-
-          <div className="h-3 w-0 rounded-full bg-[#071A52]" />
-
-        </div>
-
-        <p className="mt-3 text-sm text-neutral-600">
-          0 of {modules.length} Modules Completed
+        <p className="mt-5 max-w-3xl text-lg leading-8 text-neutral-600">
+          Learn how Take Profit works and
+          follow our journey toward launch.
         </p>
 
       </div>
 
-      <div className="mt-12 grid gap-6">
+      <section className="mt-12 rounded-[36px] bg-white p-8 shadow-sm">
 
-        {modules.map((module) => (
+        <div className="flex items-center justify-between">
 
-          <Link
-            key={module.id}
-            href={`/dashboard/learning/module/${module.id}`}
-            className="rounded-3xl border border-neutral-200 bg-white p-8 transition hover:shadow-lg"
-          >
+          <div>
 
-            <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-semibold">
+              Learning Progress
+            </h2>
 
-              <div>
+            <p className="mt-2 text-neutral-500">
+              {completedModules} of {modules.length} Modules Completed
+            </p>
 
-                <p className="text-sm font-medium text-neutral-500">
-                  Module {module.order_number}
-                </p>
+          </div>
 
-                <h2 className="mt-2 text-2xl font-semibold">
-                  {module.title}
-                </h2>
+          <div className="text-4xl font-semibold text-[#071A52]">
+            {percentage}%
+          </div>
 
-                <p className="mt-3 text-neutral-600">
-                  {module.description}
-                </p>
+        </div>
+
+        <div className="mt-8 h-3 overflow-hidden rounded-full bg-neutral-200">
+
+          <div
+            className="h-full rounded-full bg-[#071A52] transition-all"
+            style={{
+              width: `${percentage}%`,
+            }}
+          />
+
+        </div>
+
+      </section>
+
+      <section className="mt-10 space-y-5">
+
+        {modules.map((module, index) => {
+
+          const completed = false;
+
+          const unlocked =
+            index === 0;
+
+          return (
+
+            <Link
+              key={module.id}
+              href={
+                unlocked
+                  ? `/dashboard/learning/module/${module.id}`
+                  : "#"
+              }
+              className={`block rounded-[32px] border bg-white p-8 transition
+
+              ${
+                unlocked
+                  ? "border-neutral-200 hover:-translate-y-1 hover:shadow-xl"
+                  : "cursor-not-allowed border-neutral-100 opacity-70"
+              }`}
+            >
+
+              <div className="flex items-center justify-between">
+
+                <div className="flex items-start gap-5">
+
+                  {completed ? (
+
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#071A52]">
+
+                      <Check
+                        size={18}
+                        className="text-[#071A52]"
+                      />
+
+                    </div>
+
+                  ) : unlocked ? (
+
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#071A52]">
+
+                    </div>
+
+                  ) : (
+
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-neutral-300">
+
+                      <Lock
+                        size={16}
+                        className="text-neutral-400"
+                      />
+
+                    </div>
+
+                  )}
+
+                  <div>
+
+                    <p className="text-sm font-medium uppercase tracking-[0.25em] text-neutral-500">
+
+                      Module {module.order_number}
+
+                    </p>
+
+                    <h2 className="mt-2 text-2xl font-semibold">
+
+                      {module.title}
+
+                    </h2>
+
+                    <p className="mt-3 max-w-2xl leading-8 text-neutral-600">
+
+                      {module.description}
+
+                    </p>
+
+                  </div>
+
+                </div>
+
+                <div>
+
+                  {completed ? (
+
+                    <span className="rounded-full bg-[#071A52] px-6 py-3 text-sm font-medium text-white">
+
+                      Completed
+
+                    </span>
+
+                  ) : unlocked ? (
+
+                    <span className="rounded-full bg-black px-6 py-3 text-sm font-medium text-white">
+
+                      Start
+
+                    </span>
+
+                  ) : (
+
+                    <span className="rounded-full border border-neutral-300 px-6 py-3 text-sm">
+
+                      Locked
+
+                    </span>
+
+                  )}
+
+                </div>
 
               </div>
 
-              <div>
+            </Link>
 
-                {module.status === "available" ? (
+          );
 
-                  <span className="rounded-full bg-[#071A52] px-5 py-2 text-sm font-medium text-white">
-                    Start
-                  </span>
+        })}
 
-                ) : (
-
-                  <span className="rounded-full border border-neutral-300 px-5 py-2 text-sm">
-                    Coming Soon
-                  </span>
-
-                )}
-
-              </div>
-
-            </div>
-
-          </Link>
-
-        ))}
-
-      </div>
+      </section>
 
     </main>
   );
