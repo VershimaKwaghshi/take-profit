@@ -7,53 +7,20 @@ import { useState } from "react";
 import { useUser } from "@/app/dashboard/UserProvider";
 
 const links = [
-  {
-    name: "Dashboard",
-    href: "/dashboard",
-  },
-  {
-    name: "Referrals",
-    href: "/dashboard/referrals",
-  },
-  {
-    name: "Academy",
-    href: "/dashboard/education",
-  },
-  {
-    name: "Profile",
-    href: "/dashboard/profile",
-  },
-  {
-    name: "Settings",
-    href: "/dashboard/settings",
-  },
+  { name: "Dashboard", href: "/dashboard" },
+  { name: "Referrals", href: "/dashboard/referrals" },
+  { name: "Academy", href: "/dashboard/education" },
+  { name: "Profile", href: "/dashboard/profile" },
+  { name: "Settings", href: "/dashboard/settings" },
 ];
 
 const adminLinks = [
-  {
-    name: "Dashboard",
-    href: "/admin",
-  },
-  {
-    name: "Users",
-    href: "/admin/users",
-  },
-  {
-    name: "Referrals",
-    href: "/admin/referrals",
-  },
-  {
-    name: "Broadcast",
-    href: "/admin/broadcast",
-  },
-  {
-    name: "Announcements",
-    href: "/admin/announcements",
-  },
-  {
-    name: "Settings",
-    href: "/admin/settings",
-  },
+  { name: "Dashboard", href: "/admin" },
+  { name: "Users", href: "/admin/users" },
+  { name: "Referrals", href: "/admin/referrals" },
+  { name: "Broadcast", href: "/admin/broadcast" },
+  { name: "Announcements", href: "/admin/announcements" },
+  { name: "Settings", href: "/admin/settings" },
 ];
 
 export default function Sidebar() {
@@ -75,13 +42,13 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="hidden h-screen w-72 shrink-0 flex-col bg-[#071A52] text-white lg:flex">
-      <div className="border-b border-white/10 px-8 py-8">
+    <aside className="hidden h-screen w-72 shrink-0 flex-col border-r border-panel-line bg-panel text-chalk lg:flex">
+      <div className="border-b border-panel-line px-8 py-8">
         <Link href="/dashboard" className="flex items-center gap-4">
           <Image src="/logo.svg" alt="Take Profit" width={40} height={40} />
           <div>
             <h2 className="text-2xl font-semibold">Take Profit</h2>
-            <p className="mt-1 text-xs uppercase tracking-[0.3em] text-blue-200">
+            <p className="mt-1 font-mono text-xs uppercase tracking-[0.3em] text-fog">
               Academy
             </p>
           </div>
@@ -89,12 +56,14 @@ export default function Sidebar() {
       </div>
 
       <div className="px-8 pt-10">
-        <div className="rounded-3xl bg-white/10 p-6">
-          <p className="text-xs uppercase tracking-[0.35em] text-blue-200">
-            PRE-LAUNCH
+        <div className="rounded-md border border-panel-line bg-deck/50 p-6">
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-ember">
+            Pre-launch
           </p>
-          <h3 className="mt-4 text-2xl font-semibold">Founding Member</h3>
-          <p className="mt-4 text-sm leading-7 text-blue-100">
+          <h3 className="mt-4 text-xl font-semibold text-chalk">
+            Founding Member
+          </h3>
+          <p className="mt-4 text-sm leading-7 text-fog">
             Learn how Take Profit works before launch and follow our progress
             from inside your dashboard.
           </p>
@@ -102,20 +71,20 @@ export default function Sidebar() {
       </div>
 
       <div className="mt-12 px-8">
-        <p className="mb-5 text-xs font-semibold uppercase tracking-[0.35em] text-blue-300">
+        <p className="mb-5 font-mono text-xs font-semibold uppercase tracking-[0.3em] text-fog">
           Navigation
         </p>
-        <nav className="space-y-3">
+        <nav className="space-y-2">
           {links.map((link) => {
             const active = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`block rounded-2xl px-5 py-4 font-medium transition-all duration-200 ${
+                className={`block rounded-md px-5 py-4 font-medium transition-all duration-200 ${
                   active
-                    ? "bg-red-600 text-white shadow-lg"
-                    : "text-blue-100 hover:bg-white/10"
+                    ? "bg-ember text-chalk"
+                    : "text-fog hover:bg-deck/60 hover:text-chalk"
                 }`}
               >
                 {link.name}
@@ -127,20 +96,20 @@ export default function Sidebar() {
 
       {user?.is_admin && (
         <div className="mt-12 px-8">
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.35em] text-blue-300">
+          <p className="mb-5 font-mono text-xs font-semibold uppercase tracking-[0.3em] text-fog">
             Administration
           </p>
-          <nav className="space-y-3">
+          <nav className="space-y-2">
             {adminLinks.map((link) => {
               const active = pathname === link.href;
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`block rounded-2xl px-5 py-4 font-medium transition-all duration-200 ${
+                  className={`block rounded-md px-5 py-4 font-medium transition-all duration-200 ${
                     active
-                      ? "bg-red-600 text-white"
-                      : "text-blue-100 hover:bg-white/10"
+                      ? "bg-ember text-chalk"
+                      : "text-fog hover:bg-deck/60 hover:text-chalk"
                   }`}
                 >
                   {link.name}
@@ -151,13 +120,13 @@ export default function Sidebar() {
         </div>
       )}
 
-      <div className="mt-auto border-t border-white/10 p-8">
+      <div className="mt-auto border-t border-panel-line p-8">
         <button
           onClick={handleSignOut}
           disabled={loggingOut}
-          className="w-full rounded-2xl bg-white py-4 font-semibold text-black transition hover:bg-neutral-200 disabled:opacity-50"
+          className="w-full rounded-md bg-chalk py-4 font-semibold text-deck transition hover:bg-fog disabled:opacity-50"
         >
-          {loggingOut ? "Signing Out..." : "Sign Out"}
+          {loggingOut ? "Signing out..." : "Sign out"}
         </button>
       </div>
     </aside>
