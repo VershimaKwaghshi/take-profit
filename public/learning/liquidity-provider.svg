@@ -1,1 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { font-family: system-ui, -apple-system, sans-serif; font-size: 16px; font-weight: 700; fill: #071A52; letter-spacing: 0.1em; text-anchor: middle; }
+      .label { font-family: system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 700; fill: #071A52; letter-spacing: 0.05em; text-anchor: middle; }
+      .subtext { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 400; fill: #64748B; text-anchor: middle; }
+      .node-stroke { stroke: #071A52; stroke-width: 2; fill: #FFFFFF; }
+      .line-stroke { stroke: #D9DEE8; stroke-width: 2; }
+      .icon-fill { fill: #071A52; }
+    </style>
+  </defs>
 
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#FFFFFF" />
+
+  <!-- Title / Learning Objective -->
+  <text x="400" y="60" class="title">WHERE MARKET LIQUIDITY COMES FROM</text>
+
+  <!-- Horizontal Connecting Lines -->
+  <line x1="160" y1="240" x2="250" y2="240" class="line-stroke" />
+  <line x1="350" y1="240" x2="450" y2="240" class="line-stroke" />
+  <line x1="550" y1="240" x2="640" y2="240" class="line-stroke" />
+
+  <!-- Node 1: Trader -->
+  <g transform="translate(120, 240)">
+    <circle cx="0" cy="0" r="42" class="node-stroke" />
+    <circle cx="0" cy="-10" r="10" class="icon-fill" />
+    <path d="M -16 16 C -16 4, -8 2, 0 2 C 8 2, 16 4, 16 16 Z" class="icon-fill" />
+    <text x="0" y="64" class="label">TRADER</text>
+    <text x="0" y="82" class="subtext">Places Order</text>
+  </g>
+
+  <!-- Node 2: Broker -->
+  <g transform="translate(300, 240)">
+    <circle cx="0" cy="0" r="42" class="node-stroke" />
+    <path d="M -18 8 L 18 8 M -14 8 L -14 -8 L 14 -8 L 14 8 M -6 -8 L -6 8 M 6 -8 L 6 8" fill="none" stroke="#071A52" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="0" y="64" class="label">BROKER</text>
+    <text x="0" y="82" class="subtext">Routes Order</text>
+  </g>
+
+  <!-- Center Hub: Liquidity Provider -->
+  <g transform="translate(500, 240)">
+    <rect x="-50" y="-45" width="100" height="90" rx="16" class="node-stroke" />
+    <!-- Bank / Financial Institution Icon -->
+    <path d="M -20 -12 L 0 -22 L 20 -12 M -16 -8 L 16 -8 M -14 -8 L -14 12 M -5 -8 L -5 12 M 5 -8 L 5 12 M 14 -8 L 14 12 M -18 12 L 18 12" fill="none" stroke="#071A52" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="0" y="64" class="label">LIQUIDITY</text>
+    <text x="0" y="80" class="label">PROVIDER</text>
+    <text x="0" y="98" class="subtext">Absorbs Volume</text>
+  </g>
+
+  <!-- Node 4: Market Participants -->
+  <g transform="translate(680, 240)">
+    <circle cx="0" cy="0" r="42" class="node-stroke" />
+    <!-- Global Network / Participants Icon -->
+    <circle cx="-10" cy="-6" r="6" class="icon-fill" />
+    <circle cx="10" cy="-6" r="6" class="icon-fill" />
+    <circle cx="0" cy="10" r="6" class="icon-fill" />
+    <text x="0" y="64" class="label">MARKET</text>
+    <text x="0" y="80" class="label">PARTICIPANTS</text>
+    <text x="0" y="98" class="subtext">Global Pool</text>
+  </g>
+
+  <!-- Footer Explanation -->
+  <text x="400" y="420" class="subtext">Liquidity providers (like banks and institutions) supply continuous buy and sell offers.</text>
+  <text x="400" y="438" class="subtext">This ensures traders can execute orders immediately without waiting for a direct counterparty.</text>
+</svg>
