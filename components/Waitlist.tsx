@@ -29,7 +29,6 @@ function WaitlistForm() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    // Check for any common referral parameter in the URL
     const ref =
       searchParams.get("ref") ||
       searchParams.get("referred_by") ||
@@ -95,19 +94,19 @@ function WaitlistForm() {
       <div className="mx-auto max-w-3xl">
         <form
           onSubmit={handleSubmit}
-          className="space-y-6 rounded-[40px] border border-neutral-200 bg-white p-10 shadow-xl"
+          className="space-y-6 rounded-lg border border-line bg-paper p-10"
         >
-          <h2 className="text-4xl font-semibold">Application</h2>
+          <h2 className="text-3xl font-semibold text-ink">Application</h2>
 
-          <p className="text-neutral-600">Complete your application below.</p>
+          <p className="text-ash">Complete your application below.</p>
 
           {referredBy && (
-            <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
-              <p className="text-sm font-medium text-blue-900">
-                Referral Applied
+            <div className="rounded-md border border-oxblood/20 bg-oxblood/5 p-4">
+              <p className="text-sm font-medium text-oxblood">
+                Referral applied
               </p>
-              <p className="mt-1 text-sm text-blue-700">
-                Referral Code: <span className="font-semibold">{referredBy}</span>
+              <p className="mt-1 font-mono text-sm text-ink">
+                Code: <span className="font-semibold">{referredBy}</span>
               </p>
             </div>
           )}
@@ -117,16 +116,16 @@ function WaitlistForm() {
               required
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              placeholder="First Name"
-              className="rounded-2xl border border-neutral-300 px-5 py-4"
+              placeholder="First name"
+              className="rounded-md border border-line px-5 py-4 text-ink outline-none transition focus:border-ink"
             />
 
             <input
               required
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              placeholder="Last Name"
-              className="rounded-2xl border border-neutral-300 px-5 py-4"
+              placeholder="Last name"
+              className="rounded-md border border-line px-5 py-4 text-ink outline-none transition focus:border-ink"
             />
           </div>
 
@@ -136,7 +135,7 @@ function WaitlistForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
-            className="w-full rounded-2xl border border-neutral-300 px-5 py-4"
+            className="w-full rounded-md border border-line px-5 py-4 text-ink outline-none transition focus:border-ink"
           />
 
           <TPPhoneInput value={phone} onChange={setPhone} />
@@ -149,24 +148,25 @@ function WaitlistForm() {
 
           <FrequencySelect value={frequency} onChange={setFrequency} />
 
-          <label className="flex items-center gap-3">
+          <label className="flex items-center gap-3 text-ink">
             <input
               type="checkbox"
               checked={beta}
               onChange={(e) => setBeta(e.target.checked)}
+              className="h-4 w-4 accent-oxblood"
             />
             <span>Notify me when beta begins.</span>
           </label>
 
           <button
             disabled={submitting}
-            className="w-full rounded-full bg-black py-5 text-lg font-semibold text-white transition hover:opacity-90 disabled:opacity-60"
+            className="w-full rounded-full bg-ink py-5 text-lg font-semibold text-paper transition hover:bg-oxblood disabled:opacity-60"
           >
-            {submitting ? "Submitting..." : "Join Waitlist"}
+            {submitting ? "Submitting..." : "Join waitlist"}
           </button>
 
           {message && (
-            <p className="text-center text-red-600">{message}</p>
+            <p className="text-center text-sm text-oxblood">{message}</p>
           )}
         </form>
       </div>
