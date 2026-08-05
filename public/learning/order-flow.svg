@@ -1,1 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { font-family: system-ui, -apple-system, sans-serif; font-size: 16px; font-weight: 700; fill: #071A52; letter-spacing: 0.1em; text-anchor: middle; }
+      .label { font-family: system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 700; fill: #071A52; letter-spacing: 0.05em; text-anchor: middle; }
+      .subtext { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 400; fill: #64748B; text-anchor: middle; }
+      .step-num { font-family: system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 700; fill: #64748B; text-anchor: middle; }
+      .node-stroke { stroke: #071A52; stroke-width: 2; fill: #FFFFFF; }
+      .line-stroke { stroke: #D9DEE8; stroke-width: 2; }
+      .icon-fill { fill: #071A52; }
+    </style>
+  </defs>
 
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#FFFFFF" />
+
+  <!-- Title / Learning Objective -->
+  <text x="400" y="60" class="title">YOUR ORDER'S JOURNEY</text>
+
+  <!-- Horizontal Connecting Lines -->
+  <line x1="120" y1="240" x2="210" y2="240" class="line-stroke" />
+  <line x1="270" y1="240" x2="360" y2="240" class="line-stroke" />
+  <line x1="420" y1="240" x2="510" y2="240" class="line-stroke" />
+  <line x1="570" y1="240" x2="660" y2="240" class="line-stroke" />
+
+  <!-- Step 1: Click Buy / Sell -->
+  <g transform="translate(90, 240)">
+    <text x="0" y="-56" class="step-num">STEP 01</text>
+    <circle cx="0" cy="0" r="32" class="node-stroke" />
+    <!-- Pointer / Click Icon -->
+    <path d="M -6 -10 L 8 4 L 1 5 L 5 13 L 1 15 L -3 7 L -8 11 Z" fill="#071A52" />
+    <text x="0" y="52" class="label">CLICK BUY / SELL</text>
+    <text x="0" y="68" class="subtext">Order Placed</text>
+  </g>
+
+  <!-- Step 2: Broker Receives -->
+  <g transform="translate(240, 240)">
+    <text x="0" y="-56" class="step-num">STEP 02</text>
+    <circle cx="0" cy="0" r="32" class="node-stroke" />
+    <!-- Inbox / Server Receive Icon -->
+    <path d="M -12 -6 L 12 -6 L 12 8 L -12 8 Z M -12 1 L -4 1 L -2 5 L 2 5 L 4 1 L 12 1" fill="none" stroke="#071A52" stroke-width="2" stroke-linejoin="round" />
+    <text x="0" y="52" class="label">BROKER RECEIVES</text>
+    <text x="0" y="68" class="subtext">Validates Risk</text>
+  </g>
+
+  <!-- Step 3: Order Routing -->
+  <g transform="translate(390, 240)">
+    <text x="0" y="-56" class="step-num">STEP 03</text>
+    <circle cx="0" cy="0" r="32" class="node-stroke" />
+    <!-- Network Routing Icon -->
+    <path d="M -10 0 L 10 0 M 2 -8 L 10 0 L 2 8 M -2 -8 L -10 0 L -2 8" fill="none" stroke="#071A52" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="0" y="52" class="label">ORDER ROUTING</text>
+    <text x="0" y="68" class="subtext">Sent to Venue</text>
+  </g>
+
+  <!-- Step 4: Liquidity Match -->
+  <g transform="translate(540, 240)">
+    <text x="0" y="-56" class="step-num">STEP 04</text>
+    <circle cx="0" cy="0" r="32" class="node-stroke" />
+    <!-- Matching / Execution Icon -->
+    <circle cx="0" cy="0" r="12" fill="none" stroke="#071A52" stroke-width="2" />
+    <circle cx="0" cy="0" r="4" class="icon-fill" />
+    <text x="0" y="52" class="label">MARKET MATCH</text>
+    <text x="0" y="68" class="subtext">Liquidity Filled</text>
+  </g>
+
+  <!-- Step 5: Trade Confirmed -->
+  <g transform="translate(690, 240)">
+    <text x="0" y="-56" class="step-num">STEP 05</text>
+    <circle cx="0" cy="0" r="32" class="node-stroke" />
+    <!-- Checkmark Confirmation Icon -->
+    <path d="M -10 0 L -2 8 L 10 -6" fill="none" stroke="#071A52" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="0" y="52" class="label">CONFIRMED</text>
+    <text x="0" y="68" class="subtext">Position Opened</text>
+  </g>
+
+  <!-- Footer Explanation -->
+  <text x="400" y="420" class="subtext">Pressing Buy or Sell sends an electronic request that flows through validation, routing,</text>
+  <text x="400" y="438" class="subtext">and execution before your trade position is officially confirmed.</text>
+</svg>
