@@ -8,83 +8,34 @@ import {
   Country,
 } from "react-phone-number-input";
 import en from "react-phone-number-input/locale/en";
+import { selectStyles } from "./selectStyles";
 
 type Props = {
   value?: Country;
   onChange: (value?: Country) => void;
 };
 
-const countries = getCountries().map((country) => ({
+type Option = { value: Country; label: string };
+
+const countries: Option[] = getCountries().map((country) => ({
   value: country,
   label: `${en[country]} +${getCountryCallingCode(country)}`,
 }));
 
-export default function CountrySelect({
-  value,
-  onChange,
-}: Props) {
+export default function CountrySelect({ value, onChange }: Props) {
   const selectId = useId();
-  const selectedCountry = countries.find(
-    (country) => country.value === value
-  );
+  const selectedCountry = countries.find((country) => country.value === value);
 
   return (
-    <Select
+    <Select<Option>
       instanceId={selectId}
       inputId={selectId}
       options={countries}
       value={selectedCountry}
-      onChange={(option) =>
-        onChange(option?.value)
-      }
-      placeholder="Select Country"
+      onChange={(option) => onChange(option?.value)}
+      placeholder="Select country"
       isSearchable
-      className="text-black"
-      styles={{
-        control: (base, state) => ({
-          ...base,
-          minHeight: 60,
-          borderRadius: 16,
-          borderColor: state.isFocused
-            ? "#000000"
-            : "#d4d4d4",
-          boxShadow: "none",
-          backgroundColor: "#ffffff",
-          paddingLeft: 8,
-        }),
-
-        singleValue: (base) => ({
-          ...base,
-          color: "#000000",
-        }),
-
-        input: (base) => ({
-          ...base,
-          color: "#000000",
-        }),
-
-        placeholder: (base) => ({
-          ...base,
-          color: "#737373",
-        }),
-
-        menu: (base) => ({
-          ...base,
-          backgroundColor: "#ffffff",
-          borderRadius: 16,
-          overflow: "hidden",
-          zIndex: 50,
-        }),
-
-        option: (base, state) => ({
-          ...base,
-          backgroundColor: state.isFocused
-            ? "#f5f5f5"
-            : "#ffffff",
-          color: "#000000",
-          cursor: "pointer",
-        }),
-      }}
+      styles={selectStyles<Option>()}
     />
   );
 }
