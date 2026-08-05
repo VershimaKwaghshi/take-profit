@@ -1,4 +1,4 @@
-import Link from "next/link";
+limport Link from "next/link";
 import { Check, Lock } from "lucide-react";
 import { getLearningModules } from "@/lib/learning";
 
@@ -24,8 +24,7 @@ export default async function LearningPage() {
         </h1>
 
         <p className="mt-5 max-w-3xl text-lg leading-8 text-neutral-600">
-          Learn how Take Profit works and
-          follow our journey toward launch.
+          Learn how Take Profit works and follow our journey toward launch.
         </p>
 
       </div>
@@ -55,7 +54,7 @@ export default async function LearningPage() {
         <div className="mt-8 h-3 overflow-hidden rounded-full bg-neutral-200">
 
           <div
-            className="h-full rounded-full bg-[#071A52] transition-all"
+            className="h-full rounded-full bg-[#071A52] transition-all duration-500"
             style={{
               width: `${percentage}%`,
             }}
@@ -71,8 +70,7 @@ export default async function LearningPage() {
 
           const completed = false;
 
-          const unlocked =
-            index === 0;
+          const unlocked = index === 0;
 
           return (
 
@@ -83,9 +81,7 @@ export default async function LearningPage() {
                   ? `/dashboard/learning/module/${module.id}`
                   : "#"
               }
-              className={`block rounded-[32px] border bg-white p-8 transition
-
-              ${
+              className={`block rounded-[32px] border bg-white p-8 transition-all duration-300 ${
                 unlocked
                   ? "border-neutral-200 hover:-translate-y-1 hover:shadow-xl"
                   : "cursor-not-allowed border-neutral-100 opacity-70"
@@ -94,11 +90,11 @@ export default async function LearningPage() {
 
               <div className="flex items-center justify-between">
 
-                <div className="flex items-start gap-5">
+                <div className="flex items-start gap-6">
 
                   {completed ? (
 
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#071A52]">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-[#071A52]">
 
                       <Check
                         size={18}
@@ -109,16 +105,15 @@ export default async function LearningPage() {
 
                   ) : unlocked ? (
 
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#071A52]">
-
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-[#071A52]">
                     </div>
 
                   ) : (
 
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-neutral-300">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-neutral-300">
 
                       <Lock
-                        size={16}
+                        size={18}
                         className="text-neutral-400"
                       />
 
@@ -128,13 +123,13 @@ export default async function LearningPage() {
 
                   <div>
 
-                    <p className="text-sm font-medium uppercase tracking-[0.25em] text-neutral-500">
+                    <p className="text-sm font-semibold uppercase tracking-[0.3em] text-neutral-500">
 
                       Module {module.order_number}
 
                     </p>
 
-                    <h2 className="mt-2 text-2xl font-semibold">
+                    <h2 className="mt-3 text-2xl font-semibold text-black">
 
                       {module.title}
 
@@ -154,7 +149,7 @@ export default async function LearningPage() {
 
                   {completed ? (
 
-                    <span className="rounded-full bg-[#071A52] px-6 py-3 text-sm font-medium text-white">
+                    <span className="inline-flex rounded-full bg-[#071A52] px-6 py-3 text-sm font-semibold text-white">
 
                       Completed
 
@@ -162,7 +157,7 @@ export default async function LearningPage() {
 
                   ) : unlocked ? (
 
-                    <span className="rounded-full bg-black px-6 py-3 text-sm font-medium text-white">
+                    <span className="inline-flex rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#071A52]">
 
                       Start
 
@@ -170,7 +165,7 @@ export default async function LearningPage() {
 
                   ) : (
 
-                    <span className="rounded-full border border-neutral-300 px-6 py-3 text-sm">
+                    <span className="inline-flex rounded-full border border-neutral-300 px-6 py-3 text-sm font-semibold text-neutral-500">
 
                       Locked
 
