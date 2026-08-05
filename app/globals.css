@@ -8,6 +8,14 @@
   --color-line: #e6e4e1;
   --color-oxblood: #7a2620;
   --color-oxblood-dark: #5e1c17;
+
+  /* Dashboard (dark) palette — used only inside app/dashboard */
+  --color-deck: #0d0e12;
+  --color-panel: #16171d;
+  --color-panel-line: #26272f;
+  --color-fog: #9a9aa2;
+  --color-chalk: #f2f1ee;
+  --color-ember: #b8493f;
 }
 
 @theme inline {
@@ -18,6 +26,13 @@
   --color-line: var(--color-line);
   --color-oxblood: var(--color-oxblood);
   --color-oxblood-dark: var(--color-oxblood-dark);
+
+  --color-deck: var(--color-deck);
+  --color-panel: var(--color-panel);
+  --color-panel-line: var(--color-panel-line);
+  --color-fog: var(--color-fog);
+  --color-chalk: var(--color-chalk);
+  --color-ember: var(--color-ember);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
