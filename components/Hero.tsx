@@ -1,54 +1,53 @@
 "use client";
 
 import Link from "next/link";
+import FloorMotif from "./FloorMotif";
 
 export default function Hero() {
   return (
-    <section className="bg-white">
+    <section className="relative overflow-hidden bg-paper">
+      <div className="mx-auto flex min-h-[calc(100vh-96px)] max-w-5xl flex-col items-center justify-center px-6 text-center">
 
-      <div className="mx-auto flex min-h-[calc(100vh-88px)] max-w-5xl flex-col items-center justify-center px-6 text-center">
-
-        <span className="rounded-full border border-red-200 bg-red-50 px-5 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-red-600">
-          PRE LAUNCH
+        <span className="rounded-full border border-oxblood/25 bg-oxblood/5 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-oxblood">
+          Pre launch
         </span>
 
-        <h1 className="mt-10 text-5xl font-black leading-[0.95] tracking-tight text-black sm:text-6xl md:text-7xl lg:text-8xl">
-
+        <h1 className="mt-10 text-5xl font-semibold leading-[0.98] tracking-tight text-ink sm:text-6xl md:text-7xl lg:text-8xl">
           Trade with
           <br />
           real capital.
-
         </h1>
 
-        <p className="mt-10 max-w-4xl text-xl leading-10 text-neutral-600">
+        <p className="mt-8 max-w-4xl text-lg leading-8 text-ash md:text-xl md:leading-9">
 
-          Take Profit is building <span className="font-semibold text-black">Traders Restitution</span>.
+          Most traders do not fail because they lack skill. They fail because every loss forces them to deposit new capital again and again until they eventually give up.
 
-          A new approach that changes how traders recover from losses.
+          <span className="font-semibold text-ink"> Take Profit is building Traders Restitution.</span>
 
-          Instead of repeatedly depositing fresh capital after setbacks, eligible members can have their trading capital restored by Take Profit and continue their journey without starting over every time.
+          A different approach that helps eligible traders recover from trading losses without repeatedly funding new capital themselves. Instead of starting over after every setback, traders can continue building experience while Take Profit handles capital restitution.
 
-          Join the waitlist to learn how Traders Restitution works before launch and be among the first to gain access.
+          Join the waitlist to learn how Traders Restitution works before launch and be among the first traders to gain access.
 
         </p>
 
         <div className="mt-12">
-
           <Link
             href="/waitlist"
-            className="inline-flex h-16 items-center justify-center rounded-full bg-black px-10 text-lg font-semibold text-white transition hover:bg-neutral-900"
+            className="inline-flex h-16 items-center justify-center rounded-full bg-ink px-10 text-lg font-semibold text-paper transition hover:bg-oxblood"
           >
-            Join Waitlist
+            Join the waitlist
           </Link>
-
         </div>
 
-        <p className="mt-5 text-sm text-neutral-500">
+        <p className="mt-5 text-sm text-ash">
           Free to join. Learn before launch. No commitment required.
         </p>
 
       </div>
 
+      <div className="mx-auto max-w-4xl px-6 pb-20 opacity-80">
+        <FloorMotif tone="ink" />
+      </div>
     </section>
   );
 }
