@@ -9,7 +9,7 @@ export default function Hero() {
       <div className="mx-auto flex min-h-[calc(100vh-88px)] max-w-5xl flex-col items-center justify-center px-6 text-center">
 
         <span className="rounded-full border border-red-200 bg-red-50 px-5 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-red-600">
-          PRE-LAUNCH
+          PRE LAUNCH
         </span>
 
         <h1 className="mt-10 text-5xl font-black leading-[0.95] tracking-tight text-black sm:text-6xl md:text-7xl lg:text-8xl">
@@ -20,11 +20,15 @@ export default function Hero() {
 
         </h1>
 
-        <p className="mt-10 max-w-3xl text-xl leading-9 text-neutral-600">
+        <p className="mt-10 max-w-4xl text-xl leading-10 text-neutral-600">
 
-          Take Profit is building a different trading experience.
+          Take Profit is building <span className="font-semibold text-black">Traders Restitution</span>.
 
-          Join the waitlist to follow our journey, learn about the platform before launch, and be among the first to receive access.
+          A new approach that changes how traders recover from losses.
+
+          Instead of repeatedly depositing fresh capital after setbacks, eligible members can have their trading capital restored by Take Profit and continue their journey without starting over every time.
+
+          Join the waitlist to learn how Traders Restitution works before launch and be among the first to gain access.
 
         </p>
 
@@ -40,7 +44,7 @@ export default function Hero() {
         </div>
 
         <p className="mt-5 text-sm text-neutral-500">
-          Free to join. No commitment required.
+          Free to join. Learn before launch. No commitment required.
         </p>
 
       </div>
