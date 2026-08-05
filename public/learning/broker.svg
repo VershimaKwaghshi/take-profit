@@ -51,7 +51,7 @@
     <text x="0" y="82" class="subtext">Global Exchanges</text>
   </g>
 
-  <!-- Footer Explanation -->
-  <text x="400" y="420" class="subtext">Individual traders cannot directly place orders on institutional exchanges.</text>
-  <text x="400" y="438" class="subtext">The broker acts as the licensed bridge that routes your orders to the market.</text>
-</svg>
+    <!-- Footer Explanation -->
+  <text x="400" y="420" class="subtext">Most individual traders access financial markets through brokers.</text>
+  <text x="400" y="438" class="subtext">Brokers provide the technology, accounts, and connections needed to place trades.</text>
+
