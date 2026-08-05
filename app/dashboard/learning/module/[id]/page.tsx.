@@ -1,0 +1,192 @@
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
+
+type Props = {
+  params: Promise<{
+    id: string;
+  }>;
+};
+
+export default async function ModulePage({
+  params,
+}: Props) {
+  const { id } = await params;
+
+  const { data: module } = await supabaseAdmin
+    .from("learning_modules")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (!module) {
+    notFound();
+  }
+
+  return (
+    <main className="mx-auto max-w-5xl px-6 py-12">
+
+      <Link
+        href="/dashboard/learning"
+        className="text-sm font-medium text-[#071A52] transition hover:underline"
+      >
+        ← Back to Learning Center
+      </Link>
+
+      <div className="mt-8 rounded-[36px] bg-white p-10 shadow-sm">
+
+        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-neutral-500">
+
+          Module {module.order_number}
+
+        </p>
+
+        <h1 className="mt-4 text-5xl font-semibold text-black">
+
+          {module.title}
+
+        </h1>
+
+        <p className="mt-6 text-xl leading-9 text-neutral-600">
+
+          {module.description}
+
+        </p>
+
+      </div>
+
+      <article className="mt-10 rounded-[36px] bg-white p-10 shadow-sm">
+
+        <h2 className="text-3xl font-semibold">
+
+          Welcome
+        </h2>
+
+        <p className="mt-6 leading-9 text-neutral-700">
+
+          This module is currently under development.
+
+          The complete learning experience will include rich
+          illustrations, interactive diagrams, and detailed
+          explanations to help every trader understand Take
+          Profit from the ground up.
+
+        </p>
+
+        <div className="mt-12 rounded-3xl border border-dashed border-neutral-300 p-10 text-center">
+
+          <h3 className="text-2xl font-semibold">
+
+            Content Coming Soon
+
+          </h3>
+
+          <p className="mt-4 max-w-2xl mx-auto leading-8 text-neutral-600">
+
+            This module will soon contain interactive lessons,
+            illustrations, examples, and a feedback section that
+            unlocks the next module after completion.
+
+          </p>
+
+        </div>
+
+      </article>
+
+      <section className="mt-10 rounded-[36px] bg-white p-10 shadow-sm">
+
+        <h2 className="text-3xl font-semibold">
+
+          Feedback
+
+        </h2>
+
+        <p className="mt-3 text-neutral-600">
+
+          Complete feedback will be enabled when this module
+          becomes available.
+
+        </p>
+
+        <div className="mt-10 space-y-8">
+
+          <div>
+
+            <p className="font-medium">
+
+              How clear was this module?
+
+            </p>
+
+            <div className="mt-4 flex gap-3">
+
+              {[1, 2, 3, 4, 5].map((star) => (
+
+                <button
+                  key={star}
+                  className="flex h-12 w-12 items-center justify-center rounded-full border border-neutral-300 text-lg transition hover:border-[#071A52]"
+                >
+                  ★
+                </button>
+
+              ))}
+
+            </div>
+
+          </div>
+
+          <div>
+
+            <p className="font-medium">
+
+              How useful was this module?
+
+            </p>
+
+            <div className="mt-4 flex gap-3">
+
+              {[1, 2, 3, 4, 5].map((star) => (
+
+                <button
+                  key={star}
+                  className="flex h-12 w-12 items-center justify-center rounded-full border border-neutral-300 text-lg transition hover:border-[#071A52]"
+                >
+                  ★
+                </button>
+
+              ))}
+
+            </div>
+
+          </div>
+
+          <div>
+
+            <label className="font-medium">
+
+              Feedback
+
+            </label>
+
+            <textarea
+              rows={6}
+              placeholder="Share your feedback..."
+              className="mt-4 w-full rounded-3xl border border-neutral-300 p-5 outline-none transition focus:border-[#071A52]"
+            />
+
+          </div>
+
+          <button
+            disabled
+            className="rounded-full bg-neutral-300 px-8 py-4 font-semibold text-white"
+          >
+            Submit Feedback
+          </button>
+
+        </div>
+
+      </section>
+
+    </main>
+  );
+}
