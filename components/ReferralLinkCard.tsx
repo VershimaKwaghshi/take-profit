@@ -9,15 +9,15 @@ export default function ReferralLinkCard() {
 
   if (loading) {
     return (
-      <div className="rounded-[28px] bg-neutral-50 p-8">
+      <div className="rounded-md border border-panel-line bg-deck/50 p-6 text-fog">
         Loading...
       </div>
     );
   }
 
   // Derive a code if referral_code is missing
-  const derivedCode = user?.email 
-    ? user.email.split("@")[0].replace(/[^a-zA-Z0-9]/g, "") 
+  const derivedCode = user?.email
+    ? user.email.split("@")[0].replace(/[^a-zA-Z0-9]/g, "")
     : "";
 
   const referralCode = user?.referral_code || derivedCode;
@@ -39,24 +39,28 @@ export default function ReferralLinkCard() {
 
   return (
     <div>
-      <div className="rounded-3xl bg-neutral-100 p-6 break-all text-base leading-8 text-neutral-700">
+      <div className="break-all rounded-md border border-panel-line bg-deck/50 p-6 font-mono text-sm leading-7 text-chalk">
         {referralLink || "Referral link unavailable."}
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-4">
+      <div className="mt-6 flex flex-wrap gap-4">
         <button
           onClick={copyLink}
           disabled={!referralLink}
-          className="inline-flex h-12 items-center justify-center rounded-full bg-black px-8 font-medium text-white transition hover:bg-neutral-900 disabled:opacity-50"
+          className="inline-flex h-12 items-center justify-center rounded-full bg-chalk px-8 font-medium text-deck transition hover:bg-fog disabled:opacity-50"
         >
-          {copied ? "Copied" : "Copy Link"}
+          {copied ? "Copied" : "Copy link"}
         </button>
 
         <a
-          href={referralLink ? `https://wa.me/?text=${encodeURIComponent(referralLink)}` : "#"}
+          href={
+            referralLink
+              ? `https://wa.me/?text=${encodeURIComponent(referralLink)}`
+              : "#"
+          }
           target="_blank"
           rel="noopener noreferrer"
-          className={`inline-flex h-12 items-center justify-center rounded-full border border-neutral-300 px-8 font-medium text-neutral-700 transition hover:bg-neutral-100 ${
+          className={`inline-flex h-12 items-center justify-center rounded-full border border-panel-line px-8 font-medium text-chalk transition hover:border-fog ${
             !referralLink ? "pointer-events-none opacity-50" : ""
           }`}
         >
