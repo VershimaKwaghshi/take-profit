@@ -1,1 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { font-family: system-ui, -apple-system, sans-serif; font-size: 16px; font-weight: 700; fill: #071A52; letter-spacing: 0.1em; text-anchor: middle; }
+      .label { font-family: system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 700; fill: #071A52; letter-spacing: 0.05em; text-anchor: middle; }
+      .subtext { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 400; fill: #64748B; text-anchor: middle; }
+      .step-num { font-family: system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 700; fill: #64748B; text-anchor: middle; }
+      .node-stroke { stroke: #071A52; stroke-width: 2; fill: #FFFFFF; }
+      .line-stroke { stroke: #D9DEE8; stroke-width: 2; }
+      .icon-fill { fill: #071A52; }
+    </style>
+  </defs>
 
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#FFFFFF" />
+
+  <!-- Title / Learning Objective -->
+  <text x="400" y="60" class="title">HOW FUNDED CAPITAL WORKS</text>
+
+  <!-- Horizontal Connecting Lines -->
+  <line x1="120" y1="240" x2="210" y2="240" class="line-stroke" />
+  <line x1="270" y1="240" x2="360" y2="240" class="line-stroke" />
+  <line x1="420" y1="240" x2="510" y2="240" class="line-stroke" />
+  <line x1="570" y1="240" x2="660" y2="240" class="line-stroke" />
+
+  <!-- Step 1: Track Record -->
+  <g transform="translate(90, 240)">
+    <text x="0" y="-56" class="step-num">STAGE 01</text>
+    <circle cx="0" cy="0" r="32" class="node-stroke" />
+    <!-- Performance Chart Icon -->
+    <path d="M -12 8 L -4 0 L 2 6 L 12 -6" fill="none" stroke="#071A52" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="0" y="52" class="label">PERFORMANCE</text>
+    <text x="0" y="68" class="subtext">Verified Skill</text>
+  </g>
+
+  <!-- Step 2: Capital Unlock -->
+  <g transform="translate(240, 240)">
+    <text x="0" y="-56" class="step-num">STAGE 02</text>
+    <circle cx="0" cy="0" r="32" class="node-stroke" />
+    <!-- Key / Unlock Icon -->
+    <circle cx="-4" cy="-4" r="6" fill="none" stroke="#071A52" stroke-width="2" />
+    <path d="M 0 0 L 10 10 M 6 6 L 10 6 M 8 8 L 12 8" fill="none" stroke="#071A52" stroke-width="2" stroke-linecap="round" />
+    <text x="0" y="52" class="label">FUNDED STATUS</text>
+    <text x="0" y="68" class="subtext">Account Allocation</text>
+  </g>
+
+  <!-- Step 3: Trading Execution -->
+  <g transform="translate(390, 240)">
+    <text x="0" y="-56" class="step-num">STAGE 03</text>
+    <circle cx="0" cy="0" r="32" class="node-stroke" />
+    <!-- Trading / Execution Icon -->
+    <path d="M -10 -8 L 10 -8 M -10 0 L 10 0 M -10 8 L 6 8" stroke="#071A52" stroke-width="2" stroke-linecap="round" />
+    <text x="0" y="52" class="label">MARKET EXECUTION</text>
+    <text x="0" y="68" class="subtext">Risk-Managed</text>
+  </g>
+
+  <!-- Step 4: Profit Split -->
+  <g transform="translate(540, 240)">
+    <text x="0" y="-56" class="step-num">STAGE 04</text>
+    <circle cx="0" cy="0" r="32" class="node-stroke" />
+    <!-- Split / Yield Icon -->
+    <path d="M -8 -8 L 0 0 L 8 -8 M 0 0 L 0 10" fill="none" stroke="#071A52" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="0" y="52" class="label">PROFIT SPLIT</text>
+    <text x="0" y="68" class="subtext">Shared Success</text>
+  </g>
+
+  <!-- Step 5: Advanced Access (Manager Market Unlocked) -->
+  <g transform="translate(690, 240)">
+    <text x="0" y="-56" class="step-num">STAGE 05</text>
+    <circle cx="0" cy="0" r="32" class="node-stroke" />
+    <!-- Unlock Badge / Gate Icon -->
+    <path d="M -8 2 L -8 -4 C -8 -8 -4 -10 0 -10 C 4 -10 8 -8 8 -4 L 8 2 M -12 2 L 12 2 L 12 12 L -12 12 Z" fill="none" stroke="#071A52" stroke-width="2" stroke-linejoin="round" />
+    <text x="0" y="52" class="label">MANAGER MARKET</text>
+    <text x="0" y="68" class="subtext">Unlocked Gateway</text>
+  </g>
+
+  <!-- Footer Explanation -->
+  <text x="400" y="420" class="subtext">Funded status grants traders access to institutional capital allocation and profit splits.</text>
+  <text x="400" y="438" class="subtext">Once funded, traders unlock advanced platform layers, including the Manager Market.</text>
+</svg>
