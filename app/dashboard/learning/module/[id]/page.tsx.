@@ -57,41 +57,146 @@ export default async function ModulePage({
 
       <article className="mt-10 rounded-[36px] bg-white p-10 shadow-sm">
 
-        <h2 className="text-3xl font-semibold">
+  <h2 className="text-4xl font-semibold">
+    Why Take Profit Exists
+  </h2>
 
-          Welcome
-        </h2>
+  <p className="mt-8 text-xl leading-9 text-neutral-700">
 
-        <p className="mt-6 leading-9 text-neutral-700">
+    Before learning about Take Profit, it's important to understand
+    how trading works.
 
-          This module is currently under development.
+    Whether you're interested in stocks, cryptocurrencies,
+    foreign exchange, commodities like gold and crude oil,
+    stock indices, or other financial markets, they all
+    operate on the same fundamental principles.
 
-          The complete learning experience will include rich
-          illustrations, interactive diagrams, and detailed
-          explanations to help every trader understand Take
-          Profit from the ground up.
+  </p>
+
+  <p className="mt-8 text-xl leading-9 text-neutral-700">
+
+    Trading is simply the act of buying or selling a financial
+    asset with the expectation that its price will change.
+
+    If your prediction is correct, you make a profit.
+
+    If your prediction is wrong, you make a loss.
+
+  </p>
+
+  <div className="mt-12 rounded-[32px] border border-neutral-200 bg-neutral-50 p-10">
+
+    <h3 className="text-3xl font-semibold">
+
+      Financial assets commonly traded
+
+    </h3>
+
+    <div className="mt-8 grid gap-4 md:grid-cols-2">
+
+      <div className="rounded-2xl bg-white p-6">
+        Stocks
+      </div>
+
+      <div className="rounded-2xl bg-white p-6">
+        Foreign Exchange
+      </div>
+
+      <div className="rounded-2xl bg-white p-6">
+        Cryptocurrencies
+      </div>
+
+      <div className="rounded-2xl bg-white p-6">
+        Commodities
+      </div>
+
+      <div className="rounded-2xl bg-white p-6">
+        Stock Indices
+      </div>
+
+      <div className="rounded-2xl bg-white p-6">
+        Exchange Traded Funds
+      </div>
+
+      <div className="rounded-2xl bg-white p-6">
+        Bonds
+      </div>
+
+      <div className="rounded-2xl bg-white p-6">
+        Other Financial Instruments
+      </div>
+
+    </div>
+
+  </div>
+
+  <div className="mt-14 rounded-[32px] border border-[#071A52] bg-[#071A52] p-10 text-white">
+
+    <h3 className="text-3xl font-semibold">
+
+      The basic idea is simple
+
+    </h3>
+
+    <div className="mt-10 grid gap-8 md:grid-cols-2">
+
+      <div className="rounded-3xl bg-white/10 p-8">
+
+        <h4 className="text-2xl font-semibold">
+
+          Buy
+
+        </h4>
+
+        <p className="mt-5 leading-8">
+
+          You buy when you believe the price of an asset
+          will increase.
 
         </p>
 
-        <div className="mt-12 rounded-3xl border border-dashed border-neutral-300 p-10 text-center">
+      </div>
 
-          <h3 className="text-2xl font-semibold">
+      <div className="rounded-3xl bg-white/10 p-8">
 
-            Content Coming Soon
+        <h4 className="text-2xl font-semibold">
 
-          </h3>
+          Sell
 
-          <p className="mt-4 max-w-2xl mx-auto leading-8 text-neutral-600">
+        </h4>
 
-            This module will soon contain interactive lessons,
-            illustrations, examples, and a feedback section that
-            unlocks the next module after completion.
+        <p className="mt-5 leading-8">
 
-          </p>
+          You sell when you believe the price of an asset
+          will decrease.
 
-        </div>
+        </p>
 
-      </article>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div className="mt-14 rounded-[32px] border-l-4 border-[#071A52] bg-blue-50 p-8">
+
+    <p className="text-lg leading-8 text-neutral-800">
+
+      Regardless of what you trade, every transaction is based on
+      the same objective.
+
+      Buy low and sell high.
+
+      Or sell high and buy back lower.
+
+      The difference between those prices determines whether
+      you make a profit or a loss.
+
+    </p>
+
+  </div>
+
+</article>
 
       <section className="mt-10 rounded-[36px] bg-white p-10 shadow-sm">
 
