@@ -1,87 +1,41 @@
 "use client";
 
-import Sidebar from "@/components/Sidebar";
-import Topbar from "@/components/Topbar";
 import { useUser } from "../UserProvider";
 
 export default function ProfilePage() {
   const { user, loading } = useUser();
 
   if (loading) {
-    return (
-      <main className="min-h-screen flex items-center justify-center">
-        Loading...
-      </main>
-    );
+    return <p className="text-fog">Loading...</p>;
   }
 
+  const fields = [
+    { label: "First name", value: user?.first_name },
+    { label: "Last name", value: user?.last_name },
+    { label: "Email", value: user?.email },
+    { label: "Referrals", value: user?.referral_count ?? 0, mono: true },
+  ];
+
   return (
-    <main className="min-h-screen bg-neutral-100">
+    <div className="rounded-lg border border-panel-line bg-panel p-8 md:p-10">
+      <h1 className="text-3xl font-semibold text-chalk">Profile</h1>
 
-      <div className="flex">
-
-        <Sidebar />
-
-        <section className="flex-1 p-8">
-
-          <Topbar />
-
-          <div className="mt-8 rounded-[32px] bg-white p-10 shadow">
-
-            <h1 className="text-4xl font-semibold">
-              Profile
-            </h1>
-
-            <div className="mt-10 space-y-6">
-
-              <div>
-                <p className="text-sm text-neutral-500">
-                  First Name
-                </p>
-
-                <p className="text-xl font-medium">
-                  {user?.first_name ?? "-"}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-sm text-neutral-500">
-                  Last Name
-                </p>
-
-                <p className="text-xl font-medium">
-                  {user?.last_name ?? "-"}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-sm text-neutral-500">
-                  Email
-                </p>
-
-                <p className="text-xl font-medium">
-                  {user?.email ?? "-"}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-sm text-neutral-500">
-                  Referrals
-                </p>
-
-                <p className="text-xl font-medium">
-                  {user?.referral_count ?? 0}
-                </p>
-              </div>
-
-            </div>
-
+      <div className="mt-8 divide-y divide-panel-line">
+        {fields.map((field) => (
+          <div key={field.label} className="py-5">
+            <p className="font-mono text-xs uppercase tracking-[0.25em] text-fog">
+              {field.label}
+            </p>
+            <p
+              className={`mt-2 text-xl font-medium text-chalk ${
+                field.mono ? "font-mono tabular-nums" : ""
+              }`}
+            >
+              {field.value ?? "-"}
+            </p>
           </div>
-
-        </section>
-
+        ))}
       </div>
-
-    </main>
+    </div>
   );
 }
