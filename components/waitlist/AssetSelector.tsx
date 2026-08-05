@@ -5,55 +5,44 @@ type Props = {
   onChange: (value: string[]) => void;
 };
 
-const assets = [
-  "Forex",
-  "Crypto",
-  "Stocks",
-  "Futures",
-  "CFDs",
-];
+const assets = ["Forex", "Crypto", "Stocks", "Futures", "CFDs"];
 
-export default function AssetSelector({
-  value = [],
-  onChange,
-}: Props) {
+export default function AssetSelector({ value = [], onChange }: Props) {
   function toggleAsset(asset: string) {
     if (value.includes(asset)) {
-      onChange(
-        value.filter((item) => item !== asset)
-      );
+      onChange(value.filter((item) => item !== asset));
     } else {
-      onChange([
-        ...value,
-        asset,
-      ]);
+      onChange([...value, asset]);
     }
   }
 
   return (
     <div className="space-y-4">
-      <p className="text-lg text-black">
-        What do you trade? (Optional)
-      </p>
+      <p className="text-base text-ash">What do you trade? (Optional)</p>
 
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        {assets.map((asset) => (
-          <label
-            key={asset}
-            className="flex items-center gap-3 rounded-2xl border border-neutral-300 bg-white px-5 py-4 text-black cursor-pointer"
-          >
-            <input
-              type="checkbox"
-              checked={value.includes(asset)}
-              onChange={() =>
-                toggleAsset(asset)
-              }
-              className="w-5 h-5"
-            />
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+        {assets.map((asset) => {
+          const active = value.includes(asset);
 
-            {asset}
-          </label>
-        ))}
+          return (
+            <label
+              key={asset}
+              className={`flex cursor-pointer items-center justify-center rounded-md border px-4 py-4 text-sm font-medium transition ${
+                active
+                  ? "border-ink bg-ink text-paper"
+                  : "border-line bg-paper text-ink hover:border-ink"
+              }`}
+            >
+              <input
+                type="checkbox"
+                checked={active}
+                onChange={() => toggleAsset(asset)}
+                className="sr-only"
+              />
+              {asset}
+            </label>
+          );
+        })}
       </div>
     </div>
   );
