@@ -20,24 +20,24 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8 p-8">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-black">Settings</h1>
-        <p className="mt-2 text-neutral-600">Manage your account preferences.</p>
+        <h1 className="text-3xl font-semibold text-chalk">Settings</h1>
+        <p className="mt-2 text-fog">Manage your account preferences.</p>
       </div>
 
-      <div className="rounded-3xl border border-neutral-200 bg-white p-8 shadow-sm">
-        <h2 className="text-xl font-semibold text-black">Account Actions</h2>
-        <p className="mt-2 text-sm text-neutral-500">
+      <div className="rounded-lg border border-panel-line bg-panel p-8">
+        <h2 className="text-xl font-semibold text-chalk">Account actions</h2>
+        <p className="mt-2 text-sm text-fog">
           Sign out of your active Take Profit session on this device.
         </p>
         <div className="mt-6">
           <button
             onClick={handleSignOut}
             disabled={loggingOut}
-            className="rounded-2xl bg-red-600 px-6 py-3 font-semibold text-white transition hover:bg-red-700 disabled:opacity-50"
+            className="rounded-full bg-ember px-6 py-3 font-semibold text-chalk transition hover:bg-oxblood-dark disabled:opacity-50"
           >
-            {loggingOut ? "Signing Out..." : "Sign Out"}
+            {loggingOut ? "Signing out..." : "Sign out"}
           </button>
         </div>
       </div>
