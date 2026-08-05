@@ -1,1 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <style>
+      .title { font-family: system-ui, -apple-system, sans-serif; font-size: 16px; font-weight: 700; fill: #071A52; letter-spacing: 0.1em; text-anchor: middle; }
+      .label { font-family: system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 700; fill: #071A52; letter-spacing: 0.05em; text-anchor: middle; }
+      .subtext { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 400; fill: #64748B; text-anchor: middle; }
+      .badge-text { font-family: system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 700; fill: #071A52; text-anchor: middle; }
+      .node-stroke { stroke: #071A52; stroke-width: 2; fill: #FFFFFF; }
+      .line-stroke { stroke: #D9DEE8; stroke-width: 2; }
+      .icon-fill { fill: #071A52; }
+    </style>
+  </defs>
 
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#FFFFFF" />
+
+  <!-- Title / Learning Objective -->
+  <text x="400" y="60" class="title">WHO KEEPS BROKERS ACCOUNTABLE?</text>
+
+  <!-- Vertical & Radial Connecting Lines -->
+  <line x1="400" y1="180" x2="400" y2="240" class="line-stroke" />
+  <line x1="400" y1="240" x2="180" y2="350" class="line-stroke" />
+  <line x1="400" y1="240" x2="320" y2="350" class="line-stroke" />
+  <line x1="400" y1="240" x2="480" y2="350" class="line-stroke" />
+  <line x1="400" y1="240" x2="620" y2="350" class="line-stroke" />
+
+  <!-- Top Center Node: Regulatory Authority -->
+  <g transform="translate(400, 140)">
+    <circle cx="0" cy="0" r="42" class="node-stroke" />
+    <!-- Shield / Regulation Icon -->
+    <path d="M 0 -18 L 16 -10 L 16 4 C 16 14 0 20 0 20 C 0 20 -16 14 -16 4 L -16 -10 Z" fill="none" stroke="#071A52" stroke-width="2.5" stroke-linejoin="round" />
+    <path d="M -6 0 L -2 4 L 6 -4" fill="none" stroke="#071A52" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="0" y="64" class="label">REGULATORY BODIES</text>
+    <text x="0" y="82" class="subtext">Oversight &amp; Compliance</text>
+  </g>
+
+  <!-- Center Target Hub: Broker -->
+  <g transform="translate(400, 240)">
+    <rect x="-60" y="-20" width="120" height="40" rx="12" class="node-stroke" />
+    <text x="0" y="5" class="label">BROKER</text>
+  </g>
+
+  <!-- Jurisdiction Nodes -->
+  <!-- Nigeria (SEC NG) -->
+  <g transform="translate(180, 350)">
+    <circle cx="0" cy="0" r="28" class="node-stroke" />
+    <text x="0" y="4" class="badge-text">SEC NG</text>
+    <text x="0" y="46" class="label">NIGERIA</text>
+  </g>
+
+  <!-- United Kingdom (FCA) -->
+  <g transform="translate(320, 350)">
+    <circle cx="0" cy="0" r="28" class="node-stroke" />
+    <text x="0" y="4" class="badge-text">FCA</text>
+    <text x="0" y="46" class="label">UK</text>
+  </g>
+
+  <!-- United States (SEC / CFTC / NFA) -->
+  <g transform="translate(480, 350)">
+    <circle cx="0" cy="0" r="28" class="node-stroke" />
+    <text x="0" y="4" class="badge-text">CFTC/NFA</text>
+    <text x="0" y="46" class="label">US</text>
+  </g>
+
+  <!-- Australia & EU (ASIC / EU) -->
+  <g transform="translate(620, 350)">
+    <circle cx="0" cy="0" r="28" class="node-stroke" />
+    <text x="0" y="4" class="badge-text">ASIC / EU</text>
+    <text x="0" y="46" class="label">GLOBAL</text>
+  </g>
+
+  <!-- Footer Explanation -->
+  <text x="400" y="440" class="subtext">Financial regulators enforce rules to protect traders, ensure market integrity,</text>
+  <text x="400" y="458" class="subtext">and verify that brokers maintain segregated funds and fair execution.</text>
+</svg>
