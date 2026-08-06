@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
@@ -5,6 +7,8 @@ import { ArrowLeft } from "lucide-react";
 import Progress from "@/components/ui/progress";
 import LessonContent from "@/components/learning/lesson-content";
 import LessonComplete from "@/components/learning/lesson-complete";
+
+import { useReadingProgress } from "@/hooks/use-reading-progress";
 
 const lessons = [
   {
@@ -87,10 +91,14 @@ interface Props {
   }>;
 }
 
-export default async function LessonPage({
+export default function LessonPage({
   params,
 }: Props) {
-  const { lessonId } = await params;
+  const { progress, completed } = useReadingProgress();
+
+  const [lessonId] = require("react").use(
+    params.then((p) => p.lessonId)
+  );
 
   const lesson = lessons.find(
     (item) => item.id === Number(lessonId)
@@ -102,15 +110,33 @@ export default async function LessonPage({
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-10">
+
+      <div className="sticky top-0 z-50 mb-8 rounded-xl border bg-white/95 p-4 backdrop-blur">
+
+        <div className="mb-2 flex items-center justify-between">
+          <span className="font-medium">
+            {lesson.title}
+          </span>
+
+          <span className="text-sm text-gray-500">
+            {progress}%
+          </span>
+        </div>
+
+        <Progress value={progress} />
+
+      </div>
+
       <Link
-        href="/learning"
-        className="mb-8 inline-flex items-center gap-2 text-sm text-gray-500 hover:text-black dark:hover:text-white"
+        href="/dashboard/learning"
+        className="mb-8 inline-flex items-center gap-2 text-sm text-gray-500 hover:text-black"
       >
         <ArrowLeft className="h-4 w-4" />
         Learning Center
       </Link>
 
       <header className="space-y-2">
+
         <p className="text-sm text-gray-500">
           Lesson {lesson.id} of 12
         </p>
@@ -122,24 +148,26 @@ export default async function LessonPage({
         <p className="text-gray-500">
           Estimated Reading Time • {lesson.readingTime}
         </p>
+
       </header>
 
-      <div className="mt-8">
-        <Progress value={0} />
-      </div>
-
       <section className="mt-10">
+
         <LessonContent
           slug={lesson.slug}
         />
+
       </section>
 
       <section className="mt-16">
+
         <LessonComplete
           lessonId={lesson.id}
-          completed={false}
+          completed={completed}
         />
+
       </section>
+
     </main>
   );
 }
