@@ -72,5 +72,7 @@ export function useReadingProgress({
     return () => clearInterval(interval);
   }, [userId, lessonId, progress]);
 
-  return progress;
-}
+  return {
+  progress,
+  completed: progress >= 100,
+};
