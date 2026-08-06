@@ -1,10 +1,10 @@
 # Funded Capital
 
-Funded capital is company trading capital allocated by Take Profit to qualified traders.
+Funded capital is company trading capital provided by Take Profit.
 
 It allows traders to access company funded trading capital without providing the full trading capital themselves.
 
-This gives qualified traders the opportunity to trade larger capital while following the platform rules.
+This gives traders the opportunity to trade larger capital while following the platform rules.
 
 ![Funded Capital](/learning/funded-capital.svg)
 
@@ -14,11 +14,11 @@ This gives qualified traders the opportunity to trade larger capital while follo
 
 Funded capital is an active trading account provided by Take Profit.
 
-It is not a prize or a cash payout.
+It is not a prize or a cash payment.
 
-Instead, it is company capital that a qualified trader is trusted to manage in the financial markets.
+It is company trading capital that traders use to participate in the financial markets.
 
-The trader focuses on making trading decisions while Take Profit provides the trading capital.
+The trader focuses on trading while Take Profit provides the capital.
 
 ---
 
@@ -26,11 +26,11 @@ The trader focuses on making trading decisions while Take Profit provides the tr
 
 Every trader begins by building a trading history on the platform.
 
-Performance is evaluated using the platform standards.
+Performance is measured using the platform rules.
 
-When a trader qualifies, Take Profit allocates company funded trading capital and activates the funded account.
+When the funding requirements are met, Take Profit allocates company funded trading capital and activates the funded account.
 
-Trading begins immediately after the account is funded.
+Trading begins immediately.
 
 ---
 
@@ -38,34 +38,34 @@ Trading begins immediately after the account is funded.
 
 Funded capital operates alongside a Capital Building agreement.
 
-Rather than waiting until the agreement reaches its final day, Take Profit gives qualified traders access to company funded trading capital before the agreement is complete.
+Instead of waiting until the agreement reaches its final day, Take Profit gives traders access to company funded trading capital before the agreement is complete.
 
-This allows traders to begin trading immediately while continuing to follow the terms of their agreement and the platform rules.
+This allows trading to begin immediately while the agreement continues according to its terms and the platform rules.
 
 Trading profits may be withdrawn according to the platform rules.
 
 The company funded trading capital remains available for trading throughout the agreement.
 
-If the agreement is completed successfully, it concludes according to its terms.
+If the agreement reaches its completion date, it concludes according to its terms.
 
-If the agreement ends early because the trader defaults, funded access ends and a new agreement is required before access can be restored.
+If the agreement ends early because the trader defaults, funded access ends and a new agreement is required to restore access.
 
 ---
 
 ## Why this model exists
 
-Many traders develop the skill to trade but are limited by the amount of capital they have available.
+Many traders have the skill to trade but do not have enough capital to grow.
 
-Take Profit removes part of that barrier by allocating company funded trading capital to qualified traders.
+Take Profit bridges that gap by providing company funded trading capital.
 
-This allows traders to focus on building consistent performance while trading with company capital.
+This allows traders to focus on improving their trading while using company capital.
 
 ---
 
 ## Key Takeaway
 
-Funded capital is an operational stage of the Take Profit platform.
+Funded capital allows traders to access company funded trading capital before their Capital Building agreement is complete.
 
-Qualified traders gain access to company funded trading capital before their Capital Building agreement is complete, allowing them to begin trading immediately while continuing to follow the platform rules.
+Trading begins immediately while the agreement continues under the platform rules.
 
-The next module explains how funded traders unlock the Manager Market.
+The next module explains how the Manager Market connects traders with capital managers.
