@@ -1,5 +1,6 @@
 "use client";
 
+import { use } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
@@ -7,7 +8,6 @@ import { ArrowLeft } from "lucide-react";
 import Progress from "@/components/ui/progress";
 import LessonContent from "@/components/learning/lesson-content";
 import LessonComplete from "@/components/learning/lesson-complete";
-
 import { useReadingProgress } from "@/hooks/use-reading-progress";
 
 const lessons = [
@@ -91,14 +91,8 @@ interface Props {
   }>;
 }
 
-export default function LessonPage({
-  params,
-}: Props) {
-  const { progress, completed } = useReadingProgress();
-
-  const [lessonId] = require("react").use(
-    params.then((p) => p.lessonId)
-  );
+export default function LessonPage({ params }: Props) {
+  const { lessonId } = use(params);
 
   const lesson = lessons.find(
     (item) => item.id === Number(lessonId)
@@ -108,11 +102,17 @@ export default function LessonPage({
     notFound();
   }
 
+  // Temporary until Supabase auth is connected
+  const userId = "demo-user";
+
+  const { progress, completed } = useReadingProgress({
+    userId,
+    lessonId,
+  });
+
   return (
     <main className="mx-auto max-w-4xl px-6 py-10">
-
       <div className="sticky top-0 z-50 mb-8 rounded-xl border bg-white/95 p-4 backdrop-blur">
-
         <div className="mb-2 flex items-center justify-between">
           <span className="font-medium">
             {lesson.title}
@@ -124,7 +124,6 @@ export default function LessonPage({
         </div>
 
         <Progress value={progress} />
-
       </div>
 
       <Link
@@ -136,7 +135,6 @@ export default function LessonPage({
       </Link>
 
       <header className="space-y-2">
-
         <p className="text-sm text-gray-500">
           Lesson {lesson.id} of 12
         </p>
@@ -148,26 +146,18 @@ export default function LessonPage({
         <p className="text-gray-500">
           Estimated Reading Time • {lesson.readingTime}
         </p>
-
       </header>
 
       <section className="mt-10">
-
-        <LessonContent
-          slug={lesson.slug}
-        />
-
+        <LessonContent slug={lesson.slug} />
       </section>
 
       <section className="mt-16">
-
         <LessonComplete
           lessonId={lesson.id}
           completed={completed}
         />
-
       </section>
-
     </main>
   );
 }
