@@ -8,15 +8,11 @@ In most cases, you invite someone to join, they register, and you receive a one 
 
 Take Profit works differently.
 
-A referral relationship is not a one time event.
+Here, referring a trader creates an ongoing connection instead of a one time payment.
 
-It becomes part of the platform itself.
+As the trader earns on the platform, you continue earning fifteen percent of those earnings while the referral remains active.
 
-When you refer a trader, you earn fifteen percent of everything they earn on the platform while your referral relationship remains active under the platform rules.
-
-As long as the trader continues earning, your referral relationship continues creating value.
-
-This is why the Referral Market exists.
+This is what makes the Referral Market unique.
 
 ![Referral Market](/learning/referral-market.svg)
 
@@ -24,69 +20,49 @@ This is why the Referral Market exists.
 
 ## Why Does The Referral Market Exist
 
-Every trader needs one or more referral relationships before accessing the platform.
+Every trader must have one or more referrals before accessing the platform.
 
-Some traders already know someone using Take Profit.
+Some traders already know people they want to connect with.
 
 Others join without knowing anyone.
 
-Instead of forcing traders to search outside the platform, Take Profit provides the Referral Market.
-
-The Referral Market allows traders to establish referral relationships directly inside the platform.
-
-This means every trader has an opportunity to get started regardless of where they live or who they know.
-
----
-
-## What Is The Referral Market
-
-The Referral Market is a marketplace for referral relationships.
-
-Think of it like a marketplace where traders connect with one another.
-
-The difference is that no money is being bought or sold.
-
-Instead, traders establish referral relationships that can continue creating value over time.
-
-This makes the Referral Market different from traditional referral programs.
+The Referral Market gives every trader an opportunity to establish those connections without searching elsewhere.
 
 ---
 
 ## How The Referral Market Works
 
-A trader who needs a referral can browse the Referral Market and choose another trader.
+A trader who needs a referral can browse the Referral Market and connect with another trader.
 
-If both traders agree, the referral relationship is established.
+Once both traders agree, the connection is created and the trader can continue through the onboarding process.
 
-Once the platform requirements have been met, the trader can begin using Take Profit.
-
-Referral relationships continue as long as the platform rules are maintained.
+The marketplace remains available whenever a new referral connection is needed.
 
 ---
 
 ## What Do I Gain By Referring Someone
 
-When you refer a trader, you earn fifteen percent of everything they earn on the platform while your referral relationship remains active under the platform rules.
+Every trader you refer becomes part of your referral network.
 
-This is not a one time payment.
+You earn fifteen percent of everything they earn inside the platform while the referral remains active.
 
-It continues as long as the referral relationship remains active.
+This is not a one time reward.
 
-As the trader earns through trading, account management, referrals, or other platform features, your referral relationship continues creating value.
+It continues as long as the trader remains active.
 
-This gives traders a reason to help the people they refer understand the platform and remain active.
+As they grow through trading, account management, funded capital, or other platform features, your earnings grow with them.
 
 ---
 
 ## What Does The Referred Trader Gain
 
-Being referred does not reduce the referred trader's opportunities.
+Being referred does not reduce a trader's opportunities.
 
-The trader continues to own their account and keeps access to every platform feature available to them.
+The trader keeps full access to every feature available on the platform.
 
-This includes funded trading, account management, the Manager Market, referrals, Social Bonds, and future platform features once the relevant platform requirements have been met.
+This includes funded capital, the Manager Market, referrals, Social Bonds, and future platform features.
 
-The referral relationship simply connects both traders within the Take Profit network.
+The referral simply connects both traders.
 
 ---
 
@@ -94,70 +70,60 @@ The referral relationship simply connects both traders within the Take Profit ne
 
 Most marketplaces exchange money, products, or services.
 
-The Referral Market exchanges something different.
+The Referral Market exchanges future value.
 
-It creates referral relationships that can continue generating value in the future.
-
-Nothing is purchased.
+Nothing is bought.
 
 Nothing is sold.
 
-Instead, traders build relationships that remain part of the platform while they continue earning.
+Instead, traders build connections that continue creating value as they earn on the platform.
 
 ---
 
 ## Can I Have More Than One Referral
 
-Every trader must satisfy the platform referral requirement.
+Every trader must satisfy the referral requirement before using the platform.
 
-Once that requirement has been met, the Referral Market remains available for traders who still need referral relationships.
+Once that requirement has been met, the Referral Market remains available for traders who still need referral connections.
 
-This helps keep the marketplace balanced and available for new traders joining the platform.
+This keeps the marketplace available for traders who need it most.
 
 ---
 
 ## What Happens If My Referral Becomes Inactive
 
-Sometimes a trader may stop using the platform.
+If a referral becomes inactive, a new referral can be established through the Referral Market.
 
-If a referral relationship becomes inactive according to the platform rules, the connected trader can establish a new referral relationship through the Referral Market.
-
-This allows traders to continue using the platform without having to leave and search elsewhere for another referral.
+This allows traders to continue using the platform without leaving to search for another referral.
 
 ---
 
 ## Why Would Someone Accept My Referral
 
-The referral relationship benefits both traders.
+Both traders benefit from the connection.
 
-The referred trader gains access to the platform.
+One trader gains access to the platform.
 
-The referring trader earns from the referral relationship as the referred trader continues earning inside Take Profit.
+The other earns from that trader's activity.
 
-Because both traders benefit, the Referral Market creates opportunities for traders to connect with one another.
+This creates an incentive for traders to support the people they introduce to the platform.
 
 ---
 
 ## Why Is The Referral Market Important
 
-The Referral Market allows every trader to establish referral relationships even if they do not already know someone using Take Profit.
+The Referral Market makes it possible for every trader to establish referral connections regardless of where they live or who they know.
 
-It supports new traders joining the platform.
+It also allows inactive referrals to be replaced when necessary.
 
-It allows inactive referral relationships to be replaced.
-
-It helps referral relationships continue growing as the platform grows.
-
-Rather than being a simple invitation system, the Referral Market becomes part of how traders connect throughout the Take Profit ecosystem.
+Rather than being a simple invitation system, referrals become part of how traders remain connected throughout the platform.
 
 ---
 
 ## Key Takeaway
 
-The Referral Market is where traders establish referral relationships inside Take Profit.
+The Referral Market allows traders to build referral connections that continue creating value over time.
 
-Unlike traditional referral programs that offer a one time reward, referral relationships on Take Profit continue creating value as traders earn on the platform.
+Unlike traditional referral programs that end after a single reward, Take Profit referrals continue earning as traders continue earning.
 
-This allows traders to build long term referral networks while giving every new trader a clear way to join the platform, even if they do not already know someone using Take Profit.
-
-The next module explains how these referral relationships develop into stronger communities through Social Bonds.
+The next module explains how these connections become even stronger through Social Bonds.
