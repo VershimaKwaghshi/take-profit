@@ -1,12 +1,14 @@
 # Manager Market
 
-The Manager Market allows trading accounts to be managed by experienced traders.
+## What Is The Manager Market
 
-Once a trader funds a trading account, Take Profit gradually assigns five additional trading accounts of the same size to them.
+Most traders earn from only one trading account.
 
-Each assigned account belongs to another trader on the platform.
+The Manager Market gives traders the opportunity to earn from several trading accounts at the same time.
 
-Likewise, the trader's own account is assigned to another trader for management.
+Instead of leaving every account to be managed only by its owner, Take Profit allows trading accounts to be managed across the platform.
+
+This creates more opportunities for both account owners and experienced traders.
 
 ![Manager Market](/learning/manager-market.svg)
 
@@ -16,54 +18,72 @@ Likewise, the trader's own account is assigned to another trader for management.
 
 Every trader owns a personal trading account.
 
-As the platform grows, each trader is gradually assigned up to five additional accounts to manage.
+As the platform grows, Take Profit gradually connects each trader with up to five additional accounts of the same size.
 
-These accounts are separate from the trader's own account.
+These accounts belong to other traders.
 
-This creates multiple opportunities for earnings from different accounts instead of relying on a single account.
+At the same time, your own account is also connected to someone else for management.
+
+This allows every account to remain active while creating more earning opportunities across the platform.
 
 ---
 
-## Becoming a Manager
+## Becoming A Manager
 
 Any trader can apply to become a manager.
 
-A manager is a trader who has demonstrated trading ability.
+To qualify, you must show that you can trade consistently.
 
-This can be achieved by submitting at least one month of verified live trading history or by completing the Take Profit evaluation process.
+This can be done by submitting at least one month of verified live trading history or by successfully completing the Take Profit evaluation.
 
-Once approved, assigned accounts remain under the standard two way profit split between the account owner and the manager.
-
----
-
-## If You Are Not a Manager
-
-Traders who are not registered as managers can still receive assigned accounts.
-
-They may trade those accounts themselves or allow another approved manager to manage them.
-
-In both cases the account follows the standard three way profit sharing structure.
-
-If no separate manager is involved, the platform retains the manager allocation.
+Once approved, every account connected to you follows the standard two way profit sharing structure between you and the account owner.
 
 ---
 
-## Building Multiple Income Streams
+## If You Are Not A Manager
 
-Instead of depending on a single trading account, traders can benefit from several accounts operating at the same time.
+You do not have to become a manager to benefit from the Manager Market.
 
-As more assigned accounts become active, profits can be generated across multiple accounts independently.
+Your account can still be managed by an approved manager while you continue earning from its performance.
 
-This creates additional earning opportunities while every account continues to belong to its original owner.
+You may also receive connected accounts before becoming a manager.
+
+Those accounts follow the standard three way sharing structure.
+
+If you choose to manage them yourself without manager approval, the platform retains the manager allocation.
+
+---
+
+## Why The Manager Market Exists
+
+Many skilled traders are limited by the size of their own account.
+
+At the same time, many account owners may prefer experienced traders to manage their accounts.
+
+The Manager Market brings both sides together.
+
+It allows trading experience to be used across multiple accounts while every trader keeps ownership of their own account.
+
+---
+
+## Multiple Sources Of Income
+
+Instead of depending on one account, traders can have several accounts working at the same time.
+
+Each account operates independently.
+
+Profits from one account do not depend on another.
+
+As more connected accounts become active, traders have more opportunities to earn from different sources across the platform.
 
 ---
 
 ## Key Takeaway
 
-The Manager Market connects traders with trading accounts across the platform.
+The Manager Market connects traders with trading accounts across Take Profit.
 
-Every trader keeps ownership of their own account while gaining opportunities to participate in other accounts through structured management.
+Every trader keeps ownership of their own account while experienced traders can manage additional accounts across the platform.
 
-Approved managers receive accounts directly, while other traders can still participate under the standard platform sharing model.
+This creates multiple earning opportunities without changing ownership of any account.
 
-The next module explains how the Referral Market supports platform growth through community participation.
+The next module explains how the Referral Market connects traders and creates long term value throughout the platform.
