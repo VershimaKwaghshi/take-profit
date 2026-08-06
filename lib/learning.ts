@@ -1,7 +1,7 @@
-limport { learningLessons } from "@/data/learning-lessons";
+import { learningLessons } from "@/data/learning-lessons";
 
 export function getAllLessons() {
-  return learningLessons.sort(
+  return [...learningLessons].sort(
     (a, b) => a.lessonNumber - b.lessonNumber
   );
 }
@@ -26,8 +26,7 @@ export function getPreviousLesson(
   lessonNumber: number
 ) {
   return learningLessons.find(
-    (lesson) =>
-      lesson.lessonNumber === lessonNumber - 1
+    (lesson) => lesson.lessonNumber === lessonNumber - 1
   );
 }
 
@@ -35,8 +34,7 @@ export function getNextLesson(
   lessonNumber: number
 ) {
   return learningLessons.find(
-    (lesson) =>
-      lesson.lessonNumber === lessonNumber + 1
+    (lesson) => lesson.lessonNumber === lessonNumber + 1
   );
 }
 
