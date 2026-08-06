@@ -1,71 +1,87 @@
 # Funded Capital
 
-Funded capital is company trading capital provided by Take Profit.
+## What Is Funded Capital
 
-It allows traders to access company funded trading capital without providing the full trading capital themselves.
+One of the biggest challenges traders face is capital.
 
-This gives traders the opportunity to trade larger capital while following the platform rules.
+Many traders have the skill to trade but cannot afford the account size they want.
+
+Take Profit removes that barrier by providing the trading capital first, allowing traders to begin immediately instead of waiting until they have saved enough money.
 
 ![Funded Capital](/learning/funded-capital.svg)
 
 ---
 
-## What is funded capital
+## How It Works
 
-Funded capital is an active trading account provided by Take Profit.
+You simply request the account size you want.
 
-It is not a prize or a cash payment.
+Once approved, Take Profit provides that account so you can begin trading.
 
-It is company trading capital that traders use to participate in the financial markets.
+Instead of paying for the entire account upfront, you repay a small fixed amount each day while continuing to trade.
 
-The trader focuses on trading while Take Profit provides the capital.
-
----
-
-## How funded capital works
-
-Every trader begins by building a trading history on the platform.
-
-Performance is measured using the platform rules.
-
-When the funding requirements are met, Take Profit allocates company funded trading capital and activates the funded account.
-
-Trading begins immediately.
+This allows you to access larger trading capital much sooner than you normally could.
 
 ---
 
-## The Capital Building agreement
+## Daily Repayment
 
-Funded capital operates alongside a Capital Building agreement.
+The daily repayment is 1.1 percent of the account size you requested.
 
-Instead of waiting until the agreement reaches its final day, Take Profit gives traders access to company funded trading capital before the agreement is complete.
+One percent goes toward your Capital Building contract.
 
-This allows trading to begin immediately while the agreement continues according to its terms and the platform rules.
+The remaining zero point one percent is the platform service fee.
 
-Trading profits may be withdrawn according to the platform rules.
-
-The company funded trading capital remains available for trading throughout the agreement.
-
-If the agreement reaches its completion date, it concludes according to its terms.
-
-If the agreement ends early because the trader defaults, funded access ends and a new agreement is required to restore access.
+The repayment amount stays the same throughout the contract regardless of your trading performance.
 
 ---
 
-## Why this model exists
+## When Trading Begins
 
-Many traders have the skill to trade but do not have enough capital to grow.
+Funding becomes available from the eleventh day onward.
 
-Take Profit bridges that gap by providing company funded trading capital.
+As soon as your account is funded, you can begin trading immediately.
 
-This allows traders to focus on improving their trading while using company capital.
+You do not have to wait until the contract reaches its final day before using the account.
+
+---
+
+## Withdrawals
+
+Any profit you make from trading can be withdrawn according to the platform rules.
+
+The trading capital itself remains in the account until the contract reaches its expiration date.
+
+This keeps the account active while allowing traders to enjoy the results of their trading.
+
+---
+
+## If You Default
+
+If you stop meeting the platform requirements before the contract expires, funded access ends.
+
+To receive another funded account, a new Capital Building contract must be started.
+
+This keeps the system fair and allows every funded account to follow the same process.
+
+---
+
+## Why This Model Exists
+
+Many traders spend years trying to save enough money to trade larger accounts.
+
+Take Profit changes that approach.
+
+Instead of making traders wait, the platform provides the capital first while it is gradually being repaid.
+
+This allows traders to focus on improving their trading instead of being limited by their available funds.
 
 ---
 
 ## Key Takeaway
 
-Funded capital allows traders to access company funded trading capital before their Capital Building agreement is complete.
+Funded Capital allows traders to start trading with larger capital much earlier than they normally could.
 
-Trading begins immediately while the agreement continues under the platform rules.
+Trading begins after funding is activated while repayment continues through a simple daily structure.
 
-The next module explains how the Manager Market connects traders with capital managers.
+The next module explains how traders can use these accounts inside the Manager Market to create additional income opportunities.
