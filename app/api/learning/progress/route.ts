@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
-export async function POST(request: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const body = await request.json();
+    const body = await req.json();
 
     const {
       userId,
@@ -13,7 +13,7 @@ export async function POST(request: Request) {
       lastScrollPosition,
     } = body;
 
-    const lessonProgress =
+    const savedProgress =
       await prisma.lessonProgress.upsert({
         where: {
           userId_lessonId: {
@@ -24,38 +24,32 @@ export async function POST(request: Request) {
         update: {
           progress,
           completed,
-          completedAt: completed ? new Date() : null,
-          unlockAt: completed
-            ? new Date(Date.now() + 24 * 60 * 60 * 1000)
-            : null,
-          lastReadAt: new Date(),
           lastScrollPosition,
+          lastReadAt: new Date(),
+          completedAt: completed
+            ? new Date()
+            : null,
         },
         create: {
           userId,
           lessonId,
           progress,
           completed,
-          completedAt: completed ? new Date() : null,
-          unlockAt: completed
-            ? new Date(Date.now() + 24 * 60 * 60 * 1000)
-            : null,
-          lastReadAt: new Date(),
           lastScrollPosition,
+          lastReadAt: new Date(),
+          completedAt: completed
+            ? new Date()
+            : null,
         },
       });
 
-    return NextResponse.json({
-      success: true,
-      progress: lessonProgress,
-    });
+    return NextResponse.json(savedProgress);
   } catch (error) {
     console.error(error);
 
     return NextResponse.json(
       {
-        success: false,
-        message: "Unable to save progress.",
+        error: "Unable to save progress.",
       },
       {
         status: 500,
