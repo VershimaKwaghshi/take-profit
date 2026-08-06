@@ -73,6 +73,7 @@ export function useReadingProgress({
   }, [userId, lessonId, progress]);
 
   return {
-  progress,
-  completed: progress >= 100,
-};
+    progress,
+    completed: progress >= 100,
+  };
+}
