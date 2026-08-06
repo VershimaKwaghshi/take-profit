@@ -1,14 +1,45 @@
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+limport { learningLessons } from "@/data/learning-lessons";
 
-export async function getLearningModules() {
-  const { data, error } = await supabaseAdmin
-    .from("learning_modules")
-    .select("*")
-    .order("order_number");
+export function getAllLessons() {
+  return learningLessons.sort(
+    (a, b) => a.lessonNumber - b.lessonNumber
+  );
+}
 
-  if (error) {
-    throw error;
-  }
+export function getLessonByNumber(
+  lessonNumber: number
+) {
+  return learningLessons.find(
+    (lesson) => lesson.lessonNumber === lessonNumber
+  );
+}
 
-  return data;
+export function getLessonBySlug(
+  slug: string
+) {
+  return learningLessons.find(
+    (lesson) => lesson.slug === slug
+  );
+}
+
+export function getPreviousLesson(
+  lessonNumber: number
+) {
+  return learningLessons.find(
+    (lesson) =>
+      lesson.lessonNumber === lessonNumber - 1
+  );
+}
+
+export function getNextLesson(
+  lessonNumber: number
+) {
+  return learningLessons.find(
+    (lesson) =>
+      lesson.lessonNumber === lessonNumber + 1
+  );
+}
+
+export function getTotalLessons() {
+  return learningLessons.length;
 }
