@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Lesson {
+  id            String             @id @default(cuid())
+  lessonNumber  Int                @unique
+  title         String
+  slug          String             @unique
+  description   String?
+  markdownPath  String
+  svgPath       String?
+  readingTime   Int
+  isPublished   Boolean            @default(true)
+
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  progresses    LessonProgress[]
+  feedbacks     LessonFeedback[]
+}
+
+model LessonProgress {
+  id                 String      @id @default(cuid())
+
+  userId             String
+  lessonId           String
+
+  progress           Int         @default(0)
+
+  completed          Boolean     @default(false)
+
+  completedAt        DateTime?
+
+  unlockAt           DateTime?
+
+  lastReadAt         DateTime?
+
+  lastScrollPosition Int         @default(0)
+
+  createdAt          DateTime    @default(now())
+
+  updatedAt          DateTime    @updatedAt
+
+  lesson             Lesson      @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+}
+
+model LessonFeedback {
+  id           String      @id @default(cuid())
+
+  userId       String
+
+  lessonId     String
+
+  rating       Int
+
+  understood   Boolean
+
+  comment      String?
+
+  createdAt    DateTime    @default(now())
+
+  lesson        Lesson      @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+}
