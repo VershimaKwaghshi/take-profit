@@ -1,43 +1,157 @@
-import { learningLessons } from "@/data/learning-lessons";
+import prisma from "./prisma";
 
-export function getAllLessons() {
-  return [...learningLessons].sort(
-    (a, b) => a.lessonNumber - b.lessonNumber
-  );
+/**
+ * Get all published lessons.
+ */
+export async function getLessons() {
+  return prisma.lesson.findMany({
+    where: {
+      isPublished: true,
+    },
+    orderBy: {
+      lessonNumber: "asc",
+    },
+  });
 }
 
-export function getLessonByNumber(
+/**
+ * Get a single lesson by its lesson number.
+ */
+export async function getLessonByNumber(
   lessonNumber: number
 ) {
-  return learningLessons.find(
-    (lesson) => lesson.lessonNumber === lessonNumber
-  );
+  return prisma.lesson.findUnique({
+    where: {
+      lessonNumber,
+    },
+  });
 }
 
-export function getLessonBySlug(
+/**
+ * Get a single lesson by its slug.
+ */
+export async function getLessonBySlug(
   slug: string
 ) {
-  return learningLessons.find(
-    (lesson) => lesson.slug === slug
-  );
+  return prisma.lesson.findUnique({
+    where: {
+      slug,
+    },
+  });
 }
 
-export function getPreviousLesson(
-  lessonNumber: number
+/**
+ * Get a user's progress for a specific lesson.
+ */
+export async function getLessonProgress(
+  userId: string,
+  lessonId: string
 ) {
-  return learningLessons.find(
-    (lesson) => lesson.lessonNumber === lessonNumber - 1
-  );
+  return prisma.lessonProgress.findUnique({
+    where: {
+      userId_lessonId: {
+        userId,
+        lessonId,
+      },
+    },
+  });
 }
 
-export function getNextLesson(
-  lessonNumber: number
+/**
+ * Get all lesson progress records for a user.
+ */
+export async function getUserLessonProgress(
+  userId: string
 ) {
-  return learningLessons.find(
-    (lesson) => lesson.lessonNumber === lessonNumber + 1
-  );
+  return prisma.lessonProgress.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      lesson: true,
+    },
+    orderBy: {
+      lesson: {
+        lessonNumber: "asc",
+      },
+    },
+  });
 }
 
-export function getTotalLessons() {
-  return learningLessons.length;
+/**
+ * Save or update a user's lesson progress.
+ */
+export async function updateLessonProgress({
+  userId,
+  lessonId,
+  progress,
+  completed,
+  lastScrollPosition,
+}: {
+  userId: string;
+  lessonId: string;
+  progress: number;
+  completed: boolean;
+  lastScrollPosition: number;
+}) {
+  const safeProgress = Math.min(
+    100,
+    Math.max(0, Math.round(progress))
+  );
+
+  const now = new Date();
+
+  return prisma.lessonProgress.upsert({
+    where: {
+      userId_lessonId: {
+        userId,
+        lessonId,
+      },
+    },
+
+    update: {
+      progress: safeProgress,
+      completed,
+      completedAt: completed ? now : undefined,
+      lastReadAt: now,
+      lastScrollPosition,
+    },
+
+    create: {
+      userId,
+      lessonId,
+      progress: safeProgress,
+      completed,
+      completedAt: completed ? now : null,
+      lastReadAt: now,
+      lastScrollPosition,
+    },
+  });
+}
+
+/**
+ * Save lesson feedback.
+ */
+export async function createLessonFeedback({
+  userId,
+  lessonId,
+  rating,
+  understood,
+  comment,
+}: {
+  userId: string;
+  lessonId: string;
+  rating: number;
+  understood: boolean;
+  comment?: string;
+}) {
+  return prisma.lessonFeedback.create({
+    data: {
+      userId,
+      lessonId,
+      rating,
+      understood,
+      comment: comment?.trim() || null,
+    },
+  });
 }
