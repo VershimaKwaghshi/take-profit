@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Check, Lock } from "lucide-react";
-import { getAllLessons } from "@/lib/learning";
+import { getLessons } from "@/lib/learning";
 
 export default function LearningPage() {
-  const modules = getAllLessons();
+  const modules = getLessons();
 
   const completedModules = 0;
 
@@ -84,7 +84,6 @@ export default function LearningPage() {
       <section className="mt-10 space-y-5">
         {modules.map((module, index) => {
           const completed = false;
-
           const unlocked = index === 0;
 
           return (
@@ -101,19 +100,19 @@ export default function LearningPage() {
                   : "cursor-not-allowed border-neutral-100 opacity-70"
               }`}
             >
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-8">
                 <div className="flex items-start gap-6">
                   {completed ? (
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-[#071A52]">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-[#071A52]">
                       <Check
                         size={18}
                         className="text-[#071A52]"
                       />
                     </div>
                   ) : unlocked ? (
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-[#071A52]" />
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-[#071A52]" />
                   ) : (
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-neutral-300">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-neutral-300">
                       <Lock
                         size={18}
                         className="text-neutral-400"
@@ -136,7 +135,7 @@ export default function LearningPage() {
                   </div>
                 </div>
 
-                <div>
+                <div className="shrink-0">
                   {completed ? (
                     <span className="inline-flex rounded-full bg-[#071A52] px-6 py-3 text-sm font-semibold text-white">
                       Completed
