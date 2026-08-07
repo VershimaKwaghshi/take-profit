@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { Check, Lock } from "lucide-react";
+
 import { getLessons } from "@/lib/learning";
 
-export default function LearningPage() {
-  const modules = getLessons();
+export default async function LearningPage() {
+  const modules = await getLessons();
 
   const completedModules = 0;
 
