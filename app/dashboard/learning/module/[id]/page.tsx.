@@ -9,9 +9,7 @@ type Props = {
   }>;
 };
 
-export default async function ModulePage({
-  params,
-}: Props) {
+export default async function ModulePage({ params }: Props) {
   const { id } = await params;
 
   const { data: module, error } = await supabaseAdmin
@@ -25,11 +23,9 @@ export default async function ModulePage({
   }
 
   return (
-    <main className="min-h-screen bg-[#F7F7F4] px-6 py-12 text-black">
-      <div className="mx-auto max-w-5xl">
-        {/* =========================================================
-            BACK
-        ========================================================= */}
+    <main className="min-h-screen bg-[#F7F7F4] text-black">
+      <div className="mx-auto max-w-5xl px-6 py-12 md:px-10">
+        {/* BACK */}
 
         <Link
           href="/dashboard/learning"
@@ -38,9 +34,7 @@ export default async function ModulePage({
           ← Back to Learning Center
         </Link>
 
-        {/* =========================================================
-            MODULE HEADER
-        ========================================================= */}
+        {/* MODULE HEADER */}
 
         <div className="mt-8 rounded-[36px] bg-white p-8 shadow-sm md:p-10">
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-neutral-500">
@@ -51,36 +45,30 @@ export default async function ModulePage({
             {module.title}
           </h1>
 
-          {module.description && (
-            <p className="mt-6 text-lg leading-9 text-neutral-600 md:text-xl">
-              {module.description}
-            </p>
-          )}
+          <p className="mt-6 text-lg leading-8 text-neutral-600 md:text-xl md:leading-9">
+            {module.description}
+          </p>
         </div>
 
-        {/* =========================================================
-            LESSON CONTENT
-        ========================================================= */}
+        {/* LESSON CONTENT */}
 
         <article className="mt-10 rounded-[36px] bg-white p-8 shadow-sm md:p-10">
-          {/* =======================================================
-              INTRODUCTION
-          ======================================================= */}
+          {/* INTRODUCTION */}
 
           <h2 className="text-3xl font-semibold md:text-4xl">
             Why Take Profit Exists
           </h2>
 
           <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
-            Before learning about Take Profit, it's important to understand
-            how trading works.
+            Before learning about Take Profit, it&apos;s important to
+            understand how trading works.
           </p>
 
           <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
-            Whether you're interested in stocks, cryptocurrencies, foreign
-            exchange, commodities like gold and crude oil, stock indices, or
-            other financial markets, they all operate on the same fundamental
-            principles.
+            Whether you&apos;re interested in stocks, cryptocurrencies,
+            foreign exchange, commodities like gold and crude oil, stock
+            indices, or other financial markets, they all operate on the same
+            fundamental principles.
           </p>
 
           <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
@@ -96,50 +84,54 @@ export default async function ModulePage({
             If your prediction is wrong, you make a loss.
           </p>
 
-          {/* =======================================================
-              FINANCIAL ASSETS
-          ======================================================= */}
+          {/* ASSETS */}
 
-          <div className="mt-12 rounded-[32px] border border-neutral-200 bg-neutral-50 p-8 md:p-10">
+          <div className="mt-12 rounded-[32px] border border-neutral-200 bg-neutral-50 p-7 md:p-10">
             <h3 className="text-2xl font-semibold md:text-3xl">
               Financial assets commonly traded
             </h3>
 
             <div className="mt-8 grid gap-4 md:grid-cols-2">
-              {[
-                "Stocks",
-                "Foreign Exchange",
-                "Cryptocurrencies",
-                "Commodities",
-                "Stock Indices",
-                "Exchange Traded Funds",
-                "Bonds",
-                "Other Financial Instruments",
-              ].map((asset) => (
-                <div
-                  key={asset}
-                  className="rounded-2xl bg-white p-6"
-                >
-                  {asset}
-                </div>
-              ))}
+              <div className="rounded-2xl bg-white p-6">Stocks</div>
+
+              <div className="rounded-2xl bg-white p-6">
+                Foreign Exchange
+              </div>
+
+              <div className="rounded-2xl bg-white p-6">
+                Cryptocurrencies
+              </div>
+
+              <div className="rounded-2xl bg-white p-6">
+                Commodities
+              </div>
+
+              <div className="rounded-2xl bg-white p-6">
+                Stock Indices
+              </div>
+
+              <div className="rounded-2xl bg-white p-6">
+                Exchange Traded Funds
+              </div>
+
+              <div className="rounded-2xl bg-white p-6">Bonds</div>
+
+              <div className="rounded-2xl bg-white p-6">
+                Other Financial Instruments
+              </div>
             </div>
           </div>
 
-          {/* =======================================================
-              BUY / SELL
-          ======================================================= */}
+          {/* BASIC IDEA */}
 
-          <div className="mt-14 rounded-[32px] border border-[#071A52] bg-[#071A52] p-8 text-white md:p-10">
+          <div className="mt-14 rounded-[32px] border border-[#071A52] bg-[#071A52] p-7 text-white md:p-10">
             <h3 className="text-2xl font-semibold md:text-3xl">
               The basic idea is simple
             </h3>
 
             <div className="mt-10 grid gap-8 md:grid-cols-2">
               <div className="rounded-3xl bg-white/10 p-8">
-                <h4 className="text-2xl font-semibold">
-                  Buy
-                </h4>
+                <h4 className="text-2xl font-semibold">Buy</h4>
 
                 <p className="mt-5 leading-8">
                   You buy when you believe the price of an asset will
@@ -148,9 +140,7 @@ export default async function ModulePage({
               </div>
 
               <div className="rounded-3xl bg-white/10 p-8">
-                <h4 className="text-2xl font-semibold">
-                  Sell
-                </h4>
+                <h4 className="text-2xl font-semibold">Sell</h4>
 
                 <p className="mt-5 leading-8">
                   You sell when you believe the price of an asset will
@@ -160,33 +150,29 @@ export default async function ModulePage({
             </div>
           </div>
 
-          {/* =======================================================
-              BASIC PRINCIPLE
-          ======================================================= */}
+          {/* PROFIT AND LOSS */}
 
           <div className="mt-14 rounded-[32px] border-l-4 border-[#071A52] bg-blue-50 p-8">
             <p className="text-lg leading-8 text-neutral-800">
-              Regardless of what you trade, every transaction is based on
-              the same objective.
+              Regardless of what you trade, every transaction is based on the
+              same objective.
             </p>
 
-            <p className="mt-5 text-lg font-semibold leading-8 text-neutral-900">
+            <p className="mt-4 text-lg font-semibold leading-8 text-neutral-800">
               Buy low and sell high.
             </p>
 
-            <p className="mt-2 text-lg font-semibold leading-8 text-neutral-900">
+            <p className="mt-4 text-lg leading-8 text-neutral-800">
               Or sell high and buy back lower.
             </p>
 
-            <p className="mt-5 text-lg leading-8 text-neutral-800">
+            <p className="mt-4 text-lg leading-8 text-neutral-800">
               The difference between those prices determines whether you make
               a profit or a loss.
             </p>
           </div>
 
-          {/* =======================================================
-              EVERY TRADE HAS TWO SIDES
-          ======================================================= */}
+          {/* TWO SIDES */}
 
           <div className="mt-16">
             <h2 className="text-3xl font-semibold md:text-4xl">
@@ -194,12 +180,12 @@ export default async function ModulePage({
             </h2>
 
             <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
-              One of the biggest misconceptions about trading is that when
-              you lose money, it simply disappears.
+              One of the biggest misconceptions about trading is that when you
+              lose money, it simply disappears.
             </p>
 
             <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
-              That isn't how financial markets work.
+              That isn&apos;t how financial markets work.
             </p>
 
             <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
@@ -209,8 +195,8 @@ export default async function ModulePage({
 
             <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
               If you believe the price of Bitcoin will rise, you open a Buy
-              position. For your trade to happen, someone else must be
-              willing to take the opposite side by selling.
+              position. For your trade to happen, someone else must be willing
+              to take the opposite side by selling.
             </p>
 
             <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
@@ -219,11 +205,9 @@ export default async function ModulePage({
             </p>
           </div>
 
-          {/* =======================================================
-              SIMPLE EXAMPLE
-          ======================================================= */}
+          {/* SIMPLE EXAMPLE */}
 
-          <div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-8 md:p-10">
+          <div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-7 md:p-10">
             <h3 className="text-2xl font-semibold md:text-3xl">
               A simple example
             </h3>
@@ -240,8 +224,14 @@ export default async function ModulePage({
 
                 <p className="mt-5 leading-8 text-neutral-700">
                   Trader A believes the price of Bitcoin will increase.
-                  If the price rises, Trader A makes a profit. If it falls,
-                  Trader A makes a loss.
+                </p>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  If the price rises, Trader A makes a profit.
+                </p>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  If it falls, Trader A makes a loss.
                 </p>
               </div>
 
@@ -255,18 +245,23 @@ export default async function ModulePage({
                 </h4>
 
                 <p className="mt-5 leading-8 text-neutral-700">
-                  Trader B believes the price will fall. If the price falls,
-                  Trader B profits. If the price rises, Trader B loses.
+                  Trader B believes the price will fall.
+                </p>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  If the price falls, Trader B profits.
+                </p>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  If the price rises, Trader B loses.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* =======================================================
-              MARKET MOVEMENT
-          ======================================================= */}
+          {/* ONLY ONE PREDICTION */}
 
-          <div className="mt-14 rounded-[36px] bg-[#071A52] p-8 text-white md:p-10">
+          <div className="mt-14 rounded-[36px] bg-[#071A52] p-7 text-white md:p-10">
             <h3 className="text-2xl font-semibold md:text-3xl">
               Only one prediction can be correct
             </h3>
@@ -277,9 +272,7 @@ export default async function ModulePage({
 
             <div className="mt-8 grid gap-6 md:grid-cols-3">
               <div className="rounded-3xl bg-white/10 p-6">
-                <h4 className="text-xl font-semibold">
-                  Step 1
-                </h4>
+                <h4 className="text-xl font-semibold">Step 1</h4>
 
                 <p className="mt-4 leading-8">
                   Trader A buys because they believe the price will rise.
@@ -287,9 +280,7 @@ export default async function ModulePage({
               </div>
 
               <div className="rounded-3xl bg-white/10 p-6">
-                <h4 className="text-xl font-semibold">
-                  Step 2
-                </h4>
+                <h4 className="text-xl font-semibold">Step 2</h4>
 
                 <p className="mt-4 leading-8">
                   Trader B sells because they believe the price will fall.
@@ -297,9 +288,7 @@ export default async function ModulePage({
               </div>
 
               <div className="rounded-3xl bg-white/10 p-6">
-                <h4 className="text-xl font-semibold">
-                  Step 3
-                </h4>
+                <h4 className="text-xl font-semibold">Step 3</h4>
 
                 <p className="mt-4 leading-8">
                   The market moves. One trader earns money. The other trader
@@ -309,17 +298,13 @@ export default async function ModulePage({
             </div>
           </div>
 
-          {/* =======================================================
-              WHERE MONEY GOES
-          ======================================================= */}
+          {/* WHERE DOES MONEY GO */}
 
           <div className="mt-14 rounded-[32px] border-l-4 border-red-600 bg-red-50 p-8">
-            <h3 className="text-2xl font-semibold">
-              Where does the money go?
-            </h3>
+            <h3 className="text-2xl font-semibold">Where does the money go?</h3>
 
             <p className="mt-6 text-lg leading-9 text-neutral-800">
-              The money isn't stored somewhere waiting to disappear.
+              The money isn&apos;t stored somewhere waiting to disappear.
             </p>
 
             <p className="mt-6 text-lg leading-9 text-neutral-800">
@@ -334,14 +319,12 @@ export default async function ModulePage({
             </p>
 
             <p className="mt-6 text-lg leading-9 text-neutral-800">
-              This is why managing risk is one of the most important parts
-              of trading.
+              This is why managing risk is one of the most important parts of
+              trading.
             </p>
           </div>
 
-          {/* =======================================================
-              BROKERS
-          ======================================================= */}
+          {/* BROKERS */}
 
           <div className="mt-16">
             <h2 className="text-3xl font-semibold md:text-4xl">
@@ -353,7 +336,7 @@ export default async function ModulePage({
               question follows.
             </p>
 
-            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+            <p className="mt-4 text-lg leading-9 text-neutral-700 md:text-xl">
               How do they find each other?
             </p>
 
@@ -362,7 +345,7 @@ export default async function ModulePage({
             </p>
 
             <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
-              A broker is a financial company that gives traders access to
+              A broker is a financial company that gives traders access to the
               financial markets.
             </p>
 
@@ -372,16 +355,14 @@ export default async function ModulePage({
             </p>
 
             <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
-              The broker's trading platform receives your order and routes
+              The broker&apos;s trading platform receives your order and routes
               it through the appropriate trading system.
             </p>
           </div>
 
-          {/* =======================================================
-              BROKER AS GATEWAY
-          ======================================================= */}
+          {/* BROKER AS BANK */}
 
-          <div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-8 md:p-10">
+          <div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-7 md:p-10">
             <h3 className="text-2xl font-semibold md:text-3xl">
               Think of a broker like a bank
             </h3>
@@ -391,8 +372,8 @@ export default async function ModulePage({
             </p>
 
             <p className="mt-6 text-lg leading-9 text-neutral-700">
-              You don't walk directly to the Central Bank of Nigeria or the
-              United States Federal Reserve.
+              You don&apos;t walk directly to the Central Bank of Nigeria or
+              the United States Federal Reserve.
             </p>
 
             <p className="mt-6 text-lg leading-9 text-neutral-700">
@@ -406,51 +387,40 @@ export default async function ModulePage({
 
             <div className="mt-10 grid gap-6 md:grid-cols-2">
               <div className="rounded-3xl bg-white p-6 shadow-sm">
-                <h4 className="text-xl font-semibold">
-                  Everyday Banking
-                </h4>
+                <h4 className="text-xl font-semibold">Everyday Banking</h4>
 
                 <p className="mt-4 leading-8 text-neutral-700">
                   People use commercial banks to access the financial system
-                  and process financial transactions.
+                  and move money between accounts.
                 </p>
               </div>
 
               <div className="rounded-3xl bg-white p-6 shadow-sm">
-                <h4 className="text-xl font-semibold">
-                  Trading
-                </h4>
+                <h4 className="text-xl font-semibold">Trading</h4>
 
                 <p className="mt-4 leading-8 text-neutral-700">
-                  Traders use brokers to access financial markets in much
-                  the same way.
+                  Traders use brokers to access financial markets in much the
+                  same way.
+                </p>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  The broker becomes the gateway between the trader and the
+                  market.
                 </p>
               </div>
             </div>
-
-            <div className="mt-8 rounded-2xl border-l-4 border-[#071A52] bg-blue-50 p-6">
-              <p className="leading-8 text-neutral-800">
-                The banking comparison is used only to make the idea easier
-                to understand. Brokers and banks perform different functions
-                and operate under different rules.
-              </p>
-            </div>
           </div>
 
-          {/* =======================================================
-              WHAT BROKERS DO
-          ======================================================= */}
+          {/* WHAT BROKERS DO */}
 
-          <div className="mt-14 rounded-[36px] bg-[#071A52] p-8 text-white md:p-10">
+          <div className="mt-14 rounded-[36px] bg-[#071A52] p-7 text-white md:p-10">
             <h3 className="text-2xl font-semibold md:text-3xl">
               What brokers do
             </h3>
 
             <div className="mt-10 grid gap-6 md:grid-cols-2">
               <div className="rounded-3xl bg-white/10 p-8">
-                <h4 className="text-2xl font-semibold">
-                  Execute trades
-                </h4>
+                <h4 className="text-2xl font-semibold">Execute trades</h4>
 
                 <p className="mt-5 leading-8">
                   They receive your buy or sell order and execute it through
@@ -486,16 +456,14 @@ export default async function ModulePage({
                 </h4>
 
                 <p className="mt-5 leading-8">
-                  Without brokers, most retail traders would have no practical
-                  way to participate in global financial markets.
+                  Brokers provide the practical connection between retail
+                  traders and financial markets.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* =======================================================
-              REGULATION
-          ======================================================= */}
+          {/* REGULATION */}
 
           <div className="mt-14 rounded-[32px] border-l-4 border-red-600 bg-red-50 p-8">
             <h3 className="text-2xl font-semibold">
@@ -526,9 +494,7 @@ export default async function ModulePage({
             </p>
           </div>
 
-          {/* =======================================================
-              WHY BROKERS ARE REGULATED
-          ======================================================= */}
+          {/* WHY REGULATED */}
 
           <div className="mt-16">
             <h2 className="text-3xl font-semibold md:text-4xl">
@@ -536,8 +502,8 @@ export default async function ModulePage({
             </h2>
 
             <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
-              Because brokers hold traders' money and execute their trades,
-              they operate under financial laws in many countries.
+              Because brokers hold traders&apos; money and execute their
+              trades, they operate under financial laws in many countries.
             </p>
 
             <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
@@ -549,29 +515,18 @@ export default async function ModulePage({
               Financial regulators set standards that licensed brokers must
               follow.
             </p>
-
-            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
-              These standards can include maintaining adequate capital,
-              keeping client funds separate from company funds, complying
-              with financial reporting requirements and operating fairly
-              within the law.
-            </p>
           </div>
 
-          {/* =======================================================
-              REGULATORS
-          ======================================================= */}
+          {/* REGULATORS */}
 
-          <div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-8 md:p-10">
+          <div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-7 md:p-10">
             <h3 className="text-2xl font-semibold md:text-3xl">
               Examples of financial regulators
             </h3>
 
             <div className="mt-10 grid gap-6 md:grid-cols-2">
               <div className="rounded-3xl bg-white p-6 shadow-sm">
-                <h4 className="text-xl font-semibold">
-                  United Kingdom
-                </h4>
+                <h4 className="text-xl font-semibold">United Kingdom</h4>
 
                 <p className="mt-4 leading-8 text-neutral-700">
                   Financial Conduct Authority (FCA)
@@ -579,21 +534,17 @@ export default async function ModulePage({
               </div>
 
               <div className="rounded-3xl bg-white p-6 shadow-sm">
-                <h4 className="text-xl font-semibold">
-                  United States
-                </h4>
+                <h4 className="text-xl font-semibold">United States</h4>
 
                 <p className="mt-4 leading-8 text-neutral-700">
-                  Securities and Exchange Commission (SEC), Commodity
-                  Futures Trading Commission (CFTC) and National Futures
-                  Association (NFA).
+                  Securities and Exchange Commission (SEC), Commodity Futures
+                  Trading Commission (CFTC) and National Futures Association
+                  (NFA).
                 </p>
               </div>
 
               <div className="rounded-3xl bg-white p-6 shadow-sm">
-                <h4 className="text-xl font-semibold">
-                  Australia
-                </h4>
+                <h4 className="text-xl font-semibold">Australia</h4>
 
                 <p className="mt-4 leading-8 text-neutral-700">
                   Australian Securities and Investments Commission (ASIC)
@@ -601,9 +552,7 @@ export default async function ModulePage({
               </div>
 
               <div className="rounded-3xl bg-white p-6 shadow-sm">
-                <h4 className="text-xl font-semibold">
-                  Cyprus
-                </h4>
+                <h4 className="text-xl font-semibold">Cyprus</h4>
 
                 <p className="mt-4 leading-8 text-neutral-700">
                   Cyprus Securities and Exchange Commission (CySEC)
@@ -611,9 +560,7 @@ export default async function ModulePage({
               </div>
 
               <div className="rounded-3xl bg-white p-6 shadow-sm">
-                <h4 className="text-xl font-semibold">
-                  Nigeria
-                </h4>
+                <h4 className="text-xl font-semibold">Nigeria</h4>
 
                 <p className="mt-4 leading-8 text-neutral-700">
                   Securities and Exchange Commission (SEC Nigeria) regulates
@@ -624,9 +571,7 @@ export default async function ModulePage({
               </div>
 
               <div className="rounded-3xl bg-white p-6 shadow-sm">
-                <h4 className="text-xl font-semibold">
-                  Other Countries
-                </h4>
+                <h4 className="text-xl font-semibold">Other Countries</h4>
 
                 <p className="mt-4 leading-8 text-neutral-700">
                   Most countries have their own financial regulators
@@ -637,30 +582,7 @@ export default async function ModulePage({
             </div>
           </div>
 
-          {/* =======================================================
-              REGULATION BUILDS CONFIDENCE
-          ======================================================= */}
-
-          <div className="mt-14 rounded-[32px] border-l-4 border-[#071A52] bg-blue-50 p-8">
-            <h3 className="text-2xl font-semibold">
-              Regulation builds confidence
-            </h3>
-
-            <p className="mt-6 text-lg leading-9 text-neutral-800">
-              Regulation does not guarantee that a trader will make a profit,
-              nor does it eliminate every risk.
-            </p>
-
-            <p className="mt-6 text-lg leading-9 text-neutral-800">
-              Its purpose is to help create a fairer and more transparent
-              environment where brokers are accountable to established
-              financial rules and standards.
-            </p>
-          </div>
-
-          {/* =======================================================
-              LIQUIDITY
-          ======================================================= */}
+          {/* LIQUIDITY */}
 
           <div className="mt-16">
             <h2 className="text-3xl font-semibold md:text-4xl">
@@ -681,32 +603,33 @@ export default async function ModulePage({
             </p>
 
             <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
-              In financial markets, liquidity simply means how easily an
-              asset can be bought or sold without causing a significant
-              change in its price.
+              In financial markets, liquidity simply means how easily an asset
+              can be bought or sold without causing a significant change in
+              its price.
             </p>
           </div>
 
-          {/* =======================================================
-              LIQUIDITY PROVIDERS
-          ======================================================= */}
+          {/* LIQUIDITY PROVIDERS */}
 
-          <div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-8 md:p-10">
+          <div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-7 md:p-10">
             <h3 className="text-2xl font-semibold md:text-3xl">
               Liquidity Providers
             </h3>
 
             <p className="mt-8 text-lg leading-9 text-neutral-700">
               Liquidity Providers, often called LPs, are large financial
-              institutions and market participants that can provide
-              buy and sell prices to the market.
+              institutions that continuously make buy and sell prices
+              available to the market.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700">
+              Their role is to provide liquidity so traders can enter and exit
+              positions efficiently.
             </p>
 
             <div className="mt-10 grid gap-6 md:grid-cols-2">
               <div className="rounded-3xl bg-white p-8 shadow-sm">
-                <h4 className="text-2xl font-semibold">
-                  Examples
-                </h4>
+                <h4 className="text-2xl font-semibold">Examples</h4>
 
                 <p className="mt-5 leading-8 text-neutral-700">
                   Major international banks, investment banks, market makers
@@ -716,23 +639,19 @@ export default async function ModulePage({
               </div>
 
               <div className="rounded-3xl bg-white p-8 shadow-sm">
-                <h4 className="text-2xl font-semibold">
-                  Their objective
-                </h4>
+                <h4 className="text-2xl font-semibold">Their objective</h4>
 
                 <p className="mt-5 leading-8 text-neutral-700">
-                  Help keep markets active by providing prices that allow
-                  trades to happen throughout the trading day.
+                  Keep markets active by continuously providing prices that
+                  allow trades to happen.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* =======================================================
-              HOW TRADE TRAVELS
-          ======================================================= */}
+          {/* TRADE JOURNEY */}
 
-          <div className="mt-14 rounded-[36px] bg-[#071A52] p-8 text-white md:p-10">
+          <div className="mt-14 rounded-[36px] bg-[#071A52] p-7 text-white md:p-10">
             <h3 className="text-2xl font-semibold md:text-3xl">
               How a trade travels
             </h3>
@@ -758,35 +677,29 @@ export default async function ModulePage({
             </div>
           </div>
 
-          {/* =======================================================
-              EXECUTION NOTE
-          ======================================================= */}
+          {/* EXECUTION */}
 
           <div className="mt-14 rounded-[32px] border-l-4 border-[#071A52] bg-blue-50 p-8">
-            <h3 className="text-2xl font-semibold">
-              An important note
-            </h3>
+            <h3 className="text-2xl font-semibold">An important note</h3>
 
             <p className="mt-6 text-lg leading-9 text-neutral-800">
               Different brokers use different execution models.
             </p>
 
             <p className="mt-6 text-lg leading-9 text-neutral-800">
-              Depending on the broker, the financial product being traded,
-              and market conditions, orders may be matched internally,
-              routed to liquidity providers, executed on an exchange,
-              or processed through other market participants.
+              Depending on the broker, the financial product being traded, and
+              market conditions, orders may be matched internally, routed to
+              liquidity providers, executed on an exchange, or processed
+              through other market participants.
             </p>
 
             <p className="mt-6 text-lg leading-9 text-neutral-800">
-              While the execution path can differ, the goal is the same:
-              to complete trades efficiently and provide access to the market.
+              While the execution path can differ, the goal is the same: to
+              complete trades efficiently and provide access to the market.
             </p>
           </div>
 
-          {/* =======================================================
-              PROP FIRMS
-          ======================================================= */}
+          {/* PROP FIRMS */}
 
           <div className="mt-16">
             <h2 className="text-3xl font-semibold md:text-4xl">
@@ -802,8 +715,8 @@ export default async function ModulePage({
             </p>
 
             <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
-              While some traders have enough money to fund their own
-              accounts, many talented traders do not.
+              While some traders have enough money to fund their own accounts,
+              many talented traders do not.
             </p>
 
             <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
@@ -812,8 +725,8 @@ export default async function ModulePage({
             </p>
 
             <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
-              Prop firms, short for proprietary trading firms, became
-              popular by offering traders access to larger trading accounts.
+              Prop firms, short for proprietary trading firms, became popular
+              by offering traders access to larger trading accounts.
             </p>
 
             <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
@@ -823,11 +736,9 @@ export default async function ModulePage({
             </p>
           </div>
 
-          {/* =======================================================
-              HOW PROP FIRMS WORK
-          ======================================================= */}
+          {/* HOW PROP FIRMS WORK */}
 
-          <div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-8 md:p-10">
+          <div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-7 md:p-10">
             <h3 className="text-2xl font-semibold md:text-3xl">
               How Prop Firms generally work
             </h3>
@@ -837,8 +748,7 @@ export default async function ModulePage({
                 <strong>Step 1</strong>
 
                 <p className="mt-4 leading-8 text-neutral-700">
-                  A trader pays an evaluation or challenge fee, where
-                  applicable.
+                  A trader pays an evaluation or challenge fee.
                 </p>
               </div>
 
@@ -856,7 +766,7 @@ export default async function ModulePage({
 
                 <p className="mt-4 leading-8 text-neutral-700">
                   If successful, the trader may receive access to a funded
-                  trading account, depending on the firm's programme.
+                  trading account, depending on the firm&apos;s programme.
                 </p>
               </div>
 
@@ -864,37 +774,33 @@ export default async function ModulePage({
                 <strong>Step 4</strong>
 
                 <p className="mt-4 leading-8 text-neutral-700">
-                  When the trader generates profits according to the firm's
-                  terms, those profits are typically shared between the
-                  trader and the prop firm.
+                  When the trader generates profits according to the firm&apos;s
+                  terms, those profits are typically shared between the trader
+                  and the prop firm.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* =======================================================
-              PROP FIRM PROBLEM
-          ======================================================= */}
+          {/* PROP FIRM BENEFIT */}
 
-          <div className="mt-14 rounded-[36px] bg-[#071A52] p-8 text-white md:p-10">
+          <div className="mt-14 rounded-[36px] bg-[#071A52] p-7 text-white md:p-10">
             <h3 className="text-2xl font-semibold md:text-3xl">
               What problem did Prop Firms solve?
             </h3>
 
             <p className="mt-8 text-lg leading-9">
-              They made larger trading capital accessible to many traders
-              who otherwise might never have been able to trade accounts
-              of that size.
+              They made larger trading capital accessible to many traders who
+              otherwise might never have been able to trade accounts of that
+              size.
             </p>
 
-            <p className="mt-6 text-lg leading-9">
+            <p className="mt-8 text-lg leading-9">
               For many people, this represented a major opportunity.
             </p>
           </div>
 
-          {/* =======================================================
-              RISK
-          ======================================================= */}
+          {/* RISK */}
 
           <div className="mt-14 rounded-[32px] border-l-4 border-red-600 bg-red-50 p-8">
             <h3 className="text-2xl font-semibold">
@@ -902,8 +808,8 @@ export default async function ModulePage({
             </h3>
 
             <p className="mt-6 text-lg leading-9 text-neutral-800">
-              Whether a trader uses personal capital or funded capital,
-              losses are still part of trading.
+              Whether a trader uses personal capital or funded capital, losses
+              are still part of trading.
             </p>
 
             <p className="mt-6 text-lg leading-9 text-neutral-800">
@@ -918,14 +824,10 @@ export default async function ModulePage({
           </div>
         </article>
 
-        {/* =========================================================
-            FEEDBACK
-        ========================================================= */}
+        {/* FEEDBACK */}
 
         <section className="mt-10 rounded-[36px] bg-white p-8 shadow-sm md:p-10">
-          <h2 className="text-3xl font-semibold">
-            Feedback
-          </h2>
+          <h2 className="text-3xl font-semibold">Feedback</h2>
 
           <p className="mt-3 text-neutral-600">
             Complete feedback will be enabled when this module becomes
@@ -936,16 +838,15 @@ export default async function ModulePage({
             {/* CLARITY */}
 
             <div>
-              <p className="font-medium">
-                How clear was this module?
-              </p>
+              <p className="font-medium">How clear was this module?</p>
 
               <div className="mt-4 flex gap-3">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
                     key={star}
                     type="button"
-                    className="flex h-12 w-12 items-center justify-center rounded-full border border-neutral-300 text-lg transition hover:border-[#071A52]"
+                    disabled
+                    className="flex h-12 w-12 cursor-not-allowed items-center justify-center rounded-full border border-neutral-300 text-lg opacity-60"
                   >
                     ★
                   </button>
@@ -956,16 +857,15 @@ export default async function ModulePage({
             {/* USEFULNESS */}
 
             <div>
-              <p className="font-medium">
-                How useful was this module?
-              </p>
+              <p className="font-medium">How useful was this module?</p>
 
               <div className="mt-4 flex gap-3">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
                     key={star}
                     type="button"
-                    className="flex h-12 w-12 items-center justify-center rounded-full border border-neutral-300 text-lg transition hover:border-[#071A52]"
+                    disabled
+                    className="flex h-12 w-12 cursor-not-allowed items-center justify-center rounded-full border border-neutral-300 text-lg opacity-60"
                   >
                     ★
                   </button>
@@ -973,7 +873,7 @@ export default async function ModulePage({
               </div>
             </div>
 
-            {/* TEXT FEEDBACK */}
+            {/* FEEDBACK */}
 
             <div>
               <label
@@ -986,22 +886,32 @@ export default async function ModulePage({
               <textarea
                 id="feedback"
                 rows={6}
+                disabled
                 placeholder="Share your feedback..."
-                className="mt-4 w-full rounded-3xl border border-neutral-300 p-5 outline-none transition focus:border-[#071A52]"
+                className="mt-4 w-full cursor-not-allowed rounded-3xl border border-neutral-300 bg-neutral-100 p-5 outline-none"
               />
             </div>
-
-            {/* SUBMIT */}
 
             <button
               type="button"
               disabled
-              className="rounded-full bg-neutral-300 px-8 py-4 font-semibold text-white"
+              className="cursor-not-allowed rounded-full bg-neutral-300 px-8 py-4 font-semibold text-white"
             >
               Submit Feedback
             </button>
           </div>
         </section>
+
+        {/* BACK TO LEARNING */}
+
+        <div className="mt-10 pb-10 text-center">
+          <Link
+            href="/dashboard/learning"
+            className="inline-flex items-center gap-2 font-semibold text-[#071A52] transition hover:underline"
+          >
+            ← Back to Learning Center
+          </Link>
+        </div>
       </div>
     </main>
   );
