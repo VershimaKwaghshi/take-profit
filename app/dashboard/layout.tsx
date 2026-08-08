@@ -12,12 +12,14 @@ export default function DashboardLayout({
     <Suspense fallback={null}>
       <UserProvider>
         <main className="min-h-screen bg-deck">
-          <div className="flex">
+          <div className="flex min-h-screen">
             <Sidebar />
 
-            <section className="flex-1 p-6 md:p-10">
-              <Topbar />
-              {children}
+            <section className="min-w-0 flex-1">
+              <div className="px-0 py-0 lg:px-8 lg:py-8">
+                <Topbar />
+                {children}
+              </div>
             </section>
           </div>
         </main>
