@@ -61,8 +61,6 @@ export default async function LessonPage({
     );
   }
 
-  const isFirstLesson = lesson.lessonNumber === 1;
-
   const previousLesson = modules.find(
     (module) => module.lessonNumber === lesson.lessonNumber - 1
   );
@@ -130,7 +128,7 @@ export default async function LessonPage({
               </p>
             </div>
 
-            {/* TEMPORARY LESSON BODY */}
+            {/* LESSON BODY */}
             <div className="mt-8 space-y-8">
               <section className="bg-white p-7 md:p-10">
                 <h2 className="text-2xl font-semibold text-[#071A52] md:text-3xl">
