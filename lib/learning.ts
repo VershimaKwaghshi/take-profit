@@ -1,6 +1,11 @@
 import prisma from "./prisma";
 
 /**
+ * Number of hours before the next lesson becomes available.
+ */
+const LESSON_UNLOCK_DELAY_HOURS = 24;
+
+/**
  * Get all published lessons.
  */
 export async function getLessons() {
@@ -79,181 +84,32 @@ export async function getUserLessonProgress(
 }
 
 /**
- * Check whether a lesson is available to a user.
- *
- * Rules:
- *
- * Lesson 01:
- * - Always available.
- *
- * Lesson 02+:
- * - Previous lesson must be completed.
- * - 24 hours must have passed since the previous
- *   lesson was completed.
+ * Calculate the time when the next lesson
+ * should become available.
  */
-export async function getLessonAccess(
-  userId: string,
-  lessonId: string
+function getUnlockTime(
+  completedAt: Date
 ) {
-  const lessons = await getLessons();
-
-  const lesson = lessons.find(
-    (item) => item.id === lessonId
+  return new Date(
+    completedAt.getTime() +
+      LESSON_UNLOCK_DELAY_HOURS *
+        60 *
+        60 *
+        1000
   );
-
-  if (!lesson) {
-    return {
-      unlocked: false,
-      completed: false,
-      availableAt: null,
-    };
-  }
-
-  const progress = await getLessonProgress(
-    userId,
-    lesson.id
-  );
-
-  const completed = Boolean(
-    progress?.completed
-  );
-
-  // Lesson 01 is always available.
-  if (lesson.lessonNumber === 1) {
-    return {
-      unlocked: true,
-      completed,
-      availableAt: null,
-    };
-  }
-
-  // Find the lesson immediately before this one.
-  const previousLesson = lessons.find(
-    (item) =>
-      item.lessonNumber ===
-      lesson.lessonNumber - 1
-  );
-
-  if (!previousLesson) {
-    return {
-      unlocked: false,
-      completed,
-      availableAt: null,
-    };
-  }
-
-  const previousProgress =
-    await getLessonProgress(
-      userId,
-      previousLesson.id
-    );
-
-  // Previous lesson has not been completed yet.
-  if (
-    !previousProgress?.completed ||
-    !previousProgress.completedAt
-  ) {
-    return {
-      unlocked: false,
-      completed,
-      availableAt: null,
-    };
-  }
-
-  // The next lesson becomes available 24 hours
-  // after the previous lesson was completed.
-  const availableAt = new Date(
-    previousProgress.completedAt.getTime() +
-      24 * 60 * 60 * 1000
-  );
-
-  const unlocked =
-    new Date() >= availableAt;
-
-  return {
-    unlocked,
-    completed,
-    availableAt,
-  };
-}
-
-/**
- * Get access information for every lesson
- * for a specific user.
- */
-export async function getUserLessonAccess(
-  userId: string
-) {
-  const lessons = await getLessons();
-
-  const progress =
-    await getUserLessonProgress(userId);
-
-  const progressMap = new Map(
-    progress.map((item) => [
-      item.lessonId,
-      item,
-    ])
-  );
-
-  return lessons.map((lesson, index) => {
-    const lessonProgress =
-      progressMap.get(lesson.id);
-
-    const completed = Boolean(
-      lessonProgress?.completed
-    );
-
-    // First lesson is always unlocked.
-    if (index === 0) {
-      return {
-        lesson,
-        completed,
-        unlocked: true,
-        availableAt: null,
-      };
-    }
-
-    const previousLesson =
-      lessons[index - 1];
-
-    const previousProgress =
-      progressMap.get(previousLesson.id);
-
-    if (
-      !previousProgress?.completed ||
-      !previousProgress.completedAt
-    ) {
-      return {
-        lesson,
-        completed,
-        unlocked: false,
-        availableAt: null,
-      };
-    }
-
-    const availableAt = new Date(
-      previousProgress.completedAt.getTime() +
-        24 * 60 * 60 * 1000
-    );
-
-    return {
-      lesson,
-      completed,
-      unlocked:
-        new Date() >= availableAt,
-      availableAt,
-    };
-  });
 }
 
 /**
  * Save or update a user's lesson reading progress.
  *
+ * Completing a lesson starts the 24-hour
+ * countdown for the next lesson.
+ *
  * IMPORTANT:
- * Once a lesson is completed, its completedAt
- * timestamp is preserved. Reading the lesson again
- * must NOT restart the 24-hour countdown.
+ *
+ * Once completedAt and unlockAt have been
+ * created, they are NEVER reset by simply
+ * opening or reading the lesson again.
  */
 export async function updateLessonProgress({
   userId,
@@ -282,13 +138,85 @@ export async function updateLessonProgress({
   const now = new Date();
 
   /*
-   * Never reset completedAt once the lesson
-   * has already been completed.
+   * If this lesson has already been completed,
+   * never restart the completion timer.
    */
-  const completedAt =
-    existing?.completedAt ??
-    (completed ? now : null);
+  if (
+    existing?.completed &&
+    existing.completedAt
+  ) {
+    return prisma.lessonProgress.update({
+      where: {
+        userId_lessonId: {
+          userId,
+          lessonId,
+        },
+      },
 
+      data: {
+        progress: Math.max(
+          existing.progress,
+          safeProgress
+        ),
+
+        completed: true,
+
+        completedAt:
+          existing.completedAt,
+
+        unlockAt:
+          existing.unlockAt,
+
+        lastReadAt: now,
+
+        lastScrollPosition,
+      },
+    });
+  }
+
+  /*
+   * The lesson is being completed for
+   * the first time.
+   */
+  if (completed) {
+    const completedAt = now;
+
+    const unlockAt =
+      getUnlockTime(completedAt);
+
+    return prisma.lessonProgress.upsert({
+      where: {
+        userId_lessonId: {
+          userId,
+          lessonId,
+        },
+      },
+
+      update: {
+        progress: 100,
+        completed: true,
+        completedAt,
+        unlockAt,
+        lastReadAt: now,
+        lastScrollPosition,
+      },
+
+      create: {
+        userId,
+        lessonId,
+        progress: 100,
+        completed: true,
+        completedAt,
+        unlockAt,
+        lastReadAt: now,
+        lastScrollPosition,
+      },
+    });
+  }
+
+  /*
+   * Normal reading progress.
+   */
   return prisma.lessonProgress.upsert({
     where: {
       userId_lessonId: {
@@ -299,11 +227,6 @@ export async function updateLessonProgress({
 
     update: {
       progress: safeProgress,
-      completed:
-        existing?.completed
-          ? true
-          : completed,
-      completedAt,
       lastReadAt: now,
       lastScrollPosition,
     },
@@ -312,8 +235,9 @@ export async function updateLessonProgress({
       userId,
       lessonId,
       progress: safeProgress,
-      completed,
-      completedAt,
+      completed: false,
+      completedAt: null,
+      unlockAt: null,
       lastReadAt: now,
       lastScrollPosition,
     },
@@ -321,28 +245,404 @@ export async function updateLessonProgress({
 }
 
 /**
- * Save lesson feedback.
+ * Get access information for one lesson.
+ *
+ * Rules:
+ *
+ * Lesson 01:
+ *     Always unlocked.
+ *
+ * Lesson 02+:
+ *     Previous lesson must be completed.
+ *     The previous lesson's unlockAt must have arrived.
+ */
+export async function getLessonAccess(
+  userId: string,
+  lessonId: string
+) {
+  const lessons = await getLessons();
+
+  const lesson = lessons.find(
+    (item) => item.id === lessonId
+  );
+
+  if (!lesson) {
+    return {
+      unlocked: false,
+      completed: false,
+      availableAt: null,
+    };
+  }
+
+  const currentProgress =
+    await getLessonProgress(
+      userId,
+      lesson.id
+    );
+
+  const completed =
+    currentProgress?.completed ?? false;
+
+  /*
+   * Lesson 01 is always available.
+   */
+  if (lesson.lessonNumber === 1) {
+    return {
+      unlocked: true,
+      completed,
+      availableAt: null,
+    };
+  }
+
+  /*
+   * Find the previous lesson.
+   */
+  const previousLesson =
+    lessons.find(
+      (item) =>
+        item.lessonNumber ===
+        lesson.lessonNumber - 1
+    );
+
+  if (!previousLesson) {
+    return {
+      unlocked: false,
+      completed,
+      availableAt: null,
+    };
+  }
+
+  /*
+   * Get the user's progress for
+   * the previous lesson.
+   */
+  const previousProgress =
+    await getLessonProgress(
+      userId,
+      previousLesson.id
+    );
+
+  /*
+   * Previous lesson has not been completed.
+   */
+  if (
+    !previousProgress?.completed
+  ) {
+    return {
+      unlocked: false,
+      completed,
+      availableAt: null,
+    };
+  }
+
+  /*
+   * The previous lesson should have an
+   * unlockAt because completion creates it.
+   */
+  if (!previousProgress.unlockAt) {
+    return {
+      unlocked: false,
+      completed,
+      availableAt: null,
+    };
+  }
+
+  const now = new Date();
+
+  const unlocked =
+    now >= previousProgress.unlockAt;
+
+  return {
+    unlocked,
+    completed,
+    availableAt:
+      previousProgress.unlockAt,
+  };
+}
+
+/**
+ * Get access information for every lesson
+ * for a specific user.
+ *
+ * This is what the Learning Center page
+ * will use to determine:
+ *
+ * - completed
+ * - unlocked
+ * - locked
+ * - available time
+ */
+export async function getUserLessonAccess(
+  userId: string
+) {
+  const lessons = await getLessons();
+
+  const progress =
+    await getUserLessonProgress(userId);
+
+  const progressMap = new Map(
+    progress.map((item) => [
+      item.lessonId,
+      item,
+    ])
+  );
+
+  const now = new Date();
+
+  return lessons.map(
+    (lesson, index) => {
+      const lessonProgress =
+        progressMap.get(lesson.id);
+
+      const completed =
+        lessonProgress?.completed ??
+        false;
+
+      /*
+       * Lesson 01 is always unlocked.
+       */
+      if (index === 0) {
+        return {
+          lesson,
+          completed,
+          unlocked: true,
+          availableAt: null,
+        };
+      }
+
+      /*
+       * Find previous lesson.
+       */
+      const previousLesson =
+        lessons[index - 1];
+
+      const previousProgress =
+        progressMap.get(
+          previousLesson.id
+        );
+
+      /*
+       * Previous lesson hasn't been
+       * completed yet.
+       */
+      if (
+        !previousProgress?.completed
+      ) {
+        return {
+          lesson,
+          completed,
+          unlocked: false,
+          availableAt: null,
+        };
+      }
+
+      /*
+       * Previous lesson was completed
+       * but somehow has no unlock time.
+       */
+      if (
+        !previousProgress.unlockAt
+      ) {
+        return {
+          lesson,
+          completed,
+          unlocked: false,
+          availableAt: null,
+        };
+      }
+
+      const unlocked =
+        now >=
+        previousProgress.unlockAt;
+
+      return {
+        lesson,
+        completed,
+        unlocked,
+        availableAt:
+          previousProgress.unlockAt,
+      };
+    }
+  );
+}
+
+/**
+ * Save lesson feedback AND complete
+ * the lesson.
+ *
+ * This is the important part of the
+ * learning progression system.
+ *
+ * When the user submits feedback:
+ *
+ * 1. Feedback is saved.
+ * 2. Lesson becomes completed.
+ * 3. completedAt is recorded.
+ * 4. unlockAt is set to 24 hours later.
+ * 5. The next lesson becomes available
+ *    when that unlockAt time arrives.
  */
 export async function createLessonFeedback({
   userId,
   lessonId,
-  rating,
-  understood,
+  clarityRating,
+  usefulnessRating,
   comment,
 }: {
   userId: string;
   lessonId: string;
-  rating: number;
-  understood: boolean;
+  clarityRating: number;
+  usefulnessRating: number;
   comment?: string;
 }) {
-  return prisma.lessonFeedback.create({
-    data: {
-      userId,
-      lessonId,
-      rating,
-      understood,
-      comment: comment?.trim() || null,
+  /*
+   * Validate ratings.
+   */
+  if (
+    clarityRating < 1 ||
+    clarityRating > 5
+  ) {
+    throw new Error(
+      "Clarity rating must be between 1 and 5."
+    );
+  }
+
+  if (
+    usefulnessRating < 1 ||
+    usefulnessRating > 5
+  ) {
+    throw new Error(
+      "Usefulness rating must be between 1 and 5."
+    );
+  }
+
+  const trimmedComment =
+    comment?.trim() || null;
+
+  return prisma.$transaction(
+    async (tx) => {
+      /*
+       * Check whether feedback has already
+       * been submitted.
+       */
+      const existingFeedback =
+        await tx.lessonFeedback.findUnique({
+          where: {
+            userId_lessonId: {
+              userId,
+              lessonId,
+            },
+          },
+        });
+
+      if (existingFeedback) {
+        throw new Error(
+          "Feedback has already been submitted for this lesson."
+        );
+      }
+
+      /*
+       * Get existing progress.
+       */
+      const existingProgress =
+        await tx.lessonProgress.findUnique({
+          where: {
+            userId_lessonId: {
+              userId,
+              lessonId,
+            },
+          },
+        });
+
+      const now = new Date();
+
+      /*
+       * If somehow the lesson was already
+       * completed, preserve its original
+       * completion time.
+       *
+       * Normally this will not happen because
+       * feedback can only be submitted once.
+       */
+      const completedAt =
+        existingProgress?.completedAt ??
+        now;
+
+      const unlockAt =
+        existingProgress?.unlockAt ??
+        getUnlockTime(completedAt);
+
+      /*
+       * Save feedback.
+       */
+      const feedback =
+        await tx.lessonFeedback.create({
+          data: {
+            userId,
+            lessonId,
+            clarityRating,
+            usefulnessRating,
+            comment: trimmedComment,
+          },
+        });
+
+      /*
+       * Mark lesson as completed.
+       *
+       * Submitting feedback is the event
+       * that completes the lesson.
+       */
+      const lessonProgress =
+        await tx.lessonProgress.upsert({
+          where: {
+            userId_lessonId: {
+              userId,
+              lessonId,
+            },
+          },
+
+          update: {
+            progress: 100,
+            completed: true,
+            completedAt,
+            unlockAt,
+            lastReadAt: now,
+          },
+
+          create: {
+            userId,
+            lessonId,
+            progress: 100,
+            completed: true,
+            completedAt,
+            unlockAt,
+            lastReadAt: now,
+            lastScrollPosition: 0,
+          },
+        });
+
+      return {
+        feedback,
+        lessonProgress,
+      };
+    }
+  );
+}
+
+/**
+ * Get feedback submitted by a user
+ * for a specific lesson.
+ */
+export async function getLessonFeedback(
+  userId: string,
+  lessonId: string
+) {
+  return prisma.lessonFeedback.findUnique({
+    where: {
+      userId_lessonId: {
+        userId,
+        lessonId,
+      },
     },
   });
 }
