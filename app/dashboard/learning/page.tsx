@@ -6,6 +6,11 @@ import { getLessons } from "@/lib/learning";
 export default async function LearningPage() {
   const modules = await getLessons();
 
+  /*
+   * For now, progress is displayed as zero because
+   * lesson completion will be connected to the user's
+   * progress data later.
+   */
   const completedModules = 0;
 
   const percentage =
@@ -15,18 +20,21 @@ export default async function LearningPage() {
 
   return (
     <main className="min-h-screen bg-[#F7F7F4] text-black">
-      {/* INTRODUCTION */}
+      {/* =========================================================
+          INTRODUCTION
+      ========================================================= */}
+
       <section className="border-b border-black/10 bg-[#071A52] text-white">
-        <div className="mx-auto w-full max-w-6xl px-6 py-16 md:px-10 md:py-24 lg:px-14">
+        <div className="mx-auto max-w-4xl px-6 py-16 md:px-10 md:py-24">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.35em] text-[#D94A3D]">
             Take Profit Academy
           </p>
 
-          <h1 className="mt-6 max-w-4xl text-4xl font-semibold leading-[1.08] tracking-tight md:text-6xl">
+          <h1 className="mt-6 max-w-3xl text-4xl font-semibold leading-[1.08] tracking-tight md:text-6xl">
             Learn the market before you enter it.
           </h1>
 
-          <p className="mt-7 max-w-3xl text-base leading-8 text-white/75 md:text-lg">
+          <p className="mt-7 max-w-2xl text-base leading-8 text-white/75 md:text-lg">
             A structured introduction to the people, systems and forces
             behind financial markets — and the ideas that shaped Take Profit.
           </p>
@@ -43,9 +51,12 @@ export default async function LearningPage() {
         </div>
       </section>
 
-      {/* PROGRESS */}
+      {/* =========================================================
+          PROGRESS
+      ========================================================= */}
+
       <section className="border-b border-black/10 bg-white">
-        <div className="mx-auto w-full max-w-6xl px-6 py-8 md:px-10 lg:px-14">
+        <div className="mx-auto max-w-4xl px-6 py-8 md:px-10">
           <div className="flex items-end justify-between gap-6">
             <div>
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-[#D94A3D]">
@@ -73,9 +84,15 @@ export default async function LearningPage() {
         </div>
       </section>
 
-      {/* CONTENT */}
-      <div className="mx-auto w-full max-w-6xl px-6 py-14 md:px-10 md:py-20 lg:px-14">
-        {/* VISION */}
+      {/* =========================================================
+          CONTENT
+      ========================================================= */}
+
+      <div className="mx-auto max-w-4xl px-6 py-14 md:px-10 md:py-20">
+        {/* =======================================================
+            VISION
+        ======================================================= */}
+
         <section className="border-b border-black/10 pb-14">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-[#D94A3D]">
             Start here
@@ -86,7 +103,7 @@ export default async function LearningPage() {
             className="group mt-6 block border-t-4 border-[#071A52] bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl md:p-10"
           >
             <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-              <div className="max-w-3xl">
+              <div className="max-w-2xl">
                 <p className="font-mono text-xs uppercase tracking-[0.25em] text-black/45">
                   The Vision
                 </p>
@@ -114,7 +131,10 @@ export default async function LearningPage() {
           </Link>
         </section>
 
-        {/* LESSONS */}
+        {/* =======================================================
+            LESSONS
+        ======================================================= */}
+
         <section className="pt-14">
           <div className="mb-10">
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-[#D94A3D]">
@@ -125,7 +145,7 @@ export default async function LearningPage() {
               Understand the market
             </h2>
 
-            <p className="mt-4 max-w-3xl leading-8 text-black/60">
+            <p className="mt-4 max-w-2xl leading-8 text-black/60">
               Each lesson builds on the one before it. Start at the beginning
               and move through the market one layer at a time.
             </p>
@@ -134,16 +154,33 @@ export default async function LearningPage() {
           <div className="border-t border-black/10">
             {modules.map((module, index) => {
               const completed = false;
+
+              /*
+               * Lesson 1 is currently unlocked.
+               * The remaining lessons stay locked until
+               * the completion system is connected.
+               */
               const unlocked = index === 0;
+
+              /*
+               * IMPORTANT:
+               *
+               * module.id is the Supabase database ID.
+               *
+               * The module page is located at:
+               *
+               * app/dashboard/learning/module/[id]/page.tsx
+               *
+               * Therefore the correct URL is:
+               *
+               * /dashboard/learning/module/${module.id}
+               */
+              const lessonHref = `/dashboard/learning/module/${module.id}`;
 
               return (
                 <Link
-                  key={module.lessonNumber}
-                  href={
-                    unlocked
-                      ? `/dashboard/learning/${module.lessonNumber}`
-                      : "#"
-                  }
+                  key={module.id}
+                  href={unlocked ? lessonHref : "#"}
                   aria-disabled={!unlocked}
                   className={`group block border-b border-black/10 py-8 transition md:py-10 ${
                     unlocked
@@ -152,7 +189,10 @@ export default async function LearningPage() {
                   }`}
                 >
                   <div className="flex gap-5 md:gap-8">
-                    {/* NUMBER / STATUS */}
+                    {/* =================================================
+                        NUMBER / STATUS
+                    ================================================= */}
+
                     <div className="w-12 shrink-0 md:w-16">
                       {completed ? (
                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#071A52] text-white">
@@ -164,18 +204,27 @@ export default async function LearningPage() {
                         </div>
                       ) : (
                         <div className="flex h-10 w-10 items-center justify-center rounded-full border border-black/20">
-                          <Lock size={15} className="text-black/40" />
+                          <Lock
+                            size={15}
+                            className="text-black/40"
+                          />
                         </div>
                       )}
                     </div>
 
-                    {/* CONTENT */}
+                    {/* =================================================
+                        CONTENT
+                    ================================================= */}
+
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-                        <div className="max-w-3xl">
+                        <div className="max-w-2xl">
                           <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.25em] text-black/40">
                             Lesson{" "}
-                            {String(module.lessonNumber).padStart(2, "0")}
+                            {String(module.lessonNumber).padStart(
+                              2,
+                              "0"
+                            )}
                           </p>
 
                           <h3 className="mt-2 text-2xl font-semibold leading-tight text-black transition group-hover:text-[#071A52] md:text-3xl">
@@ -186,6 +235,10 @@ export default async function LearningPage() {
                             {module.description}
                           </p>
                         </div>
+
+                        {/* =================================================
+                            ACTION
+                        ================================================= */}
 
                         <div className="shrink-0 md:pt-5">
                           {completed ? (
@@ -216,7 +269,10 @@ export default async function LearningPage() {
           </div>
         </section>
 
-        {/* FOOTER NOTE */}
+        {/* =========================================================
+            FOOTER NOTE
+        ========================================================= */}
+
         <section className="mt-16 border-t-4 border-[#D94A3D] bg-[#071A52] px-7 py-10 text-white md:px-10">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-white/50">
             Take your time
@@ -226,7 +282,7 @@ export default async function LearningPage() {
             This is not a race.
           </h3>
 
-          <p className="mt-4 max-w-3xl leading-8 text-white/70">
+          <p className="mt-4 max-w-2xl leading-8 text-white/70">
             The purpose of the Academy is understanding. Read each lesson,
             think about it, and come back whenever you need to.
           </p>
