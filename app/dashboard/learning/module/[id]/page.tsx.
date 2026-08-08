@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 type Props = {
@@ -13,1131 +14,995 @@ export default async function ModulePage({
 }: Props) {
   const { id } = await params;
 
-  const { data: module } = await supabaseAdmin
+  const { data: module, error } = await supabaseAdmin
     .from("learning_modules")
     .select("*")
     .eq("id", id)
     .single();
 
-  if (!module) {
+  if (error || !module) {
     notFound();
   }
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-12">
-
-      <Link
-        href="/dashboard/learning"
-        className="text-sm font-medium text-[#071A52] transition hover:underline"
-      >
-        ← Back to Learning Center
-      </Link>
-
-      <div className="mt-8 rounded-[36px] bg-white p-10 shadow-sm">
-
-        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-neutral-500">
-
-          Module {module.order_number}
-
-        </p>
-
-        <h1 className="mt-4 text-5xl font-semibold text-black">
-
-          {module.title}
-
-        </h1>
-
-        <p className="mt-6 text-xl leading-9 text-neutral-600">
-
-          {module.description}
-
-        </p>
-
-      </div>
-
-      <article className="mt-10 rounded-[36px] bg-white p-10 shadow-sm">
-
-  <h2 className="text-4xl font-semibold">
-    Why Take Profit Exists
-  </h2>
-
-  <p className="mt-8 text-xl leading-9 text-neutral-700">
-
-    Before learning about Take Profit, it's important to understand
-    how trading works.
-
-    Whether you're interested in stocks, cryptocurrencies,
-    foreign exchange, commodities like gold and crude oil,
-    stock indices, or other financial markets, they all
-    operate on the same fundamental principles.
-
-  </p>
-
-  <p className="mt-8 text-xl leading-9 text-neutral-700">
-
-    Trading is simply the act of buying or selling a financial
-    asset with the expectation that its price will change.
-
-    If your prediction is correct, you make a profit.
-
-    If your prediction is wrong, you make a loss.
-
-  </p>
-
-  <div className="mt-12 rounded-[32px] border border-neutral-200 bg-neutral-50 p-10">
-
-    <h3 className="text-3xl font-semibold">
-
-      Financial assets commonly traded
-
-    </h3>
-
-    <div className="mt-8 grid gap-4 md:grid-cols-2">
-
-      <div className="rounded-2xl bg-white p-6">
-        Stocks
-      </div>
-
-      <div className="rounded-2xl bg-white p-6">
-        Foreign Exchange
-      </div>
-
-      <div className="rounded-2xl bg-white p-6">
-        Cryptocurrencies
-      </div>
-
-      <div className="rounded-2xl bg-white p-6">
-        Commodities
-      </div>
-
-      <div className="rounded-2xl bg-white p-6">
-        Stock Indices
-      </div>
-
-      <div className="rounded-2xl bg-white p-6">
-        Exchange Traded Funds
-      </div>
-
-      <div className="rounded-2xl bg-white p-6">
-        Bonds
-      </div>
-
-      <div className="rounded-2xl bg-white p-6">
-        Other Financial Instruments
-      </div>
-
-    </div>
-
-  </div>
-
-  <div className="mt-14 rounded-[32px] border border-[#071A52] bg-[#071A52] p-10 text-white">
-
-    <h3 className="text-3xl font-semibold">
-
-      The basic idea is simple
-
-    </h3>
-
-    <div className="mt-10 grid gap-8 md:grid-cols-2">
-
-      <div className="rounded-3xl bg-white/10 p-8">
-
-        <h4 className="text-2xl font-semibold">
-
-          Buy
-
-        </h4>
-
-        <p className="mt-5 leading-8">
-
-          You buy when you believe the price of an asset
-          will increase.
-
-        </p>
-
-      </div>
-
-      <div className="rounded-3xl bg-white/10 p-8">
-
-        <h4 className="text-2xl font-semibold">
-
-          Sell
-
-        </h4>
-
-        <p className="mt-5 leading-8">
-
-          You sell when you believe the price of an asset
-          will decrease.
-
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <div className="mt-14 rounded-[32px] border-l-4 border-[#071A52] bg-blue-50 p-8">
-
-    <p className="text-lg leading-8 text-neutral-800">
-
-      Regardless of what you trade, every transaction is based on
-      the same objective.
-
-      Buy low and sell high.
-
-      Or sell high and buy back lower.
-
-      The difference between those prices determines whether
-      you make a profit or a loss.
-
-    </p>
-
-  </div>
-
-  <div className="mt-16">
-
-  <h2 className="text-4xl font-semibold">
-    Every trade has two sides
-  </h2>
-
-  <p className="mt-8 text-xl leading-9 text-neutral-700">
-
-    One of the biggest misconceptions about trading is that when you lose money,
-    it simply disappears.
-
-    That isn't how financial markets work.
-
-    Every completed trade involves two sides with opposite expectations.
-
-  </p>
-
-  <p className="mt-8 text-xl leading-9 text-neutral-700">
-
-    If you believe the price of Bitcoin will rise, you open a Buy position.
-
-    For your trade to happen, someone else must be willing to take the opposite side
-    by selling.
-
-    If you believe the price will fall, you open a Sell position.
-
-    For that trade to happen, someone else must be willing to buy.
-
-  </p>
-
-</div>
-
-<div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-10">
-
-  <h3 className="text-3xl font-semibold">
-
-    A simple example
-
-  </h3>
-
-  <div className="mt-10 grid gap-8 md:grid-cols-2">
-
-    <div className="rounded-3xl bg-white p-8 shadow-sm">
-
-      <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[#071A52]">
-
-        Trader A
-
-      </p>
-
-      <h4 className="mt-3 text-2xl font-semibold">
-
-        Buys Bitcoin
-
-      </h4>
-
-      <p className="mt-5 leading-8 text-neutral-700">
-
-        Trader A believes the price of Bitcoin will increase.
-
-        If the price rises, Trader A makes a profit.
-
-        If it falls, Trader A makes a loss.
-
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white p-8 shadow-sm">
-
-      <p className="text-sm font-semibold uppercase tracking-[0.25em] text-red-600">
-
-        Trader B
-
-      </p>
-
-      <h4 className="mt-3 text-2xl font-semibold">
-
-        Sells Bitcoin
-
-      </h4>
-
-      <p className="mt-5 leading-8 text-neutral-700">
-
-        Trader B believes the price will fall.
-
-        If the price falls, Trader B profits.
-
-        If the price rises, Trader B loses.
-
-      </p>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div className="mt-14 rounded-[36px] bg-[#071A52] p-10 text-white">
-
-  <h3 className="text-3xl font-semibold">
-
-    Only one prediction can be correct
-
-  </h3>
-
-  <p className="mt-8 text-lg leading-9">
-
-    Imagine Bitcoin is trading at $100,000.
-
-  </p>
-
-  <div className="mt-8 grid gap-6 md:grid-cols-3">
-
-    <div className="rounded-3xl bg-white/10 p-6">
-
-      <h4 className="text-xl font-semibold">
-
-        Step 1
-
-      </h4>
-
-      <p className="mt-4 leading-8">
-
-        Trader A buys because they believe the price will rise.
-
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white/10 p-6">
-
-      <h4 className="text-xl font-semibold">
-
-        Step 2
-
-      </h4>
-
-      <p className="mt-4 leading-8">
-
-        Trader B sells because they believe the price will fall.
-
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white/10 p-6">
-
-      <h4 className="text-xl font-semibold">
-
-        Step 3
-
-      </h4>
-
-      <p className="mt-4 leading-8">
-
-        The market moves.
-
-        One trader earns money.
-
-        The other trader loses money.
-
-      </p>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div className="mt-14 rounded-[32px] border-l-4 border-red-600 bg-red-50 p-8">
-
-  <h3 className="text-2xl font-semibold">
-
-    Where does the money go?
-
-  </h3>
-
-  <p className="mt-6 text-lg leading-9 text-neutral-800">
-
-    The money isn't stored somewhere waiting to disappear.
-
-    In a simplified view, profits and losses are transferred through the trading
-    system as positions are settled.
-
-    When one side gains value, another side generally bears the corresponding loss,
-    depending on how the market and the financial product are structured.
-
-    This is why managing risk is one of the most important parts of trading.
-
-  </p>
-
- </div>
-
-  <div className="mt-16">
-
-  <h2 className="text-4xl font-semibold">
-    Who connects buyers and sellers?
-  </h2>
-
-  <p className="mt-8 text-xl leading-9 text-neutral-700">
-
-    If every trade requires both a buyer and a seller, a natural question follows.
-
-    How do they find each other?
-
-    The answer is through a broker.
-
-  </p>
-
-  <p className="mt-8 text-xl leading-9 text-neutral-700">
-
-    A broker is a financial company that gives traders access to the financial markets.
-
-    Instead of trying to find another trader yourself, you simply place your order through your broker.
-
-    The broker's trading platform receives your order and routes it through the appropriate trading system.
-
-  </p>
-
-</div>
-
-<div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-10">
-
-  <h3 className="text-3xl font-semibold">
-
-    Think of a broker like a bank
-
-  </h3>
-
-  <p className="mt-8 text-lg leading-9 text-neutral-700">
-
-    Imagine you want to send money to a friend.
-
-    You don't walk directly to the Central Bank of Nigeria or the United States Federal Reserve.
-
-    Instead, you use a commercial bank.
-
-    The bank connects you to the financial system and processes your transaction.
-
-  </p>
-
-  <div className="mt-10 grid gap-6 md:grid-cols-2">
-
-    <div className="rounded-3xl bg-white p-6 shadow-sm">
-
-      <h4 className="text-xl font-semibold">
-
-        Everyday Banking
-
-      </h4>
-
-      <p className="mt-4 leading-8 text-neutral-700">
-
-        People use commercial banks like Access Bank, GTBank, Zenith Bank,
-        First Bank, UBA, Chase Bank, Bank of America, Barclays,
-        HSBC, Santander, Deutsche Bank and many others to access
-        the financial system.
-
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white p-6 shadow-sm">
-
-      <h4 className="text-xl font-semibold">
-
-        Trading
-
-      </h4>
-
-      <p className="mt-4 leading-8 text-neutral-700">
-
-        Traders use brokers to access financial markets in much the
-        same way.
-
-        The broker becomes the gateway between the trader and
-        the market.
-
-      </p>
-
-    </div>
-
-  </div>
-
-  <div className="mt-8 rounded-2xl border-l-4 border-[#071A52] bg-blue-50 p-6">
-
-    <p className="leading-8 text-neutral-800">
-
-      The banks mentioned above are examples only. They are used to
-      illustrate how commercial banks connect people to the financial
-      system. They are not endorsements or recommendations.
-
-    </p>
-
-  </div>
-
-</div>
-
-<div className="mt-14 rounded-[36px] bg-[#071A52] p-10 text-white">
-
-  <h3 className="text-3xl font-semibold">
-
-    What brokers do
-
-  </h3>
-
-  <div className="mt-10 grid gap-6 md:grid-cols-2">
-
-    <div className="rounded-3xl bg-white/10 p-8">
-
-      <h4 className="text-2xl font-semibold">
-
-        Execute trades
-
-      </h4>
-
-      <p className="mt-5 leading-8">
-
-        They receive your buy or sell order and execute it through
-        the appropriate market.
-
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white/10 p-8">
-
-      <h4 className="text-2xl font-semibold">
-
-        Provide trading platforms
-
-      </h4>
-
-      <p className="mt-5 leading-8">
-
-        They give traders access to software where they can analyse
-        markets, place trades and monitor their accounts.
-
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white/10 p-8">
-
-      <h4 className="text-2xl font-semibold">
-
-        Hold trading accounts
-
-      </h4>
-
-      <p className="mt-5 leading-8">
-
-        Your deposits, balances and trading history are maintained
-        through your broker.
-
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white/10 p-8">
-
-      <h4 className="text-2xl font-semibold">
-
-        Connect traders to markets
-
-      </h4>
-
-      <p className="mt-5 leading-8">
-
-        Without brokers, most retail traders would have no practical
-        way to participate in global financial markets.
-
-      </p>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div className="mt-14 rounded-[32px] border-l-4 border-red-600 bg-red-50 p-8">
-
-  <h3 className="text-2xl font-semibold">
-
-    Are all brokers the same?
-
-  </h3>
-
-  <p className="mt-6 text-lg leading-9 text-neutral-800">
-
-    No.
-
-    Just like banks differ in quality, services and reputation,
-    brokers also differ.
-
-    Some are highly regulated and operate under strict financial rules.
-
-    Others operate with little or no regulatory oversight.
-
-    This is why choosing a reputable broker is one of the most
-    important decisions every trader makes.
-
-  </p>
-
- </div>
-
- <div className="mt-16">
-
-  <h2 className="text-4xl font-semibold">
-    Why are brokers regulated?
-  </h2>
-
-  <p className="mt-8 text-xl leading-9 text-neutral-700">
-
-    Because brokers hold traders' money and execute their trades,
-    they operate under financial laws in many countries.
-
-    These laws are designed to protect traders, maintain fair
-    financial markets and reduce fraudulent activities.
-
-  </p>
-
-  <p className="mt-8 text-xl leading-9 text-neutral-700">
-
-    Financial regulators set standards that licensed brokers must
-    follow. These standards often include maintaining adequate
-    capital, keeping client funds separate from company funds,
-    complying with financial reporting requirements and operating
-    fairly within the law.
-
-  </p>
-
-</div>
-
-<div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-10">
-
-  <h3 className="text-3xl font-semibold">
-
-    Examples of financial regulators
-
-  </h3>
-
-  <div className="mt-10 grid gap-6 md:grid-cols-2">
-
-    <div className="rounded-3xl bg-white p-6 shadow-sm">
-
-      <h4 className="text-xl font-semibold">
-        United Kingdom
-      </h4>
-
-      <p className="mt-4 leading-8 text-neutral-700">
-        Financial Conduct Authority (FCA)
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white p-6 shadow-sm">
-
-      <h4 className="text-xl font-semibold">
-        United States
-      </h4>
-
-      <p className="mt-4 leading-8 text-neutral-700">
-        Securities and Exchange Commission (SEC),
-        Commodity Futures Trading Commission (CFTC)
-        and the National Futures Association (NFA).
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white p-6 shadow-sm">
-
-      <h4 className="text-xl font-semibold">
-        Australia
-      </h4>
-
-      <p className="mt-4 leading-8 text-neutral-700">
-        Australian Securities and Investments Commission (ASIC)
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white p-6 shadow-sm">
-
-      <h4 className="text-xl font-semibold">
-        Cyprus
-      </h4>
-
-      <p className="mt-4 leading-8 text-neutral-700">
-        Cyprus Securities and Exchange Commission (CySEC)
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white p-6 shadow-sm">
-
-      <h4 className="text-xl font-semibold">
-        Nigeria
-      </h4>
-
-      <p className="mt-4 leading-8 text-neutral-700">
-        Securities and Exchange Commission (SEC Nigeria)
-        regulates the Nigerian capital market, while the
-        Central Bank of Nigeria (CBN) oversees banks and
-        other licensed financial institutions.
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white p-6 shadow-sm">
-
-      <h4 className="text-xl font-semibold">
-        Other Countries
-      </h4>
-
-      <p className="mt-4 leading-8 text-neutral-700">
-        Most countries have their own financial regulators
-        responsible for supervising brokers and financial
-        institutions operating within their jurisdictions.
-      </p>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div className="mt-14 rounded-[32px] border-l-4 border-[#071A52] bg-blue-50 p-8">
-
-  <h3 className="text-2xl font-semibold">
-
-    Regulation builds confidence
-
-  </h3>
-
-  <p className="mt-6 text-lg leading-9 text-neutral-800">
-
-    Regulation does not guarantee that a trader will make a profit,
-    nor does it eliminate every risk.
-
-    Its purpose is to help create a fairer and more transparent
-    environment where brokers are accountable to established
-    financial rules and standards.
-
-  </p>
-
-</div>
-
- <div className="mt-16">
-
-  <h2 className="text-4xl font-semibold">
-    Who provides the money for all these trades?
-  </h2>
-
-  <p className="mt-8 text-xl leading-9 text-neutral-700">
-
-    Millions of traders place buy and sell orders every day.
-
-    For those trades to be executed quickly, there must be enough
-    money and enough buyers and sellers available in the market.
-
-    This is where liquidity becomes important.
-
-  </p>
-
-  <p className="mt-8 text-xl leading-9 text-neutral-700">
-
-    In financial markets, liquidity simply means how easily an
-    asset can be bought or sold without causing a significant
-    change in its price.
-
-    Markets with many buyers and sellers usually have high
-    liquidity because trades can be completed quickly.
-
-  </p>
-
-</div>
-
-<div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-10">
-
-  <h3 className="text-3xl font-semibold">
-
-    Liquidity Providers
-
-  </h3>
-
-  <p className="mt-8 text-lg leading-9 text-neutral-700">
-
-    Liquidity Providers, often called LPs, are large financial
-    institutions that continuously make buy and sell prices
-    available to the market.
-
-    Their role is to ensure there is enough liquidity so that
-    traders can enter and exit positions efficiently.
-
-  </p>
-
-  <div className="mt-10 grid gap-6 md:grid-cols-2">
-
-    <div className="rounded-3xl bg-white p-8 shadow-sm">
-
-      <h4 className="text-2xl font-semibold">
-
-        Examples
-
-      </h4>
-
-      <p className="mt-5 leading-8 text-neutral-700">
-
-        Major international banks, investment banks,
-        market makers and specialised financial firms
-        often act as liquidity providers.
-
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white p-8 shadow-sm">
-
-      <h4 className="text-2xl font-semibold">
-
-        Their objective
-
-      </h4>
-
-      <p className="mt-5 leading-8 text-neutral-700">
-
-        Keep markets active by continuously providing
-        prices that allow trades to happen throughout
-        the trading day.
-
-      </p>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div className="mt-14 rounded-[36px] bg-[#071A52] p-10 text-white">
-
-  <h3 className="text-3xl font-semibold">
-
-    How a trade travels
-
-  </h3>
-
-  <div className="mt-10 space-y-5">
-
-    <div className="rounded-3xl bg-white/10 p-6">
-
-      <strong>1.</strong> You place a Buy or Sell order.
-
-    </div>
-
-    <div className="rounded-3xl bg-white/10 p-6">
-
-      <strong>2.</strong> Your broker receives the order.
-
-    </div>
-
-    <div className="rounded-3xl bg-white/10 p-6">
-
-      <strong>3.</strong> The broker routes the order according to
-      its execution model and available liquidity.
-
-    </div>
-
-    <div className="rounded-3xl bg-white/10 p-6">
-
-      <strong>4.</strong> The trade is executed and your position
-      becomes active.
-
-    </div>
-
-  </div>
-
-</div>
-
-<div className="mt-14 rounded-[32px] border-l-4 border-[#071A52] bg-blue-50 p-8">
-
-  <h3 className="text-2xl font-semibold">
-
-    An important note
-
-  </h3>
-
-  <p className="mt-6 text-lg leading-9 text-neutral-800">
-
-    Different brokers use different execution models.
-
-    Depending on the broker, the financial product being traded,
-    and market conditions, orders may be matched internally,
-    routed to liquidity providers, executed on an exchange,
-    or processed through other market participants.
-
-    While the execution path can differ, the goal is the same:
-    to complete trades efficiently and provide access to the market.
-
-  </p>
-
- </div>
-
- <div className="mt-16">
-
-  <h2 className="text-4xl font-semibold">
-    The rise of Prop Firms
-  </h2>
-
-  <p className="mt-8 text-xl leading-9 text-neutral-700">
-
-    For many years, one challenge remained the same.
-
-    Trading requires capital.
-
-    While some traders have enough money to fund their own accounts,
-    many talented traders do not.
-
-    Even experienced traders may struggle to grow because their
-    available capital is limited.
-
-  </p>
-
-  <p className="mt-8 text-xl leading-9 text-neutral-700">
-
-    Prop firms, short for proprietary trading firms, became popular
-    by offering traders access to larger trading accounts.
-
-    Instead of risking only their own money, traders could trade
-    with capital provided by the prop firm after meeting its
-    requirements.
-
-  </p>
-
-</div>
-
-<div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-10">
-
-  <h3 className="text-3xl font-semibold">
-
-    How Prop Firms generally work
-
-  </h3>
-
-  <div className="mt-10 space-y-6">
-
-    <div className="rounded-3xl bg-white p-8 shadow-sm">
-
-      <strong>Step 1</strong>
-
-      <p className="mt-4 leading-8 text-neutral-700">
-
-        A trader pays an evaluation or challenge fee.
-
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white p-8 shadow-sm">
-
-      <strong>Step 2</strong>
-
-      <p className="mt-4 leading-8 text-neutral-700">
-
-        The trader must meet specific trading objectives while
-        following predefined risk rules.
-
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white p-8 shadow-sm">
-
-      <strong>Step 3</strong>
-
-      <p className="mt-4 leading-8 text-neutral-700">
-
-        If successful, the trader may receive access to a funded
-        trading account, depending on the firm's programme.
-
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl bg-white p-8 shadow-sm">
-
-      <strong>Step 4</strong>
-
-      <p className="mt-4 leading-8 text-neutral-700">
-
-        When the trader generates profits according to the firm's
-        terms, those profits are typically shared between the
-        trader and the prop firm.
-
-      </p>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div className="mt-14 rounded-[36px] bg-[#071A52] p-10 text-white">
-
-  <h3 className="text-3xl font-semibold">
-
-    What problem did Prop Firms solve?
-
-  </h3>
-
-  <p className="mt-8 text-lg leading-9">
-
-    They made larger trading capital accessible to many traders
-    who otherwise might never have been able to trade accounts
-    of that size.
-
-    For many people, this represented a major opportunity.
-
-  </p>
-
-</div>
-
-<div className="mt-14 rounded-[32px] border-l-4 border-red-600 bg-red-50 p-8">
-
-  <h3 className="text-2xl font-semibold">
-
-    But one challenge still remained
-
-  </h3>
-
-  <p className="mt-6 text-lg leading-9 text-neutral-800">
-
-    Whether a trader uses personal capital or funded capital,
-    losses are still part of trading.
-
-    A losing streak can reduce an account significantly, violate
-    risk limits or even result in the loss of a funded account.
-
-    The availability of capital improved, but the financial impact
-    of trading losses remained.
-
-  </p>
-
-</div>
-
-</article>
-
-      <section className="mt-10 rounded-[36px] bg-white p-10 shadow-sm">
-
-        <h2 className="text-3xl font-semibold">
-
-          Feedback
-
-        </h2>
-
-        <p className="mt-3 text-neutral-600">
-
-          Complete feedback will be enabled when this module
-          becomes available.
-
-        </p>
-
-        <div className="mt-10 space-y-8">
-
-          <div>
-
-            <p className="font-medium">
-
-              How clear was this module?
-
+    <main className="min-h-screen bg-[#F7F7F4] px-6 py-12 text-black">
+      <div className="mx-auto max-w-5xl">
+        {/* =========================================================
+            BACK
+        ========================================================= */}
+
+        <Link
+          href="/dashboard/learning"
+          className="text-sm font-medium text-[#071A52] transition hover:underline"
+        >
+          ← Back to Learning Center
+        </Link>
+
+        {/* =========================================================
+            MODULE HEADER
+        ========================================================= */}
+
+        <div className="mt-8 rounded-[36px] bg-white p-8 shadow-sm md:p-10">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-neutral-500">
+            Module {module.order_number}
+          </p>
+
+          <h1 className="mt-4 text-4xl font-semibold leading-tight text-black md:text-5xl">
+            {module.title}
+          </h1>
+
+          {module.description && (
+            <p className="mt-6 text-lg leading-9 text-neutral-600 md:text-xl">
+              {module.description}
             </p>
-
-            <div className="mt-4 flex gap-3">
-
-              {[1, 2, 3, 4, 5].map((star) => (
-
-                <button
-                  key={star}
-                  className="flex h-12 w-12 items-center justify-center rounded-full border border-neutral-300 text-lg transition hover:border-[#071A52]"
-                >
-                  ★
-                </button>
-
-              ))}
-
-            </div>
-
-          </div>
-
-          <div>
-
-            <p className="font-medium">
-
-              How useful was this module?
-
-            </p>
-
-            <div className="mt-4 flex gap-3">
-
-              {[1, 2, 3, 4, 5].map((star) => (
-
-                <button
-                  key={star}
-                  className="flex h-12 w-12 items-center justify-center rounded-full border border-neutral-300 text-lg transition hover:border-[#071A52]"
-                >
-                  ★
-                </button>
-
-              ))}
-
-            </div>
-
-          </div>
-
-          <div>
-
-            <label className="font-medium">
-
-              Feedback
-
-            </label>
-
-            <textarea
-              rows={6}
-              placeholder="Share your feedback..."
-              className="mt-4 w-full rounded-3xl border border-neutral-300 p-5 outline-none transition focus:border-[#071A52]"
-            />
-
-          </div>
-
-          <button
-            disabled
-            className="rounded-full bg-neutral-300 px-8 py-4 font-semibold text-white"
-          >
-            Submit Feedback
-          </button>
-
+          )}
         </div>
 
-      </section>
+        {/* =========================================================
+            LESSON CONTENT
+        ========================================================= */}
 
+        <article className="mt-10 rounded-[36px] bg-white p-8 shadow-sm md:p-10">
+          {/* =======================================================
+              INTRODUCTION
+          ======================================================= */}
+
+          <h2 className="text-3xl font-semibold md:text-4xl">
+            Why Take Profit Exists
+          </h2>
+
+          <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+            Before learning about Take Profit, it's important to understand
+            how trading works.
+          </p>
+
+          <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+            Whether you're interested in stocks, cryptocurrencies, foreign
+            exchange, commodities like gold and crude oil, stock indices, or
+            other financial markets, they all operate on the same fundamental
+            principles.
+          </p>
+
+          <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+            Trading is simply the act of buying or selling a financial asset
+            with the expectation that its price will change.
+          </p>
+
+          <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+            If your prediction is correct, you make a profit.
+          </p>
+
+          <p className="mt-4 text-lg leading-9 text-neutral-700 md:text-xl">
+            If your prediction is wrong, you make a loss.
+          </p>
+
+          {/* =======================================================
+              FINANCIAL ASSETS
+          ======================================================= */}
+
+          <div className="mt-12 rounded-[32px] border border-neutral-200 bg-neutral-50 p-8 md:p-10">
+            <h3 className="text-2xl font-semibold md:text-3xl">
+              Financial assets commonly traded
+            </h3>
+
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
+              {[
+                "Stocks",
+                "Foreign Exchange",
+                "Cryptocurrencies",
+                "Commodities",
+                "Stock Indices",
+                "Exchange Traded Funds",
+                "Bonds",
+                "Other Financial Instruments",
+              ].map((asset) => (
+                <div
+                  key={asset}
+                  className="rounded-2xl bg-white p-6"
+                >
+                  {asset}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* =======================================================
+              BUY / SELL
+          ======================================================= */}
+
+          <div className="mt-14 rounded-[32px] border border-[#071A52] bg-[#071A52] p-8 text-white md:p-10">
+            <h3 className="text-2xl font-semibold md:text-3xl">
+              The basic idea is simple
+            </h3>
+
+            <div className="mt-10 grid gap-8 md:grid-cols-2">
+              <div className="rounded-3xl bg-white/10 p-8">
+                <h4 className="text-2xl font-semibold">
+                  Buy
+                </h4>
+
+                <p className="mt-5 leading-8">
+                  You buy when you believe the price of an asset will
+                  increase.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white/10 p-8">
+                <h4 className="text-2xl font-semibold">
+                  Sell
+                </h4>
+
+                <p className="mt-5 leading-8">
+                  You sell when you believe the price of an asset will
+                  decrease.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* =======================================================
+              BASIC PRINCIPLE
+          ======================================================= */}
+
+          <div className="mt-14 rounded-[32px] border-l-4 border-[#071A52] bg-blue-50 p-8">
+            <p className="text-lg leading-8 text-neutral-800">
+              Regardless of what you trade, every transaction is based on
+              the same objective.
+            </p>
+
+            <p className="mt-5 text-lg font-semibold leading-8 text-neutral-900">
+              Buy low and sell high.
+            </p>
+
+            <p className="mt-2 text-lg font-semibold leading-8 text-neutral-900">
+              Or sell high and buy back lower.
+            </p>
+
+            <p className="mt-5 text-lg leading-8 text-neutral-800">
+              The difference between those prices determines whether you make
+              a profit or a loss.
+            </p>
+          </div>
+
+          {/* =======================================================
+              EVERY TRADE HAS TWO SIDES
+          ======================================================= */}
+
+          <div className="mt-16">
+            <h2 className="text-3xl font-semibold md:text-4xl">
+              Every trade has two sides
+            </h2>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              One of the biggest misconceptions about trading is that when
+              you lose money, it simply disappears.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              That isn't how financial markets work.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              Every completed trade involves two sides with opposite
+              expectations.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              If you believe the price of Bitcoin will rise, you open a Buy
+              position. For your trade to happen, someone else must be
+              willing to take the opposite side by selling.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              If you believe the price will fall, you open a Sell position.
+              For that trade to happen, someone else must be willing to buy.
+            </p>
+          </div>
+
+          {/* =======================================================
+              SIMPLE EXAMPLE
+          ======================================================= */}
+
+          <div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-8 md:p-10">
+            <h3 className="text-2xl font-semibold md:text-3xl">
+              A simple example
+            </h3>
+
+            <div className="mt-10 grid gap-8 md:grid-cols-2">
+              <div className="rounded-3xl bg-white p-8 shadow-sm">
+                <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[#071A52]">
+                  Trader A
+                </p>
+
+                <h4 className="mt-3 text-2xl font-semibold">
+                  Buys Bitcoin
+                </h4>
+
+                <p className="mt-5 leading-8 text-neutral-700">
+                  Trader A believes the price of Bitcoin will increase.
+                  If the price rises, Trader A makes a profit. If it falls,
+                  Trader A makes a loss.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white p-8 shadow-sm">
+                <p className="text-sm font-semibold uppercase tracking-[0.25em] text-red-600">
+                  Trader B
+                </p>
+
+                <h4 className="mt-3 text-2xl font-semibold">
+                  Sells Bitcoin
+                </h4>
+
+                <p className="mt-5 leading-8 text-neutral-700">
+                  Trader B believes the price will fall. If the price falls,
+                  Trader B profits. If the price rises, Trader B loses.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* =======================================================
+              MARKET MOVEMENT
+          ======================================================= */}
+
+          <div className="mt-14 rounded-[36px] bg-[#071A52] p-8 text-white md:p-10">
+            <h3 className="text-2xl font-semibold md:text-3xl">
+              Only one prediction can be correct
+            </h3>
+
+            <p className="mt-8 text-lg leading-9">
+              Imagine Bitcoin is trading at $100,000.
+            </p>
+
+            <div className="mt-8 grid gap-6 md:grid-cols-3">
+              <div className="rounded-3xl bg-white/10 p-6">
+                <h4 className="text-xl font-semibold">
+                  Step 1
+                </h4>
+
+                <p className="mt-4 leading-8">
+                  Trader A buys because they believe the price will rise.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white/10 p-6">
+                <h4 className="text-xl font-semibold">
+                  Step 2
+                </h4>
+
+                <p className="mt-4 leading-8">
+                  Trader B sells because they believe the price will fall.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white/10 p-6">
+                <h4 className="text-xl font-semibold">
+                  Step 3
+                </h4>
+
+                <p className="mt-4 leading-8">
+                  The market moves. One trader earns money. The other trader
+                  loses money.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* =======================================================
+              WHERE MONEY GOES
+          ======================================================= */}
+
+          <div className="mt-14 rounded-[32px] border-l-4 border-red-600 bg-red-50 p-8">
+            <h3 className="text-2xl font-semibold">
+              Where does the money go?
+            </h3>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              The money isn't stored somewhere waiting to disappear.
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              In a simplified view, profits and losses are transferred
+              through the trading system as positions are settled.
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              When one side gains value, another side generally bears the
+              corresponding loss, depending on how the market and the
+              financial product are structured.
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              This is why managing risk is one of the most important parts
+              of trading.
+            </p>
+          </div>
+
+          {/* =======================================================
+              BROKERS
+          ======================================================= */}
+
+          <div className="mt-16">
+            <h2 className="text-3xl font-semibold md:text-4xl">
+              Who connects buyers and sellers?
+            </h2>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              If every trade requires both a buyer and a seller, a natural
+              question follows.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              How do they find each other?
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              The answer is through a broker.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              A broker is a financial company that gives traders access to
+              financial markets.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              Instead of trying to find another trader yourself, you simply
+              place your order through your broker.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              The broker's trading platform receives your order and routes
+              it through the appropriate trading system.
+            </p>
+          </div>
+
+          {/* =======================================================
+              BROKER AS GATEWAY
+          ======================================================= */}
+
+          <div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-8 md:p-10">
+            <h3 className="text-2xl font-semibold md:text-3xl">
+              Think of a broker like a bank
+            </h3>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700">
+              Imagine you want to send money to a friend.
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-700">
+              You don't walk directly to the Central Bank of Nigeria or the
+              United States Federal Reserve.
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-700">
+              Instead, you use a commercial bank.
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-700">
+              The bank connects you to the financial system and processes
+              your transaction.
+            </p>
+
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              <div className="rounded-3xl bg-white p-6 shadow-sm">
+                <h4 className="text-xl font-semibold">
+                  Everyday Banking
+                </h4>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  People use commercial banks to access the financial system
+                  and process financial transactions.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white p-6 shadow-sm">
+                <h4 className="text-xl font-semibold">
+                  Trading
+                </h4>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  Traders use brokers to access financial markets in much
+                  the same way.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-8 rounded-2xl border-l-4 border-[#071A52] bg-blue-50 p-6">
+              <p className="leading-8 text-neutral-800">
+                The banking comparison is used only to make the idea easier
+                to understand. Brokers and banks perform different functions
+                and operate under different rules.
+              </p>
+            </div>
+          </div>
+
+          {/* =======================================================
+              WHAT BROKERS DO
+          ======================================================= */}
+
+          <div className="mt-14 rounded-[36px] bg-[#071A52] p-8 text-white md:p-10">
+            <h3 className="text-2xl font-semibold md:text-3xl">
+              What brokers do
+            </h3>
+
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              <div className="rounded-3xl bg-white/10 p-8">
+                <h4 className="text-2xl font-semibold">
+                  Execute trades
+                </h4>
+
+                <p className="mt-5 leading-8">
+                  They receive your buy or sell order and execute it through
+                  the appropriate market.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white/10 p-8">
+                <h4 className="text-2xl font-semibold">
+                  Provide trading platforms
+                </h4>
+
+                <p className="mt-5 leading-8">
+                  They give traders access to software where they can analyse
+                  markets, place trades and monitor their accounts.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white/10 p-8">
+                <h4 className="text-2xl font-semibold">
+                  Hold trading accounts
+                </h4>
+
+                <p className="mt-5 leading-8">
+                  Your deposits, balances and trading history are maintained
+                  through your broker.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white/10 p-8">
+                <h4 className="text-2xl font-semibold">
+                  Connect traders to markets
+                </h4>
+
+                <p className="mt-5 leading-8">
+                  Without brokers, most retail traders would have no practical
+                  way to participate in global financial markets.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* =======================================================
+              REGULATION
+          ======================================================= */}
+
+          <div className="mt-14 rounded-[32px] border-l-4 border-red-600 bg-red-50 p-8">
+            <h3 className="text-2xl font-semibold">
+              Are all brokers the same?
+            </h3>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              No.
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              Just like banks differ in quality, services and reputation,
+              brokers also differ.
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              Some are highly regulated and operate under strict financial
+              rules.
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              Others operate with little or no regulatory oversight.
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              This is why choosing a reputable broker is one of the most
+              important decisions every trader makes.
+            </p>
+          </div>
+
+          {/* =======================================================
+              WHY BROKERS ARE REGULATED
+          ======================================================= */}
+
+          <div className="mt-16">
+            <h2 className="text-3xl font-semibold md:text-4xl">
+              Why are brokers regulated?
+            </h2>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              Because brokers hold traders' money and execute their trades,
+              they operate under financial laws in many countries.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              These laws are designed to protect traders, maintain fair
+              financial markets and reduce fraudulent activities.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              Financial regulators set standards that licensed brokers must
+              follow.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              These standards can include maintaining adequate capital,
+              keeping client funds separate from company funds, complying
+              with financial reporting requirements and operating fairly
+              within the law.
+            </p>
+          </div>
+
+          {/* =======================================================
+              REGULATORS
+          ======================================================= */}
+
+          <div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-8 md:p-10">
+            <h3 className="text-2xl font-semibold md:text-3xl">
+              Examples of financial regulators
+            </h3>
+
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              <div className="rounded-3xl bg-white p-6 shadow-sm">
+                <h4 className="text-xl font-semibold">
+                  United Kingdom
+                </h4>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  Financial Conduct Authority (FCA)
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white p-6 shadow-sm">
+                <h4 className="text-xl font-semibold">
+                  United States
+                </h4>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  Securities and Exchange Commission (SEC), Commodity
+                  Futures Trading Commission (CFTC) and National Futures
+                  Association (NFA).
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white p-6 shadow-sm">
+                <h4 className="text-xl font-semibold">
+                  Australia
+                </h4>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  Australian Securities and Investments Commission (ASIC)
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white p-6 shadow-sm">
+                <h4 className="text-xl font-semibold">
+                  Cyprus
+                </h4>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  Cyprus Securities and Exchange Commission (CySEC)
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white p-6 shadow-sm">
+                <h4 className="text-xl font-semibold">
+                  Nigeria
+                </h4>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  Securities and Exchange Commission (SEC Nigeria) regulates
+                  the Nigerian capital market, while the Central Bank of
+                  Nigeria (CBN) oversees banks and other licensed financial
+                  institutions.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white p-6 shadow-sm">
+                <h4 className="text-xl font-semibold">
+                  Other Countries
+                </h4>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  Most countries have their own financial regulators
+                  responsible for supervising brokers and financial
+                  institutions operating within their jurisdictions.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* =======================================================
+              REGULATION BUILDS CONFIDENCE
+          ======================================================= */}
+
+          <div className="mt-14 rounded-[32px] border-l-4 border-[#071A52] bg-blue-50 p-8">
+            <h3 className="text-2xl font-semibold">
+              Regulation builds confidence
+            </h3>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              Regulation does not guarantee that a trader will make a profit,
+              nor does it eliminate every risk.
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              Its purpose is to help create a fairer and more transparent
+              environment where brokers are accountable to established
+              financial rules and standards.
+            </p>
+          </div>
+
+          {/* =======================================================
+              LIQUIDITY
+          ======================================================= */}
+
+          <div className="mt-16">
+            <h2 className="text-3xl font-semibold md:text-4xl">
+              Who provides the money for all these trades?
+            </h2>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              Millions of traders place buy and sell orders every day.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              For those trades to be executed quickly, there must be enough
+              buyers and sellers available in the market.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              This is where liquidity becomes important.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              In financial markets, liquidity simply means how easily an
+              asset can be bought or sold without causing a significant
+              change in its price.
+            </p>
+          </div>
+
+          {/* =======================================================
+              LIQUIDITY PROVIDERS
+          ======================================================= */}
+
+          <div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-8 md:p-10">
+            <h3 className="text-2xl font-semibold md:text-3xl">
+              Liquidity Providers
+            </h3>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700">
+              Liquidity Providers, often called LPs, are large financial
+              institutions and market participants that can provide
+              buy and sell prices to the market.
+            </p>
+
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              <div className="rounded-3xl bg-white p-8 shadow-sm">
+                <h4 className="text-2xl font-semibold">
+                  Examples
+                </h4>
+
+                <p className="mt-5 leading-8 text-neutral-700">
+                  Major international banks, investment banks, market makers
+                  and specialised financial firms can act as liquidity
+                  providers.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white p-8 shadow-sm">
+                <h4 className="text-2xl font-semibold">
+                  Their objective
+                </h4>
+
+                <p className="mt-5 leading-8 text-neutral-700">
+                  Help keep markets active by providing prices that allow
+                  trades to happen throughout the trading day.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* =======================================================
+              HOW TRADE TRAVELS
+          ======================================================= */}
+
+          <div className="mt-14 rounded-[36px] bg-[#071A52] p-8 text-white md:p-10">
+            <h3 className="text-2xl font-semibold md:text-3xl">
+              How a trade travels
+            </h3>
+
+            <div className="mt-10 space-y-5">
+              <div className="rounded-3xl bg-white/10 p-6">
+                <strong>1.</strong> You place a Buy or Sell order.
+              </div>
+
+              <div className="rounded-3xl bg-white/10 p-6">
+                <strong>2.</strong> Your broker receives the order.
+              </div>
+
+              <div className="rounded-3xl bg-white/10 p-6">
+                <strong>3.</strong> The broker routes the order according to
+                its execution model and available liquidity.
+              </div>
+
+              <div className="rounded-3xl bg-white/10 p-6">
+                <strong>4.</strong> The trade is executed and your position
+                becomes active.
+              </div>
+            </div>
+          </div>
+
+          {/* =======================================================
+              EXECUTION NOTE
+          ======================================================= */}
+
+          <div className="mt-14 rounded-[32px] border-l-4 border-[#071A52] bg-blue-50 p-8">
+            <h3 className="text-2xl font-semibold">
+              An important note
+            </h3>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              Different brokers use different execution models.
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              Depending on the broker, the financial product being traded,
+              and market conditions, orders may be matched internally,
+              routed to liquidity providers, executed on an exchange,
+              or processed through other market participants.
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              While the execution path can differ, the goal is the same:
+              to complete trades efficiently and provide access to the market.
+            </p>
+          </div>
+
+          {/* =======================================================
+              PROP FIRMS
+          ======================================================= */}
+
+          <div className="mt-16">
+            <h2 className="text-3xl font-semibold md:text-4xl">
+              The rise of Prop Firms
+            </h2>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              For many years, one challenge remained the same.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              Trading requires capital.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              While some traders have enough money to fund their own
+              accounts, many talented traders do not.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              Even experienced traders may struggle to grow because their
+              available capital is limited.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              Prop firms, short for proprietary trading firms, became
+              popular by offering traders access to larger trading accounts.
+            </p>
+
+            <p className="mt-8 text-lg leading-9 text-neutral-700 md:text-xl">
+              Instead of risking only their own money, traders could trade
+              with capital provided by the prop firm after meeting its
+              requirements.
+            </p>
+          </div>
+
+          {/* =======================================================
+              HOW PROP FIRMS WORK
+          ======================================================= */}
+
+          <div className="mt-12 rounded-[36px] border border-neutral-200 bg-neutral-50 p-8 md:p-10">
+            <h3 className="text-2xl font-semibold md:text-3xl">
+              How Prop Firms generally work
+            </h3>
+
+            <div className="mt-10 space-y-6">
+              <div className="rounded-3xl bg-white p-8 shadow-sm">
+                <strong>Step 1</strong>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  A trader pays an evaluation or challenge fee, where
+                  applicable.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white p-8 shadow-sm">
+                <strong>Step 2</strong>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  The trader must meet specific trading objectives while
+                  following predefined risk rules.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white p-8 shadow-sm">
+                <strong>Step 3</strong>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  If successful, the trader may receive access to a funded
+                  trading account, depending on the firm's programme.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white p-8 shadow-sm">
+                <strong>Step 4</strong>
+
+                <p className="mt-4 leading-8 text-neutral-700">
+                  When the trader generates profits according to the firm's
+                  terms, those profits are typically shared between the
+                  trader and the prop firm.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* =======================================================
+              PROP FIRM PROBLEM
+          ======================================================= */}
+
+          <div className="mt-14 rounded-[36px] bg-[#071A52] p-8 text-white md:p-10">
+            <h3 className="text-2xl font-semibold md:text-3xl">
+              What problem did Prop Firms solve?
+            </h3>
+
+            <p className="mt-8 text-lg leading-9">
+              They made larger trading capital accessible to many traders
+              who otherwise might never have been able to trade accounts
+              of that size.
+            </p>
+
+            <p className="mt-6 text-lg leading-9">
+              For many people, this represented a major opportunity.
+            </p>
+          </div>
+
+          {/* =======================================================
+              RISK
+          ======================================================= */}
+
+          <div className="mt-14 rounded-[32px] border-l-4 border-red-600 bg-red-50 p-8">
+            <h3 className="text-2xl font-semibold">
+              But one challenge still remained
+            </h3>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              Whether a trader uses personal capital or funded capital,
+              losses are still part of trading.
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              A losing streak can reduce an account significantly, violate
+              risk limits or even result in the loss of a funded account.
+            </p>
+
+            <p className="mt-6 text-lg leading-9 text-neutral-800">
+              The availability of capital improved, but the financial impact
+              of trading losses remained.
+            </p>
+          </div>
+        </article>
+
+        {/* =========================================================
+            FEEDBACK
+        ========================================================= */}
+
+        <section className="mt-10 rounded-[36px] bg-white p-8 shadow-sm md:p-10">
+          <h2 className="text-3xl font-semibold">
+            Feedback
+          </h2>
+
+          <p className="mt-3 text-neutral-600">
+            Complete feedback will be enabled when this module becomes
+            available.
+          </p>
+
+          <div className="mt-10 space-y-8">
+            {/* CLARITY */}
+
+            <div>
+              <p className="font-medium">
+                How clear was this module?
+              </p>
+
+              <div className="mt-4 flex gap-3">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    className="flex h-12 w-12 items-center justify-center rounded-full border border-neutral-300 text-lg transition hover:border-[#071A52]"
+                  >
+                    ★
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* USEFULNESS */}
+
+            <div>
+              <p className="font-medium">
+                How useful was this module?
+              </p>
+
+              <div className="mt-4 flex gap-3">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    className="flex h-12 w-12 items-center justify-center rounded-full border border-neutral-300 text-lg transition hover:border-[#071A52]"
+                  >
+                    ★
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* TEXT FEEDBACK */}
+
+            <div>
+              <label
+                htmlFor="feedback"
+                className="font-medium"
+              >
+                Feedback
+              </label>
+
+              <textarea
+                id="feedback"
+                rows={6}
+                placeholder="Share your feedback..."
+                className="mt-4 w-full rounded-3xl border border-neutral-300 p-5 outline-none transition focus:border-[#071A52]"
+              />
+            </div>
+
+            {/* SUBMIT */}
+
+            <button
+              type="button"
+              disabled
+              className="rounded-full bg-neutral-300 px-8 py-4 font-semibold text-white"
+            >
+              Submit Feedback
+            </button>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }
