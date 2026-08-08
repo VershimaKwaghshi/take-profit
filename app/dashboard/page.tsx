@@ -1,121 +1,109 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, BookOpen } from "lucide-react";
-
 import ReferralLinkCard from "@/components/ReferralLinkCard";
 import FloorMotif from "@/components/FloorMotif";
-import AnnouncementCard from "./AnnouncementCard";
 import { useUser } from "./UserProvider";
 
 export default function DashboardPage() {
   const { user, loading } = useUser();
 
   if (loading) {
-    return <p className="text-fog">Loading dashboard...</p>;
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <p className="font-mono text-xs uppercase tracking-[0.3em] text-fog">
+          Loading dashboard...
+        </p>
+      </div>
+    );
   }
 
   return (
-    <div>
+    <div className="w-full">
       {/* Welcome */}
 
-      <div className="overflow-hidden rounded-lg border border-panel-line bg-panel">
-        <div className="p-10 md:p-14">
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-ember">
+      <section className="w-full border-y border-panel-line bg-panel">
+        <div className="px-6 py-12 md:px-10 md:py-16 lg:px-14">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.35em] text-ember">
             Founding Member
           </p>
 
-          <h1 className="mt-6 text-4xl font-semibold leading-tight text-chalk md:text-5xl">
+          <h1 className="mt-6 max-w-4xl text-4xl font-semibold leading-[1.05] text-chalk md:text-6xl">
             Welcome {user?.first_name}
           </h1>
 
-          <p className="mt-6 max-w-2xl leading-8 text-fog">
-            You joined Take Profit before launch. This dashboard is where you
-            will receive every lesson, announcement and platform update as we
-            prepare for launch.
+          <p className="mt-8 max-w-3xl text-base leading-8 text-fog md:text-lg md:leading-9">
+            You joined Take Profit before launch. This is your place to
+            learn how the market works, understand what we are building,
+            and follow the journey toward launch.
           </p>
         </div>
-      </div>
-
-      {/* Referral */}
-
-      <div className="mt-8 rounded-lg border border-panel-line bg-panel p-8 md:p-10">
-        <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-fog">
-          Referral progress
-        </p>
-
-        <p className="mt-4 font-mono text-4xl font-semibold tabular-nums text-chalk">
-          {user?.referral_count ?? 0} Verified Referral
-          {(user?.referral_count ?? 0) === 1 ? "" : "s"}
-        </p>
-
-        <p className="mt-5 leading-7 text-fog">
-          Invite people using your referral link. Every verified referral
-          brings you closer to unlocking future platform benefits.
-        </p>
-
-        <div className="mt-6 max-w-md opacity-70">
-          <FloorMotif tone="paper" showLabel={false} />
-        </div>
-
-        <div className="mt-6">
-          <ReferralLinkCard />
-        </div>
-      </div>
+      </section>
 
       {/* Learning Center */}
 
-      <div className="mt-8">
-        <Link
-          href="/dashboard/learning"
-          className="group block overflow-hidden rounded-lg border border-[#071A52] bg-[#071A52] text-white transition duration-300 hover:-translate-y-1 hover:shadow-xl"
-        >
-          <div className="border-b border-white/10 p-8 md:p-10">
-            <div className="flex items-start justify-between gap-6">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#D94A3D]">
-                <BookOpen size={21} />
-              </div>
+      <section className="w-full bg-[#071A52] text-white">
+        <div className="px-6 py-14 md:px-10 md:py-20 lg:px-14">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.35em] text-[#D84B3F]">
+            Take Profit Academy
+          </p>
 
-              <span className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-white/50">
-                Take Profit Academy
-              </span>
+          <h2 className="mt-6 max-w-4xl text-4xl font-semibold leading-[1.05] md:text-6xl">
+            Learn the market before you enter it.
+          </h2>
+
+          <p className="mt-8 max-w-3xl text-base leading-8 text-white/70 md:text-lg md:leading-9">
+            A structured introduction to the people, systems and forces
+            behind financial markets — and the ideas that shaped Take
+            Profit.
+          </p>
+
+          <div className="mt-10 flex flex-wrap gap-4">
+            <div className="border border-white/30 px-5 py-3 font-mono text-xs uppercase tracking-[0.2em]">
+              12 Lessons
             </div>
 
-            <p className="mt-8 font-mono text-xs font-semibold uppercase tracking-[0.3em] text-[#D94A3D]">
-              Learning Center
-            </p>
-
-            <h2 className="mt-4 text-3xl font-semibold leading-tight md:text-4xl">
-              Understand the market before you enter it.
-            </h2>
-
-            <p className="mt-5 max-w-2xl leading-8 text-white/70">
-              Explore the people, systems and forces behind financial markets,
-              and learn the ideas that shaped Take Profit.
-            </p>
+            <div className="border border-white/30 px-5 py-3 font-mono text-xs uppercase tracking-[0.2em]">
+              Self-Paced
+            </div>
           </div>
 
-          <div className="flex items-center justify-between gap-6 bg-white px-8 py-5 text-[#071A52] md:px-10">
-            <span className="font-mono text-xs font-semibold uppercase tracking-[0.2em]">
-              12 Lessons · Self-paced
-            </span>
+          <Link
+            href="/dashboard/learning"
+            className="mt-10 inline-flex items-center bg-white px-7 py-4 font-semibold text-[#071A52] transition hover:bg-[#D8C6A3]"
+          >
+            Enter Learning Center
+          </Link>
+        </div>
+      </section>
 
-            <span className="flex shrink-0 items-center gap-2 font-semibold">
-              Enter Learning Center
-              <ArrowRight
-                size={18}
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </span>
+      {/* Referral */}
+
+      <section className="w-full bg-[#B8B0A0]">
+        <div className="px-6 py-12 md:px-10 md:py-16 lg:px-14">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.35em] text-[#071A52]">
+            Referral Progress
+          </p>
+
+          <p className="mt-5 max-w-3xl font-mono text-4xl font-semibold leading-tight text-black md:text-5xl">
+            {user?.referral_count ?? 0} Verified Referral
+            {(user?.referral_count ?? 0) === 1 ? "" : "s"}
+          </p>
+
+          <p className="mt-6 max-w-2xl text-base leading-8 text-black/70">
+            Invite people using your referral link. Every verified referral
+            brings you closer to unlocking future platform benefits.
+          </p>
+
+          <div className="mt-8 max-w-md">
+            <FloorMotif tone="paper" showLabel={false} />
           </div>
-        </Link>
-      </div>
 
-      {/* Announcements */}
-
-      <div className="mt-8">
-        <AnnouncementCard />
-      </div>
+          <div className="mt-8 max-w-xl">
+            <ReferralLinkCard />
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
