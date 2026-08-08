@@ -9,7 +9,7 @@ import { useUser } from "@/app/dashboard/UserProvider";
 const links = [
   { name: "Dashboard", href: "/dashboard" },
   { name: "Referrals", href: "/dashboard/referrals" },
-  { name: "Academy", href: "/dashboard/education" },
+  { name: "Learning", href: "/dashboard/learning" },
   { name: "Profile", href: "/dashboard/profile" },
   { name: "Settings", href: "/dashboard/settings" },
 ];
@@ -31,6 +31,7 @@ export default function Sidebar() {
 
   async function handleSignOut() {
     setLoggingOut(true);
+
     try {
       await fetch("/api/logout", { method: "POST" });
     } catch {
@@ -45,9 +46,18 @@ export default function Sidebar() {
     <aside className="hidden h-screen w-72 shrink-0 flex-col border-r border-panel-line bg-panel text-chalk lg:flex">
       <div className="border-b border-panel-line px-8 py-8">
         <Link href="/dashboard" className="flex items-center gap-4">
-          <Image src="/logo.svg" alt="Take Profit" width={40} height={40} />
+          <Image
+            src="/logo.svg"
+            alt="Take Profit"
+            width={40}
+            height={40}
+          />
+
           <div>
-            <h2 className="text-2xl font-semibold">Take Profit</h2>
+            <h2 className="text-2xl font-semibold">
+              Take Profit
+            </h2>
+
             <p className="mt-1 font-mono text-xs uppercase tracking-[0.3em] text-fog">
               Academy
             </p>
@@ -60,12 +70,14 @@ export default function Sidebar() {
           <p className="font-mono text-xs uppercase tracking-[0.3em] text-ember">
             Pre-launch
           </p>
+
           <h3 className="mt-4 text-xl font-semibold text-chalk">
             Founding Member
           </h3>
+
           <p className="mt-4 text-sm leading-7 text-fog">
-            Learn how Take Profit works before launch and follow our progress
-            from inside your dashboard.
+            Learn how Take Profit works before launch and follow our
+            progress from inside your dashboard.
           </p>
         </div>
       </div>
@@ -74,9 +86,11 @@ export default function Sidebar() {
         <p className="mb-5 font-mono text-xs font-semibold uppercase tracking-[0.3em] text-fog">
           Navigation
         </p>
+
         <nav className="space-y-2">
           {links.map((link) => {
             const active = pathname === link.href;
+
             return (
               <Link
                 key={link.href}
@@ -99,9 +113,11 @@ export default function Sidebar() {
           <p className="mb-5 font-mono text-xs font-semibold uppercase tracking-[0.3em] text-fog">
             Administration
           </p>
+
           <nav className="space-y-2">
             {adminLinks.map((link) => {
               const active = pathname === link.href;
+
               return (
                 <Link
                   key={link.href}
