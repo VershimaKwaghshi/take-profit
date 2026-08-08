@@ -86,7 +86,7 @@ export default async function LearningPage() {
           </p>
 
           <Link
-            href="/dashboard/learning/vision"
+            href="/dashboard/learning/module/vision"
             className="group mt-6 block border-t-4 border-[#071A52] bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl md:p-10"
           >
             <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
@@ -108,7 +108,6 @@ export default async function LearningPage() {
 
               <div className="flex shrink-0 items-center gap-3 font-semibold text-[#071A52]">
                 Read the Vision
-
                 <ArrowRight
                   size={19}
                   className="transition-transform group-hover:translate-x-1"
@@ -139,29 +138,80 @@ export default async function LearningPage() {
           <div className="border-t border-black/10">
             {modules.map((module, index) => {
               const completed = false;
-
-              // IMPORTANT:
-              // The actual lesson page is:
-              // /dashboard/learning/module/[id]
-              //
-              // Therefore we use module.id here,
-              // NOT module.lessonNumber.
               const unlocked = index === 0;
+
+              /*
+               * IMPORTANT:
+               *
+               * The lesson page is located at:
+               *
+               * app/dashboard/learning/module/[id]/page.tsx
+               *
+               * Therefore the link MUST be:
+               *
+               * /dashboard/learning/module/${module.id}
+               *
+               * NOT:
+               *
+               * /dashboard/learning/${module.lessonNumber}
+               */
+
+              if (!unlocked) {
+                return (
+                  <div
+                    key={module.id}
+                    className="group block cursor-not-allowed border-b border-black/10 py-8 opacity-45 md:py-10"
+                  >
+                    <div className="flex gap-5 md:gap-8">
+                      {/* NUMBER / STATUS */}
+
+                      <div className="w-12 shrink-0 md:w-16">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full border border-black/20">
+                          <Lock
+                            size={15}
+                            className="text-black/40"
+                          />
+                        </div>
+                      </div>
+
+                      {/* CONTENT */}
+
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                          <div className="max-w-2xl">
+                            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.25em] text-black/40">
+                              Lesson{" "}
+                              {String(module.lessonNumber).padStart(2, "0")}
+                            </p>
+
+                            <h3 className="mt-2 text-2xl font-semibold leading-tight text-black md:text-3xl">
+                              {module.title}
+                            </h3>
+
+                            {module.description && (
+                              <p className="mt-3 text-sm leading-7 text-black/60 md:text-base">
+                                {module.description}
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="shrink-0 md:pt-5">
+                            <span className="font-mono text-xs uppercase tracking-wider text-black/40">
+                              Locked
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
 
               return (
                 <Link
                   key={module.id}
-                  href={
-                    unlocked
-                      ? `/dashboard/learning/module/${module.id}`
-                      : "#"
-                  }
-                  aria-disabled={!unlocked}
-                  className={`group block border-b border-black/10 py-8 transition md:py-10 ${
-                    unlocked
-                      ? "hover:bg-white"
-                      : "cursor-not-allowed opacity-45"
-                  }`}
+                  href={`/dashboard/learning/module/${module.id}`}
+                  className="group block border-b border-black/10 py-8 transition hover:bg-white md:py-10"
                 >
                   <div className="flex gap-5 md:gap-8">
                     {/* NUMBER / STATUS */}
@@ -171,13 +221,9 @@ export default async function LearningPage() {
                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#071A52] text-white">
                           <Check size={17} />
                         </div>
-                      ) : unlocked ? (
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#071A52] font-mono text-xs font-semibold text-[#071A52]">
-                          {String(module.order_number).padStart(2, "0")}
-                        </div>
                       ) : (
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full border border-black/20">
-                          <Lock size={15} className="text-black/40" />
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#071A52] font-mono text-xs font-semibold text-[#071A52]">
+                          {String(module.lessonNumber).padStart(2, "0")}
                         </div>
                       )}
                     </div>
@@ -189,16 +235,18 @@ export default async function LearningPage() {
                         <div className="max-w-2xl">
                           <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.25em] text-black/40">
                             Lesson{" "}
-                            {String(module.order_number).padStart(2, "0")}
+                            {String(module.lessonNumber).padStart(2, "0")}
                           </p>
 
                           <h3 className="mt-2 text-2xl font-semibold leading-tight text-black transition group-hover:text-[#071A52] md:text-3xl">
                             {module.title}
                           </h3>
 
-                          <p className="mt-3 text-sm leading-7 text-black/60 md:text-base">
-                            {module.description}
-                          </p>
+                          {module.description && (
+                            <p className="mt-3 text-sm leading-7 text-black/60 md:text-base">
+                              {module.description}
+                            </p>
+                          )}
                         </div>
 
                         <div className="shrink-0 md:pt-5">
@@ -206,18 +254,13 @@ export default async function LearningPage() {
                             <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[#071A52]">
                               Completed
                             </span>
-                          ) : unlocked ? (
+                          ) : (
                             <span className="inline-flex items-center gap-2 font-semibold text-[#071A52]">
                               Read lesson
-
                               <ArrowRight
                                 size={17}
                                 className="transition-transform group-hover:translate-x-1"
                               />
-                            </span>
-                          ) : (
-                            <span className="font-mono text-xs uppercase tracking-wider text-black/40">
-                              Locked
                             </span>
                           )}
                         </div>
