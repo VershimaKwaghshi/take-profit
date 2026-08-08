@@ -16,7 +16,6 @@ export default async function LearningPage() {
   return (
     <main className="min-h-screen bg-[#F7F7F4] text-black">
       {/* INTRODUCTION */}
-
       <section className="border-b border-black/10 bg-[#071A52] text-white">
         <div className="mx-auto max-w-4xl px-6 py-16 md:px-10 md:py-24">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.35em] text-[#D94A3D]">
@@ -45,7 +44,6 @@ export default async function LearningPage() {
       </section>
 
       {/* PROGRESS */}
-
       <section className="border-b border-black/10 bg-white">
         <div className="mx-auto max-w-4xl px-6 py-8 md:px-10">
           <div className="flex items-end justify-between gap-6">
@@ -76,15 +74,17 @@ export default async function LearningPage() {
       </section>
 
       {/* CONTENT */}
-
       <div className="mx-auto max-w-4xl px-6 py-14 md:px-10 md:py-20">
         {/* VISION */}
-
         <section className="border-b border-black/10 pb-14">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-[#D94A3D]">
             Start here
           </p>
 
+          {/* IMPORTANT:
+              Vision route is:
+              /dashboard/learning/vision
+          */}
           <Link
             href="/dashboard/learning/vision"
             className="group mt-6 block border-t-4 border-[#071A52] bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl md:p-10"
@@ -118,7 +118,6 @@ export default async function LearningPage() {
         </section>
 
         {/* LESSONS */}
-
         <section className="pt-14">
           <div className="mb-10">
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-[#D94A3D]">
@@ -147,15 +146,11 @@ export default async function LearningPage() {
                     className="group block cursor-not-allowed border-b border-black/10 py-8 opacity-45 md:py-10"
                   >
                     <div className="flex gap-5 md:gap-8">
-                      {/* NUMBER / STATUS */}
-
                       <div className="w-12 shrink-0 md:w-16">
                         <div className="flex h-10 w-10 items-center justify-center rounded-full border border-black/20">
                           <Lock size={15} className="text-black/40" />
                         </div>
                       </div>
-
-                      {/* CONTENT */}
 
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -191,12 +186,18 @@ export default async function LearningPage() {
               return (
                 <Link
                   key={module.id}
+                  /*
+                   * IMPORTANT:
+                   * The lesson route is:
+                   * /dashboard/learning/[lessonNumber]
+                   *
+                   * Therefore Lesson 1 becomes:
+                   * /dashboard/learning/1
+                   */
                   href={`/dashboard/learning/${module.lessonNumber}`}
                   className="group block border-b border-black/10 py-8 transition hover:bg-white md:py-10"
                 >
                   <div className="flex gap-5 md:gap-8">
-                    {/* NUMBER / STATUS */}
-
                     <div className="w-12 shrink-0 md:w-16">
                       {completed ? (
                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#071A52] text-white">
@@ -208,8 +209,6 @@ export default async function LearningPage() {
                         </div>
                       )}
                     </div>
-
-                    {/* CONTENT */}
 
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -255,7 +254,6 @@ export default async function LearningPage() {
         </section>
 
         {/* FOOTER NOTE */}
-
         <section className="mt-16 border-t-4 border-[#D94A3D] bg-[#071A52] px-7 py-10 text-white md:px-10">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-white/50">
             Take your time
