@@ -86,7 +86,7 @@ export default async function LearningPage() {
           </p>
 
           <Link
-            href="/dashboard/learning/module/vision"
+            href="/dashboard/learning/vision"
             className="group mt-6 block border-t-4 border-[#071A52] bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl md:p-10"
           >
             <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
@@ -140,22 +140,6 @@ export default async function LearningPage() {
               const completed = false;
               const unlocked = index === 0;
 
-              /*
-               * IMPORTANT:
-               *
-               * The lesson page is located at:
-               *
-               * app/dashboard/learning/module/[id]/page.tsx
-               *
-               * Therefore the link MUST be:
-               *
-               * /dashboard/learning/module/${module.id}
-               *
-               * NOT:
-               *
-               * /dashboard/learning/${module.lessonNumber}
-               */
-
               if (!unlocked) {
                 return (
                   <div
@@ -167,10 +151,7 @@ export default async function LearningPage() {
 
                       <div className="w-12 shrink-0 md:w-16">
                         <div className="flex h-10 w-10 items-center justify-center rounded-full border border-black/20">
-                          <Lock
-                            size={15}
-                            className="text-black/40"
-                          />
+                          <Lock size={15} className="text-black/40" />
                         </div>
                       </div>
 
@@ -210,7 +191,7 @@ export default async function LearningPage() {
               return (
                 <Link
                   key={module.id}
-                  href={`/dashboard/learning/module/${module.id}`}
+                  href={`/dashboard/learning/${module.lessonNumber}`}
                   className="group block border-b border-black/10 py-8 transition hover:bg-white md:py-10"
                 >
                   <div className="flex gap-5 md:gap-8">
