@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+:root {
+  --color-paper: #ffffff;
+  --color-mist: #f6f5f3;
+  --color-ink: #14151a;
+  --color-ash: #6b6b6e;
+  --color-line: #e6e4e1;
+  --color-oxblood: #7a2620;
+  --color-oxblood-dark: #5e1c17;
+
+  /* Dashboard (dark) palette — used only inside app/dashboard */
+  --color-deck: #0d0e12;
+  --color-panel: #16171d;
+  --color-panel-line: #26272f;
+  --color-fog: #9a9aa2;
+  --color-chalk: #f2f1ee;
+  --color-ember: #b8493f;
+}
+
+@theme inline {
+  --color-paper: var(--color-paper);
+  --color-mist: var(--color-mist);
+  --color-ink: var(--color-ink);
+  --color-ash: var(--color-ash);
+  --color-line: var(--color-line);
+  --color-oxblood: var(--color-oxblood);
+  --color-oxblood-dark: var(--color-oxblood-dark);
+
+  --color-deck: var(--color-deck);
+  --color-panel: var(--color-panel);
+  --color-panel-line: var(--color-panel-line);
+  --color-fog: var(--color-fog);
+  --color-chalk: var(--color-chalk);
+  --color-ember: var(--color-ember);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --radius-sm: 0.75rem;
+  --radius-md: 1.25rem;
+  --radius-lg: 1.75rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-oxblood);
+  color: var(--color-paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-oxblood);
+  outline-offset: 2px;
+}
+
+/* Numbers (money, counts, codes) always get tabular figures */
+.font-mono,
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
