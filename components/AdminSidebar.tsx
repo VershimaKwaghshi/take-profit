@@ -8,8 +8,6 @@ import {
   Megaphone,
   Send,
   Gift,
-  BarChart3,
-  Globe2,
   Settings,
   LogOut,
 } from "lucide-react";
@@ -39,16 +37,6 @@ const links = [
     title: "Referrals",
     href: "/admin/referrals",
     icon: Gift,
-  },
-  {
-    title: "Analytics",
-    href: "/admin/analytics",
-    icon: BarChart3,
-  },
-  {
-    title: "Countries",
-    href: "/admin/countries",
-    icon: Globe2,
   },
   {
     title: "Settings",
