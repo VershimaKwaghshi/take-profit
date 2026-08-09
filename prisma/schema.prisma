@@ -55,11 +55,7 @@ model LessonProgress {
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 
-  lesson             Lesson   @relation(
-    fields: [lessonId],
-    references: [id],
-    onDelete: Cascade
-  )
+  lesson             Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   @@unique([userId, lessonId])
 }
@@ -77,11 +73,7 @@ model LessonFeedback {
 
   createdAt        DateTime @default(now())
 
-  lesson           Lesson   @relation(
-    fields: [lessonId],
-    references: [id],
-    onDelete: Cascade
-  )
+  lesson           Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   @@unique([userId, lessonId])
 }
