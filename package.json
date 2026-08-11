@@ -22,8 +22,10 @@
     "next": "16.2.10",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-markdown": "^9.0.1",
     "react-phone-number-input": "^3.4.17",
     "react-select": "^5.10.2",
+    "remark-gfm": "^4.0.0",
     "resend": "^6.17.2"
   },
 
