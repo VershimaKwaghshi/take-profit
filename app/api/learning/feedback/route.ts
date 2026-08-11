@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     }
 
     const result = await createLessonFeedback({
-      userId: session.id,
+      userId: String(session.id),
       lessonId,
       clarityRating,
       usefulnessRating,
