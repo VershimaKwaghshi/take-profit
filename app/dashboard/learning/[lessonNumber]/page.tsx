@@ -1,7 +1,18 @@
+import fs from "fs";
+import path from "path";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Lock } from "lucide-react";
+import { redirect } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { ArrowLeft, ArrowRight, Lock, Check } from "lucide-react";
 
-import { getLessons } from "@/lib/learning";
+import { getSessionFromCookies } from "@/lib/auth";
+import {
+  getLessonByNumber,
+  getLessonAccess,
+  getLessonFeedback,
+} from "@/lib/learning";
+import LessonFeedbackForm from "@/components/LessonFeedbackForm";
 
 type LessonPageProps = {
   params: Promise<{
@@ -9,18 +20,30 @@ type LessonPageProps = {
   }>;
 };
 
-export default async function LessonPage({
-  params,
-}: LessonPageProps) {
-  const { lessonNumber } = await params;
+function formatUnlockCountdown(availableAt: Date) {
+  const ms = availableAt.getTime() - Date.now();
 
+  if (ms <= 0) return null;
+
+  const hours = Math.floor(ms / (1000 * 60 * 60));
+  const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+
+  if (hours <= 0) return `${minutes}m`;
+
+  return `${hours}h ${minutes}m`;
+}
+
+export default async function LessonPage({ params }: LessonPageProps) {
+  const { lessonNumber } = await params;
   const lessonNumberValue = Number(lessonNumber);
 
-  const modules = await getLessons();
+  const session = await getSessionFromCookies();
 
-  const lesson = modules.find(
-    (module) => module.lessonNumber === lessonNumberValue
-  );
+  if (!session) {
+    redirect("/login");
+  }
+
+  const lesson = await getLessonByNumber(lessonNumberValue);
 
   if (!lesson) {
     return (
@@ -61,13 +84,77 @@ export default async function LessonPage({
     );
   }
 
-  const previousLesson = modules.find(
-    (module) => module.lessonNumber === lesson.lessonNumber - 1
-  );
+  const access = await getLessonAccess(session.id, lesson.id);
 
-  const nextLesson = modules.find(
-    (module) => module.lessonNumber === lesson.lessonNumber + 1
-  );
+  if (!access.unlocked) {
+    const countdown = access.availableAt
+      ? formatUnlockCountdown(access.availableAt)
+      : null;
+
+    return (
+      <main className="min-h-screen bg-[#F7F7F4] text-black">
+        <div className="mx-auto w-full max-w-6xl px-6 py-20 md:px-10 lg:px-14">
+          <Link
+            href="/dashboard/learning"
+            className="inline-flex items-center gap-2 font-semibold text-[#071A52]"
+          >
+            <ArrowLeft size={18} />
+            Back to Learning Center
+          </Link>
+
+          <div className="mt-16 border-t-4 border-[#071A52] bg-white p-8 md:p-12">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-black/20">
+              <Lock size={18} className="text-black/50" />
+            </div>
+
+            <h1 className="mt-6 text-4xl font-semibold text-[#071A52] md:text-5xl">
+              This lesson is still locked.
+            </h1>
+
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-black/60">
+              {countdown
+                ? `Complete the lesson before this one, and this unlocks in ${countdown}.`
+                : "Complete the lesson before this one to unlock it."}
+            </p>
+
+            <Link
+              href="/dashboard/learning"
+              className="mt-8 inline-flex items-center gap-2 bg-[#071A52] px-6 py-3 font-semibold text-white transition hover:opacity-90"
+            >
+              Return to Learning Center
+              <ArrowRight size={17} />
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  const [previousLesson, nextLesson, feedback] = await Promise.all([
+    getLessonByNumber(lesson.lessonNumber - 1),
+    getLessonByNumber(lesson.lessonNumber + 1),
+    getLessonFeedback(session.id, lesson.id),
+  ]);
+
+  const nextLessonAccess = nextLesson
+    ? await getLessonAccess(session.id, nextLesson.id)
+    : null;
+
+  let markdown = "";
+  try {
+    const filePath = path.join(
+      process.cwd(),
+      "content",
+      "learning",
+      `${lesson.slug}.md`
+    );
+    markdown = fs.readFileSync(filePath, "utf8");
+  } catch {
+    markdown =
+      "Lesson content is missing for this lesson. Contact support.";
+  }
+
+  const completed = access.completed;
 
   return (
     <main className="min-h-screen bg-[#F7F7F4] text-black">
@@ -115,70 +202,34 @@ export default async function LessonPage({
           {/* MAIN READING AREA */}
           <div>
             <div className="border-t-4 border-[#D94A3D] bg-white p-7 md:p-10">
-              <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-[#D94A3D]">
-                Lesson {String(lesson.lessonNumber).padStart(2, "0")}
-              </p>
-
-              <h2 className="mt-5 text-3xl font-semibold leading-tight text-[#071A52] md:text-4xl">
-                {lesson.title}
-              </h2>
-
-              <p className="mt-6 text-lg leading-9 text-black/65">
-                {lesson.description}
-              </p>
+              <div className="prose max-w-none prose-headings:text-[#071A52] prose-headings:font-semibold prose-p:text-black/70 prose-p:leading-8 prose-img:my-8 prose-strong:text-black prose-li:text-black/70">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {markdown}
+                </ReactMarkdown>
+              </div>
             </div>
 
-            {/* LESSON BODY */}
-            <div className="mt-8 space-y-8">
-              <section className="bg-white p-7 md:p-10">
-                <h2 className="text-2xl font-semibold text-[#071A52] md:text-3xl">
-                  Understanding the lesson
-                </h2>
+            {/* FEEDBACK / COMPLETION */}
+            <div className="mt-8">
+              {completed ? (
+                <div className="border-t-4 border-[#071A52] bg-white p-7 md:p-10">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#071A52] text-white">
+                    <Check size={20} />
+                  </div>
 
-                <p className="mt-5 text-base leading-8 text-black/65 md:text-lg">
-                  This lesson is part of the Take Profit Academy curriculum.
-                  Work through the material carefully and make sure you
-                  understand the ideas before moving forward.
-                </p>
+                  <h2 className="mt-6 text-2xl font-semibold text-[#071A52] md:text-3xl">
+                    Lesson completed
+                  </h2>
 
-                <p className="mt-5 text-base leading-8 text-black/65 md:text-lg">
-                  The Academy is designed to build your understanding step by
-                  step. Each lesson introduces another layer of how financial
-                  markets work and how the different participants interact.
-                </p>
-              </section>
-
-              <section className="bg-white p-7 md:p-10">
-                <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-[#D94A3D]">
-                  Key idea
-                </p>
-
-                <h2 className="mt-4 text-2xl font-semibold text-[#071A52] md:text-3xl">
-                  Learn before you enter.
-                </h2>
-
-                <p className="mt-5 text-base leading-8 text-black/65 md:text-lg">
-                  The goal is not simply to memorize terminology. The goal is
-                  to understand what is happening, who is involved, and why
-                  the market behaves the way it does.
-                </p>
-              </section>
-
-              <section className="bg-[#071A52] p-7 text-white md:p-10">
-                <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-[#D94A3D]">
-                  Take your time
-                </p>
-
-                <h2 className="mt-4 text-2xl font-semibold md:text-3xl">
-                  Understanding comes first.
-                </h2>
-
-                <p className="mt-5 max-w-2xl text-base leading-8 text-white/70 md:text-lg">
-                  Read this lesson carefully. You do not need to rush through
-                  the Academy. The purpose is to build a foundation that you
-                  can actually use.
-                </p>
-              </section>
+                  <p className="mt-4 max-w-2xl text-base leading-8 text-black/60">
+                    {feedback
+                      ? "Thanks for the feedback."
+                      : "This lesson is marked complete."}
+                  </p>
+                </div>
+              ) : (
+                <LessonFeedbackForm lessonId={lesson.id} />
+              )}
             </div>
 
             {/* LESSON NAVIGATION */}
@@ -202,10 +253,22 @@ export default async function LessonPage({
               )}
 
               {nextLesson ? (
-                <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-black/35">
-                  <Lock size={14} />
-                  Next lesson locked
-                </div>
+                nextLessonAccess?.unlocked ? (
+                  <Link
+                    href={`/dashboard/learning/${nextLesson.lessonNumber}`}
+                    className="inline-flex items-center gap-2 font-semibold text-[#071A52]"
+                  >
+                    Next lesson
+                    <ArrowRight size={17} />
+                  </Link>
+                ) : (
+                  <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-black/35">
+                    <Lock size={14} />
+                    {completed
+                      ? "Next lesson unlocking soon"
+                      : "Next lesson locked"}
+                  </div>
+                )
               ) : (
                 <span className="font-mono text-xs uppercase tracking-wider text-black/35">
                   End of curriculum
@@ -221,16 +284,20 @@ export default async function LessonPage({
             </p>
 
             <p className="mt-4 text-3xl font-semibold text-[#071A52]">
-              0%
+              {completed ? 100 : 0}%
             </p>
 
             <div className="mt-5 h-1.5 w-full overflow-hidden bg-black/10">
-              <div className="h-full w-0 bg-[#071A52]" />
+              <div
+                className="h-full bg-[#071A52]"
+                style={{ width: completed ? "100%" : "0%" }}
+              />
             </div>
 
             <p className="mt-5 text-sm leading-7 text-black/55">
-              Complete each lesson carefully before moving to the next part of
-              the curriculum.
+              {completed
+                ? "Completed. The next lesson unlocks 24 hours after completion."
+                : "Submit feedback at the end of this lesson to mark it complete."}
             </p>
 
             <div className="mt-8 border-t border-black/10 pt-6">
