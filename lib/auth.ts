@@ -1,7 +1,25 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { verifySessionToken } from "./session";
 
 export const SESSION_COOKIE_NAME = "tp_session";
+
+/**
+ * Read and verify the session from within a Server
+ * Component or Server Action (not an API route).
+ *
+ * Use getSessionFromRequest instead inside app/api
+ * route handlers, which receive a Request object.
+ */
+export async function getSessionFromCookies() {
+  const cookieStore = await cookies();
+
+  const raw = cookieStore.get(SESSION_COOKIE_NAME)?.value;
+
+  if (!raw) return null;
+
+  return verifySessionToken(raw);
+}
 
 export function getSessionFromRequest(request: Request) {
   const cookieHeader = request.headers.get("cookie") || "";
