@@ -29,6 +29,7 @@
     "resend": "^6.17.2"
   },
 
+
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
