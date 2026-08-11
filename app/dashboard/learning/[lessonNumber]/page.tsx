@@ -43,6 +43,8 @@ export default async function LessonPage({ params }: LessonPageProps) {
     redirect("/login");
   }
 
+  const userId = String(session.id);
+
   const lesson = await getLessonByNumber(lessonNumberValue);
 
   if (!lesson) {
@@ -84,7 +86,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
     );
   }
 
-  const access = await getLessonAccess(session.id, lesson.id);
+  const access = await getLessonAccess(userId, lesson.id);
 
   if (!access.unlocked) {
     const countdown = access.availableAt
@@ -133,11 +135,11 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const [previousLesson, nextLesson, feedback] = await Promise.all([
     getLessonByNumber(lesson.lessonNumber - 1),
     getLessonByNumber(lesson.lessonNumber + 1),
-    getLessonFeedback(session.id, lesson.id),
+    getLessonFeedback(userId, lesson.id),
   ]);
 
   const nextLessonAccess = nextLesson
-    ? await getLessonAccess(session.id, nextLesson.id)
+    ? await getLessonAccess(userId, nextLesson.id)
     : null;
 
   let markdown = "";
