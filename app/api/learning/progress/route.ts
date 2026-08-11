@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     }
 
     const savedProgress = await updateLessonProgress({
-      userId: session.id,
+      userId: String(session.id),
       lessonId,
       progress: progress ?? 0,
       completed: false,
