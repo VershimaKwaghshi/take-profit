@@ -25,7 +25,7 @@ export default async function LearningPage() {
     redirect("/login");
   }
 
-  const access = await getUserLessonAccess(session.id);
+  const access = await getUserLessonAccess(String(session.id));
 
   const completedModules = access.filter((item) => item.completed).length;
 
