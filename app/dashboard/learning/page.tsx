@@ -1,17 +1,38 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { ArrowRight, Check, Lock } from "lucide-react";
 
-import { getLessons } from "@/lib/learning";
+import { getSessionFromCookies } from "@/lib/auth";
+import { getUserLessonAccess } from "@/lib/learning";
+
+function formatUnlockCountdown(availableAt: Date) {
+  const ms = availableAt.getTime() - Date.now();
+
+  if (ms <= 0) return null;
+
+  const hours = Math.floor(ms / (1000 * 60 * 60));
+  const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+
+  if (hours <= 0) return `${minutes}m`;
+
+  return `${hours}h ${minutes}m`;
+}
 
 export default async function LearningPage() {
-  const modules = await getLessons();
+  const session = await getSessionFromCookies();
 
-  const completedModules = 0;
+  if (!session) {
+    redirect("/login");
+  }
+
+  const access = await getUserLessonAccess(session.id);
+
+  const completedModules = access.filter((item) => item.completed).length;
 
   const percentage =
-    modules.length === 0
+    access.length === 0
       ? 0
-      : Math.round((completedModules / modules.length) * 100);
+      : Math.round((completedModules / access.length) * 100);
 
   return (
     <main className="min-h-screen bg-[#F7F7F4] text-black">
@@ -33,7 +54,7 @@ export default async function LearningPage() {
 
           <div className="mt-10 flex flex-wrap items-center gap-4 text-sm">
             <span className="border border-white/20 px-4 py-2 font-mono uppercase tracking-wider text-white/70">
-              {modules.length} Lessons
+              {access.length} Lessons
             </span>
 
             <span className="border border-white/20 px-4 py-2 font-mono uppercase tracking-wider text-white/70">
@@ -53,7 +74,7 @@ export default async function LearningPage() {
               </p>
 
               <p className="mt-3 text-xl font-semibold">
-                {completedModules} of {modules.length} lessons completed
+                {completedModules} of {access.length} lessons completed
               </p>
             </div>
 
@@ -81,10 +102,6 @@ export default async function LearningPage() {
             Start here
           </p>
 
-          {/* IMPORTANT:
-              Vision route is:
-              /dashboard/learning/vision
-          */}
           <Link
             href="/dashboard/learning/vision"
             className="group mt-6 block border-t-4 border-[#071A52] bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl md:p-10"
@@ -135,14 +152,15 @@ export default async function LearningPage() {
           </div>
 
           <div className="border-t border-black/10">
-            {modules.map((module, index) => {
-              const completed = false;
-              const unlocked = index === 0;
-
+            {access.map(({ lesson, completed, unlocked, availableAt }) => {
               if (!unlocked) {
+                const countdown = availableAt
+                  ? formatUnlockCountdown(availableAt)
+                  : null;
+
                 return (
                   <div
-                    key={module.id}
+                    key={lesson.id}
                     className="group block cursor-not-allowed border-b border-black/10 py-8 opacity-45 md:py-10"
                   >
                     <div className="flex gap-5 md:gap-8">
@@ -157,23 +175,25 @@ export default async function LearningPage() {
                           <div className="max-w-2xl">
                             <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.25em] text-black/40">
                               Lesson{" "}
-                              {String(module.lessonNumber).padStart(2, "0")}
+                              {String(lesson.lessonNumber).padStart(2, "0")}
                             </p>
 
                             <h3 className="mt-2 text-2xl font-semibold leading-tight text-black md:text-3xl">
-                              {module.title}
+                              {lesson.title}
                             </h3>
 
-                            {module.description && (
+                            {lesson.description && (
                               <p className="mt-3 text-sm leading-7 text-black/60 md:text-base">
-                                {module.description}
+                                {lesson.description}
                               </p>
                             )}
                           </div>
 
                           <div className="shrink-0 md:pt-5">
                             <span className="font-mono text-xs uppercase tracking-wider text-black/40">
-                              Locked
+                              {countdown
+                                ? `Unlocks in ${countdown}`
+                                : "Locked"}
                             </span>
                           </div>
                         </div>
@@ -185,16 +205,8 @@ export default async function LearningPage() {
 
               return (
                 <Link
-                  key={module.id}
-                  /*
-                   * IMPORTANT:
-                   * The lesson route is:
-                   * /dashboard/learning/[lessonNumber]
-                   *
-                   * Therefore Lesson 1 becomes:
-                   * /dashboard/learning/1
-                   */
-                  href={`/dashboard/learning/${module.lessonNumber}`}
+                  key={lesson.id}
+                  href={`/dashboard/learning/${lesson.lessonNumber}`}
                   className="group block border-b border-black/10 py-8 transition hover:bg-white md:py-10"
                 >
                   <div className="flex gap-5 md:gap-8">
@@ -205,7 +217,7 @@ export default async function LearningPage() {
                         </div>
                       ) : (
                         <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#071A52] font-mono text-xs font-semibold text-[#071A52]">
-                          {String(module.lessonNumber).padStart(2, "0")}
+                          {String(lesson.lessonNumber).padStart(2, "0")}
                         </div>
                       )}
                     </div>
@@ -215,16 +227,16 @@ export default async function LearningPage() {
                         <div className="max-w-2xl">
                           <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.25em] text-black/40">
                             Lesson{" "}
-                            {String(module.lessonNumber).padStart(2, "0")}
+                            {String(lesson.lessonNumber).padStart(2, "0")}
                           </p>
 
                           <h3 className="mt-2 text-2xl font-semibold leading-tight text-black transition group-hover:text-[#071A52] md:text-3xl">
-                            {module.title}
+                            {lesson.title}
                           </h3>
 
-                          {module.description && (
+                          {lesson.description && (
                             <p className="mt-3 text-sm leading-7 text-black/60 md:text-base">
-                              {module.description}
+                              {lesson.description}
                             </p>
                           )}
                         </div>
