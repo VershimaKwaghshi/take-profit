@@ -85,8 +85,6 @@ export default function LessonFeedbackForm({
         throw new Error(data.error || "Unable to submit feedback.");
       }
 
-      // Re-fetch the server component so the page now
-      // shows the completed state and unlock countdown.
       router.refresh();
     } catch (err) {
       setError(
