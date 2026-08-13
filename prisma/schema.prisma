@@ -8,6 +8,309 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+enum Role {
+  TRADER
+  MANAGER
+  TRADING_LEADER
+  ADMIN
+}
+
+model User {
+  id               String   @id @default(cuid())
+  firstName        String   @map("first_name")
+  lastName         String   @map("last_name")
+  email            String   @unique
+  phone            String?
+  country          String?
+  role             Role     @default(TRADER)
+  isAdmin          Boolean  @default(false) @map("is_admin")
+  emailVerified    Boolean  @default(false) @map("email_verified")
+  experience       String?
+  targetedAssets   String?  @map("targeted_assets")
+  tradingFrequency String?  @map("trading_frequency")
+
+  referralCode     String   @unique @map("referral_code")
+  referredById     String?  @map("referred_by_id")
+  referredBy       User?    @relation("Referrals", fields: [referredById], references: [id])
+  referrals        User[]   @relation("Referrals")
+  referrerActive   Boolean  @default(true) @map("referrer_active")
+  referrerLastActiveAt DateTime @default(now()) @map("referrer_last_active_at")
+
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  subscription         Subscription?
+  tradingAccounts       TradingAccount[]
+  managerProfile         ManagerProfile?
+  tradingLeader          TradingLeader?
+  capitalBuildingPlans    CapitalBuildingPlan[]
+  liquidityRequests       LiquidityRequest[]
+  liquidityFacilitations  LiquidityFacilitator[]
+  liquidityBonds          LiquidityBonder[]
+  referralListings        ReferralMarketplaceListing[] @relation("ListingTrader")
+  referralClaims          ReferralMarketplaceListing[] @relation("ListingClaimedBy")
+  referralBids            ReferralBid[]
+  lessonProgresses        LessonProgress[]
+  lessonFeedbacks         LessonFeedback[]
+
+  @@map("users")
+}
+
+model VerificationCode {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  code      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("verification_codes")
+}
+
+model Subscription {
+  id                 String    @id @default(cuid())
+  userId             String    @unique @map("user_id")
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status             String    @default("inactive")
+  amount             Decimal   @default(4.99) @db.Decimal(6, 2)
+  currentPeriodStart DateTime? @map("current_period_start")
+  currentPeriodEnd   DateTime? @map("current_period_end")
+  lastPaymentAt      DateTime? @map("last_payment_at")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+
+  @@map("subscriptions")
+}
+
+model Broker {
+  id             String   @id @default(cuid())
+  name           String
+  isPartner      Boolean  @default(true) @map("is_partner")
+  spreadData     Json?    @map("spread_data")
+  swapData       Json?    @map("swap_data")
+  commissionData Json?    @map("commission_data")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  tradingAccounts TradingAccount[]
+
+  @@map("brokers")
+}
+
+model TradingAccount {
+  id            String   @id @default(cuid())
+  ownerId       String   @map("owner_id")
+  owner         User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  brokerId      String?  @map("broker_id")
+  broker        Broker?  @relation(fields: [brokerId], references: [id])
+  accountType   String   @map("account_type")
+  size          Decimal  @db.Decimal(14, 2)
+  status        String   @default("active")
+  capitalLocked Boolean  @default(false) @map("capital_locked")
+  drawdownPct   Decimal  @default(0) @map("drawdown_pct") @db.Decimal(5, 2)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  managerAssignments   ManagerAssignment[]
+  capitalBuildingPlans CapitalBuildingPlan[]
+  liquidityRequests    LiquidityRequest[]
+  restitutionEvents    RestitutionEvent[]
+  leaderEmployeeAccount TradingLeaderEmployeeAccount?
+
+  @@map("trading_accounts")
+}
+
+model ManagerProfile {
+  id                 String   @id @default(cuid())
+  userId             String   @unique @map("user_id")
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  alias              String   @unique
+  qualificationMethod String? @map("qualification_method")
+  qualifiedAt        DateTime? @map("qualified_at")
+  region             String?
+  createdAt          DateTime @default(now()) @map("created_at")
+
+  assignments        ManagerAssignment[]
+  leaderEmployment    TradingLeaderEmployee?
+
+  @@map("manager_profiles")
+}
+
+model ManagerAssignment {
+  id               String    @id @default(cuid())
+  tradingAccountId String    @map("trading_account_id")
+  tradingAccount   TradingAccount @relation(fields: [tradingAccountId], references: [id], onDelete: Cascade)
+  managerProfileId String    @map("manager_profile_id")
+  managerProfile   ManagerProfile @relation(fields: [managerProfileId], references: [id])
+  splitType        String    @map("split_type")
+  active           Boolean   @default(true)
+  assignedAt       DateTime  @default(now()) @map("assigned_at")
+  endedAt          DateTime? @map("ended_at")
+  endReason        String?   @map("end_reason")
+
+  restitutionEvents RestitutionEvent[]
+
+  @@map("manager_assignments")
+}
+
+model CapitalBuildingPlan {
+  id             String    @id @default(cuid())
+  traderId       String    @map("trader_id")
+  trader         User      @relation(fields: [traderId], references: [id], onDelete: Cascade)
+  requestedSize  Decimal   @map("requested_size") @db.Decimal(14, 2)
+  tradingAccountId String? @map("trading_account_id")
+  tradingAccount TradingAccount? @relation(fields: [tradingAccountId], references: [id])
+  dayCount       Int       @default(0) @map("day_count")
+  status         String    @default("in_progress")
+  fundedAt       DateTime? @map("funded_at")
+  completedAt    DateTime? @map("completed_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+
+  payments       CapitalBuildingPayment[]
+
+  @@map("capital_building_plans")
+}
+
+model CapitalBuildingPayment {
+  id                     String   @id @default(cuid())
+  planId                 String   @map("plan_id")
+  plan                   CapitalBuildingPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  dayNumber              Int      @map("day_number")
+  amount                 Decimal  @db.Decimal(14, 2)
+  creditRepaymentAmount  Decimal  @map("credit_repayment_amount") @db.Decimal(14, 2)
+  serviceFeeAmount       Decimal  @map("service_fee_amount") @db.Decimal(14, 2)
+  paidAt                 DateTime @default(now()) @map("paid_at")
+
+  @@unique([planId, dayNumber])
+  @@map("capital_building_payments")
+}
+
+model LiquidityRequest {
+  id              String    @id @default(cuid())
+  traderId        String    @map("trader_id")
+  trader          User      @relation(fields: [traderId], references: [id], onDelete: Cascade)
+  tradingAccountId String   @map("trading_account_id")
+  tradingAccount  TradingAccount @relation(fields: [tradingAccountId], references: [id])
+  requestedAmount Decimal   @map("requested_amount") @db.Decimal(14, 2)
+  status          String    @default("open")
+  fundedAt        DateTime? @map("funded_at")
+  lienExpiresAt   DateTime? @map("lien_expires_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  facilitators    LiquidityFacilitator[]
+  bonders         LiquidityBonder[]
+
+  @@map("liquidity_requests")
+}
+
+model LiquidityFacilitator {
+  id                 String   @id @default(cuid())
+  liquidityRequestId String   @map("liquidity_request_id")
+  liquidityRequest   LiquidityRequest @relation(fields: [liquidityRequestId], references: [id], onDelete: Cascade)
+  facilitatorId      String   @map("facilitator_id")
+  facilitator        User     @relation(fields: [facilitatorId], references: [id])
+  cutPct             Decimal  @default(40.00) @map("cut_pct") @db.Decimal(5, 2)
+  createdAt          DateTime @default(now()) @map("created_at")
+
+  @@map("liquidity_facilitators")
+}
+
+model LiquidityBonder {
+  id                  String   @id @default(cuid())
+  liquidityRequestId  String   @map("liquidity_request_id")
+  liquidityRequest    LiquidityRequest @relation(fields: [liquidityRequestId], references: [id], onDelete: Cascade)
+  bonderId            String   @map("bonder_id")
+  bonder              User     @relation(fields: [bonderId], references: [id])
+  amountContributed   Decimal  @map("amount_contributed") @db.Decimal(14, 2)
+  cutPct              Decimal? @map("cut_pct") @db.Decimal(5, 2)
+  createdAt           DateTime @default(now()) @map("created_at")
+
+  @@map("liquidity_bonders")
+}
+
+model RestitutionEvent {
+  id                   String    @id @default(cuid())
+  tradingAccountId     String    @map("trading_account_id")
+  tradingAccount       TradingAccount @relation(fields: [tradingAccountId], references: [id], onDelete: Cascade)
+  managerAssignmentId  String    @map("manager_assignment_id")
+  managerAssignment    ManagerAssignment @relation(fields: [managerAssignmentId], references: [id])
+  drawdownPctAtTrigger Decimal   @map("drawdown_pct_at_trigger") @db.Decimal(5, 2)
+  queuePosition        Int?      @map("queue_position")
+  status               String    @default("queued")
+  triggeredAt          DateTime  @default(now()) @map("triggered_at")
+  restoredAt           DateTime? @map("restored_at")
+
+  @@map("restitution_events")
+}
+
+model TradingLeader {
+  id               String   @id @default(cuid())
+  userId           String   @unique @map("user_id")
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName      String   @map("company_name")
+  employeeCap      Int      @default(1000) @map("employee_cap")
+  morningShiftCap  Int      @default(500) @map("morning_shift_cap")
+  nightShiftCap    Int      @default(500) @map("night_shift_cap")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  employees        TradingLeaderEmployee[]
+
+  @@map("trading_leaders")
+}
+
+model TradingLeaderEmployee {
+  id                String   @id @default(cuid())
+  tradingLeaderId   String   @map("trading_leader_id")
+  tradingLeader     TradingLeader @relation(fields: [tradingLeaderId], references: [id], onDelete: Cascade)
+  managerProfileId  String   @unique @map("manager_profile_id")
+  managerProfile    ManagerProfile @relation(fields: [managerProfileId], references: [id])
+  shift             String
+  employmentStatus  String   @default("active") @map("employment_status")
+  hiredAt           DateTime @default(now()) @map("hired_at")
+  terminatedAt      DateTime? @map("terminated_at")
+
+  account           TradingLeaderEmployeeAccount?
+
+  @@unique([tradingLeaderId, managerProfileId])
+  @@map("trading_leader_employees")
+}
+
+model TradingLeaderEmployeeAccount {
+  id                String   @id @default(cuid())
+  employeeId        String   @unique @map("employee_id")
+  employee          TradingLeaderEmployee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  tradingAccountId  String   @unique @map("trading_account_id")
+  tradingAccount    TradingAccount @relation(fields: [tradingAccountId], references: [id], onDelete: Cascade)
+  slotNumber        Int      @map("slot_number")
+
+  @@map("trading_leader_employee_accounts")
+}
+
+model ReferralMarketplaceListing {
+  id                 String   @id @default(cuid())
+  traderId           String   @map("trader_id")
+  trader             User     @relation("ListingTrader", fields: [traderId], references: [id], onDelete: Cascade)
+  status             String   @default("open")
+  claimedById        String?  @map("claimed_by_id")
+  claimedBy          User?    @relation("ListingClaimedBy", fields: [claimedById], references: [id])
+  createdAt          DateTime @default(now()) @map("created_at")
+
+  bids               ReferralBid[]
+
+  @@map("referral_marketplace_listings")
+}
+
+model ReferralBid {
+  id          String   @id @default(cuid())
+  listingId   String   @map("listing_id")
+  listing     ReferralMarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  bidderId    String   @map("bidder_id")
+  bidder      User     @relation(fields: [bidderId], references: [id], onDelete: Cascade)
+  bidCutPct   Decimal  @map("bid_cut_pct") @db.Decimal(4, 2)
+  status      String   @default("active")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@unique([listingId, bidderId])
+  @@map("referral_bids")
+}
+
 model Lesson {
   id            String   @id @default(cuid())
   lessonNumber  Int      @unique
@@ -28,53 +331,36 @@ model Lesson {
 
 model LessonProgress {
   id                 String   @id @default(cuid())
-
   userId             String
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   lessonId           String
+  lesson             Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   progress           Int      @default(0)
-
   completed          Boolean  @default(false)
-
   completedAt        DateTime?
-
-  /*
-   * The time when this lesson becomes available.
-   *
-   * Example:
-   * User submits Lesson 1 feedback at 10:00 AM.
-   * unlockAt becomes 10:00 AM the following day.
-   *
-   * Lesson 2 becomes available after that time.
-   */
   unlockAt           DateTime?
-
   lastReadAt         DateTime?
-
   lastScrollPosition Int      @default(0)
 
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
-
-  lesson             Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   @@unique([userId, lessonId])
 }
 
 model LessonFeedback {
   id               String   @id @default(cuid())
-
   userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   lessonId         String
+  lesson           Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   clarityRating    Int
   usefulnessRating Int
-
   comment          String?
 
   createdAt        DateTime @default(now())
-
-  lesson           Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   @@unique([userId, lessonId])
 }
