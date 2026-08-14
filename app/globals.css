@@ -1,21 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --color-paper: #fafaf8;
-  --color-mist: #f3f4f6;
-  --color-ink: #10151f;
-  --color-ash: #64707d;
-  --color-line: #dde3ea;
-  --color-navy: #1a3a5c;
-  --color-navy-dark: #122840;
-  --color-navy-light: #2f5d8a;
+  --color-paper: #ffffff;
+  --color-mist: #f8fafc;
+  --color-ink: #0f172a;
+  --color-ash: #64748b;
+  --color-ash-light: #94a3b8;
+  --color-line: #e2e8f0;
+  --color-navy: #1e3a5f;
+  --color-navy-dark: #152b47;
+  --color-oxblood: #7a2620;
+  --color-emerald-bg: #ecfdf5;
+  --color-emerald-text: #047857;
+  --color-emerald-border: #a7f3d0;
 
   /* Dashboard (light) palette, used inside app/dashboard */
-  --color-deck: #f7f8fa;
+  --color-deck: #f8fafc;
   --color-panel: #ffffff;
-  --color-panel-line: #dde3ea;
-  --color-fog: #64707d;
-  --color-chalk: #10151f;
+  --color-panel-line: #e2e8f0;
+  --color-fog: #64748b;
+  --color-chalk: #0f172a;
 }
 
 @theme inline {
@@ -23,10 +27,14 @@
   --color-mist: var(--color-mist);
   --color-ink: var(--color-ink);
   --color-ash: var(--color-ash);
+  --color-ash-light: var(--color-ash-light);
   --color-line: var(--color-line);
   --color-navy: var(--color-navy);
   --color-navy-dark: var(--color-navy-dark);
-  --color-navy-light: var(--color-navy-light);
+  --color-oxblood: var(--color-oxblood);
+  --color-emerald-bg: var(--color-emerald-bg);
+  --color-emerald-text: var(--color-emerald-text);
+  --color-emerald-border: var(--color-emerald-border);
 
   --color-deck: var(--color-deck);
   --color-panel: var(--color-panel);
@@ -35,11 +43,10 @@
   --color-chalk: var(--color-chalk);
 
   --font-sans: var(--font-body);
-  --font-mono: var(--font-data);
 
-  --radius-sm: 0.75rem;
-  --radius-md: 1.25rem;
-  --radius-lg: 1.75rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
 }
 
 html {
@@ -64,8 +71,6 @@ body {
   outline-offset: 2px;
 }
 
-/* Numbers (money, counts, codes) always get tabular figures */
-.font-mono,
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
