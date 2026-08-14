@@ -6,17 +6,6 @@ type Props = {
   searchParams: Promise<{ ref?: string }>;
 };
 
-const LEDGER_ENTRIES = [
-  "TP-84219 · 45d inactive · 1.50x",
-  "MGR-ALIAS-07 · EU-WEST · 50/50",
-  "TP-83764 · 51d inactive · 1.25x",
-  "MGR-ALIAS-19 · NA-EAST · 50/50",
-  "CB-PLAN-1102 · day 34 of 100",
-  "TP-82901 · 65d inactive · 2.00x",
-  "MGR-ALIAS-03 · APAC · 50/50",
-  "RESTITUTION-QUEUE · position 4",
-];
-
 export default async function Home({ searchParams }: Props) {
   const { ref } = await searchParams;
   const registerHref = ref
@@ -25,126 +14,124 @@ export default async function Home({ searchParams }: Props) {
 
   return (
     <main className="min-h-screen bg-paper text-ink">
-      <header className="border-b border-line px-6 py-5 flex items-center justify-between">
+      <header className="px-6 py-5 flex items-center justify-between border-b border-line">
         <div className="flex items-center gap-3">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" className="text-navy">
-            <path d="M4 20L14 6L24 20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <circle cx="4" cy="20" r="2.5" fill="currentColor" />
-            <circle cx="24" cy="20" r="2.5" fill="currentColor" />
-            <circle cx="14" cy="6" r="1.5" fill="currentColor" />
+          <svg width="30" height="30" viewBox="0 0 28 28" fill="none" className="text-navy">
+            <path d="M4 20L14 6L24 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          <div className="leading-tight">
-            <p className="text-sm font-semibold tracking-wide">TAKE PROFIT</p>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-ash">Capital &amp; Manager Marketplace</p>
-          </div>
+          <span className="text-lg font-extrabold tracking-tight">TAKE PROFIT</span>
         </div>
-        <nav className="hidden md:flex items-center gap-8 text-xs uppercase tracking-widest text-ash font-medium">
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-ash">
           <a href="#programs" className="hover:text-navy transition-colors">Programs</a>
           <a href="#performance" className="hover:text-navy transition-colors">Performance</a>
           <a href="#faq" className="hover:text-navy transition-colors">FAQ</a>
         </nav>
         <Link
           href={registerHref}
-          className="bg-navy text-paper hover:bg-navy-dark text-sm font-medium px-5 py-2.5 rounded-full transition-colors"
+          className="bg-navy text-paper hover:bg-navy-dark font-semibold px-6 py-3 rounded-full transition-colors"
         >
           Register
         </Link>
       </header>
 
-      <section className="px-6 py-20 md:py-28 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-navy font-semibold mb-5">
-            Precision. Protection. Performance.
-          </p>
-          <h1 className="font-headline text-4xl md:text-5xl font-semibold leading-[1.1] mb-6">
-            A ledger for how capital and management actually get shared.
+      <section className="relative overflow-hidden">
+        <div className="px-6 pt-16 pb-20 md:pt-24 md:pb-28 max-w-6xl mx-auto text-center flex flex-col items-center">
+          <h1 className="font-sans text-5xl md:text-7xl font-black tracking-tight leading-[1.02] mb-6 max-w-4xl">
+            Trade with real capital.
+            <br />
+            <span className="text-navy">Split the profit, not the risk.</span>
           </h1>
-          <p className="text-ash text-base md:text-lg max-w-md mb-8 leading-relaxed">
-            Take Profit pairs retail traders with professional managers under a transparent
-            50/50 split, backed by an automated restitution reserve if a manager breaches risk.
+          <p className="text-ash text-lg md:text-xl max-w-2xl mb-10">
+            Take Profit pairs you with a professional manager under a transparent 50/50
+            split, backed by an automated restitution reserve if a manager breaches risk.
           </p>
-          <div className="flex flex-col items-start gap-3">
+          <div className="flex flex-col items-center gap-3">
             <Link
               href={registerHref}
-              className="bg-navy text-paper hover:bg-navy-dark font-medium px-7 py-3.5 rounded-full transition-colors"
+              className="bg-navy text-paper hover:bg-navy-dark font-bold px-10 py-5 text-lg rounded-full shadow-xl shadow-navy/20 transition-colors"
             >
               Register now
             </Link>
-            <span className="text-xs text-ash tracking-wide">No referral code required</span>
+            <span className="text-xs text-ash font-medium tracking-wide">No referral code required</span>
           </div>
         </div>
 
-        <div className="relative">
-          <div className="bg-panel border border-line rounded-2xl shadow-[0_20px_60px_-25px_rgba(16,21,31,0.25)] p-7 rotate-[1.2deg]">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-ash mb-1">Account balance</p>
-            <p className="font-data text-3xl font-medium mb-6">$48,210.00</p>
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-ash mb-1">Manager</p>
-                <p className="font-data text-sm">MGR-ALIAS-07</p>
-                <p className="text-[10px] text-ash mt-0.5">EU-WEST</p>
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-ash mb-1">Split</p>
-                <p className="font-data text-sm">50 / 50</p>
-                <p className="text-[10px] text-ash mt-0.5">Even, no exceptions</p>
-              </div>
+        <div className="max-w-5xl mx-auto px-6 pb-20">
+          <div className="relative bg-mist border border-line rounded-3xl p-8 md:p-12 overflow-hidden">
+            <svg viewBox="0 0 800 280" className="w-full h-auto" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#1a3a5c" stopOpacity="0.25" />
+                  <stop offset="100%" stopColor="#1a3a5c" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M0 200 L60 190 L120 210 L180 160 L240 175 L300 120 L360 140 L420 90 L480 110 L540 60 L600 85 L660 40 L720 65 L800 20 L800 280 L0 280 Z"
+                fill="url(#areaFill)"
+              />
+              <path
+                d="M0 200 L60 190 L120 210 L180 160 L240 175 L300 120 L360 140 L420 90 L480 110 L540 60 L600 85 L660 40 L720 65 L800 20"
+                fill="none"
+                stroke="#1a3a5c"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              {[
+                [0, 200], [120, 210], [240, 175], [360, 140],
+                [480, 110], [600, 85], [720, 65], [800, 20],
+              ].map(([x, y], i) => (
+                <circle key={i} cx={x} cy={y} r="5" fill="#1a3a5c" />
+              ))}
+            </svg>
+            <div className="absolute top-8 left-8 md:top-12 md:left-12 bg-paper border border-line rounded-xl px-4 py-3 shadow-lg">
+              <p className="text-[10px] uppercase tracking-widest text-ash mb-1">Split</p>
+              <p className="font-mono text-xl font-semibold">50 / 50</p>
             </div>
-            <div className="h-2 rounded-full bg-mist overflow-hidden flex">
-              <div className="bg-navy h-full" style={{ width: "50%" }} />
-              <div className="bg-line h-full" style={{ width: "50%" }} />
+            <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 bg-paper border border-line rounded-xl px-4 py-3 shadow-lg">
+              <p className="text-[10px] uppercase tracking-widest text-ash mb-1">Restitution reserve</p>
+              <p className="font-mono text-xl font-semibold text-navy">Active</p>
             </div>
           </div>
         </div>
       </section>
 
-      <div className="ledger-strip">
-        <div className="ledger-strip__track">
-          {[...LEDGER_ENTRIES, ...LEDGER_ENTRIES].map((entry, i) => (
-            <span key={i} className="ledger-strip__item">{entry}</span>
-          ))}
-        </div>
-      </div>
-
-      <section id="programs" className="px-6 py-24 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-px bg-line border border-line rounded-2xl overflow-hidden">
-        <div className="bg-paper p-8">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-navy font-semibold mb-4">Protection</p>
-          <div className="h-11 w-11 rounded-lg bg-mist border border-line flex items-center justify-center mb-5 text-navy">
-            <ShieldCheck className="h-5 w-5" />
+      <section id="programs" className="px-6 py-24 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-paper border border-line rounded-2xl p-8">
+          <div className="h-12 w-12 rounded-xl bg-navy/10 flex items-center justify-center mb-5 text-navy">
+            <ShieldCheck className="h-6 w-6" />
           </div>
-          <h3 className="font-headline text-lg font-semibold mb-3">Restitution reserve</h3>
-          <p className="text-ash text-sm leading-relaxed">
+          <h3 className="text-xl font-bold mb-3">Restitution reserve</h3>
+          <p className="text-ash leading-relaxed">
             A manager is locked out automatically at 50% drawdown. Restoration is funded
             from a reserve and queued first come, first served.
           </p>
         </div>
 
-        <div className="bg-paper p-8">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-navy font-semibold mb-4">Growth</p>
-          <div className="h-11 w-11 rounded-lg bg-mist border border-line flex items-center justify-center mb-5 text-navy">
-            <TrendingUp className="h-5 w-5" />
+        <div className="bg-paper border border-line rounded-2xl p-8">
+          <div className="h-12 w-12 rounded-xl bg-navy/10 flex items-center justify-center mb-5 text-navy">
+            <TrendingUp className="h-6 w-6" />
           </div>
-          <h3 className="font-headline text-lg font-semibold mb-3">Capital building</h3>
-          <p className="text-ash text-sm leading-relaxed">
+          <h3 className="text-xl font-bold mb-3">Capital building</h3>
+          <p className="text-ash leading-relaxed">
             A 100 day path to full funding. Daily scheduled payments at 1.1% of the
             requested size, funding opens day 11 through day 100.
           </p>
         </div>
 
-        <div className="bg-paper p-8">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-navy font-semibold mb-4">Execution</p>
-          <div className="h-11 w-11 rounded-lg bg-mist border border-line flex items-center justify-center mb-5 text-navy">
-            <Target className="h-5 w-5" />
+        <div className="bg-paper border border-line rounded-2xl p-8">
+          <div className="h-12 w-12 rounded-xl bg-navy/10 flex items-center justify-center mb-5 text-navy">
+            <Target className="h-6 w-6" />
           </div>
-          <h3 className="font-headline text-lg font-semibold mb-3">Managed trading</h3>
-          <p className="text-ash text-sm leading-relaxed">
+          <h3 className="text-xl font-bold mb-3">Managed trading</h3>
+          <p className="text-ash leading-relaxed">
             24 hour rotating regional manager pools, aliased identities, and an even
-            profit split you can see on every statement.
+            profit split on every statement.
           </p>
         </div>
       </section>
 
-      <footer className="border-t border-line py-10 px-6 text-center text-xs text-ash tracking-wide">
+      <footer className="border-t border-line py-10 px-6 text-center text-xs text-ash">
         © {new Date().getFullYear()} PLeNat Technologies. Partner broker custody model.
       </footer>
     </main>
