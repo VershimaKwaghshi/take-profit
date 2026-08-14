@@ -1,18 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, IBM_Plex_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import ReferralCapture from "@/components/ReferralCapture";
 
 const inter = Inter({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
-
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-data",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const viewport: Viewport = {
@@ -109,7 +103,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${plexMono.variable}`}>
+    <html lang="en" className={inter.variable}>
       <body>
         <ReferralCapture />
         {children}
