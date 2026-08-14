@@ -8,61 +8,75 @@
   --color-line: #dde3ea;
   --color-navy: #1a3a5c;
   --color-navy-dark: #122840;
+  --color-navy-light: #2f5d8a;
 
+  /* Dashboard (light) palette, used inside app/dashboard */
   --color-deck: #f7f8fa;
   --color-panel: #ffffff;
   --color-panel-line: #dde3ea;
   --color-fog: #64707d;
   --color-chalk: #10151f;
+}
 
-  --font-headline: var(--font-display), Georgia, serif;
-  --font-sans: var(--font-body), system-ui, sans-serif;
-  --font-mono: var(--font-data), monospace;
+@theme inline {
+  --color-paper: var(--color-paper);
+  --color-mist: var(--color-mist);
+  --color-ink: var(--color-ink);
+  --color-ash: var(--color-ash);
+  --color-line: var(--color-line);
+  --color-navy: var(--color-navy);
+  --color-navy-dark: var(--color-navy-dark);
+  --color-navy-light: var(--color-navy-light);
+
+  --color-deck: var(--color-deck);
+  --color-panel: var(--color-panel);
+  --color-panel-line: var(--color-panel-line);
+  --color-fog: var(--color-fog);
+  --color-chalk: var(--color-chalk);
+
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-data);
+
+  --radius-sm: 0.75rem;
+  --radius-md: 1.25rem;
+  --radius-lg: 1.75rem;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  font-family: var(--font-sans);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-.font-headline {
-  font-family: var(--font-headline);
+::selection {
+  background: var(--color-navy);
+  color: var(--color-paper);
 }
 
-.font-data {
-  font-family: var(--font-mono);
+:focus-visible {
+  outline: 2px solid var(--color-navy);
+  outline-offset: 2px;
+}
+
+/* Numbers (money, counts, codes) always get tabular figures */
+.font-mono,
+.tabular-nums {
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
-}
-
-.ledger-strip {
-  border-top: 1px solid var(--color-line);
-  border-bottom: 1px solid var(--color-line);
-  background: var(--color-mist);
-  overflow: hidden;
-  white-space: nowrap;
-  padding: 14px 0;
-}
-
-.ledger-strip__track {
-  display: inline-flex;
-  gap: 48px;
-  animation: ledger-scroll 38s linear infinite;
-}
-
-.ledger-strip__item {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  color: var(--color-ash);
-}
-
-@keyframes ledger-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ledger-strip__track {
-    animation: none;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
