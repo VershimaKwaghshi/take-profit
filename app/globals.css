@@ -20,6 +20,7 @@
   --color-panel-line: #e2e8f0;
   --color-fog: #475569;
   --color-chalk: #0f172a;
+  --color-ember: #b91c1c;
 }
 
 @theme inline {
@@ -42,6 +43,7 @@
   --color-panel-line: var(--color-panel-line);
   --color-fog: var(--color-fog);
   --color-chalk: var(--color-chalk);
+  --color-ember: var(--color-ember);
 
   --font-sans: var(--font-body);
 
