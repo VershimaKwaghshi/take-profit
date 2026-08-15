@@ -8,7 +8,10 @@ import { useUser } from "@/app/dashboard/UserProvider";
 
 const links = [
   { name: "Dashboard", href: "/dashboard" },
-  { name: "Referrals", href: "/dashboard/referrals" },
+  { name: "Restitution", href: "/dashboard/restitution" },
+  { name: "Capital Building", href: "/dashboard/capital-building" },
+  { name: "Social Bonds", href: "/dashboard/social-bonds" },
+  { name: "Referral Marketplace", href: "/dashboard/referral-marketplace" },
   { name: "Learning", href: "/dashboard/learning" },
   { name: "Profile", href: "/dashboard/profile" },
   { name: "Settings", href: "/dashboard/settings" },
@@ -59,27 +62,10 @@ export default function Sidebar() {
             </h2>
 
             <p className="mt-1 font-mono text-xs uppercase tracking-[0.3em] text-fog">
-              Academy
+              Restitution System
             </p>
           </div>
         </Link>
-      </div>
-
-      <div className="px-8 pt-10">
-        <div className="rounded-md border border-panel-line bg-deck/50 p-6">
-          <p className="font-mono text-xs uppercase tracking-[0.3em] text-ember">
-            Pre-launch
-          </p>
-
-          <h3 className="mt-4 text-xl font-semibold text-chalk">
-            Founding Member
-          </h3>
-
-          <p className="mt-4 text-sm leading-7 text-fog">
-            Learn how Take Profit works before launch and follow our
-            progress from inside your dashboard.
-          </p>
-        </div>
       </div>
 
       <div className="mt-12 px-8">
@@ -97,7 +83,7 @@ export default function Sidebar() {
                 href={link.href}
                 className={`block rounded-md px-5 py-4 font-medium transition-all duration-200 ${
                   active
-                    ? "bg-ember text-chalk"
+                    ? "bg-ember text-white"
                     : "text-fog hover:bg-deck/60 hover:text-chalk"
                 }`}
               >
@@ -124,7 +110,7 @@ export default function Sidebar() {
                   href={link.href}
                   className={`block rounded-md px-5 py-4 font-medium transition-all duration-200 ${
                     active
-                      ? "bg-ember text-chalk"
+                      ? "bg-ember text-white"
                       : "text-fog hover:bg-deck/60 hover:text-chalk"
                   }`}
                 >
