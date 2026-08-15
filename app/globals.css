@@ -14,7 +14,6 @@
   --color-emerald-text: #047857;
   --color-emerald-border: #a7f3d0;
 
-  /* Dashboard (light) palette, used inside app/dashboard */
   --color-deck: #f8fafc;
   --color-panel: #ffffff;
   --color-panel-line: #e2e8f0;
@@ -54,12 +53,30 @@ html {
 }
 
 body {
-  background: var(--color-paper);
+  background: var(--color-mist);
   color: var(--color-ink);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  position: relative;
 }
+
+/* Tiled watermark, built from the same balance logo motif, repeating diagonally behind content */
+.tp-watermark {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 0;
+  pointer-events: none;
+  transform: rotate(-18deg);
+  opacity: 0.5;
+  background-repeat: repeat;
+  background-size: 150px 150px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'%3E%3Cg fill='%23cbd1d9'%3E%3Cpath d='M12 62 L135 35 Q141 34 143 39 Q145 44 139 46 L16 74 Q10 75 8 70 Q6 65 12 62 Z'/%3E%3Cpath d='M70 62 L52 92 Q50 96 55 97 L92 97 Q97 96 95 92 Z'/%3E%3Ccircle cx='21' cy='58' r='8'/%3E%3Ccircle cx='118' cy='27' r='18'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+main, header, footer, aside, .tp-content { position: relative; z-index: 1; }
 
 ::selection {
   background: var(--color-navy);
