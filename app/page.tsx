@@ -55,10 +55,9 @@ export default async function Home({ searchParams }: Props) {
           </h2>
 
           <p className="text-ink text-sm md:text-base max-w-2xl mb-8 leading-relaxed font-medium">
-  Take Profit is a traders restitution system. It connects you with a vetted trading manager,
+  Take Profit is a trader restitution system. It connects you with a vetted trading manager,
   protects your account with a defined restitution path if things go wrong, and gives you more
-  than one way to build and access capital while you trade. Every part of it is explained below,
-  so you know exactly what you are joining before you join.
+  than one way to build and access capital while you trade.
  </p>
 
           <div className="flex flex-wrap items-center gap-3">
