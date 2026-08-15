@@ -4,12 +4,13 @@
   --color-paper: #ffffff;
   --color-mist: #f8fafc;
   --color-ink: #0f172a;
-  --color-ash: #64748b;
-  --color-ash-light: #94a3b8;
+  --color-ash: #475569;
+  --color-ash-light: #64748b;
   --color-line: #e2e8f0;
   --color-navy: #1e3a5f;
   --color-navy-dark: #152b47;
-  --color-oxblood: #7a2620;
+  --color-oxblood: #b91c1c;
+  --color-signal-green: #15803d;
   --color-emerald-bg: #ecfdf5;
   --color-emerald-text: #047857;
   --color-emerald-border: #a7f3d0;
@@ -17,7 +18,7 @@
   --color-deck: #f8fafc;
   --color-panel: #ffffff;
   --color-panel-line: #e2e8f0;
-  --color-fog: #64748b;
+  --color-fog: #475569;
   --color-chalk: #0f172a;
 }
 
@@ -31,6 +32,7 @@
   --color-navy: var(--color-navy);
   --color-navy-dark: var(--color-navy-dark);
   --color-oxblood: var(--color-oxblood);
+  --color-signal-green: var(--color-signal-green);
   --color-emerald-bg: var(--color-emerald-bg);
   --color-emerald-text: var(--color-emerald-text);
   --color-emerald-border: var(--color-emerald-border);
@@ -61,7 +63,6 @@ body {
   position: relative;
 }
 
-/* Tiled watermark, built from the same balance logo motif, repeating diagonally behind content */
 .tp-watermark {
   position: fixed;
   inset: -50%;
