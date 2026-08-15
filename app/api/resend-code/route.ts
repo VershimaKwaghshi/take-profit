@@ -1,5 +1,6 @@
+// app/api/resend-code/route.ts
 import { NextResponse } from "next/server";
-import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
+import prisma from "@/lib/prisma";
 import { Resend } from "resend";
 import { rateLimit } from "@/lib/rateLimit";
 
@@ -10,14 +11,10 @@ export async function POST(request: Request) {
     const { email } = await request.json();
 
     if (!email) {
-      return NextResponse.json(
-        { error: "Email is required." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Email is required." }, { status: 400 });
     }
 
     const limit = await rateLimit(`resend-code:${email}`, 3, 15 * 60 * 1000);
-
     if (!limit.success) {
       return NextResponse.json(
         { error: "Too many code requests. Please wait a few minutes and try again." },
@@ -27,26 +24,13 @@ export async function POST(request: Request) {
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
 
-    const { error: dbError } = await supabase
-      .from("verification_codes")
-      .upsert(
-        {
-          email,
-          code,
-          created_at: new Date().toISOString(),
-        },
-        { onConflict: "email" }
-      );
+    await prisma.verificationCode.upsert({
+      where: { email },
+      update: { code, createdAt: new Date() },
+      create: { email, code },
+    });
 
-    if (dbError) {
-      return NextResponse.json(
-        { error: "Failed to store verification code." },
-        { status: 500 }
-      );
-    }
-
-    // Capture the output from Resend to handle errors explicitly
-    const { data: emailData, error: emailError } = await resend.emails.send({
+    const { error: emailError } = await resend.emails.send({
       from: "Take Profit <welcome@takeprofit.name.ng>",
       to: [email],
       subject: "Your Take Profit Verification Code",
@@ -61,15 +45,9 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json(
-      { success: true, message: "Verification code sent successfully." },
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true, message: "Verification code sent successfully." });
   } catch (error) {
     console.error("Internal API error:", error);
-    return NextResponse.json(
-      { error: "Internal server error." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal server error." }, { status: 500 });
   }
 }
