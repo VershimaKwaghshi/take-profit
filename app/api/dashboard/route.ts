@@ -1,4 +1,4 @@
-l// app/api/dashboard/route.ts
+// app/api/dashboard/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getSessionFromRequest } from "@/lib/auth";
