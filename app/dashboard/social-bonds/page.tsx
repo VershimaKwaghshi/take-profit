@@ -57,12 +57,10 @@ export default function SocialBondsPage() {
   }
 
   return (
-  <ReferralGate>
+    <ReferralGate>
     {/* existing page content stays exactly as is */}
   </ReferralGate>
 );
-
-  return (
     <div>
       <p className="text-xs font-bold uppercase tracking-[0.3em] text-fog">Social Bonds</p>
       <h1 className="mt-5 text-4xl font-extrabold text-chalk md:text-5xl">Available Social Bond Opportunities</h1>
