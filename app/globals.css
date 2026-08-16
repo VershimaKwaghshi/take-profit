@@ -14,6 +14,7 @@
   --color-emerald-bg: #ecfdf5;
   --color-emerald-text: #047857;
   --color-emerald-border: #a7f3d0;
+  --color-oxblood-dark: #991b1b;
 
   --color-deck: #f8fafc;
   --color-panel: #ffffff;
@@ -37,6 +38,7 @@
   --color-emerald-bg: var(--color-emerald-bg);
   --color-emerald-text: var(--color-emerald-text);
   --color-emerald-border: var(--color-emerald-border);
+  --color-oxblood-dark: #991b1b;
 
   --color-deck: var(--color-deck);
   --color-panel: var(--color-panel);
