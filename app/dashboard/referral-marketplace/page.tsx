@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useUser } from "../UserProvider";
+import ReferralGate from "@/components/ReferralGate";
 
 type Listing = {
   id: string;
@@ -54,6 +55,10 @@ export default function ReferralMarketplacePage() {
   }
 
   return (
+    <ReferralGate>
+    {/* existing page content stays exactly as is */}
+  </ReferralGate>
+);
     <div>
       <p className="text-xs font-bold uppercase tracking-[0.3em] text-ember">Referral Marketplace</p>
       <h1 className="mt-5 text-4xl font-extrabold text-chalk md:text-5xl">Every account starts with a referral.</h1>
