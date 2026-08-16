@@ -1,14 +1,12 @@
 // app/api/referrals/bid/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getSessionFromRequest } from "@/lib/auth";
+import { requireReferral } from "@/lib/auth";
 
 export async function POST(request: Request) {
   try {
-    const session = getSessionFromRequest(request);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const { session, response } = await requireReferral(request);
+    if (response) return response;
 
     const body = await request.json();
     const listingId: string = body.listingId;
@@ -30,13 +28,13 @@ export async function POST(request: Request) {
       where: {
         listingId_bidderId: {
           listingId,
-          bidderId: session.id,
+          bidderId: session!.id,
         },
       },
       update: { bidCutPct, status: "active" },
       create: {
         listingId,
-        bidderId: session.id,
+        bidderId: session!.id,
         bidCutPct,
         status: "active",
       },
