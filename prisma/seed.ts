@@ -177,6 +177,13 @@ const managers = [
   { email: "seed-mgr-06@internal.takeprofit", alias: "MGR-ALIAS-14", region: "APAC" },
 ];
 
+const brokers = [
+  { name: "Exness", isPartner: true },
+  { name: "Markets4you", isPartner: true },
+  { name: "IC Markets", isPartner: true },
+  { name: "Deriv", isPartner: true },
+];
+
 async function main() {
   for (const lesson of lessons) {
     await prisma.lesson.upsert({
@@ -228,6 +235,15 @@ async function main() {
   }
 
   console.log("✅ 6 manager profiles seeded successfully.");
+
+  for (const broker of brokers) {
+    const existing = await prisma.broker.findFirst({ where: { name: broker.name } });
+    if (!existing) {
+      await prisma.broker.create({ data: broker });
+    }
+  }
+
+  console.log("✅ Partner brokers seeded successfully.");
 }
 
 main()
