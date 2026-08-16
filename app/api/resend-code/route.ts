@@ -22,6 +22,14 @@ export async function POST(request: Request) {
       );
     }
 
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      return NextResponse.json(
+        { error: "No account found with that email. Create an account first." },
+        { status: 404 }
+      );
+    }
+
     const code = Math.floor(100000 + Math.random() * 900000).toString();
 
     await prisma.verificationCode.upsert({
