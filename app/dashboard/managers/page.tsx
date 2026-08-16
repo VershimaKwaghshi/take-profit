@@ -71,53 +71,51 @@ export default function ManagerSelectionPage() {
   }
 
   return (
-      <ReferralGate>
-    {/* existing page content stays exactly as is */}
-  </ReferralGate>
-);
-    <div>
-      <p className="text-xs font-bold uppercase tracking-[0.3em] text-fog">Manager Selection</p>
-      <h1 className="mt-5 text-4xl font-extrabold text-chalk md:text-5xl">Choose your manager.</h1>
-      <p className="mt-4 text-sm text-fog font-medium max-w-2xl">
-        Three vetted managers, one from each of three regions. Your choice stays assigned until
-        you switch, no need to wait for a loss.
-      </p>
-
-      {activeAssignment && (
-        <div className="mt-8 rounded-lg border border-panel-line bg-panel p-6">
-          <p className="text-[10px] uppercase tracking-wider text-fog font-bold">Currently Assigned</p>
-          <p className="mt-2 text-2xl font-extrabold text-chalk flex items-center gap-2 flex-wrap">
-            {activeAssignment.managerProfile.alias}
-            <span className="text-xs font-bold px-2 py-1 rounded bg-deck border border-panel-line text-fog">
-              {activeAssignment.managerProfile.region}
-            </span>
-          </p>
-          <p className="mt-2 text-xs text-fog font-medium">
-            Assigned {new Date(activeAssignment.assignedAt).toLocaleDateString()}
-          </p>
-        </div>
-      )}
-
-      <div className="mt-8">
-        <p className="text-sm font-bold text-chalk mb-4">
-          {activeAssignment ? "Switch to a new manager" : "Today's pool"}
+    <ReferralGate>
+      <div>
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-fog">Manager Selection</p>
+        <h1 className="mt-5 text-4xl font-extrabold text-chalk md:text-5xl">Choose your manager.</h1>
+        <p className="mt-4 text-sm text-fog font-medium max-w-2xl">
+          Three vetted managers, one from each of three regions. Your choice stays assigned until
+          you switch, no need to wait for a loss.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {pool.map((manager) => (
-            <div key={manager.id} className="rounded-lg border border-panel-line bg-panel p-6">
-              <p className="text-[10px] uppercase tracking-wider text-fog font-bold">{manager.region}</p>
-              <p className="mt-2 text-xl font-extrabold text-chalk">{manager.alias}</p>
-              <button
-                onClick={() => select(manager.id)}
-                disabled={selecting === manager.id}
-                className="mt-4 w-full bg-navy hover:bg-navy-dark text-white text-xs font-bold py-2.5 rounded-md disabled:opacity-50"
-              >
-                {selecting === manager.id ? "Assigning..." : "Select"}
-              </button>
-            </div>
-          ))}
+
+        {activeAssignment && (
+          <div className="mt-8 rounded-lg border border-panel-line bg-panel p-6">
+            <p className="text-[10px] uppercase tracking-wider text-fog font-bold">Currently Assigned</p>
+            <p className="mt-2 text-2xl font-extrabold text-chalk flex items-center gap-2 flex-wrap">
+              {activeAssignment.managerProfile.alias}
+              <span className="text-xs font-bold px-2 py-1 rounded bg-deck border border-panel-line text-fog">
+                {activeAssignment.managerProfile.region}
+              </span>
+            </p>
+            <p className="mt-2 text-xs text-fog font-medium">
+              Assigned {new Date(activeAssignment.assignedAt).toLocaleDateString()}
+            </p>
+          </div>
+        )}
+
+        <div className="mt-8">
+          <p className="text-sm font-bold text-chalk mb-4">
+            {activeAssignment ? "Switch to a new manager" : "Today's pool"}
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {pool.map((manager) => (
+              <div key={manager.id} className="rounded-lg border border-panel-line bg-panel p-6">
+                <p className="text-[10px] uppercase tracking-wider text-fog font-bold">{manager.region}</p>
+                <p className="mt-2 text-xl font-extrabold text-chalk">{manager.alias}</p>
+                <button
+                  onClick={() => select(manager.id)}
+                  disabled={selecting === manager.id}
+                  className="mt-4 w-full bg-navy hover:bg-navy-dark text-white text-xs font-bold py-2.5 rounded-md disabled:opacity-50"
+                >
+                  {selecting === manager.id ? "Assigning..." : "Select"}
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </ReferralGate>
   );
 }
