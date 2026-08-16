@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { UserProvider } from "./UserProvider";
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
+import MobileNav from "@/components/MobileNav";
 
 export default function DashboardLayout({
   children,
@@ -12,6 +13,7 @@ export default function DashboardLayout({
     <Suspense fallback={null}>
       <UserProvider>
         <main className="min-h-screen bg-deck">
+          <MobileNav />
           <div className="flex min-h-screen">
             <Sidebar />
 
