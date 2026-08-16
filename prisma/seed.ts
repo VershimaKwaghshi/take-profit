@@ -168,6 +168,15 @@ const socialBonds = [
   },
 ];
 
+const managers = [
+  { email: "seed-mgr-01@internal.takeprofit", alias: "MGR-ALIAS-07", region: "EU-WEST" },
+  { email: "seed-mgr-02@internal.takeprofit", alias: "MGR-ALIAS-19", region: "EU-WEST" },
+  { email: "seed-mgr-03@internal.takeprofit", alias: "MGR-ALIAS-03", region: "NA-EAST" },
+  { email: "seed-mgr-04@internal.takeprofit", alias: "MGR-ALIAS-22", region: "NA-EAST" },
+  { email: "seed-mgr-05@internal.takeprofit", alias: "MGR-ALIAS-11", region: "APAC" },
+  { email: "seed-mgr-06@internal.takeprofit", alias: "MGR-ALIAS-14", region: "APAC" },
+];
+
 async function main() {
   for (const lesson of lessons) {
     await prisma.lesson.upsert({
@@ -190,6 +199,35 @@ async function main() {
   }
 
   console.log("✅ 5 social bonds seeded successfully.");
+
+  for (const manager of managers) {
+    const user = await prisma.user.upsert({
+      where: { email: manager.email },
+      update: {},
+      create: {
+        firstName: "Seed",
+        lastName: "Manager",
+        email: manager.email,
+        referralCode: manager.alias,
+        emailVerified: true,
+        role: "MANAGER",
+      },
+    });
+
+    await prisma.managerProfile.upsert({
+      where: { userId: user.id },
+      update: { alias: manager.alias, region: manager.region },
+      create: {
+        userId: user.id,
+        alias: manager.alias,
+        region: manager.region,
+        qualificationMethod: "live_history",
+        qualifiedAt: new Date(),
+      },
+    });
+  }
+
+  console.log("✅ 6 manager profiles seeded successfully.");
 }
 
 main()
