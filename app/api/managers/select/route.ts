@@ -1,14 +1,12 @@
 // app/api/managers/select/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getSessionFromRequest } from "@/lib/auth";
+import { requireReferral } from "@/lib/auth";
 
 export async function POST(request: Request) {
   try {
-    const session = getSessionFromRequest(request);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const { session, response } = await requireReferral(request);
+    if (response) return response;
 
     const { managerProfileId } = await request.json();
     if (!managerProfileId) {
@@ -16,7 +14,7 @@ export async function POST(request: Request) {
     }
 
     const account = await prisma.tradingAccount.findFirst({
-      where: { ownerId: session.id, status: "active" },
+      where: { ownerId: session!.id, status: "active" },
       orderBy: { createdAt: "desc" },
     });
 
