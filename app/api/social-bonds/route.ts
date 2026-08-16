@@ -10,19 +10,43 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const requests = await prisma.liquidityRequest.findMany({
-      where: { traderId: session.id },
+    const bonds = await prisma.socialBond.findMany({
       orderBy: { createdAt: "desc" },
       select: {
         id: true,
-        requestedAmount: true,
+        bondCode: true,
+        location: true,
+        bondType: true,
+        targetReturnPct: true,
         status: true,
-        lienExpiresAt: true,
       },
-      take: 10,
     });
 
-    return NextResponse.json({ requests }, { status: 200 });
+    const myInvestments = await prisma.socialBondInvestment.findMany({
+      where: { investorId: session.id },
+      select: { amountInvested: true, bond: { select: { targetReturnPct: true } } },
+    });
+
+    const totalValue = myInvestments.reduce((sum, i) => sum + Number(i.amountInvested), 0);
+    const weightedYield =
+      totalValue > 0
+        ? myInvestments.reduce(
+            (sum, i) => sum + Number(i.amountInvested) * Number(i.bond.targetReturnPct),
+            0
+          ) / totalValue
+        : 0;
+
+    return NextResponse.json(
+      {
+        bonds,
+        summary: {
+          totalBondsFunded: myInvestments.length,
+          totalValue,
+          weightedYield,
+        },
+      },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
