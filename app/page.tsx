@@ -15,7 +15,6 @@ export default async function Home({ searchParams }: Props) {
 
   return (
     <>
-      <div className="tp-watermark" />
       <main className="tp-content min-h-screen bg-transparent text-ink">
         <header className="bg-white/90 backdrop-blur-sm border-b border-line px-6 py-4 flex items-center justify-between sticky top-0 z-20">
           <div className="flex items-center gap-3">
