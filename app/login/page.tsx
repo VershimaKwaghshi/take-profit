@@ -63,7 +63,7 @@ export default function LoginPage() {
         </h1>
 
         <p className="mt-3 leading-7 text-ash">
-          Enter the email address you used to join the Take Profit waitlist.
+          Enter the email you registered with. We&apos;ll send you a fresh verification code.
           We&apos;ll send you a fresh verification code.
         </p>
 
