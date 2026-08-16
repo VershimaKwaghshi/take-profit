@@ -1,14 +1,12 @@
 // app/api/social-bonds/fund/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getSessionFromRequest } from "@/lib/auth";
+import { requireReferral } from "@/lib/auth";
 
 export async function POST(request: Request) {
   try {
-    const session = getSessionFromRequest(request);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const { session, response } = await requireReferral(request);
+    if (response) return response;
 
     const { bondId, amount } = await request.json();
 
@@ -25,7 +23,7 @@ export async function POST(request: Request) {
     const investment = await prisma.socialBondInvestment.create({
       data: {
         bondId,
-        investorId: session.id,
+        investorId: session!.id,
         amountInvested: amount,
       },
     });
