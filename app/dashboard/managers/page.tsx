@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useUser } from "../UserProvider";
+import ReferralGate from "@/components/ReferralGate";
 
 type PoolManager = {
   id: string;
@@ -68,6 +69,12 @@ export default function ManagerSelectionPage() {
       </div>
     );
   }
+
+  return (
+  <ReferralGate>
+    {/* existing page content stays exactly as is */}
+  </ReferralGate>
+);
 
   return (
     <div>
