@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useUser } from "../UserProvider";
+import ReferralGate from "@/components/ReferralGate";
 
 type Bond = {
   id: string;
@@ -54,6 +55,12 @@ export default function SocialBondsPage() {
   if (userLoading || loading) {
     return <p className="text-fog">Loading...</p>;
   }
+
+  return (
+  <ReferralGate>
+    {/* existing page content stays exactly as is */}
+  </ReferralGate>
+);
 
   return (
     <div>
