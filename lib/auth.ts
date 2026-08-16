@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifySessionToken } from "./session";
+import prisma from "./prisma";
 
 export const SESSION_COOKIE_NAME = "tp_session";
 
@@ -70,6 +71,37 @@ export function requireAdmin(request: Request) {
       session: null,
       response: NextResponse.json(
         { error: "Forbidden." },
+        { status: 403 }
+      ),
+    };
+  }
+
+  return { session, response: null as NextResponse | null };
+}
+
+export async function requireReferral(request: Request) {
+  const session = getSessionFromRequest(request);
+
+  if (!session) {
+    return {
+      session: null,
+      response: NextResponse.json(
+        { error: "Not authenticated." },
+        { status: 401 }
+      ),
+    };
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.id },
+    select: { referredById: true },
+  });
+
+  if (!user?.referredById) {
+    return {
+      session: null,
+      response: NextResponse.json(
+        { error: "A referral is required to access this feature.", code: "REFERRAL_REQUIRED" },
         { status: 403 }
       ),
     };
