@@ -125,6 +125,49 @@ const lessons = [
   },
 ];
 
+const socialBonds = [
+  {
+    bondCode: "SB-NY-091",
+    location: "NYC Solar Initiative",
+    bondType: "Community Solar",
+    targetReturnPct: 13.2,
+    status: "eligible",
+    minInvestment: 1000,
+  },
+  {
+    bondCode: "SB-CA-112",
+    location: "LA Water Treatment",
+    bondType: "Clean Water infrastructure",
+    targetReturnPct: 11.8,
+    status: "funded",
+    minInvestment: 1000,
+  },
+  {
+    bondCode: "SB-CA-208",
+    location: "CA Affordable Housing",
+    bondType: "Multifamily Housing",
+    targetReturnPct: 12.0,
+    status: "funded",
+    minInvestment: 1000,
+  },
+  {
+    bondCode: "SB-TX-083",
+    location: "Austin Green Space",
+    bondType: "Public Parks",
+    targetReturnPct: 12.8,
+    status: "eligible",
+    minInvestment: 1000,
+  },
+  {
+    bondCode: "SB-FL-204",
+    location: "Miami Education Tech",
+    bondType: "Public Schools",
+    targetReturnPct: 13.5,
+    status: "pending_review",
+    minInvestment: 1000,
+  },
+];
+
 async function main() {
   for (const lesson of lessons) {
     await prisma.lesson.upsert({
@@ -137,6 +180,16 @@ async function main() {
   }
 
   console.log("✅ 12 lessons seeded successfully.");
+
+  for (const bond of socialBonds) {
+    await prisma.socialBond.upsert({
+      where: { bondCode: bond.bondCode },
+      update: bond,
+      create: bond,
+    });
+  }
+
+  console.log("✅ 5 social bonds seeded successfully.");
 }
 
 main()
