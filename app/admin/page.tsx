@@ -68,7 +68,7 @@ export default function AdminPage() {
 
           <div className="rounded-[30px] bg-blue-600 p-8 text-white">
 
-            <p>Total Waitlist</p>
+            <p>Total Users</p>
 
             <h2 className="mt-4 text-5xl font-semibold">
               {stats.total}
