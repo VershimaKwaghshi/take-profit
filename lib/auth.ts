@@ -109,3 +109,39 @@ export async function requireReferral(request: Request) {
 
   return { session, response: null as NextResponse | null };
 }
+
+export async function requireActiveSubscription(request: Request) {
+  const session = getSessionFromRequest(request);
+
+  if (!session) {
+    return {
+      session: null,
+      response: NextResponse.json(
+        { error: "Not authenticated." },
+        { status: 401 }
+      ),
+    };
+  }
+
+  const subscription = await prisma.subscription.findUnique({
+    where: { userId: session.id },
+    select: { status: true, currentPeriodEnd: true },
+  });
+
+  const isActive =
+    subscription?.status === "active" &&
+    subscription.currentPeriodEnd &&
+    subscription.currentPeriodEnd > new Date();
+
+  if (!isActive) {
+    return {
+      session: null,
+      response: NextResponse.json(
+        { error: "An active subscription is required.", code: "SUBSCRIPTION_REQUIRED" },
+        { status: 403 }
+      ),
+    };
+  }
+
+  return { session, response: null as NextResponse | null };
+}
