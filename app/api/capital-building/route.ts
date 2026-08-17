@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     }
 
     const plan = await prisma.capitalBuildingPlan.findFirst({
-      where: { traderId: session.id, status: { in: ["in_progress", "funded"] } },
+      where: { traderId: session.id, status: { in: ["in_progress", "funded", "completed"] } },
       orderBy: { createdAt: "desc" },
       select: {
         id: true,
@@ -22,7 +22,22 @@ export async function GET(request: Request) {
       },
     });
 
-    return NextResponse.json({ plan }, { status: 200 });
+    if (!plan) {
+      return NextResponse.json({ plan: null, payments: [] }, { status: 200 });
+    }
+
+    const payments = await prisma.capitalBuildingPayment.findMany({
+      where: { planId: plan.id },
+      orderBy: { dayNumber: "desc" },
+      take: 5,
+      select: {
+        dayNumber: true,
+        amount: true,
+        paidAt: true,
+      },
+    });
+
+    return NextResponse.json({ plan, payments }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
