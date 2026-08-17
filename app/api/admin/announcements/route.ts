@@ -1,22 +1,14 @@
 import { NextResponse } from "next/server";
-import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
+import prisma from "@/lib/prisma";
 import { requireSession } from "@/lib/auth";
 
 export async function GET(request: Request) {
   const { response } = requireSession(request);
   if (response) return response;
 
-  const { data, error } = await supabase
-    .from("announcements")
-    .select("*")
-    .order("created_at", { ascending: false });
+  const announcements = await prisma.announcement.findMany({
+    orderBy: { createdAt: "desc" },
+  });
 
-  if (error) {
-    return NextResponse.json(
-      { error: error.message },
-      { status: 500 }
-    );
-  }
-
-  return NextResponse.json(data);
+  return NextResponse.json(announcements);
 }
