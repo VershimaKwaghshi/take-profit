@@ -1,10 +1,13 @@
 // app/api/capital-building/start/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { requireReferral } from "@/lib/auth";
+import { requireActiveSubscription, requireReferral } from "@/lib/auth";
 
 export async function POST(request: Request) {
   try {
+    const subCheck = await requireActiveSubscription(request);
+    if (subCheck.response) return subCheck.response;
+
     const { session, response } = await requireReferral(request);
     if (response) return response;
 
