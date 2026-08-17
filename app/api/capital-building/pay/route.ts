@@ -44,27 +44,47 @@ export async function POST(request: Request) {
     const creditRepaymentAmount = Math.round(target * 0.01 * 100) / 100;
     const serviceFeeAmount = Math.round(target * 0.001 * 100) / 100;
     const totalAmount = creditRepaymentAmount + serviceFeeAmount;
+    const isCompleting = nextDayNumber >= 100;
 
-    const payment = await prisma.capitalBuildingPayment.create({
-      data: {
-        planId: plan.id,
-        dayNumber: nextDayNumber,
-        amount: totalAmount,
-        creditRepaymentAmount,
-        serviceFeeAmount,
-      },
+    const result = await prisma.$transaction(async (tx) => {
+      const payment = await tx.capitalBuildingPayment.create({
+        data: {
+          planId: plan.id,
+          dayNumber: nextDayNumber,
+          amount: totalAmount,
+          creditRepaymentAmount,
+          serviceFeeAmount,
+        },
+      });
+
+      let tradingAccount = null;
+
+      if (isCompleting) {
+        tradingAccount = await tx.tradingAccount.create({
+          data: {
+            ownerId: session!.id,
+            accountType: "capital_building",
+            size: plan.requestedSize,
+            status: "active",
+            capitalLocked: false,
+          },
+        });
+      }
+
+      const updatedPlan = await tx.capitalBuildingPlan.update({
+        where: { id: plan.id },
+        data: {
+          dayCount: nextDayNumber,
+          status: isCompleting ? "completed" : "in_progress",
+          completedAt: isCompleting ? new Date() : null,
+          tradingAccountId: tradingAccount?.id ?? null,
+        },
+      });
+
+      return { payment, plan: updatedPlan, tradingAccount };
     });
 
-    const updatedPlan = await prisma.capitalBuildingPlan.update({
-      where: { id: plan.id },
-      data: {
-        dayCount: nextDayNumber,
-        status: nextDayNumber >= 100 ? "completed" : "in_progress",
-        completedAt: nextDayNumber >= 100 ? new Date() : null,
-      },
-    });
-
-    return NextResponse.json({ payment, plan: updatedPlan }, { status: 200 });
+    return NextResponse.json(result, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
