@@ -298,3 +298,12 @@ model LessonFeedback {
 
   @@unique([userId, lessonId])
 }
+
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  body      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("announcements")
+}
