@@ -28,6 +28,7 @@ export default function CapitalBuildingPage() {
   const [starting, setStarting] = useState(false);
   const [paying, setPaying] = useState(false);
   const [error, setError] = useState("");
+  const [justCompleted, setJustCompleted] = useState(false);
 
   async function load() {
     const res = await fetch("/api/capital-building");
@@ -77,6 +78,10 @@ export default function CapitalBuildingPage() {
     if (!res.ok) {
       setError(result.error || "Something went wrong.");
       return;
+    }
+
+    if (result.tradingAccount) {
+      setJustCompleted(true);
     }
 
     load();
@@ -146,6 +151,16 @@ export default function CapitalBuildingPage() {
         <p className="mt-4 text-sm text-fog font-medium max-w-2xl">
           Build toward a fully funded live account through a daily contribution schedule.
         </p>
+
+        {justCompleted && (
+          <div className="mt-6 rounded-lg border border-emerald-200 bg-emerald-50 p-5">
+            <p className="text-sm font-bold text-emerald-700">Schedule complete. Your account is funded.</p>
+            <p className="mt-1 text-xs text-emerald-700/80 font-medium">
+              A live trading account for ${target.toLocaleString()} now belongs to you in full.
+              Head to Manager Selection to get matched.
+            </p>
+          </div>
+        )}
 
         <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-5">
           <div className="rounded-lg border border-panel-line bg-panel p-5">
