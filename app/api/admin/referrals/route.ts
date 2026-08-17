@@ -1,19 +1,25 @@
 import { NextResponse } from "next/server";
-import { supabaseAdmin as supabase } from "@/lib/supabaseAdmin";
+import prisma from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
 
 export async function GET(request: Request) {
   const { response } = requireAdmin(request);
   if (response) return response;
 
-  const { data, error } = await supabase
-    .from("waitlist")
-    .select("id,first_name,last_name,email,referral_code,referral_count")
-    .order("referral_count", { ascending: false });
+  const users = await prisma.user.findMany({
+    include: { _count: { select: { referrals: true } } },
+  });
 
-  if (error) {
-    return NextResponse.json([], { status: 500 });
-  }
+  const shaped = users
+    .map((u) => ({
+      id: u.id,
+      first_name: u.firstName,
+      last_name: u.lastName,
+      email: u.email,
+      referral_code: u.referralCode,
+      referral_count: u._count.referrals,
+    }))
+    .sort((a, b) => b.referral_count - a.referral_count);
 
-  return NextResponse.json(data);
+  return NextResponse.json(shaped);
 }
