@@ -1,14 +1,12 @@
 // app/api/deposits/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getSessionFromRequest } from "@/lib/auth";
+import { requireActiveSubscription } from "@/lib/auth";
 
 export async function POST(request: Request) {
   try {
-    const session = getSessionFromRequest(request);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const { session, response } = await requireActiveSubscription(request);
+    if (response) return response;
 
     const { brokerId, size } = await request.json();
 
@@ -23,7 +21,7 @@ export async function POST(request: Request) {
 
     const account = await prisma.tradingAccount.create({
       data: {
-        ownerId: session.id,
+        ownerId: session!.id,
         brokerId,
         accountType: "self_deposit",
         size,
