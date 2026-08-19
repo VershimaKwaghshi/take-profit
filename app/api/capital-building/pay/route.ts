@@ -63,6 +63,7 @@ export async function POST(request: Request) {
         tradingAccount = await tx.tradingAccount.create({
           data: {
             ownerId: session!.id,
+            brokerId: plan.brokerId,
             accountType: "capital_building",
             size: plan.requestedSize,
             status: "active",
