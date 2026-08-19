@@ -85,7 +85,8 @@ model Broker {
   commissionData Json?    @map("commission_data")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
-  tradingAccounts TradingAccount[]
+  tradingAccounts      TradingAccount[]
+  capitalBuildingPlans CapitalBuildingPlan[]
 
   @@map("brokers")
 }
@@ -148,6 +149,8 @@ model CapitalBuildingPlan {
   traderId          String    @map("trader_id")
   trader            User      @relation(fields: [traderId], references: [id], onDelete: Cascade)
   requestedSize     Decimal   @map("requested_size") @db.Decimal(14, 2)
+  brokerId          String?   @map("broker_id")
+  broker            Broker?   @relation(fields: [brokerId], references: [id])
   tradingAccountId  String?   @map("trading_account_id")
   tradingAccount    TradingAccount? @relation(fields: [tradingAccountId], references: [id])
   dayCount          Int       @default(0) @map("day_count")
@@ -245,6 +248,15 @@ model RestitutionEvent {
   @@map("restitution_events")
 }
 
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  body      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("announcements")
+}
+
 model Lesson {
   id            String   @id @default(cuid())
   lessonNumber  Int      @unique
@@ -297,13 +309,4 @@ model LessonFeedback {
   createdAt        DateTime @default(now())
 
   @@unique([userId, lessonId])
-}
-
-model Announcement {
-  id        String   @id @default(cuid())
-  title     String
-  body      String
-  createdAt DateTime @default(now()) @map("created_at")
-
-  @@map("announcements")
 }
