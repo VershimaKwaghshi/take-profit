@@ -9,6 +9,7 @@ import { useUser } from "@/app/dashboard/UserProvider";
 const links = [
   { name: "Dashboard", href: "/dashboard" },
   { name: "Manager Selection", href: "/dashboard/managers" },
+  { name: "Become a Manager", href: "/dashboard/managers/apply" },
   { name: "Restitution", href: "/dashboard/restitution" },
   { name: "Capital Building", href: "/dashboard/capital-building" },
   { name: "Social Bonds", href: "/dashboard/social-bonds" },
