@@ -19,10 +19,14 @@ type Payment = {
   paidAt: string;
 };
 
+type Broker = { id: string; name: string };
+
 export default function CapitalBuildingPage() {
   const { loading: userLoading } = useUser();
   const [plan, setPlan] = useState<Plan | null>(null);
   const [payments, setPayments] = useState<Payment[]>([]);
+  const [brokers, setBrokers] = useState<Broker[]>([]);
+  const [brokerId, setBrokerId] = useState("");
   const [loading, setLoading] = useState(true);
   const [targetSize, setTargetSize] = useState("");
   const [starting, setStarting] = useState(false);
@@ -31,12 +35,23 @@ export default function CapitalBuildingPage() {
   const [justCompleted, setJustCompleted] = useState(false);
 
   async function load() {
-    const res = await fetch("/api/capital-building");
-    if (res.ok) {
-      const data = await res.json();
+    const [planRes, brokersRes] = await Promise.all([
+      fetch("/api/capital-building"),
+      fetch("/api/brokers"),
+    ]);
+
+    if (planRes.ok) {
+      const data = await planRes.json();
       setPlan(data.plan);
       setPayments(data.payments);
     }
+
+    if (brokersRes.ok) {
+      const data = await brokersRes.json();
+      setBrokers(data.brokers);
+      if (data.brokers.length > 0) setBrokerId((prev) => prev || data.brokers[0].id);
+    }
+
     setLoading(false);
   }
 
@@ -52,7 +67,7 @@ export default function CapitalBuildingPage() {
     const res = await fetch("/api/capital-building/start", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ requestedSize: targetSize }),
+      body: JSON.stringify({ requestedSize: targetSize, brokerId }),
     });
 
     const result = await res.json();
@@ -105,6 +120,20 @@ export default function CapitalBuildingPage() {
             <p className="text-sm font-bold text-chalk">No active capital building plan.</p>
             <form onSubmit={startPlan} className="mt-4 space-y-3">
               <div>
+                <label className="text-xs font-bold text-chalk block mb-2">Partner broker</label>
+                <select
+                  required
+                  value={brokerId}
+                  onChange={(e) => setBrokerId(e.target.value)}
+                  className="w-full border border-panel-line rounded-md px-3 py-2.5 text-sm text-chalk font-medium bg-panel focus:outline-none focus:ring-2 focus:ring-navy"
+                >
+                  {brokers.map((b) => (
+                    <option key={b.id} value={b.id}>{b.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
                 <label className="text-xs font-bold text-chalk block mb-2">Target account size (USD)</label>
                 <input
                   required
@@ -126,7 +155,7 @@ export default function CapitalBuildingPage() {
 
               <button
                 type="submit"
-                disabled={starting}
+                disabled={starting || !brokerId}
                 className="bg-navy hover:bg-navy-dark text-white text-sm font-bold px-5 py-2.5 rounded-md transition-colors disabled:opacity-50"
               >
                 {starting ? "Starting..." : "Start a plan"}
