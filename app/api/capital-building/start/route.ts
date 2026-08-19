@@ -11,10 +11,19 @@ export async function POST(request: Request) {
     const { session, response } = await requireReferral(request);
     if (response) return response;
 
-    const { requestedSize } = await request.json();
+    const { requestedSize, brokerId } = await request.json();
 
     if (!requestedSize || Number(requestedSize) <= 0) {
       return NextResponse.json({ error: "A valid target account size is required." }, { status: 400 });
+    }
+
+    if (!brokerId) {
+      return NextResponse.json({ error: "A partner broker is required." }, { status: 400 });
+    }
+
+    const broker = await prisma.broker.findUnique({ where: { id: brokerId } });
+    if (!broker) {
+      return NextResponse.json({ error: "That broker was not found." }, { status: 400 });
     }
 
     const existing = await prisma.capitalBuildingPlan.findFirst({
@@ -29,6 +38,7 @@ export async function POST(request: Request) {
       data: {
         traderId: session!.id,
         requestedSize,
+        brokerId,
         dayCount: 0,
         status: "in_progress",
       },
