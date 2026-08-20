@@ -1,23 +1,5 @@
 import { NextRequest } from "next/server";
-
-type Bucket = {
-  count: number;
-  resetAt: number;
-};
-
-const buckets = new Map<string, Bucket>();
-
-// Periodic cleanup of stale rate limit entries every 5 minutes
-if (typeof setInterval !== "undefined") {
-  setInterval(() => {
-    const now = Date.now();
-    for (const [key, bucket] of buckets.entries()) {
-      if (bucket.resetAt <= now) {
-        buckets.delete(key);
-      }
-    }
-  }, 5 * 60 * 1000);
-}
+import prisma from "./prisma";
 
 export function getClientIp(req: NextRequest | Request): string {
   const headers = req.headers;
@@ -36,29 +18,29 @@ export async function checkRateLimit(
   key: string,
   limit: number,
   windowMs: number
-): Promise<{ success: boolean; remaining: number; resetAt: number }> {
-  const now = Date.now();
-  let bucket = buckets.get(key);
+): Promise<{ success: boolean; remaining: number; resetAt: Date }> {
+  const now = new Date();
+  const existing = await prisma.rateLimitEntry.findUnique({ where: { key } });
 
-  if (!bucket || bucket.resetAt <= now) {
-    bucket = {
-      count: 0,
-      resetAt: now + windowMs,
-    };
+  if (!existing || existing.resetAt <= now) {
+    const resetAt = new Date(now.getTime() + windowMs);
+    await prisma.rateLimitEntry.upsert({
+      where: { key },
+      update: { count: 1, resetAt },
+      create: { key, count: 1, resetAt },
+    });
+    return { success: true, remaining: limit - 1, resetAt };
   }
 
-  bucket.count += 1;
-  buckets.set(key, bucket);
+  const updated = await prisma.rateLimitEntry.update({
+    where: { key },
+    data: { count: { increment: 1 } },
+  });
 
-  const success = bucket.count <= limit;
-  const remaining = Math.max(0, limit - bucket.count);
+  const success = updated.count <= limit;
+  const remaining = Math.max(0, limit - updated.count);
 
-  return {
-    success,
-    remaining,
-    resetAt: bucket.resetAt,
-  };
+  return { success, remaining, resetAt: existing.resetAt };
 }
 
-// Alias export to satisfy legacy route imports
 export const rateLimit = checkRateLimit;
