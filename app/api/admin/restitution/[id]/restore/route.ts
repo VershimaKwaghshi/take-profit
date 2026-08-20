@@ -7,7 +7,7 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { response } = requireAdmin(request);
+  const { response } = await requireAdmin(request);
   if (response) return response;
 
   try {
