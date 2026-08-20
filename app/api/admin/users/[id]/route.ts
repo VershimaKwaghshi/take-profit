@@ -29,7 +29,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { response } = requireAdmin(request);
+  const { response } = await requireAdmin(request);
   if (response) return response;
 
   const { id } = await params;
@@ -65,7 +65,7 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { response } = requireAdmin(request);
+  const { response } = await requireAdmin(request);
   if (response) return response;
 
   const { id } = await params;
@@ -88,7 +88,7 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { response } = requireAdmin(request);
+  const { response } = await requireAdmin(request);
   if (response) return response;
 
   const { id } = await params;
