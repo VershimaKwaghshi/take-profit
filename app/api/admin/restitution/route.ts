@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
 
 export async function GET(request: Request) {
-  const { response } = requireAdmin(request);
+  const { response } = await requireAdmin(request);
   if (response) return response;
 
   const events = await prisma.restitutionEvent.findMany({
