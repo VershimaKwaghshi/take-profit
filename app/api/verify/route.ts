@@ -5,6 +5,8 @@ import { createSessionToken } from "@/lib/session";
 import { SESSION_COOKIE_NAME } from "@/lib/auth";
 import { rateLimit } from "@/lib/rateLimit";
 
+const CODE_EXPIRY_MS = 15 * 60 * 1000;
+
 export async function POST(request: Request) {
   try {
     const { email, code } = await request.json();
@@ -28,7 +30,10 @@ export async function POST(request: Request) {
       where: { email, code },
     });
 
-    if (!codeRecord) {
+    const isExpired =
+      codeRecord && Date.now() - codeRecord.createdAt.getTime() > CODE_EXPIRY_MS;
+
+    if (!codeRecord || isExpired) {
       return NextResponse.json(
         { error: "Invalid or expired verification code." },
         { status: 400 }
@@ -63,7 +68,6 @@ export async function POST(request: Request) {
 
     return response;
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: "Internal server error." }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
