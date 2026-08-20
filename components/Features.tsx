@@ -1,48 +1,36 @@
+// components/Features.tsx
+const features = [
+  {
+    title: "Your capital stays yours",
+    description: "Take Profit is not a broker. Your capital remains in your own account the entire time.",
+  },
+  {
+    title: "You choose your manager",
+    description: "Every day you are shown three vetted managers from different regions. You pick one.",
+  },
+  {
+    title: "No hidden identities",
+    description: "Managers never know who they are trading for. You only see a rotating alias.",
+  },
+];
+
 export default function Features() {
-  const items = [
-    {
-      title: "Learn before launch",
-      body: "We'll introduce the platform step by step so you understand how it works before it's available.",
-    },
-    {
-      title: "Stay updated",
-      body: "Receive important updates, development milestones and launch announcements directly from our team.",
-    },
-    {
-      title: "Get early access",
-      body: "Waitlist members will be among the first invited when Take Profit officially launches.",
-    },
-  ];
-
   return (
-    <section id="features" className="bg-mist py-32 px-6">
-      <div className="mx-auto max-w-7xl">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-oxblood">
-            Why join now
-          </p>
-
-          <h2 className="mt-8 text-4xl font-semibold leading-tight text-ink md:text-5xl">
-            Be part of the journey from day one.
-          </h2>
-
-          <p className="mt-6 text-lg leading-8 text-ash">
-            Take Profit is currently in development. Joining the waitlist
-            gives you a front-row seat as we build toward launch.
-          </p>
-        </div>
-
-        <div className="mt-20 grid gap-6 md:grid-cols-3">
-          {items.map((item) => (
-            <div
-              key={item.title}
-              className="rounded-lg border border-line bg-paper p-10 transition hover:-translate-y-0.5"
-            >
-              <h3 className="text-xl font-semibold text-ink">{item.title}</h3>
-              <p className="mt-5 text-base leading-7 text-ash">{item.body}</p>
-            </div>
-          ))}
-        </div>
+    <section className="bg-white px-6 py-20">
+      <div className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {features.map((feature) => (
+          <article
+            key={feature.title}
+            className="rounded-xl border border-slate-200 bg-slate-50 p-6"
+          >
+            <h3 className="mb-2 text-lg font-semibold text-slate-900">
+              {feature.title}
+            </h3>
+            <p className="text-sm leading-relaxed text-slate-600">
+              {feature.description}
+            </p>
+          </article>
+        ))}
       </div>
     </section>
   );
