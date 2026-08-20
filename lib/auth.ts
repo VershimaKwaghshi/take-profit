@@ -53,7 +53,7 @@ export function requireSession(request: Request) {
   return { session, response: null as NextResponse | null };
 }
 
-export function requireAdmin(request: Request) {
+export async function requireAdmin(request: Request) {
   const session = getSessionFromRequest(request);
 
   if (!session) {
@@ -66,7 +66,12 @@ export function requireAdmin(request: Request) {
     };
   }
 
-  if (!session.is_admin) {
+  const user = await prisma.user.findUnique({
+    where: { id: session.id },
+    select: { isAdmin: true },
+  });
+
+  if (!user?.isAdmin) {
     return {
       session: null,
       response: NextResponse.json(
