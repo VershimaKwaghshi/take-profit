@@ -257,6 +257,14 @@ model Announcement {
   @@map("announcements")
 }
 
+model RateLimitEntry {
+  key     String   @id
+  count   Int      @default(0)
+  resetAt DateTime @map("reset_at")
+
+  @@map("rate_limit_entries")
+}
+
 model Lesson {
   id            String   @id @default(cuid())
   lessonNumber  Int      @unique
