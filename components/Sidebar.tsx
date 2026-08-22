@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useUser } from "@/app/dashboard/UserProvider";
+import TPLogo from "@/components/TPLogo";
 
 const links = [
   { name: "Dashboard", href: "/dashboard" },
@@ -14,6 +14,7 @@ const links = [
   { name: "Capital Building", href: "/dashboard/capital-building" },
   { name: "Social Bonds", href: "/dashboard/social-bonds" },
   { name: "Referral Marketplace", href: "/dashboard/referral-marketplace" },
+  { name: "Referrals", href: "/dashboard/referrals" },
   { name: "Learning", href: "/dashboard/learning" },
   { name: "Profile", href: "/dashboard/profile" },
   { name: "Settings", href: "/dashboard/settings" },
@@ -23,6 +24,7 @@ const adminLinks = [
   { name: "Dashboard", href: "/admin" },
   { name: "Users", href: "/admin/users" },
   { name: "Referrals", href: "/admin/referrals" },
+  { name: "Restitution", href: "/admin/restitution" },
   { name: "Broadcast", href: "/admin/broadcast" },
   { name: "Announcements", href: "/admin/announcements" },
   { name: "Settings", href: "/admin/settings" },
@@ -51,12 +53,7 @@ export default function Sidebar() {
     <aside className="hidden h-screen w-72 shrink-0 flex-col border-r border-panel-line bg-panel text-chalk lg:flex">
       <div className="border-b border-panel-line px-8 py-8">
         <Link href="/dashboard" className="flex items-center gap-4">
-          <Image
-            src="/logo.svg"
-            alt="Take Profit"
-            width={40}
-            height={40}
-          />
+          <TPLogo size={40} />
 
           <div>
             <h2 className="text-2xl font-semibold">
