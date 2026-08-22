@@ -53,7 +53,7 @@ function RegisterContent() {
   }
 
   return (
-    <div className="tp-content min-h-screen bg-mist flex items-center justify-center px-6 py-12">
+    <div className="min-h-screen flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-md">
         <div className="flex items-center gap-3 justify-center mb-8">
           <TPLogo size={36} />
