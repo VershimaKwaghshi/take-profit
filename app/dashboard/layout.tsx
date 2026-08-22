@@ -33,7 +33,7 @@ export default async function DashboardLayout({
   return (
     <Suspense fallback={null}>
       <UserProvider>
-        <main className="min-h-screen bg-deck">
+        <main className="min-h-screen">
           <MobileNav />
           <div className="flex min-h-screen">
             <Sidebar />
