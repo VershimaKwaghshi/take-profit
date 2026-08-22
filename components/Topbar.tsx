@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Bell, ChevronDown } from "lucide-react";
 import { useUser } from "@/app/dashboard/UserProvider";
+import TPLogo from "@/components/TPLogo";
 
 export default function Topbar() {
   const { user } = useUser();
@@ -39,13 +39,7 @@ export default function Topbar() {
           href="/dashboard"
           className="flex items-center gap-3 lg:hidden"
         >
-          <Image
-            src="/logo.svg"
-            alt="Take Profit"
-            width={32}
-            height={32}
-            priority
-          />
+          <TPLogo size={32} />
 
           <span className="text-xl font-semibold tracking-tight text-chalk">
             Take Profit
@@ -54,15 +48,13 @@ export default function Topbar() {
 
         <div className="ml-auto flex items-center gap-4">
           <button
-            className="relative flex h-11 w-11 items-center justify-center rounded-full border border-panel-line bg-panel transition hover:border-fog"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-panel-line bg-panel transition hover:border-fog"
             aria-label="Notifications"
           >
             <Bell
               size={18}
               className="text-chalk"
             />
-
-            <span className="absolute right-3 top-3 h-2 w-2 rounded-full bg-ember" />
           </button>
 
           <div className="relative">
@@ -82,7 +74,7 @@ export default function Topbar() {
                 </p>
 
                 <p className="font-mono text-xs uppercase tracking-wide text-fog">
-                  Founding Member
+                  {user?.is_admin ? "Administrator" : "Trader"}
                 </p>
               </div>
 
@@ -123,36 +115,6 @@ export default function Topbar() {
                     className="block w-full px-8 py-4 text-left text-chalk transition hover:bg-deck/60"
                   >
                     Profile
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setMenuOpen(false);
-                      router.push("/dashboard/referrals");
-                    }}
-                    className="block w-full px-8 py-4 text-left text-chalk transition hover:bg-deck/60"
-                  >
-                    Referrals
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setMenuOpen(false);
-                      router.push("/dashboard/learning");
-                    }}
-                    className="block w-full px-8 py-4 text-left text-chalk transition hover:bg-deck/60"
-                  >
-                    Learning
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setMenuOpen(false);
-                      router.push("/dashboard/settings");
-                    }}
-                    className="block w-full px-8 py-4 text-left text-chalk transition hover:bg-deck/60"
-                  >
-                    Settings
                   </button>
 
                   {user?.is_admin && (
