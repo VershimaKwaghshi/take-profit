@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useUser } from "@/app/dashboard/UserProvider";
+import TPLogo from "@/components/TPLogo";
 
 const links = [
   { name: "Dashboard", href: "/dashboard" },
@@ -14,6 +15,7 @@ const links = [
   { name: "Capital Building", href: "/dashboard/capital-building" },
   { name: "Social Bonds", href: "/dashboard/social-bonds" },
   { name: "Referral Marketplace", href: "/dashboard/referral-marketplace" },
+  { name: "Referrals", href: "/dashboard/referrals" },
   { name: "Learning", href: "/dashboard/learning" },
   { name: "Profile", href: "/dashboard/profile" },
   { name: "Settings", href: "/dashboard/settings" },
@@ -57,9 +59,12 @@ export default function MobileNav() {
 
           <div className="relative flex h-full w-72 flex-col bg-panel">
             <div className="flex items-center justify-between border-b border-panel-line px-6 py-6">
-              <div>
-                <p className="text-lg font-semibold text-chalk">Take Profit</p>
-                <p className="text-xs uppercase tracking-[0.3em] text-fog">Restitution System</p>
+              <div className="flex items-center gap-3">
+                <TPLogo size={28} />
+                <div>
+                  <p className="text-lg font-semibold text-chalk">Take Profit</p>
+                  <p className="text-xs uppercase tracking-[0.3em] text-fog">Restitution System</p>
+                </div>
               </div>
               <button
                 onClick={() => setOpen(false)}
