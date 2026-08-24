@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function VisionPage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen">
       <section className="mx-auto max-w-5xl px-6 py-20">
         <div className="mb-12">
           <Link
