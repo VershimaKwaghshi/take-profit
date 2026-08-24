@@ -3,7 +3,7 @@ import TPLogo from "@/components/TPLogo";
 
 export default function PrivacyPage() {
   return (
-    <main className="min-h-screen bg-paper text-ink">
+    <main className="min-h-screen text-ink">
       <header className="border-b border-line px-6 py-4 flex items-center gap-3">
         <Link href="/" className="flex items-center gap-3">
           <TPLogo size={32} />
