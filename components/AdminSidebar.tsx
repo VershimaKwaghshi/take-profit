@@ -1,16 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import {
   LayoutDashboard,
   Users,
   Megaphone,
   Send,
   Gift,
+  ShieldAlert,
   Settings,
   LogOut,
 } from "lucide-react";
+import TPLogo from "@/components/TPLogo";
 
 const links = [
   {
@@ -22,6 +25,11 @@ const links = [
     title: "Users",
     href: "/admin/users",
     icon: Users,
+  },
+  {
+    title: "Restitution",
+    href: "/admin/restitution",
+    icon: ShieldAlert,
   },
   {
     title: "Announcements",
@@ -47,17 +55,27 @@ const links = [
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  async function handleSignOut() {
+    setLoggingOut(true);
+    try {
+      await fetch("/api/logout", { method: "POST" });
+    } catch {
+      // Proceed to login even if network fails
+    } finally {
+      router.push("/login");
+      router.refresh();
+    }
+  }
 
   return (
     <aside className="sticky top-0 h-screen w-72 border-r border-neutral-200 bg-white">
 
       <div className="border-b p-8">
 
-        <img
-          src="/logo.svg"
-          alt="Take Profit"
-          className="h-14 w-14"
-        />
+        <TPLogo size={56} />
 
         <h2 className="mt-5 text-2xl font-semibold">
           Take Profit
@@ -97,11 +115,15 @@ export default function AdminSidebar() {
 
       <div className="absolute bottom-8 left-6 right-6">
 
-        <button className="flex w-full items-center justify-center gap-3 rounded-full bg-red-600 px-6 py-4 text-white">
+        <button
+          onClick={handleSignOut}
+          disabled={loggingOut}
+          className="flex w-full items-center justify-center gap-3 rounded-full bg-red-600 px-6 py-4 text-white disabled:opacity-50"
+        >
 
           <LogOut size={18} />
 
-          Logout
+          {loggingOut ? "Signing out..." : "Logout"}
 
         </button>
 
