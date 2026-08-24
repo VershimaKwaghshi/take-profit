@@ -51,7 +51,7 @@ export default function AdminRestitutionPage() {
   }
 
   return (
-    <main className="min-h-screen bg-neutral-100 p-8">
+    <main className="min-h-screen p-8">
       <div className="mx-auto max-w-5xl">
         <h1 className="text-3xl font-semibold text-black">Restitution Queue</h1>
         <p className="mt-2 text-sm text-neutral-600">
