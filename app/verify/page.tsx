@@ -2,7 +2,7 @@
 
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Image from "next/image";
+import TPLogo from "@/components/TPLogo";
 
 function VerifyContent() {
   const router = useRouter();
@@ -65,11 +65,11 @@ function VerifyContent() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-mist px-6">
+    <main className="flex min-h-screen items-center justify-center px-6">
       <div className="w-full max-w-md rounded-lg border border-line bg-paper p-10">
 
         <div className="flex items-center gap-3">
-          <Image src="/logo.svg" alt="Take Profit" width={40} height={40} />
+          <TPLogo size={40} />
           <span className="text-lg font-semibold text-ink">Take Profit</span>
         </div>
 
