@@ -36,7 +36,7 @@ export default function AdminPage() {
 
   return (
 
-    <main className="min-h-screen bg-neutral-100">
+    <main className="min-h-screen">
 
       <div className="border-b bg-white">
 
