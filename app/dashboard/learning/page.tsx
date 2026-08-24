@@ -35,7 +35,7 @@ export default async function LearningPage() {
       : Math.round((completedModules / access.length) * 100);
 
   return (
-    <main className="min-h-screen bg-[#F7F7F4] text-black">
+    <main className="min-h-screen text-black">
       {/* INTRODUCTION */}
       <section className="border-b border-black/10 bg-[#071A52] text-white">
         <div className="mx-auto max-w-4xl px-6 py-16 md:px-10 md:py-24">
