@@ -49,7 +49,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
 
   if (!lesson) {
     return (
-      <main className="min-h-screen bg-[#F7F7F4] text-black">
+      <main className="min-h-screen text-black">
         <div className="mx-auto w-full max-w-6xl px-6 py-20 md:px-10 lg:px-14">
           <Link
             href="/dashboard/learning"
