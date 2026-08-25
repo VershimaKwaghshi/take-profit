@@ -66,6 +66,12 @@ export default function DepositPage() {
         and everything else activates from there.
       </p>
 
+    <div className="mt-6 rounded-lg border border-emerald-200 bg-emerald-50 p-5">
+  <p className="text-sm font-bold text-emerald-700">
+    If you do not understand how Take Profit works, do not use it.
+  </p>
+</div>
+
       <form onSubmit={submit} className="mt-8 max-w-md rounded-lg border border-panel-line bg-panel p-6 space-y-5">
         <div>
           <label className="text-xs font-bold text-chalk block mb-2">Partner broker</label>
