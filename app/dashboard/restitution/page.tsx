@@ -76,7 +76,6 @@ export default function RestitutionPage() {
     If you do not understand how Take Profit works, do not use it.
   </p>
 </div>
-
       )}
       <div className="mt-6 rounded-lg border border-panel-line bg-panel p-6">
         <p className="text-xs font-bold text-chalk">Your place is held while you stay active.</p>
