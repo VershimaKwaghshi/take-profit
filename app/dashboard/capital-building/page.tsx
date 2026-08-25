@@ -116,6 +116,11 @@ export default function CapitalBuildingPage() {
             Build toward a fully funded live account through a daily contribution schedule.
           </p>
 
+         <div className="mt-6 rounded-lg border border-emerald-200 bg-emerald-50 p-5">
+  <p className="text-sm font-bold text-emerald-700">
+    If you do not understand how Take Profit works, do not use it.
+  </p>
+</div>
           <div className="mt-10 rounded-lg border border-panel-line bg-panel p-8 md:p-10 max-w-md">
             <p className="text-sm font-bold text-chalk">No active capital building plan.</p>
             <form onSubmit={startPlan} className="mt-4 space-y-3">
