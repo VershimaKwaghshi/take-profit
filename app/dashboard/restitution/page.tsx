@@ -78,7 +78,6 @@ export default function RestitutionPage() {
 </div>
 
       )}
-
       <div className="mt-6 rounded-lg border border-panel-line bg-panel p-6">
         <p className="text-xs font-bold text-chalk">Your place is held while you stay active.</p>
       </div>
