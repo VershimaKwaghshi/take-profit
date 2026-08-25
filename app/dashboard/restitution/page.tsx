@@ -70,7 +70,6 @@ export default function RestitutionPage() {
             </p>
           </div>
         </div>
-
        <div className="mt-6 rounded-lg border border-emerald-200 bg-emerald-50 p-5">
   <p className="text-sm font-bold text-emerald-700">
     If you do not understand how Take Profit works, do not use it.
